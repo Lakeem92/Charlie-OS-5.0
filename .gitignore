@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment — NEVER commit secrets
+.env
+**/.env
+**/.env.*
+!**/.env.example
+# Key files (live/paper trading credentials)
+shared/config/keys/
+**/live.env
+**/paper.env
+.venv/
+
+# Levels engine outputs
+data/levels/**
+
+# Nested git repos (manage separately)
+prediction-market-analysis/
+tools/prediction_markets/
+
+# IDE
+.vscode/
+*.code-workspace
+
+# OS
+Thumbs.db
+.DS_Store

@@ -1,0 +1,25 @@
+====================================================================
+WIN RATES BY TIME BUCKET (ET)
+Generated: 2026-03-04 11:07
+====================================================================
+
+  Open_Bar: no signals
+
+  First_Hour: no signals
+
+  Mid_Morning  (n=526)
+     5-bar → win  55.1%   avg ret +0.086%   n=526
+    10-bar → win  58.6%   avg ret +0.170%   n=526
+    20-bar → win  61.6%   avg ret +0.257%   n=526
+
+  Midday  (n=1,337)
+     5-bar → win  53.9%   avg ret +0.021%   n=1337
+    10-bar → win  54.8%   avg ret +0.029%   n=1337
+    20-bar → win  52.5%   avg ret +0.056%   n=1337
+
+  Power_Hour  (n=221)
+     5-bar → win  51.6%   avg ret +0.043%   n=221
+    10-bar → win  52.5%   avg ret +0.118%   n=221
+    20-bar → win  56.1%   avg ret +0.271%   n=221
+
+  Last_30: no signals

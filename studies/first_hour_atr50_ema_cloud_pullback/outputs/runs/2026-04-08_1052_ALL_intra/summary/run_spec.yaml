@@ -1,0 +1,14 @@
+study: first_hour_atr50_ema_cloud_pullback
+tickers: []
+date_range:
+  start: '2025-04-08'
+  end: today
+intraday:
+  enabled: true
+event:
+  type: first_hour_atr50_cloud_pullback
+  atr_threshold: 0.5
+  trigger_max_bar: 12
+  next_hour_bars: 12
+_run_id: 2026-04-08_1052_ALL_intra
+_generated_at: '2026-04-08T10:52:56.013554'

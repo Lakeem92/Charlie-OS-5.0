@@ -1,0 +1,34 @@
+======================================================================
+TSLA BASIC INDICATOR HONESTY TEST
+======================================================================
+Study Type: honesty_test
+Ticker: TSLA
+Lookback: 252 trading days
+Data Source: Alpaca (enforced via DataRouter)
+Indicators: Trend Strength, NR7, Momentum Extremes (Cap Finder)
+
+[1/5] Fetching data...
+      ✓ Fetched 252 daily bars
+[2/5] Computing indicators...
+      ✓ Indicators computed
+[3/5] Identifying momentum extreme events...
+      Total bars: 252
+      Oversold extreme bars: 9
+      Overbought extreme bars: 3
+[4/5] Calculating forward returns and max adverse excursion...
+      ✓ 247 bars with complete forward data
+      ✓ Metrics computed
+[5/5] Saving results...
+      ✓ Results saved to: C:\QuantLab\Data_Lab\studies\tsla_indicator_honesty\tsla_honesty_test_results.csv
+
+======================================================================
+RESULTS
+======================================================================
+======================================================================
+
+CONCLUSION:
+----------------------------------------------------------------------
+✓ Indicator shows behavioral separation
+  Oversold vs Baseline: -7.590% vs 0.629% (diff: 8.219%)
+  Overbought vs Baseline: 3.214% vs 0.629% (diff: 2.586%)
+======================================================================

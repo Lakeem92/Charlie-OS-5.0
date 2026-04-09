@@ -1,0 +1,19 @@
+Opening Thrust to EMA Cloud Pullback Study (Strong +/-1.0 ATR Trend Days)
+======================================================================================
+Generated: 2026-04-03 12:12:13
+Universe: QuantLab watchlist (239 requested)
+Date window: 2024-01-01 to today
+
+Headline:
+Among 8529 strong trend days, 1626 triggered 0.70+ ATR in bars 1-3. Within one hour after trigger, cloud touch-any occurred in 79.8% and directional breach occurred in 50.1% of triggered events.
+
+Denominator Map:
+- Trigger rate denominator: all strong trend days (n_base_strong_trend_days)
+- Cloud depth / breach / flip denominators: triggered events only (n_triggered_opening_thrust)
+- Recovery denominators: breach-only or flip-only subsets
+
+Core interpretation:
+- This is a next-hour-only study after early thrust trigger, not whole-session eventual touch.
+- Long breach definition: close below EMA21 within next hour after cloud contact.
+- Short breach definition: close above EMA10 within next hour after cloud contact.
+- Cloud flip is reported as deeper structural layer and compared to initial breach outcomes.

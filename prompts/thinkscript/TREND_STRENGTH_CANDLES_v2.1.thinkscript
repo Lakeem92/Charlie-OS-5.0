@@ -1,0 +1,209 @@
+# =========================================================
+# STUDY: Trend Strength Candles v2.1
+# Purpose: Gradient candle coloring via multi-method consensus
+#          trend score. NR7 override in WHITE. Enhanced score label.
+# =========================================================
+
+declare upper;
+
+# =========================================================
+# SECTION 1: INPUTS
+# =========================================================
+input pcLookback     = 20;
+input emaLen         = 21;
+input emaSlopeSmooth = 5;
+input ma1Type        = {default "EMA", "SMA"};
+input ma1Len         = 20;
+input ma2Type        = {default "SMA", "EMA"};
+input ma2Len         = 50;
+input atrLen         = 14;
+input zscoreLookback = 200;
+
+# =========================================================
+# SECTION 2: ATR
+# =========================================================
+def tr  = Max(high - low,
+              Max(AbsValue(high - close[1]),
+                  AbsValue(low  - close[1])));
+def atr = MovingAverage(AverageType.EXPONENTIAL, tr, atrLen);
+
+# =========================================================
+# SECTION 3: METHOD 1 — PRICE CHANGE VS ATR
+# =========================================================
+def rawPc = if atr != 0 then (close - close[pcLookback]) / atr else 0;
+
+# =========================================================
+# SECTION 4: METHOD 2 — EMA SLOPE VS ATR
+# =========================================================
+def emaSeries     = MovingAverage(AverageType.EXPONENTIAL, close, emaLen);
+def rawEmaSlope   = if atr != 0 then (emaSeries - emaSeries[1]) / atr else 0;
+def rawEmaSlopeSm = MovingAverage(AverageType.SIMPLE, rawEmaSlope, emaSlopeSmooth);
+
+# =========================================================
+# SECTION 5: METHOD 3 — MA DISTANCE VS ATR
+# =========================================================
+def ma1 = if ma1Type == ma1Type."EMA"
+          then MovingAverage(AverageType.EXPONENTIAL, close, ma1Len)
+          else MovingAverage(AverageType.SIMPLE,      close, ma1Len);
+
+def ma2 = if ma2Type == ma2Type."EMA"
+          then MovingAverage(AverageType.EXPONENTIAL, close, ma2Len)
+          else MovingAverage(AverageType.SIMPLE,      close, ma2Len);
+
+def rawMaDist = if atr != 0 then (ma1 - ma2) / atr else 0;
+
+# =========================================================
+# SECTION 6: Z-SCORE NORMALIZATION
+# =========================================================
+def pcZscore  = if StDev(rawPc,         zscoreLookback) != 0
+                then (rawPc         - Average(rawPc,         zscoreLookback)) / StDev(rawPc,         zscoreLookback)
+                else 0;
+
+def emaZscore = if StDev(rawEmaSlopeSm, zscoreLookback) != 0
+                then (rawEmaSlopeSm - Average(rawEmaSlopeSm, zscoreLookback)) / StDev(rawEmaSlopeSm, zscoreLookback)
+                else 0;
+
+def maZscore  = if StDev(rawMaDist,     zscoreLookback) != 0
+                then (rawMaDist     - Average(rawMaDist,     zscoreLookback)) / StDev(rawMaDist,     zscoreLookback)
+                else 0;
+
+# =========================================================
+# SECTION 7: CONSENSUS SCORE + AGREEMENT FACTOR
+# =========================================================
+def consensusScore = (pcZscore + emaZscore + maZscore) / 3;
+
+def pcSign  = if pcZscore  > 0 then 1 else if pcZscore  < 0 then -1 else 0;
+def emaSign = if emaZscore > 0 then 1 else if emaZscore < 0 then -1 else 0;
+def maSign  = if maZscore  > 0 then 1 else if maZscore  < 0 then -1 else 0;
+def agreement = AbsValue(pcSign + emaSign + maSign) / 3;
+
+def cs = if consensusScore * 100 >  100 then  100
+         else if consensusScore * 100 < -100 then -100
+         else consensusScore * 100;
+
+# =========================================================
+# SECTION 8: GRADIENT COLOR MATH
+# =========================================================
+def t1 = if (cs + 100) / 50 < 0 then 0 else if (cs + 100) / 50 > 1 then 1 else (cs + 100) / 50;
+def t2 = if (cs +  50) / 50 < 0 then 0 else if (cs +  50) / 50 > 1 then 1 else (cs +  50) / 50;
+def t3 = if  cs        / 50 < 0 then 0 else if  cs        / 50 > 1 then 1 else  cs        / 50;
+def t4 = if (cs -  50) / 50 < 0 then 0 else if (cs -  50) / 50 > 1 then 1 else (cs -  50) / 50;
+
+def colorR = if cs <= -50 then Round(255 + (255 - 255) * t1)
+             else if cs <=   0 then Round(255 + (198 - 255) * t2)
+             else if cs <=  50 then Round(198 + ( 57 - 198) * t3)
+             else Round( 57 + (  0 -  57) * t4);
+
+def colorG = if cs <= -50 then Round(  0 + (127 -   0) * t1)
+             else if cs <=   0 then Round(127 + (197 - 127) * t2)
+             else if cs <=  50 then Round(197 + (255 - 197) * t3)
+             else Round(255 + (255 - 255) * t4);
+
+def colorB = if cs <= -50 then Round(122 + ( 80 - 122) * t1)
+             else if cs <=   0 then Round( 80 + (197 -  80) * t2)
+             else if cs <=  50 then Round(197 + ( 20 - 197) * t3)
+             else Round( 20 + (255 -  20) * t4);
+
+def finalR = Round(colorR + (128 - colorR) * (1 - agreement) * 0.3);
+def finalG = Round(colorG + (128 - colorG) * (1 - agreement) * 0.3);
+def finalB = Round(colorB + (128 - colorB) * (1 - agreement) * 0.3);
+
+# =========================================================
+# SECTION 9: NR7 LOGIC
+# =========================================================
+def barRange        = high - low;
+def isNR7           = barRange < Lowest(barRange[1], 6);
+
+# =========================================================
+# SECTION 10: CANDLE COLOR — NR7 WHITE, ELSE GRADIENT
+# =========================================================
+AssignPriceColor(
+    if isNR7 then Color.WHITE
+    else CreateColor(finalR, finalG, finalB)
+);
+
+# =========================================================
+# SECTION 11: NR7 TRIGGER DOTS
+# =========================================================
+plot BuyTrigger = if isNR7 then high else Double.NaN;
+BuyTrigger.SetPaintingStrategy(PaintingStrategy.POINTS);
+BuyTrigger.SetDefaultColor(Color.CYAN);
+BuyTrigger.SetLineWeight(3);
+
+plot SellTrigger = if isNR7 then low else Double.NaN;
+SellTrigger.SetPaintingStrategy(PaintingStrategy.POINTS);
+SellTrigger.SetDefaultColor(Color.MAGENTA);
+SellTrigger.SetLineWeight(3);
+
+# =========================================================
+# SECTION 12: ENHANCED SCORE LABEL
+# =========================================================
+
+# --- Tier classification (7 buckets) ---
+def isStrongBull = cs >= 70;
+def isBull       = cs >= 40  and cs < 70;
+def isWeakBull   = cs >= 15  and cs < 40;
+def isNeutral    = cs >  -15 and cs < 15;
+def isWeakBear   = cs <= -15 and cs > -40;
+def isBear       = cs <= -40 and cs > -70;
+def isStrongBear = cs <= -70;
+
+# --- Agreement quality bucket ---
+# agreement ranges 0.33 (1-of-3 agree) to 1.0 (all 3 agree)
+def isAligned = agreement >= 0.99;   # all 3 methods same direction
+def isMixed   = agreement >= 0.66 and agreement < 0.99; # 2-of-3 agree
+def isSplit   = agreement < 0.66;    # methods disagree (score near 0 usually)
+
+# --- Agreement suffix text via numeric code ---
+def agCode = if isAligned then 2 else if isMixed then 1 else 0;
+
+def agColor = if isAligned then 3
+              else if isMixed then 2
+              else 1;
+
+# --- Trend text via numeric tier code ---
+def tierCode = if isStrongBull then 6
+               else if isBull       then 5
+               else if isWeakBull   then 4
+               else if isNeutral    then 3
+               else if isWeakBear   then 2
+               else if isBear       then 1
+               else 0;
+
+# --- Label color: full bull/bear palette ---
+def labelCol = if isStrongBull then 6
+               else if isBull       then 5
+               else if isWeakBull   then 4
+               else if isNeutral    then 3
+               else if isWeakBear   then 2
+               else if isBear       then 1
+               else 0;
+
+AddLabel(yes,
+    "Score: " + Round(cs, 1) + "  |  " +
+
+    # Trend tier text
+    (if tierCode == 6 then "Strong Bull"
+     else if tierCode == 5 then "Bull"
+     else if tierCode == 4 then "Weak Bull"
+     else if tierCode == 3 then "Neutral"
+     else if tierCode == 2 then "Weak Bear"
+     else if tierCode == 1 then "Bear"
+     else "Strong Bear") +
+
+    "  |  " +
+
+    # Agreement text
+    (if agCode == 2 then "[Aligned]"
+     else if agCode == 1 then "[Mixed]"
+     else "[Split]"),
+
+    # Label color by tier
+    if labelCol == 6 then Color.GREEN
+    else if labelCol == 5 then CreateColor(80, 200, 80)
+    else if labelCol == 4 then CreateColor(150, 220, 100)
+    else if labelCol == 3 then Color.GRAY
+    else if labelCol == 2 then CreateColor(230, 160, 60)
+    else if labelCol == 1 then CreateColor(220, 80, 80)
+    else Color.RED
+);

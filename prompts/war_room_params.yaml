@@ -1,0 +1,228 @@
+# ─────────────────────────────────────────────────────────────────
+# WAR ROOM v8.0 — TUNABLE SCORING PARAMETERS
+# ─────────────────────────────────────────────────────────────────
+# Source of truth for ALL numeric weights, thresholds, and modifiers.
+# The war-room.instructions.md references these values.
+# To adjust scoring: change numbers here ONLY — never in the prompt.
+# Last Updated: 2026-03-07
+
+# ─────────────────────────────────────────────────────────────
+# § 10A — NEAR-TERM SETUP SCORE WEIGHTS (0-3 DAYS)
+# Must sum to 1.0
+# ─────────────────────────────────────────────────────────────
+near_term_weights:
+  catalyst:        0.20   # § 6D catalyst score
+  mechanical:      0.35   # § 8M mechanical setup score (IV, wall, gamma, trapped positioning)
+  squeeze:         0.20   # § 8G squeeze/positioning severity
+  surprise:        0.15   # § 16A surprise magnitude
+  atm_float_drag:  0.10   # § 24E / Rule 37 ATM drag
+
+# ─────────────────────────────────────────────────────────────
+# § 10A — MEDIUM-TERM SETUP SCORE WEIGHTS (3-30 DAYS)
+# Must sum to 1.0
+# ─────────────────────────────────────────────────────────────
+medium_term_weights:
+  catalyst:          0.25   # § 6D catalyst score
+  pillar_conviction: 0.35   # Margin story + structure + expectations + rev quality + cap allocation
+  macro:             0.15   # § 13 macro dependency score
+  surprise:          0.10   # § 16A surprise magnitude
+  belief_divergence: 0.05   # § 9B consensus wrong / partially wrong
+  float_atm:         0.10   # § 24 float structure + ATM drag
+
+# ─────────────────────────────────────────────────────────────
+# § 3A — SCORE INTERPRETATION THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+score_thresholds:
+  # Earnings catalyst
+  earnings_high_conviction_min: 8    # ⚡ HIGH CONVICTION LONG — requires 3+ dimensions at 8+
+  earnings_scalp_floor:         5    # Developing / scalp zone
+  earnings_short_setup_max:     4    # Below 5 = SHORT SETUP territory
+
+  # Non-earnings catalyst
+  non_earnings_holy_grail_min:  8    # Trends all session / multiple days
+  non_earnings_scalp:           7    # Single-day scalp
+  non_earnings_mean_revert_max: 5    # Low impact / mean reversion
+
+  # Setup score interpretation
+  setup_max_edge_min:     9    # 9-10 = MAX EDGE
+  setup_strong_min:       7    # 7-8 = STRONG
+  setup_developing_min:   5    # 5-6 = DEVELOPING
+  setup_weak_min:         3    # 3-4 = WEAK
+  setup_stand_aside_max:  2    # 1-2 = STAND ASIDE
+
+  # Scoring integrity gates
+  score_8_requires_dimensions_at_8:  3   # 8/10 requires 3+ dimensions at 8+ independently
+  score_9_requires_dimensions_at_8:  4   # 9-10/10 requires 4+ dimensions at 8+
+
+# ─────────────────────────────────────────────────────────────
+# § 10A — SCORE MODIFIERS (APPLIED TO BOTH TIMEFRAMES)
+# ─────────────────────────────────────────────────────────────
+modifiers:
+  # Macro dependency
+  macro_independent:   0.0
+  macro_influenced:    0.5    # ± depending on regime direction
+  macro_dependent_de_risks:  +1.0
+  macro_dependent_ceiling:   -1.0
+  macro_enslaved:      -1.5
+
+  # Surprise magnitude
+  surprise_extreme:    +1.0   # >15% beat
+  surprise_strong:     +0.5   # 8-15% beat
+  surprise_moderate:    0.0   # 3-8% beat
+  surprise_inline:     -0.5   # <3% beat
+
+  # Belief divergence
+  belief_consensus_wrong:    +1.0
+  belief_partially_wrong:    +0.5
+  belief_aligned:             0.0
+  belief_confirmed:          -0.5
+
+  # Float (float < 100M only)
+  float_clean:         +0.5
+  float_moderate_overhang: -0.5
+  float_toxic:         -2.0
+
+# ─────────────────────────────────────────────────────────────
+# § 6D / Rule 37 — ATM MODIFIERS
+# Applied after base score. Any float size.
+# ─────────────────────────────────────────────────────────────
+atm_modifiers:
+  no_atm_active:                  0.0
+  active_small_lt5pct:            0.0    # ATM active but < 5% of float
+  active_moderate_5_15pct_old:   -0.5    # Active 5-15% float, filed > 30 days ago
+  active_filed_same_week:        -1.0    # Company timing exit liquidity into your catalyst (near-term)
+  active_filed_same_week_medterm: -0.5   # Same-week ATM, medium-term impact
+  active_large_gt15pct:          -1.5    # Large ATM capacity
+
+# ─────────────────────────────────────────────────────────────
+# § 6D / Rule 40 / § 8N — GAMMA WALL MODIFIERS
+# Applied on mega-cap scheduled earnings only (> $500B market cap)
+# ─────────────────────────────────────────────────────────────
+gamma_wall_modifiers:
+  no_dominant_wall_or_cleared:     0.0
+  wall_approached_not_cleared:    -0.5   # Within 3% of wall pre-earnings
+  wall_rejected:                  -1.5   # Failed to clear on closing basis post-beat
+  wall_absorbed_over_days:        +0.5   # Consolidated then broke through
+
+  # § 10A — Gamma wall CAP on near-term mechanical score
+  rejected_mechanical_cap:    3    # Mechanical setup score capped at 3/10 when wall rejected
+  rejected_near_term_max:     4    # Near-term total score capped at 4/10 when wall rejected
+
+  # Medium-term pullback opportunity modifier (pristine fundamentals + wall rejection)
+  pullback_opportunity_boost: +0.5  # Applied when catalyst 8+ but near-term capped by wall
+
+# ─────────────────────────────────────────────────────────────
+# § 6D — LOW-FLOAT CATALYST SCORE MODIFIER
+# Applied after base 0-10 score. Float < 100M only.
+# ─────────────────────────────────────────────────────────────
+low_float_catalyst_modifiers:
+  clean:                  0    # Float verified clean
+  moderate_overhang:     -1    # 70-90% effective float remaining
+  toxic_overhang:        -2    # Variable converts / death spiral risk
+  toxic_severe:          -3    # Toxic + no revenue + active ATM
+  structural_ceiling_cap: 3    # CAPPED at 3/10 if structural ceiling > 2x reported float
+
+# ─────────────────────────────────────────────────────────────
+# § 6D — PILLAR CAPS (APPLIED TO TOTAL SETUP SCORE)
+# ─────────────────────────────────────────────────────────────
+setup_score_caps:
+  narrative_tier_3_max:   5    # Pure narrative setup — capped at 5/10
+  dilution_trap_max:      2    # Dilution trap — capped at 2/10
+  analyst_tier_4_5_max:   4    # Tier 4-5 analyst note — capped at 4/10
+  gamma_wall_rejected_near_term_max: 4  # Wall rejection — near-term capped at 4/10
+
+# ─────────────────────────────────────────────────────────────
+# § 24 — LOW-FLOAT THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+low_float_thresholds:
+  activates_below_shares_M:   100   # § 24 activates when float < 100M shares
+  squeeze_extreme_si_pct:      22   # SI > 22% = EXTREME squeeze fuel
+  squeeze_high_si_pct:         15   # SI > 15% = HIGH
+  squeeze_moderate_si_pct:     10   # SI > 10% = MODERATE
+  squeeze_extreme_inst_pct:    70   # Institutional > 70% = EXTREME constraint
+  squeeze_high_inst_pct:       60
+  squeeze_extreme_dtc:          3   # DTC > 3 = EXTREME
+  low_float_extreme_si_pct:    15   # Effective float: EXTREME at SI > 15% eff
+  low_float_extreme_dtc:        5
+  si_fresh_fuel_spike_pct:     10   # SI increased > 10% in 2 weeks = FRESH FUEL
+  eff_float_moderate_pct:      90   # Effective float 70-90% of reported = MODERATE OVERHANG
+  eff_float_heavy_pct:         70   # Effective float 50-70% = HEAVY
+  atm_selling_shareholder_pct: 30   # > 30% registered = SEC reclassification risk (§ 24H)
+
+# ─────────────────────────────────────────────────────────────
+# § 16A — SURPRISE MAGNITUDE THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+surprise_thresholds:
+  extreme_rev_beat_pct:     8    # Revenue beat > 8% = EXTREME
+  extreme_eps_beat_pct:    15    # EPS beat > 15% = EXTREME
+  extreme_tam_impact_pct:  20    # TAM expansion > 20% = EXTREME
+  extreme_guidance_raise_B: 1.0  # Revenue guidance raise > $1B = EXTREME
+  strong_beat_min_pct:      8    # 8-15% = STRONG
+  moderate_beat_min_pct:    3    # 3-8% = MODERATE
+  guidance_extreme_pct:    20    # Forward guidance > 20% above consensus = EXTREME (AAOI LESSON)
+
+# ─────────────────────────────────────────────────────────────
+# § 8N — MEGA-CAP GAMMA WALL DIAGNOSTICS
+# ─────────────────────────────────────────────────────────────
+mega_cap_thresholds:
+  activates_above_mktcap_B: 500   # § 8N activates for market cap > $500B
+  wall_close_pct:             5   # Within 5% of call wall = "wall is THE story"
+  wall_stretch_pct:          10   # 5-10% = "wall is a stretch target"
+  wall_irrelevant_pct:       10   # > 10% below = wall irrelevant
+  wall_rejection_history:     2   # 2+ prior tests = resistance hardening
+  wall_likely_hold_history:   4   # 4+ tests = distribution, extremely unlikely to clear
+  flip_danger_pct:            5   # Within 5% of gamma flip = danger zone
+  wall_hold_post_ah_hours:    1   # AH must hold above wall for 1+ hour to signal break
+  pre_earnings_rally_days:    6   # Rallied 6+ of last 10 days = front-run / priced for perfection
+
+# ─────────────────────────────────────────────────────────────
+# § 26 — IPO LIFECYCLE THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+ipo_thresholds:
+  active_lockup_months:     24   # § 26 activates for stocks < 24 months post-IPO
+  standard_lockup_days:    180   # Standard lockup duration
+  lockup_window_days:       30   # Within 30 days of expiration = ELEVATED RISK
+  lockup_elevated_risk_days: 60  # Severity assessment activates within 60 days
+  lockup_muted_float_pct:   30   # Lockup shares < 30% of float = MUTED severity
+  lockup_crush_float_pct:  100   # Lockup shares > 100% of float = CRUSH severity
+  lockup_crush_valuation_mult: 2 # Trading > 2x IPO price = CRUSH factor
+  contradictory_insider_window_days: 5  # Selling within 5 days of beat = flag
+
+# ─────────────────────────────────────────────────────────────
+# § 5 — FRESH/STALE CATALYST THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+freshness_thresholds:
+  live_hours:   24   # < 24hrs = LIVE
+  fresh_hours:  72   # 24-72hrs = FRESH, actionable
+  aging_days:    7   # 3-7 days = AGING
+  stale_days:    7   # > 7 days = STALE (controversy resets clock)
+
+# ─────────────────────────────────────────────────────────────
+# § 14C — VENDOR FINANCING FLAG THRESHOLD
+# ─────────────────────────────────────────────────────────────
+vendor_financing_thresholds:
+  margin_inflation_flag_bps: 200  # Drag > 200bps = ⚠️ FINANCING-INFLATED MARGINS
+
+# ─────────────────────────────────────────────────────────────
+# ATM RULE 37 — FILING WINDOW CHECK
+# ─────────────────────────────────────────────────────────────
+atm_rule37:
+  same_week_filing_days: 5   # 424B5/S-3 filed within 5 business days of catalyst = Rule 37 active
+
+# ─────────────────────────────────────────────────────────────
+# SAMPLE SIZE RULES (§ 21 / Data Lab)
+# ─────────────────────────────────────────────────────────────
+sample_size:
+  reliable_min:     20  # n >= 20 = reliable
+  low_confidence:   20  # n < 20 = FLAG LOW CONFIDENCE
+  insufficient_max: 10  # n < 10 = INSUFFICIENT — do not trade
+
+# ─────────────────────────────────────────────────────────────
+# § 25 — ANALYST CATALYST THRESHOLDS
+# ─────────────────────────────────────────────────────────────
+analyst_thresholds:
+  tier1_pt_raise_min_pct:  25   # PT raise > 25% = Tier 1 candidate
+  tier1_buy_pct_max:       40   # Buy% < 40% = maximum consensus shift fuel
+  tier2_buy_pct_max:       50   # Buy% < 50% = moderate fuel
+  primed_score_preposition: 8   # Primed score >= 8 = pre-position
+  primed_score_watch:       6   # 6-7 = small optionality position

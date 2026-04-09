@@ -1,0 +1,30 @@
+{
+  "run_id": "2026-02-15_1515_NVDA_gap5p_D5-10",
+  "study_name": "trend_chop_gap_quality",
+  "tickers": [
+    "NVDA"
+  ],
+  "date_range": {
+    "start": "2016-01-01",
+    "end": "today"
+  },
+  "intraday_enabled": false,
+  "generated_at": "2026-02-15T15:15:17.474975",
+  "files": [
+    "charts/forward_horizons_win_rate.png",
+    "charts/gapup_close_strong_by_bin.png",
+    "charts/trend_chop_aggregate.png",
+    "data/NVDA_1D.csv",
+    "summary/forward_horizons_summary.md",
+    "summary/gapup_summary.md",
+    "summary/run_log.txt",
+    "summary/run_spec.yaml",
+    "summary/trend_chop_summary.md",
+    "tables/forward_horizons_aggregate.csv",
+    "tables/forward_horizons_by_ticker.csv",
+    "tables/gapup_stats_aggregate.csv",
+    "tables/gapup_stats_by_ticker.csv",
+    "tables/trend_chop_aggregate.csv",
+    "tables/trend_chop_by_ticker.csv"
+  ]
+}

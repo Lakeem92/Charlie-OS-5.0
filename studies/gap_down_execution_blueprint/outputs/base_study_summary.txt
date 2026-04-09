@@ -1,0 +1,121 @@
+
+Total included events: 1861
+Unique tickers: 228
+
+============================================================
+FINDING 1: CANDLE COLOR — BEARISH vs NEUTRAL (Short Side)
+============================================================
+
+  BEARISH (n=1094):
+    EOD Win Rate (short):  44.6%
+    Avg EOD Return:        -0.31%
+    Median EOD Return:     -0.34%
+    Avg Winner:            +2.89%
+    Avg Loser:             -2.88%
+
+  NEUTRAL (n=767):
+    EOD Win Rate (short):  46.4%
+    Avg EOD Return:        -0.24%
+    Median EOD Return:     -0.10%
+    Avg Winner:            +2.14%
+    Avg Loser:             -2.30%
+
+  COMBINED (n=1861):
+    EOD Win Rate (short):  45.4%
+    Avg EOD Return:        -0.28%
+    Median EOD Return:     -0.19%
+
+============================================================
+FINDING 2: LOW OF DAY TIMING (when does the bottom get set?)
+============================================================
+
+  Median LoD: 175 min from open (2h 55m)
+  Mean LoD:   186 min from open (3h 5m)
+  LoD in first 5 min:    6.1%
+  LoD in first 15 min:   13.2%
+  LoD in first 30 min:   19.7%
+  LoD in first 60 min:   29.9%
+  LoD in first 2 hours:  43.4%
+  LoD in last hour:      25.7%
+
+  CT translation: Median LoD at ~11:25 ET = ~10:25 CT
+
+============================================================
+FINDING 3: HIGH OF DAY TIMING (the bounce / worst case for shorts)
+============================================================
+
+  Median HoD: 5 min from open (0h 5m)
+  Mean HoD:   71 min from open (1h 11m)
+  HoD in first 5 min:    53.0%
+  HoD in first 30 min:   66.6%
+  HoD in first 60 min:   73.4%
+  HoD in last hour:      9.1%
+
+============================================================
+FINDING 4: P&L PROFILE (SHORT perspective)
+============================================================
+
+  MAE = worst bounce against short (positive = bad)
+  Median MAE:     +2.15%
+  Mean MAE:       +3.12%
+  Worst 10% MAE:  +6.80%
+
+  MFE = best drop in your favor (positive = good)
+  Median MFE:     +1.47%
+  Mean MFE:       +2.40%
+  Best 10% MFE:   +5.31%
+
+  Price above entry after FT:  93.9%
+  (% of shorts that see a bounce above their entry)
+  Bounce above entry BEFORE LoD: 85.6%
+
+  Bounce depth before LoD (how far price goes against you before continuing down):
+  Median: +0.59%
+  Mean:   +1.07%
+  90th pct: +2.75%
+
+  Avg Winner (short): +2.58%
+  Avg Loser (short):  -2.65%
+  R:R Ratio:          0.97:1
+
+============================================================
+FINDING 5: GAP SIZE BUCKETS (SHORT perspective, absolute gap size)
+============================================================
+
+  Gap Down       n      WR   Avg Ret   Med MAE   Med MFE  LoD<30m   MedLoD
+  ---------- ----- ------- --------- --------- --------- -------- --------
+  2-3%         820   44.0%    -0.41%  +   1.69%  +   1.11%    18.3%     180m
+  3-5%         630   44.8%    -0.36%  +   2.18%  +   1.47%    18.3%     170m
+  5-8%         248   43.5%    -0.47%  +   2.76%  +   1.98%    25.8%     135m
+  8-12%         91   56.0%    +0.99%  +   3.44%  +   3.97%    26.4%     230m
+  12-20%        51   64.7%    +1.60%  +   4.72%  +   4.07%    15.7%     205m
+  20%+          21   42.9%    -0.42%  +   6.87%  +   3.80%    23.8%      90m
+
+============================================================
+FINDING 6: V-BOTTOM / MEAN-REVERSION DETECTION
+============================================================
+
+  Close >0.5% ABOVE entry (V-bottom):  44.2%
+  Close >1.0% ABOVE entry (strong V):   36.5%
+
+  When LoD < 30 min (n=366):
+    Short LOSES >0.5% by EOD:  86.9%  (V-bottom rate)
+
+  When LoD > 4 hours from open (n=761):
+    Short win rate:             75.8%  (continuation rate)
+
+Saved: C:\QuantLab\Data_Lab\studies\gap_down_execution_blueprint\outputs\base_study_summary.txt
+
+======================================================================
+=== GAP-DOWN BASE STUDY COMPLETE ===
+Events included:            1861
+Unique tickers:             228
+EOD Win Rate (short):       45.4%
+Avg EOD Return (short):     -0.28%
+Median EOD Return (short):  -0.19%
+Price bounces above entry:  93.9%
+Median LoD:                 175 min from open
+Median HoD:                 5 min from open
+API chunks:                 1478
+Runtime:                    1310s (21.8 min)
+======================================================================

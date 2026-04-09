@@ -1,0 +1,57 @@
+======================================================================
+  NVDA POST-EARNINGS OPTIONS WALL STUDY — SUMMARY
+======================================================================
+
+Study date: 2026-02-26 12:49
+Ticker: NVDA
+Earnings events analyzed: 12
+Clear threshold: next-day close > strike by >1%
+
+──────────────────────────────────────────────────
+QUESTION: Does clearing the key call wall predict whether the
+          post-earnings gap HOLDS or FADES?
+──────────────────────────────────────────────────
+
+🟢 CLEARED events:      5
+   Avg Gap:             +12.68%
+   Avg Next-Day O→C:    +0.71%
+   Avg 3-Day Forward:   +3.61%
+   Win Rate (1d):       60%
+   Win Rate (3d):       80%
+
+🔴 NOT CLEARED events:  7
+   Avg Gap:             +1.75%
+   Avg Next-Day O→C:    -4.57%
+   Avg 3-Day Forward:   -8.20%
+   Win Rate (1d):       0%
+   Win Rate (3d):       0%
+
+──────────────────────────────────────────────────
+INTERPRETATION:
+  ✅ Meaningful divergence in next-day returns: +5.28pp advantage for CLEARED bucket.
+  ✅ Notable 3-day return divergence: +11.81pp advantage for CLEARED bucket.
+  ✅ Significant win rate gap: +60pp in 1-day win rate.
+
+──────────────────────────────────────────────────
+FULL EVENT TABLE:
+──────────────────────────────────────────────────
+
+Date          Pre-Close   Strike    Gap%   NxtClose    Cleared    O→C%  3d Fwd%
+--------------------------------------------------------------------------------
+2025-11-19   $  186.70 $   190   +4.9% $  180.92 NOT CLEARED  -7.65%   -6.67%
+2025-08-27   $  181.57 $   185   -0.4% $  180.16 NOT CLEARED  -0.40%   -5.60%
+2025-05-28   $  134.83 $   135   +5.5% $  139.18    CLEARED  -2.15%   -3.43%
+2025-02-26   $  131.53 $   135   +2.6% $  120.25 NOT CLEARED -10.93%  -15.51%
+2024-11-20   $  145.89 $   150   +2.3% $  146.65 NOT CLEARED  -1.76%   -8.90%
+2024-08-28   $  125.57 $   130   -3.6% $  117.60 NOT CLEARED  -2.81%  -10.74%
+2024-05-22   $  948.75 $   950   +7.5% $ 1038.64    CLEARED  +1.80%  +11.79%
+2024-02-21   $  674.72 $   680  +11.3% $  785.27    CLEARED  +4.57%   +5.36%
+2023-11-21   $  499.93 $   500   -0.2% $  487.06 NOT CLEARED  -2.33%   -3.23%
+2023-08-23   $  471.07 $   480   +6.6% $  471.62 NOT CLEARED  -6.10%   -6.77%
+2023-05-24   $  305.46 $   310  +26.2% $  379.57    CLEARED  -1.53%   +4.09%
+2023-02-22   $  207.69 $   210  +12.9% $  236.51    CLEARED  +0.87%   +0.22%
+
+======================================================================
+  Charts saved to: outputs/charts/
+  Data saved to:   outputs/nvda_earnings_events.csv
+======================================================================

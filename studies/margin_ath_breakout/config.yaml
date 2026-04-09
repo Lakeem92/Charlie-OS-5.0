@@ -1,0 +1,79 @@
+# ─────────────────────────────────────────────────────────────────────
+# MARGIN ATH BREAKOUT STUDY — Configuration
+# Which margin type (Gross / Operating / EBITDA) hitting a 3+ year high
+# is most predictive of positive forward returns in stocks that
+# subsequently break out to new all-time price highs?
+# ─────────────────────────────────────────────────────────────────────
+
+study_name: "margin_ath_breakout"
+version: "1.0"
+author: "QuantLab"
+created: "2026-04-07"
+
+description: >
+  Detects events where watchlist stocks report a quarterly margin
+  (Gross, Operating, or EBITDA) at its highest point in 3+ years AND
+  the stock subsequently breaks out to a new all-time price high within
+  60 trading days of the earnings report date. Measures 1-12 week forward
+  returns to determine which margin type is most predictive of sustained
+  price appreciation.
+
+# ── UNIVERSE ──────────────────────────────────────────────────────────
+# Loaded from shared/config/watchlist.csv at runtime.
+# ETFs are auto-excluded (no income statement data from FMP).
+universe: "watchlist_ex_etf"
+
+# ── DATE RANGES ───────────────────────────────────────────────────────
+price_start_date: "2010-01-01"       # Alpaca daily price history start
+price_end_date: "today"              # Resolved at runtime
+
+# ── FMP PARAMETERS ────────────────────────────────────────────────────
+fmp_quarters_limit: 60               # ~15 years of quarterly history per ticker
+fmp_delay_seconds: 0.35              # Rate-limiting delay between FMP API calls
+
+# ── SIGNAL DETECTION ──────────────────────────────────────────────────
+# A signal fires when:
+# 1. A quarterly earnings report contains ≥1 margin at a 3yr+ high (min 12 prior quarters)
+# 2. The stock breaks out to a new all-time price high within ath_window_trading_days
+#    of the accepted_date (when the filing became publicly visible via SEC)
+ath_window_trading_days: 60          # Max trading days post-earnings to detect ATH breakout
+min_prior_quarters: 12               # Minimum prior quarters required to declare a 3yr high
+dedup_window_trading_days: 60        # Suppress duplicate signals from same ticker within window
+
+# ── MILESTONE THRESHOLDS (in prior quarters) ──────────────────────────
+milestone_3yr_quarters: 12           # 12 prior quarters minimum = 3-year high
+milestone_5yr_quarters: 20           # 20 prior quarters = 5-year high (metadata tag)
+milestone_10yr_quarters: 40          # 40 prior quarters = 10-year high (metadata tag)
+
+# ── FORWARD RETURN WINDOWS ────────────────────────────────────────────
+# All values in trading days. Printed labels (e.g. "4wk") are used in charts/tables.
+forward_windows:
+  "1wk":  5
+  "2wk":  10
+  "3wk":  15
+  "4wk":  20
+  "6wk":  30
+  "8wk":  40
+  "12wk": 60
+
+# ── CONTROL GROUPS ────────────────────────────────────────────────────
+# Control A: ATH breakouts with NO margin signal in prior 90 calendar days
+#            (isolates the margin milestone contribution)
+# Control B: Earnings with ≥1 margin at 3yr high but NO ATH within 60 trading days
+#            (isolates the ATH breakout confluence requirement)
+# Control C: Random trading days (n matched to signal count, seeded for reproducibility)
+control_a_lookback_days: 90          # Calendar days to check for prior margin signal
+control_a_max_multiplier: 3          # Cap Control A at 3x signal count (random sample)
+random_seed: 42
+
+# ── SAMPLE SIZE THRESHOLDS ────────────────────────────────────────────
+n_reliable: 20                       # n >= 20 → reliable, HIGH confidence
+n_low_confidence: 10                 # 10 <= n < 20 → LOW CONFIDENCE, flag
+n_insufficient: 10                   # n < 10 → INSUFFICIENT, do not trade
+
+# ── OUTPUT PATHS ──────────────────────────────────────────────────────
+data_dir: "data"
+prices_dir: "data/prices"
+outputs_dir: "outputs"
+charts_dir: "outputs/charts"
+tables_dir: "outputs/tables"

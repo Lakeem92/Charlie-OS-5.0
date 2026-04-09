@@ -1,0 +1,174 @@
+{
+  "study": "opening_range_violation_survival",
+  "run_id": "run_20260309",
+  "generated": "2026-03-09T18:22:55.136811",
+  "total_events": 6915,
+  "tickers": 234,
+  "atr_period": 14,
+  "ft_atr_mult": 0.4,
+  "ft_tiers": {
+    "tier1": 0.7,
+    "tier2": 1.0
+  },
+  "paths": {
+    "gapup_continuation_long": {
+      "n": 2954,
+      "or_violation_rate": 0.7464,
+      "ft_0p70_all": 0.177,
+      "ft_1p00_all": 0.106,
+      "ft_0p70_no_violation": 0.49,
+      "ft_0p70_with_violation": 0.0707,
+      "ft_1p00_no_violation": 0.3004,
+      "ft_1p00_with_violation": 0.0399,
+      "violation_penalty_0p70": 0.4192,
+      "depth_buckets": {
+        "no_violation": {
+          "n": 749,
+          "ft_0p70_rate": 0.49,
+          "ft_1p00_rate": 0.3004
+        },
+        "0-0.10 ATR": {
+          "n": 359,
+          "ft_0p70_rate": 0.1532,
+          "ft_1p00_rate": 0.0696
+        },
+        "0.10-0.25 ATR": {
+          "n": 444,
+          "ft_0p70_rate": 0.1171,
+          "ft_1p00_rate": 0.0676
+        },
+        "0.25-0.50 ATR": {
+          "n": 554,
+          "ft_0p70_rate": 0.065,
+          "ft_1p00_rate": 0.0433
+        },
+        "0.50+ ATR": {
+          "n": 848,
+          "ft_0p70_rate": 0.0153,
+          "ft_1p00_rate": 0.0106
+        }
+      }
+    },
+    "gapdown_continuation_short": {
+      "n": 1882,
+      "or_violation_rate": 0.7386,
+      "ft_0p70_all": 0.1254,
+      "ft_1p00_all": 0.067,
+      "ft_0p70_no_violation": 0.1159,
+      "ft_0p70_with_violation": 0.1288,
+      "ft_1p00_no_violation": 0.0569,
+      "ft_1p00_with_violation": 0.0705,
+      "violation_penalty_0p70": -0.0129,
+      "depth_buckets": {
+        "no_violation": {
+          "n": 492,
+          "ft_0p70_rate": 0.1159,
+          "ft_1p00_rate": 0.0569
+        },
+        "0-0.10 ATR": {
+          "n": 230,
+          "ft_0p70_rate": 0.1348,
+          "ft_1p00_rate": 0.0696
+        },
+        "0.10-0.25 ATR": {
+          "n": 316,
+          "ft_0p70_rate": 0.1551,
+          "ft_1p00_rate": 0.0886
+        },
+        "0.25-0.50 ATR": {
+          "n": 387,
+          "ft_0p70_rate": 0.1034,
+          "ft_1p00_rate": 0.0517
+        },
+        "0.50+ ATR": {
+          "n": 457,
+          "ft_0p70_rate": 0.1291,
+          "ft_1p00_rate": 0.0744
+        }
+      }
+    },
+    "gapup_fade_short": {
+      "n": 1326,
+      "or_violation_rate": 0.6109,
+      "ft_0p70_all": 0.227,
+      "ft_1p00_all": 0.132,
+      "ft_0p70_no_violation": 0.4322,
+      "ft_0p70_with_violation": 0.0963,
+      "ft_1p00_no_violation": 0.2539,
+      "ft_1p00_with_violation": 0.0543,
+      "violation_penalty_0p70": 0.3359,
+      "depth_buckets": {
+        "no_violation": {
+          "n": 516,
+          "ft_0p70_rate": 0.4322,
+          "ft_1p00_rate": 0.2539
+        },
+        "0-0.10 ATR": {
+          "n": 131,
+          "ft_0p70_rate": 0.1679,
+          "ft_1p00_rate": 0.084
+        },
+        "0.10-0.25 ATR": {
+          "n": 198,
+          "ft_0p70_rate": 0.1717,
+          "ft_1p00_rate": 0.096
+        },
+        "0.25-0.50 ATR": {
+          "n": 212,
+          "ft_0p70_rate": 0.066,
+          "ft_1p00_rate": 0.0377
+        },
+        "0.50+ ATR": {
+          "n": 269,
+          "ft_0p70_rate": 0.0297,
+          "ft_1p00_rate": 0.0223
+        }
+      }
+    },
+    "gapdown_bounce_long": {
+      "n": 753,
+      "or_violation_rate": 0.7888,
+      "ft_0p70_all": 0.1567,
+      "ft_1p00_all": 0.0863,
+      "ft_0p70_no_violation": 0.1698,
+      "ft_0p70_with_violation": 0.1532,
+      "ft_1p00_no_violation": 0.1132,
+      "ft_1p00_with_violation": 0.0791,
+      "violation_penalty_0p70": 0.0166,
+      "depth_buckets": {
+        "no_violation": {
+          "n": 159,
+          "ft_0p70_rate": 0.1698,
+          "ft_1p00_rate": 0.1132
+        },
+        "0-0.10 ATR": {
+          "n": 102,
+          "ft_0p70_rate": 0.1569,
+          "ft_1p00_rate": 0.0784
+        },
+        "0.10-0.25 ATR": {
+          "n": 130,
+          "ft_0p70_rate": 0.1692,
+          "ft_1p00_rate": 0.0923
+        },
+        "0.25-0.50 ATR": {
+          "n": 157,
+          "ft_0p70_rate": 0.1146,
+          "ft_1p00_rate": 0.0573
+        },
+        "0.50+ ATR": {
+          "n": 205,
+          "ft_0p70_rate": 0.1707,
+          "ft_1p00_rate": 0.0878
+        }
+      }
+    }
+  },
+  "indicator_recommendations": {
+    "label_open_5m_high_low": true,
+    "display_or_status": true,
+    "show_breach_depth_atr": true,
+    "include_timing_in_label": false,
+    "notes": "See stop_placement_cheatsheet.md for per-path stop guidance"
+  }
+}

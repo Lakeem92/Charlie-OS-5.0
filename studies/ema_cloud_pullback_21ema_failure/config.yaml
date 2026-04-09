@@ -1,0 +1,48 @@
+# Study Configuration — Intraday EMA Cloud Pullback and 21 EMA Structural Failure Study
+
+study_name: "ema_cloud_pullback_21ema_failure"
+description: "On strong ±1.0 ATR trend days, measure EMA cloud pullback rates and 21 EMA structural failure rates"
+
+# Date range
+start_date: "2024-01-01"
+end_date: "today"  # Resolved at runtime to system date
+
+# Timeframes
+timeframe_daily: "1Day"
+timeframe_intraday: "5Min"
+use_intraday: true
+
+# RTH filter
+rth_only: true
+
+# Default universe behavior
+# Empty list means collector falls back to QuantLab master watchlist.
+tickers_default: []
+
+# Indicator parameters
+atr_length: 14
+ema10_length: 10
+ema21_length: 21
+
+# Study thresholds
+trend_day_atr_multiple: 1.0
+
+# First 30-minute early expansion buckets (ATR-normalized)
+early_expansion_buckets:
+  - "0.50-0.60"
+  - "0.60-0.70"
+  - "0.70-0.80"
+  - "0.80-1.00"
+  - "1.00+"
+
+# Time-of-day buckets (Central Time)
+tod_buckets:
+  morning:
+    start: "08:30"
+    end: "10:00"
+  midday:
+    start: "10:00"
+    end: "12:30"
+  afternoon:
+    start: "12:30"
+    end: "15:00"

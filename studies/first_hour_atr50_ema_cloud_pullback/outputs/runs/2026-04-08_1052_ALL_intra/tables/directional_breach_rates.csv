@@ -1,0 +1,4 @@
+direction,n_triggered,n_directional_breach,directional_breach_rate_of_triggered,post_breach_new_extreme_rate,median_min_breach_to_new_extreme,confidence
+long,8277,4346,0.5250694696145947,0.4601932811780948,70.0,RELIABLE
+short,7889,5901,0.7480035492457853,0.4804270462633452,60.0,RELIABLE
+combined,16166,10247,0.6338611901521712,0.47184541817117204,65.0,RELIABLE

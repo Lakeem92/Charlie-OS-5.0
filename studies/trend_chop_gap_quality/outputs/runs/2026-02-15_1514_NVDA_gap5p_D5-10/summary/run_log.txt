@@ -1,0 +1,15 @@
+=== Run Archive: 2026-02-15_1514_NVDA_gap5p_D5-10 ===
+Timestamp: 2026-02-15T15:14:51.692228
+Study: trend_chop_gap_quality
+Tickers: ['NVDA']
+Date range: 2016-01-01 to today
+Intraday: False
+
+Step 1: collect_data.py -- DONE
+Step 2: analyze_trend_chop.py -- DONE
+Step 3: analyze_gapup_close_strength.py -- DONE
+Step 4: analyze_intraday_first_hour.py -- SKIPPED
+Step 5: analyze_forward_horizons.py -- DONE
+
+Run completed: 2026-02-15T15:15:04.543947
+Exit: success

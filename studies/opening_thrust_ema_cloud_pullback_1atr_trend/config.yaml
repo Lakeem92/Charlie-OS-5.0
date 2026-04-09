@@ -1,0 +1,40 @@
+# Study Configuration — Opening Thrust to EMA Cloud Pullback
+
+study_name: "opening_thrust_ema_cloud_pullback_1atr_trend"
+description: "Opening 70%+ ATR thrust (bars 1-3) to next-hour EMA10/21 cloud pullback behavior on strong +/-1.0 ATR trend days"
+
+# Date range
+start_date: "2024-01-01"
+end_date: "today"
+
+# Timeframes
+timeframe_daily: "1Day"
+timeframe_intraday: "5Min"
+use_intraday: true
+
+# RTH filter
+rth_only: true
+
+# Universe: empty list means use QuantLab master watchlist
+tickers_default: []
+
+# Core parameters
+atr_length: 14
+trend_day_atr_multiple: 1.0
+opening_thrust_atr_threshold: 0.70
+opening_thrust_max_bar: 3
+next_hour_bars: 12
+ema_fast_length: 10
+ema_slow_length: 21
+
+trigger_magnitude_buckets:
+  - "0.70-0.80"
+  - "0.80-1.00"
+  - "1.00+"
+
+# Cache reuse from prior completed study run
+reuse:
+  enabled: true
+  source_study: "ema_cloud_pullback_21ema_failure"
+  source_run_id: "auto"  # "auto" reads source study outputs/LATEST.txt
+  copy_cached_data: true

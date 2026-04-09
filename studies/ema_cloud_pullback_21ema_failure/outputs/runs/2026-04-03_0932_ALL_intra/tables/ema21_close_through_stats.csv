@@ -1,0 +1,4 @@
+direction,n_pullback,n_break,break_rate_among_pullbacks,confidence
+long,3856,3589,0.9307572614107884,RELIABLE
+short,3807,3466,0.910428158655109,RELIABLE
+combined,7663,7055,0.920657705859324,RELIABLE

@@ -1,0 +1,11 @@
+=== Run Archive: 2026-04-03_0932_ALL_intra ===
+Timestamp: 2026-04-03T09:32:36.977421
+Study: ema_cloud_pullback_21ema_failure
+Tickers: watchlist
+Date range: 2024-01-01 to today
+Intraday: True
+
+Step 1: collect_data.py -- DONE
+Step 2: analyze.py -- DONE
+
+Exit: success

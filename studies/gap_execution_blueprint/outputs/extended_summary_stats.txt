@@ -1,0 +1,207 @@
+
+======================================================================
+═══ EXTENDED ANALYSIS RESULTS ═══
+======================================================================
+
+┌─ BUG FIX: Price below entry after follow-through ─────────┐
+│  OLD stat (from README):  0.0%                             │
+│  CORRECTED stat:          94.8%                            │
+│  (checking Low of bars strictly AFTER entry bar)           │
+└────────────────────────────────────────────────────────────┘
+
+======================================================================
+═══ SECTION A: PULLBACK BEHAVIOR AFTER FOLLOW-THROUGH ═══
+======================================================================
+
+A1 — Did price pull back below entry before making session high?
+     77.9% of events
+
+A2 — Pullback depth distribution (from entry, before session high):
+     Median pullback:             -0.51%
+     Mean pullback:               -1.05%
+     10th pctl (shallow):         +0.00%
+     90th pctl (deep):            -2.83%
+     Distribution:
+       0-1%: 66.8%
+       1-2%: 16.6%
+       2-3%: 7.6%
+       3-5%: 6.2%
+       5%+: 2.9%
+
+A3 — Pullback timing:
+     Median bar index of deepest pullback: 0
+     Median minutes from entry:            5 min
+     Within first 30 min after entry:  81.3%
+     Between 30-60 min after entry:    10.6%
+     After 60 min from entry:          8.2%
+
+A4 — After pullback, did price exceed FT bar's high?
+     89.5% of events
+
+======================================================================
+═══ SECTION B: SESSION HIGH BEHAVIOR ═══
+======================================================================
+
+B1 — Max drawdown from session high (before EOD close):
+     Median:              -2.87%
+     25th pctl:           -5.71%
+     75th pctl:           -1.18%
+     90th pctl (danger):  -9.65%
+     Distribution:
+       0-1%: 21.3%
+       1-2%: 16.2%
+       2-3%: 13.8%
+       3-5%: 18.7%
+       5-7%: 11.3%
+       7%+: 18.6%
+
+B2 — Multiple HoD attempts (touch, retreat >1%, return to high)?
+     9.9% of events
+
+B3 — HoD timing buckets:
+                 8:30-9:00 CT: 17.4%
+                 9:00-9:30 CT: 10.7%
+                9:30-10:00 CT: 7.9%
+               10:00-10:30 CT: 5.7%
+               10:30-11:30 CT: 9.3%
+                    11:30+ CT: 48.9%
+          Final hour (2-3 CT): 27.5%
+     Median HoD: 170 min from open (2h 50m)
+
+======================================================================
+═══ SECTION C: ENTRY TIMING ANALYSIS ═══
+======================================================================
+
+E1 — Breakout Entry (FT bar close): n=1865
+     Win Rate:       51.0%
+     Avg EOD Return: +0.43%
+     Median MAE:     -2.29%
+     Median MFE:     +1.88%
+
+E2 — First Pullback Entry: n=1836
+     Win Rate:       50.1%
+     Avg EOD Return: +0.32%
+     Median MAE:     -1.67%
+     Median MFE:     +1.66%
+     Avg price improvement vs E1: -0.11%
+     % events cheaper than E1:    49.4%
+
+E3 — Deepest Pullback Entry: n=1488
+     Win Rate:       69.2%
+     Avg EOD Return: +2.22%
+     Median MAE:     -0.49%
+     Median MFE:     +3.19%
+     Avg price improvement vs E1: +0.66%
+     % events cheaper than E1:    66.9%
+
+======================================================================
+═══ SECTION D: HOLD TIME ANALYSIS ═══
+======================================================================
+
+D1 — % of MFE captured at each exit time (winners only, n=951):
+     Hold to 9:30 CT (10:30 ET): 10.3% of MFE captured
+     Hold to 10:00 CT (11:00 ET): 10.9% of MFE captured
+     Hold to 10:30 CT (11:30 ET): 16.8% of MFE captured
+     Hold to 11:00 CT (12:00 ET): 19.1% of MFE captured
+     Hold to 11:30 CT (12:30 ET): 23.9% of MFE captured
+     Hold to 12:00 CT (13:00 ET): 27.0% of MFE captured
+     Hold to EOD:                      62.6% of MFE captured
+
+D2 — Early exit cost (all events, n=1865):
+     Exit at 9:30 CT (10:30 ET): avg return +0.09% (leaves 79.8% of total return on table)
+     Exit at 10:00 CT (11:00 ET): avg return +0.03% (leaves 93.3% of total return on table)
+     Exit at 10:30 CT (11:30 ET): avg return +0.07% (leaves 84.0% of total return on table)
+     Exit at 11:00 CT (12:00 ET): avg return +0.11% (leaves 73.1% of total return on table)
+     Exit at 11:30 CT (12:30 ET): avg return +0.21% (leaves 50.6% of total return on table)
+     Exit at 12:00 CT (13:00 ET): avg return +0.26% (leaves 39.6% of total return on table)
+     Hold to EOD:                      avg return +0.43% (baseline)
+
+D3 — Median HoD timing by gap size bucket:
+       2-5% (n=1391): Median HoD at 170 min from open (~11:20 CT)
+       5-8% (n= 261): Median HoD at 210 min from open (~12:00 CT)
+      8-12% (n= 104): Median HoD at 145 min from open (~10:55 CT)
+       12%+ (n= 108): Median HoD at 85 min from open (~9:55 CT)
+
+======================================================================
+═══ SECTION E: R:R COMPARISON TABLE ═══
+======================================================================
+
+  ── ALL EVENTS ──
+  Metric                       |  E1 Breakout |  E2 First PB |   E3 Deep PB
+  -----------------------------+--------------+--------------+-------------
+  Events with Entry            |         1865 |         1836 |         1488
+  Win Rate                     |        51.0% |        50.1% |        69.2%
+  Avg EOD Return               |       +0.43% |       +0.32% |       +2.22%
+  Median MAE %                 |       -2.29% |       -1.67% |       -0.49%
+  Median MFE %                 |       +1.88% |       +1.66% |       +3.19%
+  Median R:R (MFE/MAE)         |        0.82x |        1.00x |        6.47x
+  Avg Price vs E1              |     baseline |       -0.11% |       +0.66%
+  % Cheaper than E1            |          N/A |        49.4% |        66.9%
+
+  ── Gap 2-5% ──
+  Metric                       |  E1 Breakout |  E2 First PB |   E3 Deep PB
+  -----------------------------+--------------+--------------+-------------
+  Events with Entry            |         1391 |         1365 |         1109
+  Win Rate                     |        49.3% |        48.8% |        68.1%
+  Avg EOD Return               |       +0.26% |       +0.22% |       +1.65%
+  Median MAE %                 |       -1.99% |       -1.46% |       -0.42%
+  Median MFE %                 |       +1.56% |       +1.43% |       +2.65%
+  Median R:R (MFE/MAE)         |        0.78x |        0.98x |        6.36x
+  Avg Price vs E1              |     baseline |       -0.03% |       +0.55%
+  % Cheaper than E1            |          N/A |        49.9% |        66.6%
+
+  ── Gap 5-8% ──
+  Metric                       |  E1 Breakout |  E2 First PB |   E3 Deep PB
+  -----------------------------+--------------+--------------+-------------
+  Events with Entry            |          261 |          260 |          211
+  Win Rate                     |        58.2% |        57.3% |        73.9%
+  Avg EOD Return               |       +1.10% |       +1.07% |       +3.65%
+  Median MAE %                 |       -2.85% |       -2.10% |       -0.57%
+  Median MFE %                 |       +2.80% |       +2.65% |       +4.77%
+  Median R:R (MFE/MAE)         |        0.98x |        1.26x |        8.36x
+  Avg Price vs E1              |     baseline |       +0.01% |       +0.93%
+  % Cheaper than E1            |          N/A |        51.5% |        69.2%
+
+  ── Gap 8-12% ──
+  Metric                       |  E1 Breakout |  E2 First PB |   E3 Deep PB
+  -----------------------------+--------------+--------------+-------------
+  Events with Entry            |          104 |          102 |           79
+  Win Rate                     |        53.8% |        51.0% |        74.7%
+  Avg EOD Return               |       +0.20% |       -0.13% |       +3.59%
+  Median MAE %                 |       -4.09% |       -3.35% |       -0.62%
+  Median MFE %                 |       +4.01% |       +2.94% |       +6.02%
+  Median R:R (MFE/MAE)         |        0.98x |        0.88x |        9.71x
+  Avg Price vs E1              |     baseline |       -0.37% |       +1.01%
+  % Cheaper than E1            |          N/A |        45.1% |        67.1%
+
+  ── Gap 12%+ ──
+  Metric                       |  E1 Breakout |  E2 First PB |   E3 Deep PB
+  -----------------------------+--------------+--------------+-------------
+  Events with Entry            |          108 |          108 |           88
+  Win Rate                     |        51.9% |        48.1% |        65.9%
+  Avg EOD Return               |       +0.31% |       -0.87% |       +3.29%
+  Median MAE %                 |       -5.44% |       -4.60% |       -1.92%
+  Median MFE %                 |       +5.38% |       +4.12% |       +7.88%
+  Median R:R (MFE/MAE)         |        0.99x |        0.89x |        4.09x
+  Avg Price vs E1              |     baseline |       -1.22% |       +0.88%
+  % Cheaper than E1            |          N/A |        41.7% |        63.6%
+
+======================================================================
+═══ SAVING RESULTS ═══
+======================================================================
+
+✅ C:\QuantLab\Data_Lab\studies\gap_execution_blueprint\outputs\extended_analysis_results.csv
+✅ C:\QuantLab\Data_Lab\studies\gap_execution_blueprint\outputs\extended_summary_stats.txt
+✅ C:\QuantLab\Data_Lab\studies\gap_execution_blueprint\outputs\rr_comparison_table.csv
+
+======================================================================
+=== EXTENDED STUDY COMPLETE ===
+Events processed: 1865 / 2170
+Bug fix: OLD stat = 0.0% → CORRECTED stat = 94.8%
+Key finding A: Pullback before new high occurs in 77.9% of events
+Key finding B: Median pullback from session high = -2.87%
+Key finding C: E2 win rate vs E1 win rate = 50.1% vs 51.0%
+Key finding D: Exiting at 9:30 CT leaves 79.8% of return on table
+Best entry by R:R: E3 (6.47x)
+Total runtime: 859s (14.3 min)
+======================================================================

@@ -1,0 +1,4 @@
+direction,n_pullback,n_break,break_rate_among_pullbacks,confidence
+long,1,1,1.0,INSUFFICIENT
+short,1,1,1.0,INSUFFICIENT
+combined,2,2,1.0,INSUFFICIENT

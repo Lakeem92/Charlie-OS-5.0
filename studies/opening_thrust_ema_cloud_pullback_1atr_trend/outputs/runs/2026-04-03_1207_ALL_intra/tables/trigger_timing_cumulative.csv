@@ -1,0 +1,4 @@
+direction,n_triggered,n_trigger_by_bar2,rate_trigger_by_bar2,n_trigger_by_bar3,rate_trigger_by_bar3,confidence
+long,869,613,0.7054085155350979,869,1.0,RELIABLE
+short,757,521,0.6882430647291942,757,1.0,RELIABLE
+combined,1626,1134,0.6974169741697417,1626,1.0,RELIABLE

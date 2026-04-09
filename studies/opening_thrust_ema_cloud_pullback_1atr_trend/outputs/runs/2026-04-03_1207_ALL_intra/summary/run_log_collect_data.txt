@@ -1,0 +1,246 @@
+=== Data Collection Run Log ===
+Timestamp: 2026-04-03T12:07:04.271409
+Tickers: 239
+Date range: 2024-01-01 to 2026-04-03
+Cache reuse enabled: True
+Source data dir: C:\QuantLab\Data_Lab\studies\ema_cloud_pullback_21ema_failure\outputs\runs\2026-04-03_0932_ALL_intra\data
+
+AA: reused 1D + 5Min from cache
+AAL: reused 1D + 5Min from cache
+AAPL: reused 1D + 5Min from cache
+ABBV: reused 1D + 5Min from cache
+ABNB: reused 1D + 5Min from cache
+ACHR: reused 1D + 5Min from cache
+AEO: reused 1D + 5Min from cache
+AFRM: reused 1D + 5Min from cache
+AI: reused 1D + 5Min from cache
+AIQ: reused 1D + 5Min from cache
+WARNING: AIS 5min fetch failed: 't'
+WARNING: ALAB 5min fetch failed: 't'
+AMD: reused 1D + 5Min from cache
+AMZN: reused 1D + 5Min from cache
+ANF: reused 1D + 5Min from cache
+APLD: reused 1D + 5Min from cache
+APP: reused 1D + 5Min from cache
+ARKK: reused 1D + 5Min from cache
+ARKQ: reused 1D + 5Min from cache
+ARKX: reused 1D + 5Min from cache
+ARM: reused 1D + 5Min from cache
+ASML: reused 1D + 5Min from cache
+ASTS: reused 1D + 5Min from cache
+AVGO: reused 1D + 5Min from cache
+BA: reused 1D + 5Min from cache
+BABA: reused 1D + 5Min from cache
+BAC: reused 1D + 5Min from cache
+BE: reused 1D + 5Min from cache
+BIDU: reused 1D + 5Min from cache
+WARNING: BLSH 5min fetch failed: 't'
+BROS: reused 1D + 5Min from cache
+BRZU: reused 1D + 5Min from cache
+WARNING: BULL 5min fetch failed: 't'
+CASY: reused 1D + 5Min from cache
+CAT: reused 1D + 5Min from cache
+CCL: reused 1D + 5Min from cache
+CDE: reused 1D + 5Min from cache
+CELH: reused 1D + 5Min from cache
+CIFR: reused 1D + 5Min from cache
+CL: reused 1D + 5Min from cache
+CLF: reused 1D + 5Min from cache
+CLOU: reused 1D + 5Min from cache
+CLSK: reused 1D + 5Min from cache
+COIN: reused 1D + 5Min from cache
+COP: reused 1D + 5Min from cache
+COST: reused 1D + 5Min from cache
+CPNG: reused 1D + 5Min from cache
+WARNING: CRCL 5min fetch failed: 't'
+CRDO: reused 1D + 5Min from cache
+CRWD: reused 1D + 5Min from cache
+WARNING: CRWV 5min fetch failed: 't'
+CSCO: reused 1D + 5Min from cache
+CVNA: reused 1D + 5Min from cache
+CVS: reused 1D + 5Min from cache
+CVX: reused 1D + 5Min from cache
+DAL: reused 1D + 5Min from cache
+DASH: reused 1D + 5Min from cache
+DELL: reused 1D + 5Min from cache
+DHI: reused 1D + 5Min from cache
+DIA: reused 1D + 5Min from cache
+DIS: reused 1D + 5Min from cache
+DJT: reused 1D + 5Min from cache
+DKNG: reused 1D + 5Min from cache
+DLTR: reused 1D + 5Min from cache
+DOCU: reused 1D + 5Min from cache
+DTCR: reused 1D + 5Min from cache
+DVN: reused 1D + 5Min from cache
+EBAY: reused 1D + 5Min from cache
+EDC: reused 1D + 5Min from cache
+ENPH: reused 1D + 5Min from cache
+EOG: reused 1D + 5Min from cache
+EOSE: reused 1D + 5Min from cache
+WARNING: ETHU 5min fetch failed: 't'
+WARNING: ETOR 5min fetch failed: 't'
+ETSY: reused 1D + 5Min from cache
+EURL: reused 1D + 5Min from cache
+WARNING: EZJ 5min fetch failed: 't'
+EZU: reused 1D + 5Min from cache
+FAZ: reused 1D + 5Min from cache
+FCG: reused 1D + 5Min from cache
+WARNING: FIG 5min fetch failed: 't'
+FSLY: reused 1D + 5Min from cache
+FTXH: reused 1D + 5Min from cache
+FUBO: reused 1D + 5Min from cache
+GE: reused 1D + 5Min from cache
+WARNING: GEMI 5min fetch failed: 't'
+GILD: reused 1D + 5Min from cache
+GLD: reused 1D + 5Min from cache
+GM: reused 1D + 5Min from cache
+GME: reused 1D + 5Min from cache
+GOLD: reused 1D + 5Min from cache
+GOOGL: reused 1D + 5Min from cache
+GS: reused 1D + 5Min from cache
+HAL: reused 1D + 5Min from cache
+HD: reused 1D + 5Min from cache
+HIMS: reused 1D + 5Min from cache
+HON: reused 1D + 5Min from cache
+HOOD: reused 1D + 5Min from cache
+IBB: reused 1D + 5Min from cache
+IBKR: reused 1D + 5Min from cache
+WARNING: IBOT 5min fetch failed: 't'
+ICLN: reused 1D + 5Min from cache
+IGV: reused 1D + 5Min from cache
+IHE: reused 1D + 5Min from cache
+INDL: reused 1D + 5Min from cache
+INTC: reused 1D + 5Min from cache
+IONQ: reused 1D + 5Min from cache
+IPO: reused 1D + 5Min from cache
+IREN: reused 1D + 5Min from cache
+ITA: reused 1D + 5Min from cache
+ITB: reused 1D + 5Min from cache
+IWC: reused 1D + 5Min from cache
+IWM: reused 1D + 5Min from cache
+JD: reused 1D + 5Min from cache
+JETS: reused 1D + 5Min from cache
+JNJ: reused 1D + 5Min from cache
+JPM: reused 1D + 5Min from cache
+KORU: reused 1D + 5Min from cache
+KRE: reused 1D + 5Min from cache
+KTOS: reused 1D + 5Min from cache
+KWEB: reused 1D + 5Min from cache
+LEN: reused 1D + 5Min from cache
+LI: reused 1D + 5Min from cache
+LLY: reused 1D + 5Min from cache
+LULU: reused 1D + 5Min from cache
+LUNR: reused 1D + 5Min from cache
+LYFT: reused 1D + 5Min from cache
+M: reused 1D + 5Min from cache
+MAGS: reused 1D + 5Min from cache
+MARA: reused 1D + 5Min from cache
+WARNING: MEME 5min fetch failed: 't'
+META: reused 1D + 5Min from cache
+MEXX: reused 1D + 5Min from cache
+MMM: reused 1D + 5Min from cache
+MP: reused 1D + 5Min from cache
+MRK: reused 1D + 5Min from cache
+MRNA: reused 1D + 5Min from cache
+MRVL: reused 1D + 5Min from cache
+MS: reused 1D + 5Min from cache
+MSFT: reused 1D + 5Min from cache
+MU: reused 1D + 5Min from cache
+NCLH: reused 1D + 5Min from cache
+NET: reused 1D + 5Min from cache
+NFLX: reused 1D + 5Min from cache
+NIO: reused 1D + 5Min from cache
+NKE: reused 1D + 5Min from cache
+NLR: reused 1D + 5Min from cache
+WARNING: NNE 5min fetch failed: 't'
+NRG: reused 1D + 5Min from cache
+NVDA: reused 1D + 5Min from cache
+NVO: reused 1D + 5Min from cache
+OIH: reused 1D + 5Min from cache
+OKLO: reused 1D + 5Min from cache
+OPEN: reused 1D + 5Min from cache
+ORCL: reused 1D + 5Min from cache
+OSCR: reused 1D + 5Min from cache
+OXY: reused 1D + 5Min from cache
+PALL: reused 1D + 5Min from cache
+PANW: reused 1D + 5Min from cache
+PATH: reused 1D + 5Min from cache
+PBW: reused 1D + 5Min from cache
+PDD: reused 1D + 5Min from cache
+PENN: reused 1D + 5Min from cache
+PEP: reused 1D + 5Min from cache
+PG: reused 1D + 5Min from cache
+PL: reused 1D + 5Min from cache
+PLTR: reused 1D + 5Min from cache
+PLUG: reused 1D + 5Min from cache
+PPH: reused 1D + 5Min from cache
+PSX: reused 1D + 5Min from cache
+QBTS: reused 1D + 5Min from cache
+QCOM: reused 1D + 5Min from cache
+QQQ: reused 1D + 5Min from cache
+QTUM: reused 1D + 5Min from cache
+QUBT: reused 1D + 5Min from cache
+RBLX: reused 1D + 5Min from cache
+RCAT: reused 1D + 5Min from cache
+WARNING: RDDT 5min fetch failed: 't'
+RGTI: reused 1D + 5Min from cache
+RILY: reused 1D + 5Min from cache
+RIOT: reused 1D + 5Min from cache
+RIVN: reused 1D + 5Min from cache
+RKLB: reused 1D + 5Min from cache
+RKT: reused 1D + 5Min from cache
+ROKU: reused 1D + 5Min from cache
+RR: reused 1D + 5Min from cache
+RTX: reused 1D + 5Min from cache
+RUM: reused 1D + 5Min from cache
+RUN: reused 1D + 5Min from cache
+SCHW: reused 1D + 5Min from cache
+WARNING: SERV 5min fetch failed: 't'
+SHOP: reused 1D + 5Min from cache
+SLB: reused 1D + 5Min from cache
+SLV: reused 1D + 5Min from cache
+SMCI: reused 1D + 5Min from cache
+SMH: reused 1D + 5Min from cache
+SMR: reused 1D + 5Min from cache
+SNAP: reused 1D + 5Min from cache
+WARNING: SNDK 5min fetch failed: 't'
+SNOW: reused 1D + 5Min from cache
+SOFI: reused 1D + 5Min from cache
+SOUN: reused 1D + 5Min from cache
+SOXS: reused 1D + 5Min from cache
+SOXX: reused 1D + 5Min from cache
+WARNING: SPX daily fetch failed: 't'
+SPY: reused 1D + 5Min from cache
+SQQQ: reused 1D + 5Min from cache
+TAN: reused 1D + 5Min from cache
+WARNING: TEM 5min fetch failed: 't'
+TGT: reused 1D + 5Min from cache
+TIGR: reused 1D + 5Min from cache
+TSLA: reused 1D + 5Min from cache
+TSM: reused 1D + 5Min from cache
+U: reused 1D + 5Min from cache
+UAL: reused 1D + 5Min from cache
+UBER: reused 1D + 5Min from cache
+UFO: reused 1D + 5Min from cache
+UNH: reused 1D + 5Min from cache
+UPST: reused 1D + 5Min from cache
+VLO: reused 1D + 5Min from cache
+VRT: reused 1D + 5Min from cache
+VST: reused 1D + 5Min from cache
+WMT: reused 1D + 5Min from cache
+XBI: reused 1D + 5Min from cache
+XHB: reused 1D + 5Min from cache
+XLE: reused 1D + 5Min from cache
+XLF: reused 1D + 5Min from cache
+XLI: reused 1D + 5Min from cache
+XLK: reused 1D + 5Min from cache
+XLP: reused 1D + 5Min from cache
+XLV: reused 1D + 5Min from cache
+XOM: reused 1D + 5Min from cache
+XOP: reused 1D + 5Min from cache
+XPEV: reused 1D + 5Min from cache
+YANG: reused 1D + 5Min from cache
+Z: reused 1D + 5Min from cache
+ZETA: reused 1D + 5Min from cache
+ZM: reused 1D + 5Min from cache
+ZS: reused 1D + 5Min from cache

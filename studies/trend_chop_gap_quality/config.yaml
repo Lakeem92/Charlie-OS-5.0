@@ -1,0 +1,76 @@
+# trend_chop_gap_quality — LOCKED CONFIGURATION
+# Do NOT modify thresholds. These are locked defaults for reproducibility.
+
+study_name: "trend_chop_gap_quality"
+description: "Trend vs Chop day mix during uptrend regimes + Gap-up close strength + optional intraday first-hour classification"
+
+# ── Date Range ───────────────────────────────────────────────
+start_date: "2016-01-01"
+end_date: "today"  # resolved at runtime to system date
+
+# ── Timeframes ───────────────────────────────────────────────
+timeframe_daily: "1Day"
+timeframe_intraday: "5Min"
+use_intraday: false
+
+# ── RTH Filter ───────────────────────────────────────────────
+rth_only: true
+# Intraday: 9:30–16:00 ET. Filter by market hours if timestamps
+# are in exchange TZ; otherwise keep all and log a warning.
+
+# ── Default Tickers ──────────────────────────────────────────
+tickers_default:
+  - SPY
+  - QQQ
+  - AAPL
+  - NVDA
+  - TSLA
+  - AMD
+  - META
+  - AMZN
+  - MSFT
+  - GOOG
+
+# ── Core Indicator Parameters ────────────────────────────────
+atr_length: 14
+sma_length: 20
+sma_slope_lookback: 5
+
+# ── Uptrend Regime ───────────────────────────────────────────
+uptrend_regime_method: "A"
+# A: close > SMA20 AND SMA20(t) > SMA20(t - sma_slope_lookback)
+
+# ── Trend Day Classification ────────────────────────────────
+trend_day_clv_min: 0.80
+trend_day_range_atr_min: 1.00
+trend_day_requires_green: true
+
+# ── Chop Day Classification ─────────────────────────────────
+chop_day_range_atr_max: 0.80
+chop_day_body_pct_max: 0.35
+
+# ── Gap-Up Close Strength ───────────────────────────────────
+gap_bins: [0.01, 0.03, 0.05, 0.08, 0.12, 0.20]
+close_strong_clv_min: 0.80
+close_strong_range_atr_min: 1.00
+close_weak_clv_max: 0.30
+
+# ── Intraday First-Hour Classifier (LOCKED) ─────────────────
+intraday_or_minutes: 60
+intraday_vwap_hold_min_trend: 0.80
+intraday_pullback_depth_max_trend: 0.35
+intraday_reclaim_count_min_fade: 2
+intraday_firsthour_clv_min_trend: 0.75
+intraday_firsthour_clv_max_fade: 0.55
+
+# ── First-Hour Failure Score (0–5) Rules (LOCKED) ───────────
+# +1 if vwap_hold < 0.50
+# +1 if reclaim_count >= 2
+# +1 if firsthour_clv < 0.55
+# +1 if or_break_time_minutes > 40 (late break)
+# +1 if pullback_depth > 0.50
+
+# ── Daily Outcome Labels for Intraday Days (LOCKED) ─────────
+# TrendSignature  = (vwap_hold >= 0.80) AND (pullback_depth <= 0.35) AND (firsthour_clv >= 0.75)
+# FadeSignature   = (vwap_hold < 0.50) AND (reclaim_count >= 2) AND (firsthour_clv <= 0.55)
+# Else ChopSignature

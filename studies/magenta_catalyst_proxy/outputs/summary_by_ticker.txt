@@ -1,0 +1,16 @@
+================================================================================
+PER-TICKER EOD WIN RATES — Group A (Catalyst-Confirmed Magenta), Ranked
+Generated: 2026-03-04 13:13
+win_raw=any lower close   win_thr=lower by >=0.1% (noise-filtered)
+★ STRONG_SHORT  = win_raw_eod > 60%  (catalyst confirms short edge)
+✗ FADE_SHORT    = win_raw_eod < 40%  (bounce name even with catalyst)
+================================================================================
+
+  Ticker       n   WinRaw EOD   WinThr EOD  Quality
+  -----------------------------------------------------------------
+  HOOD         4        75.0%        75.0%  UNKNOWN  ★ STRONG_SHORT
+  SOFI         6        66.7%        66.7%  UNKNOWN  ★ STRONG_SHORT
+  MSTR         4        50.0%        50.0%  UNKNOWN
+  COIN        11        45.5%        45.5%  UNKNOWN
+  SMCI        25        32.0%        28.0%  UNKNOWN  ✗ FADE_SHORT
+  MU           2         0.0%         0.0%  STRONG_SHORT  ✗ FADE_SHORT

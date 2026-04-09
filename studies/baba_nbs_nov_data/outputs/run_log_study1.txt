@@ -1,0 +1,244 @@
+================================================================================
+BABA CHINA NBS EVENT STUDY - EXECUTION LOG
+================================================================================
+
+Execution Date: 2025-12-14
+Study Type: Event Window Analysis (NEW canonical study type)
+Ticker: BABA (NYSE)
+Event: China NBS November macro data releases
+
+================================================================================
+LAB READY CHECK RESULTS
+================================================================================
+
+PASSED - All preconditions met:
+
+[✓] Required Documentation:
+    - docs/STUDY_PROMPT_LIBRARY.md exists and readable
+    - docs/STUDY_EXECUTION_PROTOCOL.md exists and readable
+    - docs/INDICATOR_SPECS.md exists
+    - docs/HOW_TO_USE_THE_LAB.md exists
+
+[✓] Data Infrastructure:
+    - Alpaca API configured (API keys present in .env via APIConfig)
+    - Alpaca API reachable (connectivity test passed)
+    - shared/config/api_clients.py contains AlpacaClient class
+
+[✓] Session and Timezone Rules:
+    - Central Time (CT) conversion available (zoneinfo library)
+    - Premarket + RTH session rules loaded from prompts/STRUCTURAL_TRIGGER_MASTER.md
+      * Premarket: 3:00 AM – 8:29 AM CT
+      * RTH: 8:30 AM – 3:00 PM CT
+
+[✓] Optional but Recommended:
+    - prompts/VOLATILITY_LAB_MASTER.md exists (Alpaca-first volatility rule)
+    - docs/API_MAP.md exists (data source routing)
+
+GATE STATUS: OPEN - Proceed to study execution
+
+================================================================================
+STUDY MAPPING
+================================================================================
+
+User Request: Event-window price/volatility behavior of BABA around China NBS 
+              November macro data release dates
+
+Canonical Study Match: NONE FOUND
+
+Notes:
+- Existing library contains only STUDY 001 (Indicator Honesty Test)
+- This request represents a NEW study type: "Event Window Analysis"
+- Study focuses on price/volatility metrics around known event dates
+- No indicator evaluation involved (price-only analysis)
+- Should be added to STUDY_PROMPT_LIBRARY.md as a canonical study template
+
+================================================================================
+STUDY PARAMETERS
+================================================================================
+
+Ticker: BABA
+Market: NYSE
+
+Event Dates (China NBS November Data Releases):
+  - 2020-12-15
+  - 2021-12-15
+  - 2022-12-15
+  - 2023-12-15
+  - 2024-12-18
+
+Event Window Configuration:
+  - Daily window: [-10, +10] trading days around each event date
+  - Intraday focus: t (event date) and t+1 (next trading day)
+  - Forward return horizons: +1, +2, +3, +5, +10 trading days
+
+Data Source: Alpaca (IEX feed)
+Timezone: Central Time (CT)
+Sessions: 
+  - Premarket: 3:00-8:29 AM CT
+  - RTH: 8:30 AM-3:00 PM CT
+  - Both sessions included by default for intraday analysis
+
+Timeframes:
+  - Daily: 1Day bars
+  - Intraday: 5Min bars (fallback to 15Min if unavailable)
+  - Actual timeframe used: 5Min (successfully retrieved)
+
+Metrics Computed:
+
+A) Daily-level (for each event and pooled):
+   - Close-to-close returns for each day in [-10, +10] window
+   - Event-day gap%: (Event Day Open - Prior Close) / Prior Close
+   - Event-day intraday return%: (Close - Open) / Open
+   - Daily range%: (High - Low) / Open
+   - True Range and ATR(14) (volatility metric, not an indicator)
+   - Max Drawdown from t close over +10 days
+   - Max Favorable Excursion (MFE) and Max Adverse Excursion (MAE)
+
+B) Intraday-level (for t and t+1):
+   - 5-minute bars, CT timestamps
+   - Premarket return% (3:00–8:29 CT)
+   - RTH return% (8:30–15:00 CT)
+   - Full-session high/low range% relative to session open
+   - Time-of-day extremes: timestamp of session high and low (CT)
+   - Realized volatility (annualized) for Premarket, RTH, and full session
+   - Largest 5-min move (absolute %) and its timestamp (CT)
+
+Constraints Applied:
+  ✓ Alpaca data ONLY (no Tiingo/yfinance/Polygon)
+  ✓ Central Time timezone for all timestamps/session logic
+  ✓ NO INDICATORS (except ATR as volatility metric)
+  ✓ Used exact event dates provided (no internet lookup)
+  ✓ Graceful degradation if data unavailable (5Min → 15Min)
+  ✓ Non-trading day handling (shift to next trading day, document)
+
+================================================================================
+EXECUTION RESULTS
+================================================================================
+
+Status: SUCCESS
+
+Data Retrieved:
+  - Daily bars: 1045 total bars fetched
+  - Daily observations in event windows: 105
+  - Intraday sessions analyzed: 10 (5 events × 2 days each)
+  - Timeframe used: 5Min (no fallback needed)
+
+Event Date Notes:
+  - All event dates were valid trading days
+  - No date shifting required
+
+Key Findings:
+
+Forward Returns from Event Close:
+  +1d: Mean=-0.06%, Median=-0.80%, HitRate=40.0% (2/5 positive)
+  +2d: Mean=0.49%, Median=1.03%, HitRate=60.0% (3/5 positive)
+  +3d: Mean=-1.50%, Median=-1.25%, HitRate=20.0% (1/5 positive)
+  +5d: Mean=0.13%, Median=1.02%, HitRate=80.0% (4/5 positive)
+  +10d: Mean=-0.63%, Median=0.42%, HitRate=80.0% (4/5 positive)
+
+Event Day Behavior:
+  Mean Gap: 0.05% (minimal gap on average)
+  Mean Intraday Return: -1.74% (negative bias intraday)
+  Mean Daily Range: 4.04%
+
+Volatility Analysis:
+  Pre-Event Range (days -10 to -1): 2.71%
+  Event Day Range (day 0): 4.04%
+  Range Expansion: +49.3% (significant increase)
+
+  Pre-Event ATR(14): $2.29
+  Event Day ATR(14): $2.31
+  ATR Expansion: +0.8% (minimal change)
+
+Intraday Volatility (Event Day, Annualized):
+  Premarket: 61.3% (avg)
+  RTH: 45.8% (avg)
+  Full Session: 51.2% (avg)
+
+Interpretation:
+  - Small sample size (n=5) limits statistical significance
+  - Daily range expands significantly on event day (+49%)
+  - Forward returns show mixed results; no clear directional edge
+  - Volatility expansion is notable on the event day itself
+  - Intraday: mean negative bias on event day (-1.74%)
+
+================================================================================
+OUTPUTS GENERATED
+================================================================================
+
+All outputs saved to: studies/baba_nbs_nov_data/outputs/
+
+CSV Files:
+  1. baba_nbs_event_window_daily.csv
+     - One row per (event_date, rel_day) with daily OHLCV + metrics
+     - 105 rows
+
+  2. baba_nbs_forward_returns.csv
+     - One row per event_date with forward returns, gap%, MAE/MFE, max DD
+     - 5 rows
+
+  3. baba_nbs_intraday_metrics.csv
+     - One row per (event_date, session=t or t+1) with intraday metrics
+     - 10 rows
+
+PNG Charts:
+  4. baba_nbs_rel_day_mean_return.png
+     - Mean return by relative day with event day marker
+
+  5. baba_nbs_rel_day_mean_range.png
+     - Mean daily range% by relative day
+
+  6. baba_nbs_forward_return_distributions.png
+     - Histograms for +1/+2/+3/+5 day forward returns
+
+Markdown Report:
+  7. baba_nbs_study1_report.md
+     - Comprehensive study report with data source confirmation,
+       sample size notes, key stats, volatility analysis, and interpretation
+
+Execution Log:
+  8. run_log_study1.txt (this file)
+
+================================================================================
+PROTOCOL COMPLIANCE
+================================================================================
+
+✓ Followed docs/LAB_READY_CHECK.md (all preconditions verified)
+✓ Followed docs/STUDY_EXECUTION_PROTOCOL.md (executed per protocol)
+✓ Checked docs/STUDY_PROMPT_LIBRARY.md (no matching study; new type)
+✓ Alpaca data ONLY (hard constraint met)
+✓ Central Time timezone (hard constraint met)
+✓ Session definitions (Premarket + RTH per STRUCTURAL_TRIGGER_MASTER.md)
+✓ NO INDICATORS except ATR as volatility metric (hard constraint met)
+✓ Used exact event dates (no internet lookup)
+✓ 5-minute bars successfully used (no fallback required)
+✓ Deterministic output filenames
+✓ All required outputs generated
+
+================================================================================
+RECOMMENDATIONS FOR FUTURE WORK
+================================================================================
+
+1. Add "Event Window Analysis" as a canonical study to STUDY_PROMPT_LIBRARY.md
+   - Template for event-driven price/volatility studies
+   - Specify required parameters: ticker, event dates, window size, metrics
+   - Useful for earnings, macro releases, regulatory events, etc.
+
+2. Expand sample size if more historical events available
+   - Current n=5 is too small for robust statistical inference
+
+3. Consider regime-aware analysis
+   - Segment by market regime (volatility, trend) at time of event
+   - May reveal conditional patterns
+
+4. Add control group analysis
+   - Compare to random days or alternative tickers
+   - Assess whether behavior is event-specific or baseline noise
+
+5. Intraday timing analysis
+   - Deeper dive into time-of-day patterns (HOD/LOD timing)
+   - Session-specific behavior (premarket vs RTH)
+
+================================================================================
+END OF LOG
+================================================================================

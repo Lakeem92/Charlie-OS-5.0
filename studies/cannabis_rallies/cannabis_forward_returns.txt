@@ -1,0 +1,17 @@
+CANNABIS RALLY FORWARD RETURNS ANALYSIS
+======================================================================
+
+Calculation Method:
+- Used Adjusted Close prices
+- T = Pivot Date (end of rally period)
+- 1-Day Return = (Price at T+1 - Price at T) / Price at T × 100%
+- 3-Day Return = (Price at T+3 - Price at T) / Price at T × 100%
+- 5-Day Return = (Price at T+5 - Price at T) / Price at T × 100%
+
+Results:
+======================================================================
+Ticker Pivot Date  1-Day Return (%)  3-Day Return (%)  5-Day Return (%)
+  TLRY 2018-12-31         -0.113418         -0.836408         18.032315
+   CGC 2018-12-31          7.629326          5.061397         10.308887
+  MSOS 2021-06-30          2.224452         -0.399895         -0.924761
+======================================================================

@@ -1,0 +1,382 @@
+======================================================================
+CONTRARY CANDLE STUDY - CONTINUATION DAY DEEP DIVE
+======================================================================
+Source: results_analysis.csv (2465 FT-confirmed events)
+Date range: 2024-01-22 to 2026-03-06
+
+======================================================================
+SECTION 1: CONTINUATION vs FAILED SPLIT
+======================================================================
+
+  GAP-UP FADES (short from FT):
+    Total FT-confirmed:       1346
+    Continuation (short won):  690 (51.3%)
+    Failed (short lost):       656 (48.7%)
+
+  GAP-DN BOUNCES (long from FT):
+    Total FT-confirmed:       1119
+    Continuation (long won):   575 (51.4%)
+    Failed (long lost):        544 (48.6%)
+
+======================================================================
+SECTION 2: CONTINUATION RATE BY GAP BUCKET
+======================================================================
+
+  -- GAP-UP FADE (short) --
+  Bucket    Total   Cont    Rate    AvgRet    MedMFE    MedMAE
+  -------- ------ ------ ------- --------- --------- ---------
+  2-5%        979    507   51.8%    +2.81%    +3.25%    +1.37%
+  5-8%        220    113   51.4%    +3.65%    +3.96%    +2.22%
+  8-12%        81     37   45.7%    +3.98%    +4.72%    +3.61%
+  12%+         66     33   50.0%    +5.26%    +8.23%    +5.37%
+
+  -- GAP-DN BOUNCE (long) --
+  Bucket    Total   Cont    Rate    AvgRet    MedMFE    MedMAE
+  -------- ------ ------ ------- --------- --------- ---------
+  2-5%        848    425   50.1%    +2.24%    +2.54%    +1.20%
+  5-8%        168     87   51.8%    +3.16%    +3.94%    +2.17%
+  8-12%        53     33   62.3%    +4.42%    +6.59%    +2.42%
+  12%+         50     30   60.0%    +5.26%    +6.64%    +3.92%
+
+======================================================================
+SECTION 3: DESTINATION TIMING (Continuation vs Failed)
+  Fade destination = LoD (short wants price to go lower)
+  Bounce destination = HoD (long wants price to go higher)
+======================================================================
+
+  -- GAP-UP FADE: LoD Timing (destination for short) --
+
+  Continuation (n=690):
+    Median: 290 min (4h 50m)
+    In first 5 min:   0.9%
+    In first 30 min:  5.8%
+    In first 60 min:  12.0%
+    In first 2 hrs:   22.9%
+    After 4 hours:    59.0%
+    In last hour:     41.0%
+    In last 30 min:   32.6%
+
+  Failed (n=656):
+    Median: 60 min (1h 0m)
+    In first 5 min:   13.7%
+    In first 30 min:  36.9%
+    In first 60 min:  51.2%
+    In first 2 hrs:   70.7%
+    After 4 hours:    13.0%
+    In last hour:     4.1%
+    In last 30 min:   2.4%
+
+  -- GAP-UP FADE: HoD Timing (adverse for short) --
+
+  Continuation (n=690):
+    Median: 0 min (0h 0m)
+    In first 5 min:   77.4%
+    In first 30 min:  90.6%
+    In first 60 min:  95.9%
+    In first 2 hrs:   99.0%
+    After 4 hours:    0.3%
+    In last hour:     0.1%
+    In last 30 min:   0.0%
+
+  Failed (n=656):
+    Median: 30 min (0h 30m)
+    In first 5 min:   40.9%
+    In first 30 min:  51.5%
+    In first 60 min:  58.1%
+    In first 2 hrs:   63.4%
+    After 4 hours:    25.3%
+    In last hour:     15.7%
+    In last 30 min:   9.9%
+
+  -- GAP-DN BOUNCE: HoD Timing (destination for long) --
+
+  Continuation (n=575):
+    Median: 245 min (4h 5m)
+    In first 5 min:   0.7%
+    In first 30 min:  3.7%
+    In first 60 min:  11.0%
+    In first 2 hrs:   25.4%
+    After 4 hours:    50.4%
+    In last hour:     31.0%
+    In last 30 min:   23.1%
+
+  Failed (n=544):
+    Median: 65 min (1h 5m)
+    In first 5 min:   14.0%
+    In first 30 min:  36.2%
+    In first 60 min:  48.3%
+    In first 2 hrs:   65.6%
+    After 4 hours:    16.7%
+    In last hour:     5.7%
+    In last 30 min:   1.7%
+
+  -- GAP-DN BOUNCE: LoD Timing (adverse for long) --
+
+  Continuation (n=575):
+    Median: 0 min (0h 0m)
+    In first 5 min:   83.3%
+    In first 30 min:  90.6%
+    In first 60 min:  97.0%
+    In first 2 hrs:   99.3%
+    After 4 hours:    0.0%
+    In last hour:     0.0%
+    In last 30 min:   0.0%
+
+  Failed (n=544):
+    Median: 15 min (0h 15m)
+    In first 5 min:   45.6%
+    In first 30 min:  54.6%
+    In first 60 min:  61.0%
+    In first 2 hrs:   66.7%
+    After 4 hours:    25.9%
+    In last hour:     15.8%
+    In last 30 min:   11.4%
+
+======================================================================
+SECTION 4: P&L PROFILE (Continuation vs Failed)
+======================================================================
+
+  -- GAP-UP FADES --
+  Continuation (short won) (n=690)
+    Median EOD Return: +2.11%
+    Mean EOD Return:   +3.13%
+    MAE Median:        +1.68%
+    MAE Mean:          +2.41%
+    MAE 90th:          +5.17%
+    MFE Median:        +3.69%
+    MFE Mean:          +4.69%
+    MFE 90th:          +8.94%
+    R:R (MFE/MAE med):  2.20x
+  Failed (short lost) (n=656)
+    Median EOD Return: -1.49%
+    Mean EOD Return:   -2.55%
+    MAE Median:        +3.12%
+    MAE Mean:          +4.36%
+    MAE 90th:          +8.76%
+    MFE Median:        +0.87%
+    MFE Mean:          +1.43%
+    MFE 90th:          +3.39%
+    R:R (MFE/MAE med):  0.28x
+
+  -- GAP-DN BOUNCES --
+  Continuation (long won) (n=575)
+    Median EOD Return: +1.46%
+    Mean EOD Return:   +2.66%
+    MAE Median:        +1.43%
+    MAE Mean:          +2.03%
+    MAE 90th:          +4.56%
+    MFE Median:        +2.95%
+    MFE Mean:          +4.30%
+    MFE 90th:          +8.83%
+    R:R (MFE/MAE med):  2.07x
+  Failed (long lost) (n=544)
+    Median EOD Return: -1.52%
+    Mean EOD Return:   -2.28%
+    MAE Median:        +2.89%
+    MAE Mean:          +3.64%
+    MAE 90th:          +7.19%
+    MFE Median:        +0.77%
+    MFE Mean:          +1.32%
+    MFE 90th:          +3.20%
+    R:R (MFE/MAE med):  0.27x
+
+======================================================================
+SECTION 5: EARLY WARNING FILTERS
+  Can we identify continuation vs failed EARLY in the session?
+======================================================================
+
+  -- GAP-UP FADE FILTERS --
+  LoD in first 30 min (n=282): 14.2% continuation rate
+    (Interpretation: if LoD is set early, the fade may already be done)
+  LoD after 30 min (n=1064): 61.1% continuation rate
+  HoD in first 5 min (n=802): 66.6% continuation rate
+    (Interpretation: gap-up topped at/near open = fade is real)
+  HoD after 5 min (n=544): 28.7% continuation rate
+  HoD in first 30 min (n=963): 64.9% continuation rate
+  HoD after 30 min (n=383): 17.0% continuation rate
+  LoD after 4 hours (n=492): 82.7% continuation rate
+    Avg return: +2.88%
+  LoD in last hour (n=310): 91.3% continuation rate
+    Avg return: +3.74%
+  FT in first 5 min (n=524): 53.6% continuation rate
+  FT after 15 min (n=618): 49.4% continuation rate
+  HoD in last hour (n=104): 1.0% continuation rate
+    (If gap-up is making new highs late, your fade is dead)
+
+  -- GAP-DN BOUNCE FILTERS --
+  HoD in first 30 min (n=218): 9.6% continuation rate
+    (Interpretation: if bounce peaks early, it may reverse)
+  HoD after 30 min (n=901): 61.5% continuation rate
+  LoD in first 5 min (n=727): 65.9% continuation rate
+    (Gap-down bottomed at open = bounce is real)
+  LoD after 5 min (n=392): 24.5% continuation rate
+  LoD in first 30 min (n=818): 63.7% continuation rate
+  LoD after 30 min (n=301): 17.9% continuation rate
+  HoD after 4 hours (n=381): 76.1% continuation rate
+    Avg return: +2.15%
+  HoD in last hour (n=209): 85.2% continuation rate
+    Avg return: +2.63%
+  FT in first 5 min (n=451): 56.1% continuation rate
+  FT after 15 min (n=522): 49.8% continuation rate
+  LoD in last hour (n=86): 0.0% continuation rate
+    (If gap-down is making new lows late, your bounce is dead)
+
+======================================================================
+SECTION 6: COMBINED FILTER STACKS
+======================================================================
+
+  -- GAP-UP FADE: Best Setups --
+  Filter                                  n      WR    AvgRet    MedMFE    MedMAE
+  ----------------------------------- ----- ------- --------- --------- ---------
+  No filter (baseline)                 1346   51.3%    +0.36%    +2.06%    +2.35%
+  HoD <= 5 min (topped at open)         802   66.6%    +1.70%    +2.87%    +2.00%
+  HoD <= 5 min + gap 2-5%               585   66.7%    +1.58%    +2.48%    +1.66%
+  HoD <= 5 min + gap 5%+                217   66.4%    +2.04%    +4.03%    +3.19%
+  HoD <= 5 min + FT <= 5 min            358   71.2%    +2.29%    +3.39%    +3.09%
+  LoD >= 240 min                        492   82.7%    +2.88%    +2.97%    +1.60%
+  Gap 2-5% only                         979   51.8%    +0.41%    +1.75%    +1.98%
+  Gap 5-8% only                         220   51.4%    +0.65%    +2.53%    +2.98%
+  Gap 8-12% only                         81   45.7%    -0.61%    +3.53%    +4.13%
+
+  -- GAP-DN BOUNCE: Best Setups --
+  Filter                                  n      WR    AvgRet    MedMFE    MedMAE
+  ----------------------------------- ----- ------- --------- --------- ---------
+  No filter (baseline)                 1119   51.4%    +0.26%    +1.67%    +2.00%
+  LoD <= 5 min (bottomed at open)       727   65.9%    +1.41%    +2.24%    +1.73%
+  LoD <= 5 min + gap 2-5%               535   63.9%    +1.08%    +1.84%    +1.46%
+  LoD <= 5 min + gap 8%+                 75   76.0%    +3.13%    +6.11%    +3.63%
+  LoD <= 5 min + FT <= 5 min            331   73.1%    +2.05%    +2.98%    +2.42%
+  LoD <= 30 min                         818   63.7%    +1.27%    +2.13%    +1.72%
+  HoD >= 240 min                        381   76.1%    +2.15%    +2.04%    +1.31%
+  Gap 2-5% only                         848   50.1%    +0.09%    +1.42%    +1.72%
+  Gap 5-8% only                         168   51.8%    +0.36%    +2.39%    +2.69%
+  Gap 8-12% only                         53   62.3%    +1.10%    +4.22%    +3.27%
+  Gap 12%+ only                          50   60.0%    +1.87%    +5.00%    +4.54%
+  Gap 8%+ + LoD <= 5 min                 75   76.0%    +3.13%    +6.11%    +3.63%
+
+======================================================================
+SECTION 7: ADVERSE EXCURSION - CONTINUATION vs FAILED
+  bounce_depth_before_dest = worst adverse move before destination
+======================================================================
+
+  -- GAP-UP FADE --
+  Continuation (n=690):
+    Median adverse before dest: +0.72%
+    Mean:                       +1.24%
+    90th pctl:                  +3.09%
+  Failed (n=656):
+    Median adverse before dest: +0.63%
+    Mean:                       +1.12%
+    90th pctl:                  +2.76%
+  Adverse distribution (bounce_depth_before_dest):
+    Continuation:
+      0-0.5%  :  202 (29.3%)
+      0.5-1%  :  117 (17.0%)
+      1-2%    :  147 (21.3%)
+      2-3%    :   70 (10.1%)
+      3-5%    :   53 (7.7%)
+      5%+     :   22 (3.2%)
+    Failed:
+      0-0.5%  :  215 (32.8%)
+      0.5-1%  :  134 (20.4%)
+      1-2%    :  124 (18.9%)
+      2-3%    :   54 (8.2%)
+      3-5%    :   41 (6.2%)
+      5%+     :   18 (2.7%)
+
+  -- GAP-DN BOUNCE --
+  Continuation (n=575):
+    Median adverse before dest: +0.62%
+    Mean:                       +0.91%
+    90th pctl:                  +2.34%
+  Failed (n=544):
+    Median adverse before dest: +0.59%
+    Mean:                       +1.05%
+    90th pctl:                  +2.77%
+  Adverse distribution (bounce_depth_before_dest):
+    Continuation:
+      0-0.5%  :  190 (33.0%)
+      0.5-1%  :  112 (19.5%)
+      1-2%    :  131 (22.8%)
+      2-3%    :   38 (6.6%)
+      3-5%    :   26 (4.5%)
+      5%+     :    9 (1.6%)
+    Failed:
+      0-0.5%  :  199 (36.6%)
+      0.5-1%  :  114 (21.0%)
+      1-2%    :   93 (17.1%)
+      2-3%    :   42 (7.7%)
+      3-5%    :   36 (6.6%)
+      5%+     :   12 (2.2%)
+
+======================================================================
+SECTION 8: FT TIMING - CONTINUATION vs FAILED
+======================================================================
+
+  -- GAP-UP FADE --
+  Continuation (n=690):
+    Median FT time: 15 min
+    FT in first 5 min:  40.7%
+    FT in first 15 min: 55.8%
+    FT in first 30 min: 67.2%
+    FT after 60 min:    23.9%
+  Failed (n=656):
+    Median FT time: 15 min
+    FT in first 5 min:  37.0%
+    FT in first 15 min: 52.3%
+    FT in first 30 min: 64.2%
+    FT after 60 min:    27.0%
+
+  -- GAP-DN BOUNCE --
+  Continuation (n=575):
+    Median FT time: 15 min
+    FT in first 5 min:  44.0%
+    FT in first 15 min: 54.8%
+    FT in first 30 min: 68.9%
+    FT after 60 min:    19.5%
+  Failed (n=544):
+    Median FT time: 15 min
+    FT in first 5 min:  36.4%
+    FT in first 15 min: 51.8%
+    FT in first 30 min: 63.4%
+    FT after 60 min:    26.5%
+
+======================================================================
+SECTION 9: GAP FILL - CONTINUATION vs FAILED
+======================================================================
+
+  -- GAP-UP FADE --
+  Continuation (n=690):
+    Close below open (reversal): 100.0%
+    Full gap fill (low <= prev close): 79.9%
+  Failed (n=656):
+    Close below open (reversal): 75.9%
+    Full gap fill (low <= prev close): 54.7%
+
+  -- GAP-DN BOUNCE --
+  Continuation (n=575):
+    Close above open (reversal): 100.0%
+    Full gap fill (high >= prev close): 72.2%
+  Failed (n=544):
+    Close above open (reversal): 71.3%
+    Full gap fill (high >= prev close): 50.0%
+
+======================================================================
+SECTION 10: FORWARD RETURNS FROM ENTRY - CONT vs FAILED
+======================================================================
+
+  -- GAP-UP FADE --
+  Timeframe      Cont Avg  Cont WR   Fail Avg  Fail WR
+  ------------ ---------- -------- ---------- --------
+  15 min           +0.49%    61.2%     -0.50%    36.1%
+  30 min           +0.83%    65.8%     -0.83%    27.0%
+  1 hour           +1.32%    73.2%     -1.18%    24.4%
+  2 hours          +1.91%    81.7%     -1.66%    18.6%
+
+  -- GAP-DN BOUNCE --
+  Timeframe      Cont Avg  Cont WR   Fail Avg  Fail WR
+  ------------ ---------- -------- ---------- --------
+  15 min           +0.55%    65.2%     -0.50%    34.7%
+  30 min           +0.95%    72.5%     -0.81%    27.6%
+  1 hour           +1.49%    77.7%     -1.02%    25.9%
+  2 hours          +1.98%    84.2%     -1.38%    21.0%

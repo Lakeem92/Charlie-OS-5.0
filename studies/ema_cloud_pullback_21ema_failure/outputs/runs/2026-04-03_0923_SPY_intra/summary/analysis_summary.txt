@@ -1,0 +1,30 @@
+Intraday EMA Cloud Pullback and 21 EMA Structural Failure Study (EMA10/EMA21)
+==============================================================================
+Generated: 2026-04-03 09:24:22
+Universe: QuantLab watchlist (1 tickers requested)
+Date window: 2024-01-01 to today (data availability bounded)
+
+Headline:
+Across 28 strong +/-1.0 ATR close-from-open sessions, cloud pullbacks occurred in 100.0% of cases and EMA21 close-through events occurred in 100.0% of pullbacks.
+
+Key Findings:
+- Base sample: long=8, short=20, combined=28
+- Cloud pullback rate (combined): 100.0%
+- 21 EMA close-through rate among pullbacks (combined): 100.0%
+- New session extreme after break (combined): 92.3%
+- Structural failure rate after break (combined): 7.7%
+- Favorable close quartile after break (combined): 88.5%
+
+Interpretation:
+- Pullbacks to the EMA cloud can be normal behavior on strong trend days; the practical stop question is the close-through frequency and post-break recovery profile.
+- EMA21 close-through events are evaluated as kill switch only when no new post-break session extreme occurs.
+- Time-of-day and early-expansion bucket tables should be used to decide whether 70% ATR behaves as a discrete inflection or part of a gradient.
+
+Sanity Checks Applied:
+- No-lookahead ATR alignment via prior-day ATR14 (atr14_prev).
+- Pullback detection occurs after first-30-minute expansion peak.
+- EMA21 break detection occurs strictly after pullback start.
+- New extreme checks only use bars after the break timestamp.
+- RTH-only filtering in Central Time (08:30-15:00 CT).
+
+Confidence: RELIABLE (n=28)

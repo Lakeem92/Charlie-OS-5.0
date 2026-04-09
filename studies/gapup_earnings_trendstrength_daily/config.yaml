@@ -1,0 +1,37 @@
+study_name: "gapup_earnings_trendstrength_daily"
+description: "Forward returns 1-20 days after 3%+ EARNINGS gap-ups, grouped by TrendStrength candle tier"
+
+start_date: "2020-01-01"
+end_date: "today"
+
+timeframe: "1Day"
+use_intraday: false
+rth_only: true
+
+gap_threshold: 0.03          # 3% minimum gap-up on earnings
+warmup_bars: 250             # skip first 250 bars for TrendStrength z-score stability
+
+# Allow ±1 trading day tolerance when matching gap to earnings date
+earnings_match_tolerance_days: 1
+
+holding_periods:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20

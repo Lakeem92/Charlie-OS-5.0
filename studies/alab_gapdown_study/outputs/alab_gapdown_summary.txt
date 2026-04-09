@@ -1,0 +1,37 @@
+============================================================
+📊 ALAB 10%+ GAP DOWN STUDY - SUMMARY STATISTICS
+============================================================
+
+🔍 Total Gap Down Events (≤-10%): 3
+
+📅 Event Period: 2024-08-05 00:00:00 to 2025-02-03 00:00:00
+
+📉 GAP DOWN STATISTICS:
+   Average Gap: -11.78%
+   Largest Gap: -12.34%
+   Smallest Gap: -11.47%
+
+📊 DAY 0 (DAY-OF) PERFORMANCE:
+   Mean Return: 2.80%
+   Median Return: 10.37%
+   Win Rate: 66.7% (2/3)
+
+📈 DAYS 1-5 FORWARD RETURNS:
+   Day 1: Mean=+2.83%, Median=+3.68%, Win Rate=66.7%
+   Day 2: Mean=+0.14%, Median=+8.61%, Win Rate=66.7%
+   Day 3: Mean=+5.56%, Median=+6.51%, Win Rate=66.7%
+   Day 4: Mean=+6.21%, Median=+3.23%, Win Rate=66.7%
+   Day 5: Mean=+4.67%, Median=+5.27%, Win Rate=66.7%
+
+📊 DAYS 10-20 FORWARD RETURNS:
+   Day 10: Mean=+4.37%, Median=-4.94%, Win Rate=33.3%
+   Day 15: Mean=-3.46%, Median=-1.78%, Win Rate=33.3%
+   Day 20: Mean=-15.41%, Median=-10.67%, Win Rate=0.0%
+
+🏆 BEST DAY-OF RECOVERY:
+   Date: 2024-08-05 00:00:00, Gap: -11.47%, Recovery: 16.68%
+
+💥 WORST DAY-OF PERFORMANCE:
+   Date: 2025-01-27 00:00:00, Gap: -11.52%, Performance: -18.66%
+
+============================================================

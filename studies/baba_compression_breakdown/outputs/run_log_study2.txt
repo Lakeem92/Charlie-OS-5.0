@@ -1,0 +1,322 @@
+================================================================================
+BABA COMPRESSION-RANGE BREAKDOWN STUDY - EXECUTION LOG
+================================================================================
+
+Execution Date: 2025-12-14
+Study Type: Compression-Range Breakdown Analysis (NEW canonical study type)
+Ticker: BABA (NYSE)
+Study Period: 2016-01-01 through 2025-12-13
+
+================================================================================
+LAB READY CHECK RESULTS
+================================================================================
+
+PASSED - All preconditions met (validated in STUDY 1):
+
+[✓] Required Documentation:
+    - docs/STUDY_PROMPT_LIBRARY.md exists and readable
+    - docs/STUDY_EXECUTION_PROTOCOL.md exists and readable
+    - docs/INDICATOR_SPECS.md exists
+    - docs/HOW_TO_USE_THE_LAB.md exists
+
+[✓] Data Infrastructure:
+    - Alpaca API configured and reachable
+    - shared/config/api_clients.py contains AlpacaClient class
+
+[✓] Session and Timezone Rules:
+    - Central Time (CT) conversion available
+    - Premarket + RTH session rules loaded
+      * Premarket: 3:00 AM – 8:29 AM CT
+      * RTH: 8:30 AM – 3:00 PM CT
+
+GATE STATUS: OPEN - Proceed to study execution
+
+================================================================================
+STUDY MAPPING
+================================================================================
+
+User Request: Compression-range breakdown follow-through in BABA (daily + intraday confirmation)
+
+Canonical Study Match: NONE FOUND
+
+Notes:
+- This represents a NEW study type: "Compression-Range Breakdown Analysis"
+- Focuses on range contraction followed by directional breakdown
+- Compares breakdown events to baseline compression events (control group)
+- Combines daily and intraday confirmation
+- Should be added to STUDY_PROMPT_LIBRARY.md as a canonical study template
+
+================================================================================
+STUDY PARAMETERS
+================================================================================
+
+Ticker: BABA (NYSE)
+Study Period: 2016-01-01 to 2025-12-13
+Actual Data Range: 2020-07-27 to 2025-12-12 (Alpaca limitation)
+
+Compression Detection:
+  - Lookback window: N = 20 trading days (ending at day t-1)
+  - range_high = max(High) over 20-day window
+  - range_low = min(Low) over 20-day window
+  - compression_range_pct = (range_high - range_low) / Close(t-1)
+
+Compression Qualification:
+  - Global threshold: Bottom 20th percentile of all rolling 20-day windows
+  - Computed threshold: 11.77%
+  - This is NOT an indicator; it's a distribution-based range contraction filter
+
+Breakdown Trigger (Daily):
+  - Day t qualifies as breakdown when:
+    1) compression_range_pct <= 11.77% (bottom 20th percentile)
+    2) Close(t) < range_low (breaks below compression range)
+
+Baseline (Control Group):
+  - Same compression qualification
+  - BUT Close(t) >= range_low (no breakdown)
+
+Intraday Confirmation:
+  - Timeframe: 5-minute bars
+  - Sessions: Premarket (3:00-8:29 CT) + RTH (8:30-15:00 CT)
+  - Metrics computed:
+    * Whether price traded below range_low during Premarket
+    * Whether price traded below range_low during RTH
+    * RTH close relative to range_low
+    * Largest 5-min absolute move % and timestamp (CT)
+
+Forward Horizons:
+  - +1, +2, +3, +5, +10, +20 trading days from breakdown close
+  - Metrics: Forward returns, MAE, MFE, Max Drawdown
+
+Volatility Expansion Check:
+  - Daily range % = (High - Low) / Open
+  - True Range and ATR(14) from daily OHLC
+  - Expansion flag: range% >= 1.25x median(prior 20-day range%)
+
+Data Source: Alpaca (IEX feed)
+Timezone: Central Time (CT)
+
+Constraints Applied:
+  ✓ Alpaca data ONLY (no other data sources)
+  ✓ Central Time timezone for all timestamps/session logic
+  ✓ NO INDICATORS (except ATR as volatility metric)
+  ✓ No parameter tuning (N=20, 20th percentile, 1.25x multiplier per spec)
+  ✓ No internet browsing
+  ✓ 5-minute bars for intraday analysis
+
+================================================================================
+EXECUTION RESULTS
+================================================================================
+
+Status: SUCCESS
+
+Data Retrieved:
+  - Daily bars: 1,351 bars (2020-07-27 to 2025-12-12)
+  - Note: Alpaca did not provide data back to 2016-01-01; started from 2020-07-27
+  - Compression windows computed: 1,331
+
+Compression Threshold:
+  - Bottom 20th percentile: 11.77%
+  - This means only days where the 20-day range is <= 11.77% qualify
+
+Event Detection:
+  - Breakdown events: 16
+  - Baseline compression events (no breakdown): 251
+  - Total compression-qualified days: 267
+
+Intraday Coverage:
+  - 16/16 breakdown events have intraday data (100.0%)
+  - All events from 2020 onward have 5-minute bar coverage
+
+Key Findings:
+
+A) Forward Returns (Median):
+   Horizon | Breakdown | Baseline | Difference (BD - BL)
+   --------|-----------|----------|--------------------
+   + 1d    |   +0.16%  |   -0.03% |   +0.20%
+   + 2d    |   +0.30%  |   -0.30% |   +0.59%
+   + 3d    |   +1.69%  |   -0.58% |   +2.27%
+   + 5d    |   +2.37%  |   -0.61% |   +2.98%
+   +10d    |   +5.00%  |   -0.50% |   +5.49%
+   +20d    |   +3.77%  |   +0.46% |   +3.31%
+
+   **Key Observation:** Breakdowns OUTPERFORM baseline at all horizons
+   The breakdown signal shows positive median returns while baseline is negative/flat
+
+B) MAE vs MFE (Breakdown Events, Median):
+   + 1d: MAE=-1.03%, MFE=+1.00% (balanced)
+   + 5d: MAE=-2.36%, MFE=+4.98% (upside skew 2:1)
+   +10d: MAE=-2.36%, MFE=+8.03% (upside skew 3:1)
+   +20d: MAE=-3.99%, MFE=+11.10% (upside skew 3:1)
+
+   **Key Observation:** Breakdowns show UPSIDE skew, not downside
+   The favorable excursion significantly exceeds adverse excursion
+
+C) Max Drawdown (Median):
+   Horizon | Breakdown | Baseline
+   --------|-----------|----------
+   + 1d    |   +0.00%  |   -0.03%
+   + 5d    |   -0.82%  |   -2.14%
+   +10d    |   -0.82%  |   -3.27%
+   +20d    |   -2.47%  |   -4.55%
+
+   **Key Observation:** Breakdowns have LOWER drawdowns than baseline
+   Breakdowns are less risky than baseline compression days
+
+D) Range Expansion Rate:
+   - Breakdown Days: 50.0% (8/16 showed range expansion)
+   - Baseline Days: 28.3% (71/251 showed range expansion)
+   - Expansion threshold: >= 1.25x median prior 20-day range
+
+   **Key Observation:** Breakdowns are MORE likely to occur with volatility expansion
+   This suggests breakdowns are accompanied by increased participation/momentum
+
+E) Intraday Behavior:
+   - Premarket breakdown rate: 75.0% (12/16) traded below range_low
+   - RTH breakdown rate: 100.0% (16/16) traded below range_low
+   - RTH close vs range_low: Mean -1.41% (closes below the breakdown level)
+
+   **Key Observation:** Most breakdowns are confirmed in premarket
+   All breakdowns are confirmed during RTH
+   Price tends to stay below the breakdown level at RTH close
+
+Interpretation:
+  - **COUNTERINTUITIVE RESULT:** Breakdowns below compressed ranges in BABA tend to be 
+    BULLISH reversals, not bearish continuations
+  - This may be due to:
+    1) BABA's tendency to "flush out" weak hands at support before rallying
+    2) Mean reversion dynamics in highly compressed ranges
+    3) Sample includes China-specific regulatory/sentiment shocks that resolve positively
+  - The breakdown signal appears to be a contrarian buy opportunity, not a sell signal
+  - Range expansion confirms conviction in the move, but the direction is UP not DOWN
+
+================================================================================
+OUTPUTS GENERATED
+================================================================================
+
+All outputs saved to: studies/baba_compression_breakdown/outputs/
+
+CSV Files:
+  1. baba_compression_breakdowns_events.csv
+     - 16 rows (one per breakdown event)
+     - Columns: date, OHLCV, range_high/low, compression_range_pct,
+       forward returns for all horizons, MAE/MFE, max drawdown,
+       range expansion metrics, ATR
+
+  2. baba_compression_baseline_events.csv
+     - 251 rows (one per baseline compression event without breakdown)
+     - Same columns as breakdown events for comparison
+
+  3. baba_compression_intraday_breakdown_metrics_5m.csv
+     - 16 rows (one per breakdown event)
+     - Columns: date, range_low, premarket_broke_below, rth_broke_below,
+       rth_close_vs_range_low_pct, largest_5min_move_pct, timestamps (CT)
+
+PNG Charts:
+  4. baba_breakdown_vs_baseline_forward_returns.png
+     - Boxplots comparing forward return distributions at each horizon
+
+  5. baba_breakdown_mae_mfe.png
+     - Scatter plots of MAE vs MFE for all horizons (breakdown events)
+
+  6. baba_breakdown_range_expansion_rate.png
+     - Bar chart comparing expansion rates: 50.0% vs 28.3%
+
+  7. baba_breakdown_equity_curves_median.png
+     - Median cumulative return paths for breakdown vs baseline over 20 days
+
+Markdown Report:
+  8. baba_study2_report.md
+     - Comprehensive study report with all metrics, interpretation, and limitations
+
+Execution Log:
+  9. run_log_study2.txt (this file)
+
+================================================================================
+PROTOCOL COMPLIANCE
+================================================================================
+
+✓ Followed docs/LAB_READY_CHECK.md (preconditions verified)
+✓ Followed docs/STUDY_EXECUTION_PROTOCOL.md (executed per protocol)
+✓ Checked docs/STUDY_PROMPT_LIBRARY.md (no matching study; new type)
+✓ Alpaca data ONLY (hard constraint met)
+✓ Central Time timezone (hard constraint met)
+✓ Session definitions (Premarket + RTH per STRUCTURAL_TRIGGER_MASTER.md)
+✓ NO INDICATORS except ATR as volatility metric (hard constraint met)
+✓ No parameter tuning (N=20, 20th percentile, 1.25x per spec)
+✓ No internet browsing
+✓ 5-minute bars successfully used (100% intraday coverage)
+✓ Deterministic output filenames
+✓ All required outputs generated
+
+================================================================================
+SURPRISING FINDINGS & IMPLICATIONS
+================================================================================
+
+1. **Breakdowns are Bullish, Not Bearish**
+   - Conventional wisdom: breakdown below support = bearish continuation
+   - BABA reality: breakdown below compression = bullish reversal
+   - Median +5.00% gain at 10 days vs -0.50% for baseline
+
+2. **Upside Skew, Not Downside**
+   - Expected: breakdowns show downside asymmetry (large MAE)
+   - Actual: breakdowns show UPSIDE asymmetry (MFE > |MAE|)
+   - At 20 days: +11.10% MFE vs -3.99% MAE
+
+3. **Lower Risk Than Baseline**
+   - Breakdowns have smaller median drawdowns at all horizons
+   - This defies the expectation that breakdowns are riskier
+
+4. **Range Expansion is Predictive**
+   - 50% of breakdowns occur with volatility expansion
+   - Only 28.3% of baseline days have expansion
+   - Expansion may signal conviction in the reversal
+
+5. **Premarket Confirmation is Common**
+   - 75% of breakdowns trade below range_low in premarket
+   - All breakdowns confirm in RTH
+   - Early breakdown may allow better entry timing
+
+Trade Implications (if validated with more data):
+- Compression breakdowns in BABA may be BUY setups, not SELL setups
+- Look for range expansion as confirmation
+- Premarket breakdown may offer early entry opportunity
+- Risk management: median -2.47% drawdown at 20 days
+- Profit target: median +3.77% at 20 days, but MFE suggests room to +11%
+
+Caveats:
+- Sample size is small (16 breakdowns)
+- BABA-specific dynamics may not generalize to other tickers
+- China regulatory environment creates unique mean-reversion patterns
+- Results may not hold in different market regimes
+
+================================================================================
+RECOMMENDATIONS FOR FUTURE WORK
+================================================================================
+
+1. Add "Compression-Range Breakdown Analysis" to STUDY_PROMPT_LIBRARY.md
+   - Template for compression-breakout/breakdown studies
+   - Specify compression detection, breakdown definition, baseline construction
+
+2. Expand to other Chinese ADRs
+   - Test if this pattern holds for JD, PDD, NIO, etc.
+   - Determine if it's BABA-specific or sector-wide
+
+3. Add regime filters
+   - Segment by VIX level, market trend, China policy environment
+   - May reveal when the pattern is strongest
+
+4. Test compression BREAKOUT (above range_high)
+   - Compare breakdown vs breakout behavior
+   - Determine if compression resolves symmetrically
+
+5. Optimize compression threshold
+   - Test 10th, 15th, 25th percentiles
+   - Find threshold that maximizes signal quality
+
+6. Add exit rules
+   - Since MFE exceeds median returns, test trailing stops
+   - Determine optimal hold period (currently 10-20 days looks best)
+
+================================================================================
+END OF LOG
+================================================================================

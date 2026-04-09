@@ -1,0 +1,26 @@
+# Study Configuration — LOCKED DEFAULTS
+# Do NOT modify unless adding a new parameter for a new study.
+
+study_name: "template_study"
+description: "Template study placeholder"
+
+# Date range
+start_date: "2016-01-01"
+end_date: "today"  # Resolved at runtime to system date
+
+# Timeframes
+timeframe_daily: "1Day"
+timeframe_intraday: "5Min"
+use_intraday: false
+
+# RTH filter
+rth_only: true
+
+# Default tickers (used if tickers.txt not present and no CLI override)
+tickers_default:
+  - SPY
+  - QQQ
+
+# Indicator parameters (override per study)
+atr_length: 14
+sma_length: 20

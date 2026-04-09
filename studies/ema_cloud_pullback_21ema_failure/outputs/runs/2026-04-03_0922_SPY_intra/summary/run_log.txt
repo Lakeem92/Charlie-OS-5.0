@@ -1,0 +1,9 @@
+=== Run Archive: 2026-04-03_0922_SPY_intra ===
+Timestamp: 2026-04-03T09:22:47.719918
+Study: ema_cloud_pullback_21ema_failure
+Tickers: ['SPY']
+Date range: 2024-01-01 to 2025-12-31
+Intraday: True
+
+Step 1: collect_data.py -- DONE
+Exit: failed (analyze.py failed with exit code 2)

@@ -1,0 +1,11 @@
+=== Data Collection Run Log ===
+Timestamp: 2026-04-03T09:21:13.670052
+Tickers: 2
+Date range: 2024-01-01 to 2026-04-03
+Timeframe daily: 1Day
+Timeframe intraday: 5Min
+
+SPY daily: 565 rows saved -> SPY_1D.csv
+SPY 5min: 2044 rows saved -> SPY_5Min.csv
+QQQ daily: 565 rows saved -> QQQ_1D.csv
+QQQ 5min: 2291 rows saved -> QQQ_5Min.csv

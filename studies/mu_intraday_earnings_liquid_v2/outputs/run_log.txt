@@ -1,0 +1,1 @@
+Processed 28 event-ticker rows; missing intraday: 0

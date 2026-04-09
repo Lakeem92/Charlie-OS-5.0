@@ -1,0 +1,44 @@
+study_name: "gapup_trendstrength_daily"
+description: "Forward returns 1-20 days after 5%+ gap-ups, grouped by TrendStrength candle tier"
+
+start_date: "2020-01-01"
+end_date: "today"
+
+timeframe: "1Day"
+use_intraday: false
+rth_only: true
+
+gap_threshold: 0.05          # 5% minimum gap-up
+warmup_bars: 250             # skip first 250 bars for TrendStrength z-score stability
+
+holding_periods:             # T+1 through T+20
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+
+tier_thresholds:
+  STRONG_BULL: 70
+  BULL: 40
+  WEAK_BULL: 15
+  NEUTRAL_UPPER: 15
+  NEUTRAL_LOWER: -15
+  WEAK_BEAR: -15
+  BEAR: -40
+  STRONG_BEAR: -70

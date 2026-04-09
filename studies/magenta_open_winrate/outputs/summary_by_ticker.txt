@@ -1,0 +1,29 @@
+============================================================================
+PER-TICKER WIN RATES (12-bar) — Group A Magenta, Ranked
+Generated: 2026-03-04 11:57
+win_raw = any lower close     win_thr = lower by >=0.1%
+★ = win_raw_eod > 60% AND win_thr_eod > 55%  (actionable short)
+============================================================================
+
+  Ticker       n  12-bar win_raw  12-bar win_thr  Quality
+  ------------------------------------------------------------------
+  GOOGL       39           79.5%           64.1%  MIDDLE
+  SPY         21           76.2%           42.9%  HIGH
+  QQQ         51           68.6%           51.0%  HIGH
+  NFLX        56           67.9%           64.3%  MIDDLE  ★ ACTIONABLE SHORT
+  MU          19           63.2%           57.9%  HIGH
+  ARM         56           61.8%           56.4%  HIGH
+  NVDA        39           61.5%           59.0%  HIGH
+  AAPL        18           61.1%           55.6%  MIDDLE
+  AMD         32           59.4%           53.1%  MIDDLE  ★ ACTIONABLE SHORT
+  AVGO        19           57.9%           52.6%  HIGH
+  MSTR        26           53.8%           50.0%  HIGH  ★ ACTIONABLE SHORT
+  META        32           46.9%           43.8%  LOW
+  MSFT        30           43.3%           36.7%  HIGH
+  AMZN        31           41.9%           32.3%  LOW
+  SMCI        30           40.0%           40.0%  MIDDLE
+  COIN        40           35.0%           35.0%  MIDDLE
+  PLTR        20           35.0%           35.0%  LOW
+  TSLA        19           31.6%           31.6%  LOW  ★ ACTIONABLE SHORT
+  SOFI        33           24.2%           21.2%  MIDDLE
+  HOOD        23           13.0%           13.0%  MIDDLE

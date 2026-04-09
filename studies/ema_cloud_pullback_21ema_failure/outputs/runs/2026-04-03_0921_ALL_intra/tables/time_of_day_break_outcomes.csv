@@ -1,0 +1,10 @@
+direction,tod_bucket,n_break_events,pct_new_extreme_after_break,pct_close_ge_1atr_after_break,pct_structural_failure,median_minutes_break_to_new_extreme,confidence
+long,morning,1,1.0,1.0,0.0,5.0,INSUFFICIENT
+long,midday,0,,,,,INSUFFICIENT
+long,afternoon,0,,,,,INSUFFICIENT
+short,morning,0,,,,,INSUFFICIENT
+short,midday,1,1.0,1.0,0.0,120.0,INSUFFICIENT
+short,afternoon,0,,,,,INSUFFICIENT
+combined,morning,1,1.0,1.0,0.0,5.0,INSUFFICIENT
+combined,midday,1,1.0,1.0,0.0,120.0,INSUFFICIENT
+combined,afternoon,0,,,,,INSUFFICIENT

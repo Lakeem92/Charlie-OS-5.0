@@ -1,0 +1,11 @@
+=== Data Collection Run Log ===
+Timestamp: 2026-04-03T08:53:26.006784
+Tickers: ['SPY', 'QQQ']
+Date range: 2024-10-01 to 2026-04-03
+Timeframe daily: 1Day
+Use intraday: True
+
+WARNING: SPY daily fetch failed: name 'pd' is not defined
+WARNING: SPY 5min fetch failed: name 'pd' is not defined
+WARNING: QQQ daily fetch failed: name 'pd' is not defined
+WARNING: QQQ 5min fetch failed: name 'pd' is not defined

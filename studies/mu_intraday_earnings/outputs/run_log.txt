@@ -1,0 +1,56 @@
+================================================================================
+MU EARNINGS INTRADAY VOLATILITY EXPANSION STUDY
+Run Log
+================================================================================
+
+Execution Date: 2025-12-16 09:09:37
+
+PARAMETERS
+--------------------------------------------------------------------------------
+bar_size: 5Min
+start_date: 2016-01-01
+end_date: 2025-12-16
+atr_length: 14
+tickers: ['MU', 'NVDA', 'AMD', 'AVGO', 'QCOM', 'INTC', 'TXN', 'AMAT', 'LRCX', 'KLAC', 'ASML', 'TSM', 'MRVL', 'ON', 'MPWR', 'MCHP', 'ADI', 'ALAB']
+flat_threshold: 0.01
+expansion_targets_atr: [0.5, 1.0, 1.5]
+reversal_threshold_atr: 0.3
+orb_minutes: 15
+
+EARNINGS DATE ALIGNMENT FIX
+--------------------------------------------------------------------------------
+This study implements CORRECTED earnings-to-session mapping:
+- BMO announcements map to SAME trading day
+- AMC announcements map to NEXT trading day
+- ATR computed using data STRICTLY PRIOR to event session
+- Intraday bars pulled ONLY for event_session_date
+
+SAMPLE SUMMARY
+--------------------------------------------------------------------------------
+Total MU earnings announcements: 36
+BMO: 0
+AMC: 36
+Valid event sessions: 36
+
+REGIME DISTRIBUTION
+--------------------------------------------------------------------------------
+UNKNOWN: 18
+DOWNSIDE: 11
+FLAT: 6
+UPSIDE: 1
+
+DATA QUALITY
+--------------------------------------------------------------------------------
+Expansion metrics records: 309
+Path quality metrics records: 309
+Ranking records: 52
+
+COMPOSITE RANKING FORMULA (FIXED WEIGHTS)
+--------------------------------------------------------------------------------
+composite_rank = (rank_expansion + rank_speed + rank_clean) / 3
+Where:
+  rank_expansion: max_exc_atr rank (higher = better)
+  rank_speed: time_to_1.0atr rank (faster = better)
+  rank_clean: reversal_count rank (lower = cleaner)
+
+================================================================================

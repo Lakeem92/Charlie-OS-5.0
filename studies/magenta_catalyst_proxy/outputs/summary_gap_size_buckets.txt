@@ -1,0 +1,38 @@
+============================================================================
+GAP SIZE BUCKET ANALYSIS — Groups A, B, D (gap-containing signals)
+Generated: 2026-03-04 13:13
+GAP_SMALL: gap -3% to -5%   GAP_LARGE: -5% to -10%   GAP_EXTREME: < -10%
+Return: positive = stock went DOWN. Dual win def.
+============================================================================
+
+  GAP_SMALL  (n=32)
+    avg gap: -3.74%  min: -4.39%  max: -3.23%
+      30 min  win_raw= 43.8%  win_thr= 37.5%  (n=32)  avg -0.354%  med -0.345%
+      60 min  win_raw= 43.8%  win_thr= 40.6%  (n=32)  avg -0.249%  med -0.178%
+     120 min  win_raw= 71.9%  win_thr= 71.9%  (n=32)  avg +0.697%  med +1.021%
+         EOD  win_raw= 59.4%  win_thr= 59.4%  (n=32)  avg +0.316%  med +0.364%
+
+  GAP_LARGE  (n=12)
+    avg gap: -7.42%  min: -8.85%  max: -5.99%
+      30 min  win_raw= 25.0%  win_thr= 25.0%  (n=12)  avg -0.824%  med -1.286%
+      60 min  win_raw= 33.3%  win_thr= 33.3%  (n=12)  avg -1.132%  med -0.606%
+     120 min  win_raw=  8.3%  win_thr=  8.3%  (n=12)  avg -2.252%  med -2.317%
+         EOD  win_raw=  8.3%  win_thr=  0.0%  (n=12)  avg -4.432%  med -4.651%
+
+  GAP_EXTREME  (n=8)
+    avg gap: -14.80%  min: -24.66%  max: -11.51%
+      30 min  win_raw= 25.0%  win_thr= 25.0%  (n=8)  avg -4.009%  med -5.010%
+      60 min  win_raw= 12.5%  win_thr= 12.5%  (n=8)  avg -3.612%  med -3.834%
+     120 min  win_raw= 12.5%  win_thr=  0.0%  (n=8)  avg -2.047%  med -2.187%
+         EOD  win_raw= 25.0%  win_thr= 25.0%  (n=8)  avg -2.436%  med -1.221%
+
+  Gap size vs EOD short return correlation: r = 0.575
+  (negative r = bigger down-gap → bigger short win; positive r = gap fades / mean-reverts)
+
+  Average gap size per ticker (gap signals only):
+    SMCI      avg gap: -8.99%  (n=25)
+    SOFI      avg gap: -4.39%  (n=6)
+    COIN      avg gap: -3.94%  (n=11)
+    MU        avg gap: -3.36%  (n=2)
+    MSTR      avg gap: -3.27%  (n=4)
+    HOOD      avg gap: -3.23%  (n=4)

@@ -1,0 +1,26 @@
+============================================================================
+CATALYST LIFT SUMMARY — THE PAYOFF TABLE
+Generated: 2026-03-04 13:13
+Return: positive = stock went DOWN (short won).
+============================================================================
+
+  Signal Type                                WinRaw EOD   WinThr EOD  n
+  ----------------------------------------------------------------------
+  Naked magenta EOD (prior study benchmark)        49.5%           —
+  Group E — Naked magenta (this study)            50.2%              582
+  Group A — Catalyst-confirmed (any)              42.3%        40.4%  52
+  Group B — Gap-down only (no earnings)           42.3%              52
+  Group C — Earnings only (no big gap)              n/a              0
+  Group D — BOTH earnings + gap (double)            n/a              0
+
+  ▶ HEADLINE: Naked magenta 49.5%  →  Catalyst-confirmed 42.3%
+    Catalyst proxy added: -7.2pp vs naked
+
+  Catalyst Strength Buckets (all groups with catalyst):
+    GAP_SMALL           win_raw= 59.4%  win_thr= 59.4%  (n=32)
+    GAP_LARGE           win_raw=  8.3%  win_thr=  0.0%  (n=12)
+    GAP_EXTREME         win_raw= 25.0%  win_thr= 25.0%  (n=8)
+    EARNINGS_GAP        win_raw=  n/a  win_thr=  n/a  (n=0)
+    EARNINGS_FLAT       win_raw=  n/a  win_thr=  n/a  (n=0)
+
+  ⚠  Group A n=52 — INSUFFICIENT SAMPLE (<80). Results are DIRECTIONAL ONLY.

@@ -1,0 +1,47 @@
+============================================================================
+CYAN (LONG) vs MAGENTA (SHORT) — OPENING BAR DIRECT COMPARISON
+Generated: 2026-03-04 11:57
+Cyan  = Group A from cyan_open_rising_tsl study (cs>=70, rising TSL)
+Magenta = Group A from this study (cs<=-70, no NR7, no TSL filter)
+============================================================================
+
+  Signal frequency (Group A):
+    Cyan    signals : 588
+    Magenta signals : 634
+
+  EOD Win Rate (Group A only):
+    Cyan    EOD win rate  :  58.2%  avg +0.472%  med +0.272%  (n=588)
+    Magenta EOD win rate  :  49.5%  avg -0.038%  med -0.016%  (n=634)
+    >> HEADLINE: CYAN (long) has more EOD edge (+8.6pp)
+
+  12-bar Win Rate (Group A only):
+    Cyan    12-bar win rate :  53.6%  (n=577)
+    Magenta 12-bar win rate :  53.1%  (n=633)
+
+  Top 5 tickers — MAGENTA short edge (win_raw_eod, Group A):
+    TSLA      84.2%  (n=19)
+    MSTR      69.2%  (n=26)
+    AMD       68.8%  (n=32)
+    NFLX      62.5%  (n=56)
+    NVDA      59.0%  (n=39)
+
+  Bottom 5 tickers — weakest MAGENTA short edge:
+    HOOD      34.8%  (n=23)
+    META      34.4%  (n=32)
+    SOFI      30.3%  (n=33)
+    AAPL      27.8%  (n=18)
+    PLTR      5.0%  (n=20)
+
+  Top 5 tickers — CYAN long edge (win_eod, Group A):
+    SOFI      100.0%  (n=7)
+    NVDA      87.5%  (n=16)
+    MSTR      83.3%  (n=24)
+    SPY       79.2%  (n=24)
+    QQQ       77.8%  (n=36)
+
+  Bottom 5 tickers — weakest CYAN long edge:
+    MU        48.4%  (n=31)
+    COIN      47.8%  (n=23)
+    AVGO      45.2%  (n=42)
+    HOOD      39.5%  (n=38)
+    NFLX      21.4%  (n=28)

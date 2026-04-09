@@ -1,0 +1,209 @@
+
+======================================================================
+POPULATION SUMMARY
+======================================================================
+  Gap-ups with BEARISH first candle:    2076
+    -> Fade FT confirmed:                1346 (64.8%)
+    -> No FT (gap held):                 730
+  Gap-downs with BULLISH first candle:   1745
+    -> Bounce FT confirmed:              1119 (64.1%)
+    -> No FT (gap held):                 626
+  Unique tickers:                       228
+  Date range:                           2024-01-01 to 2026-03-07
+
+======================================================================
+FINDING 0: CONTRARY CANDLE AS RAW SIGNAL (no FT filter)
+  Does a bearish bar-1 on a gap-up mean the gap will fade by EOD?
+  Does a bullish bar-1 on a gap-down mean it bounces by EOD?
+======================================================================
+
+  GAP-UP + BEARISH BAR-1 (fade signal) (n=2076)
+    EOD Win Rate (from open):  68.4%
+    Avg EOD Return (from open): +1.74%
+    Median EOD Return:          +1.37%
+    FT Confirmation Rate:       64.8%
+
+  GAP-DN + BULLISH BAR-1 (bounce signal) (n=1745)
+    EOD Win Rate (from open):  66.8%
+    Avg EOD Return (from open): +1.79%
+    Median EOD Return:          +1.37%
+    FT Confirmation Rate:       64.1%
+
+======================================================================
+FINDING 1: FT-CONFIRMED CONTRARY TRADES
+  Gap-up fades: SHORT entry at Fade-FT bar close
+  Gap-down bounces: LONG entry at Bounce-FT bar close
+======================================================================
+
+  GAP-UP FADE (short) (n=1346)
+    EOD Win Rate:       51.3%
+    Avg EOD Return:     +0.36%
+    Median EOD Return:  +0.10%
+    Avg Winner:         +3.13%
+    Avg Loser:          -2.55%
+    R:R Ratio:          1.22:1
+     15min fwd: +0.01% | WR: 49.0%
+     30min fwd: +0.02% | WR: 46.9%
+       1hr fwd: +0.10% | WR: 49.4%
+       2hr fwd: +0.17% | WR: 51.0%
+
+  GAP-DN BOUNCE (long) (n=1119)
+    EOD Win Rate:       51.4%
+    Avg EOD Return:     +0.26%
+    Median EOD Return:  +0.06%
+    Avg Winner:         +2.66%
+    Avg Loser:          -2.28%
+    R:R Ratio:          1.17:1
+     15min fwd: +0.04% | WR: 50.4%
+     30min fwd: +0.10% | WR: 50.7%
+       1hr fwd: +0.27% | WR: 52.5%
+       2hr fwd: +0.35% | WR: 53.4%
+
+======================================================================
+FINDING 2: BY GAP SIZE BUCKET (FT-confirmed only)
+======================================================================
+
+  -- GAP-UP FADE (short) --
+  Bucket       n      WR    AvgRet    MedMAE    MedMFE   FTmin
+  -------- ----- ------- --------- --------- --------- -------
+  2-5%       979   51.8%    +0.41%     +1.98%    +1.75%     20m
+  5-8%       220   51.4%    +0.65%     +2.98%    +2.53%     10m
+  8-12%       81   45.7%    -0.61%     +4.13%    +3.53%      5m
+  12%+        65   50.8%    -0.08%     +6.67%    +4.98%      0m
+
+  -- GAP-DN BOUNCE (long) --
+  Bucket       n      WR    AvgRet    MedMAE    MedMFE   FTmin
+  -------- ----- ------- --------- --------- --------- -------
+  2-5%       848   50.1%    +0.09%     +1.72%    +1.42%     15m
+  5-8%       168   51.8%    +0.36%     +2.69%    +2.39%     18m
+  8-12%       53   62.3%    +1.10%     +3.27%    +4.22%      5m
+  12%+        50   60.0%    +1.87%     +4.54%    +5.00%      5m
+
+======================================================================
+FINDING 3: TIMING (LoD / HoD) - FT-confirmed
+======================================================================
+
+  -- GAP-UP FADE (n=1346) --
+  LoD (destination - where money is):
+    Median: 150 min (2h 30m)
+    In first 30 min:  21.0%
+    In first 60 min:  31.1%
+    In first 2 hrs:   46.2%
+    In last hour:     23.0%
+  HoD (adverse - worst case):
+    Median: 0 min (0h 0m)
+    In first 30 min:  71.5%
+    In last hour:     7.7%
+
+  -- GAP-DN BOUNCE (n=1119) --
+  HoD (destination - where money is):
+    Median: 150 min (2h 30m)
+    In first 30 min:  19.5%
+    In first 60 min:  29.1%
+    In first 2 hrs:   45.0%
+    In last hour:     18.7%
+  LoD (adverse - worst case):
+    Median: 0 min (0h 0m)
+    In first 30 min:  73.1%
+    In last hour:     7.7%
+
+======================================================================
+FINDING 4: P&L PROFILE (FT-confirmed)
+======================================================================
+
+  -- GAP-UP FADE (short from FT) (n=1346) --
+  MAE (worst move against you):
+    Median: +2.35%
+    Mean:   +3.36%
+    Worst 10%: +7.31%
+  MFE (best move in your favor):
+    Median: +2.06%
+    Mean:   +3.10%
+    Best 10%: +7.59%
+  Price goes adverse after FT: 94.7%
+  Adverse excursion before destination:
+    Median: +0.67%
+    90th pct: +2.99%
+  MAE Percentile Zones (for indicator pullback labels):
+        25th: +1.20%
+      Median: +2.35%
+        75th: +4.26%
+        90th: +7.31%
+
+  -- GAP-DN BOUNCE (long from FT) (n=1119) --
+  MAE (worst move against you):
+    Median: +2.00%
+    Mean:   +2.81%
+    Worst 10%: +5.82%
+  MFE (best move in your favor):
+    Median: +1.67%
+    Mean:   +2.85%
+    Best 10%: +6.91%
+  Price goes adverse after FT: 94.5%
+  Adverse excursion before destination:
+    Median: +0.60%
+    90th pct: +2.56%
+  MAE Percentile Zones (for indicator pullback labels):
+        25th: +1.05%
+      Median: +2.00%
+        75th: +3.84%
+        90th: +5.82%
+
+======================================================================
+FINDING 5: GAP FILL ANALYSIS
+======================================================================
+
+  GAP-UP FADES -> Close BELOW open (gap reversal): 88.3%
+  GAP-UP FADES -> Session low reaches prev close (full fill): 67.6%
+
+  GAP-DN BOUNCES -> Close ABOVE open (gap reversal): 0.1%
+  GAP-DN BOUNCES -> Session high reaches prev close (full fill): 61.4%
+
+======================================================================
+FINDING 6: FT CONFIRMATION TIMING
+======================================================================
+
+  GAP-UP FADE (n=1346):
+    Median FT time: 15 min from open
+    FT in first 5 min:  38.9%
+    FT in first 15 min: 54.1%
+    FT in first 30 min: 65.8%
+    FT in first 60 min: 76.6%
+    FT after 2 hours:   12.0%
+
+  GAP-DN BOUNCE (n=1119):
+    Median FT time: 15 min from open
+    FT in first 5 min:  40.3%
+    FT in first 15 min: 53.4%
+    FT in first 30 min: 66.2%
+    FT in first 60 min: 78.8%
+    FT after 2 hours:   14.0%
+
+======================================================================
+FINDING 7: CONTRARY vs CONTINUATION COMPARISON
+  (Reference: gap_execution_blueprint long WR ~51%, gap_down short WR ~45%)
+======================================================================
+
+  Gap-up FADE (bearish bar-1, short): 51.3% WR  (n=1346)
+  Gap-up CONTINUATION (bull/neut bar-1, long): ~51% WR  (n=1,865 from sibling study)
+  -> Difference: +0.3pp
+
+  Gap-down BOUNCE (bullish bar-1, long): 51.4% WR  (n=1119)
+  Gap-down CONTINUATION (bear/neut bar-1, short): ~45% WR  (n=1,861 from sibling study)
+  -> Difference: +6.4pp
+
+Saved: C:\QuantLab\Data_Lab\studies\gap_fade_contrary_candle\outputs\summary_stats.txt
+
+======================================================================
+=== GAP FADE - CONTRARY CANDLE STUDY COMPLETE ===
+======================================================================
+  Total contrary candle events:  3821
+  FT-confirmed events:           2465
+  Unique tickers:                228
+  Gap-Up Fade WR (short):        51.3%  (n=1346)
+  Gap-Up Fade Avg Return:        +0.36%
+  Gap-Dn Bounce WR (long):       51.4%  (n=1119)
+  Gap-Dn Bounce Avg Return:      +0.26%
+  API chunks:                    1535 (1535 ok, 0 fail)
+  Runtime:                       1985s (33.1 min)
+======================================================================

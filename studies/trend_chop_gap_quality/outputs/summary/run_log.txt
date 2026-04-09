@@ -1,0 +1,48 @@
+=== trend_chop_gap_quality — Data Collection Run Log ===
+Timestamp : 2026-02-15T14:57:31.278296
+Tickers   : ['TSLA']
+Date range: 2020-01-01 to 2024-12-31
+Daily TF  : 1Day
+Intraday  : False
+
+WARNING: Alpaca failed for TSLA daily (No module named 'config'). Falling back to yfinance.
+TSLA daily (yfinance): 1257 rows -> TSLA_1D.csv
+
+=== Study Run Complete ===
+Timestamp: 2026-02-15T14:57:35.193855
+Intraday: False
+Spec: yes
+Exit: success
+
+
+=== Run Archive: 2026-02-15_1514_NVDA_gap5p_D5-10 ===
+Timestamp: 2026-02-15T15:14:51.692228
+Study: trend_chop_gap_quality
+Tickers: ['NVDA']
+Date range: 2016-01-01 to today
+Intraday: False
+
+Step 1: collect_data.py -- DONE
+Step 2: analyze_trend_chop.py -- DONE
+Step 3: analyze_gapup_close_strength.py -- DONE
+Step 4: analyze_intraday_first_hour.py -- SKIPPED
+Step 5: analyze_forward_horizons.py -- DONE
+
+Run completed: 2026-02-15T15:15:04.543947
+Exit: success
+
+=== Run Archive: 2026-02-15_1515_NVDA_gap5p_D5-10 ===
+Timestamp: 2026-02-15T15:15:10.268152
+Study: trend_chop_gap_quality
+Tickers: ['NVDA']
+Date range: 2016-01-01 to today
+Intraday: False
+
+Step 1: collect_data.py -- DONE
+Step 2: analyze_trend_chop.py -- DONE
+Step 3: analyze_gapup_close_strength.py -- DONE
+Step 4: analyze_intraday_first_hour.py -- SKIPPED
+Step 5: analyze_forward_horizons.py -- DONE
+
+Run completed: 2026-02-15T15:15:17.472249
+Exit: success

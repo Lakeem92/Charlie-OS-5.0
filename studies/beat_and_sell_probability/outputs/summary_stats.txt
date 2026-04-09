@@ -1,0 +1,22 @@
+BEAT & SELL PROBABILITY STUDY — SUMMARY
+============================================================
+
+Study Date: 2026-02-26 09:56
+Universe: 25 stocks
+Period: 2020-01-01 to 2026-02-26
+Total gap-up events: 588
+Gap-up threshold: >2%
+
+REGIME DISTRIBUTION:
+  CLEAN: 28
+  EXTREME_CEILING: 13
+  MILD_CEILING: 176
+  MODERATE_CEILING: 291
+  NARRATIVE_CEILING: 82
+
+KEY FINDING:
+  Clean (score 0-1) day fade rate: 47.8%
+  Ceiling (score 2+) day fade rate: 42.3%
+  Fade rate LIFT: -5.4 ppts
+  Clean 5d mean return: +1.74%
+  Ceiling 5d mean return: +1.55%

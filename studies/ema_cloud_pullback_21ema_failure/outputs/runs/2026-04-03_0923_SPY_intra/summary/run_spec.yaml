@@ -1,0 +1,13 @@
+study: ema_cloud_pullback_21ema_failure
+tickers:
+- SPY
+date_range:
+  start: '2024-01-01'
+  end: '2025-12-31'
+intraday:
+  enabled: true
+event:
+  type: close_from_open_atr
+  atr_multiple: 1.0
+_run_id: 2026-04-03_0923_SPY_intra
+_generated_at: '2026-04-03T09:23:44.763631'

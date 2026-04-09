@@ -1,0 +1,60 @@
+First Hour 50%+ ATR to EMA Cloud Pullback Study
+========================================================================
+Generated:  2026-04-08 11:12:54
+Universe:   QuantLab watchlist (239 requested)
+Date window: 2025-04-08 to 2026-04-08
+Sessions evaluated: 41,585 unique (ticker-date) pairs
+Parameters: ATR threshold=50%  trigger_max_bar=12  next_hour_bars=12  ema=10/21
+
+========================================================================
+TRIGGER INCIDENCE
+========================================================================
+  Combined:  16,166 events / 83,170 evaluations = 19.4%
+  Long:      8,277 / 41,585 sessions = 19.9%
+  Short:     7,889 / 41,585 sessions = 19.0%
+  NOTE: combined denominator = 2 × n_sessions (one long eval + one short eval per session)
+
+========================================================================
+NEXT-HOUR CLOUD PULLBACK DEPTH  (denominator = triggered events)
+========================================================================
+  Cloud touch-any    — Combined: 86.1%  |  Long: 86.1%  |  Short: 86.1%
+  Cloud entry        — Combined: 85.3%  |  Long: 85.4%  |  Short: 85.2%
+  Touch EMA21        — Combined: 61.9%  |  Long: 62.1%  |  Short: 61.6%
+  Directional breach — Combined: 63.4%  |  Long: 52.5%  |  Short: 74.8%
+  Cloud flip         — Combined: 29.1%  |  Long: 29.7%  |  Short: 28.4%
+
+========================================================================
+KEY: TIMING SPLIT — FIRST 30 MIN (bars 1-6) vs SECOND 30 MIN (bars 7-12)  [COMBINED]
+========================================================================
+  Metric                     |    first_30m |   second_30m
+  ---------------------------+--------------+-------------
+  n_triggered                |       11,171 |        4,995
+  cloud_touch_any            |        88.6% |        80.7%
+  cloud_entry                |        87.6% |        80.1%
+  touch_ema21                |        69.3% |        45.3%
+  directional_breach         |        68.2% |        52.7%
+  cloud_flip                 |        36.6% |        12.2%
+  post_breach_new_extreme    |        47.8% |        45.3%
+  confidence                 |     RELIABLE |     RELIABLE
+
+========================================================================
+POST-BREACH RECOVERY  (combined, denominator = breach events only)
+========================================================================
+  Post-breach new extreme rate: 47.2%
+  Median min to new extreme:    65.0 min
+  Post-flip new extreme rate:   38.9%
+  Median min flip to extreme:   60.0 min
+
+========================================================================
+CONFIDENCE
+========================================================================
+  Long:     RELIABLE (n=8277)
+  Short:    RELIABLE (n=7889)
+  Combined: RELIABLE (n=16166)
+
+DENOMINATOR AUDIT
+  Trigger rate denominator:  n_sessions per direction; n_sessions*2 for combined
+  Cloud metrics denominator: triggered events only
+  Recovery denominator:      breach-only or flip-only subsets
+  Long breach definition:    close below EMA21 within next hour after cloud contact
+  Short breach definition:   close above EMA10 within next hour after cloud contact

@@ -1,0 +1,4 @@
+direction,denominator_n_triggered,n_directional_breach,directional_breach_rate_of_triggered,post_breach_new_extreme_rate,post_breach_still_strong_close_rate,median_min_breach_to_new_extreme,confidence
+long,869,369,0.42462600690448793,0.9159891598915989,1.0,52.5,RELIABLE
+short,757,446,0.5891677675033025,0.8452914798206278,1.0,50.0,RELIABLE
+combined,1626,815,0.501230012300123,0.8773006134969326,1.0,50.0,RELIABLE

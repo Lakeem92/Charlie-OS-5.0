@@ -1,0 +1,4 @@
+direction,n_break,new_extreme_rate_after_break,structural_failure_rate,close_ge_1atr_after_break_rate,favorable_close_after_break_rate,avg_return_break_to_extreme,median_return_break_to_extreme,avg_return_break_to_close,median_return_break_to_close,median_min_break_to_new_extreme,median_min_break_to_close,confidence
+long,1,1.0,0.0,1.0,1.0,0.008004120525366965,0.008004120525366965,0.008004120525366965,0.008004120525366965,5.0,340.0,INSUFFICIENT
+short,1,1.0,0.0,1.0,1.0,0.008590959477768202,0.008590959477768202,0.008590959477768202,0.008590959477768202,120.0,235.0,INSUFFICIENT
+combined,2,1.0,0.0,1.0,1.0,0.008297540001567584,0.008297540001567584,0.008297540001567584,0.008297540001567584,62.5,287.5,INSUFFICIENT

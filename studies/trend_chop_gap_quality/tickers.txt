@@ -1,0 +1,12 @@
+# Default tickers for trend_chop_gap_quality study
+# One ticker per line. Lines starting with # are ignored.
+SPY
+QQQ
+AAPL
+NVDA
+TSLA
+AMD
+META
+AMZN
+MSFT
+GOOG

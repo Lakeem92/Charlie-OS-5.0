@@ -1,0 +1,33 @@
+# Studies Registry
+# Maps natural-language queries to study entrypoints via keyword matching.
+# Add new studies here; the router will pick them up automatically.
+
+studies:
+  trend_chop_gap_quality:
+    description: "Trend vs Chop day mix during uptrend regimes + Gap-up close strength + optional intraday first-hour classification + forward-horizon win-rate analysis"
+    keywords:
+      - "trend vs chop"
+      - "trend day"
+      - "chop day"
+      - "uptrend day mix"
+      - "close near highs"
+      - "gap up close strong"
+      - "gap day type"
+      - "first hour failure score"
+      - "vwap hold"
+      - "forward returns"
+      - "win rate"
+      - "horizon"
+      - "D5"
+      - "D10"
+      - "5-10 days out"
+      - "gaps up"
+      - "trend or chop"
+      - "close strong probability"
+    entrypoint: "studies/trend_chop_gap_quality/run_study.py"
+    scripts:
+      - "collect_data.py"
+      - "analyze_trend_chop.py"
+      - "analyze_gapup_close_strength.py"
+      - "analyze_intraday_first_hour.py"
+      - "analyze_forward_horizons.py"

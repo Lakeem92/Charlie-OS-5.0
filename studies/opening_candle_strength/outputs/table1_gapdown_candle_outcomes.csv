@@ -1,0 +1,6 @@
+candle_tier,n,win_rate,avg_eod_return,avg_hod_pct,avg_lod_pct,avg_hod_atr,avg_lod_atr,med_hod_minutes,med_lod_minutes,ft_fire_rate
+MAX_BULLISH,78,66.7,1.866,5.606,2.261,0.656,0.246,85.0,35.0,59.0
+BULLISH,1547,67.6,1.541,4.488,1.726,0.682,0.241,80.0,20.0,64.1
+NEUTRAL,2013,53.2,0.265,2.932,2.573,0.473,0.405,85.0,50.0,0.0
+BEARISH,795,36.7,-1.311,2.018,4.106,0.324,0.605,45.0,45.0,59.2
+MAX_BEARISH,783,36.5,-1.325,2.112,4.51,0.317,0.686,50.0,45.0,63.9

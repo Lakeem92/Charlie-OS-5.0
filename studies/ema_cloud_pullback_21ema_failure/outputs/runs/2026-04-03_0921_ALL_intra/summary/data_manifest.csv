@@ -1,0 +1,5 @@
+ticker,dataset,rows,path,status
+SPY,1D,565,SPY_1D.csv,ok
+SPY,5Min,2044,SPY_5Min.csv,ok
+QQQ,1D,565,QQQ_1D.csv,ok
+QQQ,5Min,2291,QQQ_5Min.csv,ok

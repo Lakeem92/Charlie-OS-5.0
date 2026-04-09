@@ -1,0 +1,14 @@
+====================================================================
+WIN RATES BY SCORE BUCKET (Strong_Bull vs Max_Bull)
+Generated: 2026-03-04 11:07
+====================================================================
+
+  Strong_Bull  (n=339)
+     5-bar → win  54.6%   avg ret +0.026%   n=339
+    10-bar → win  59.6%   avg ret +0.048%   n=339
+    20-bar → win  57.2%   avg ret +0.162%   n=339
+
+  Max_Bull  (n=1,745)
+     5-bar → win  53.9%   avg ret +0.043%   n=1745
+    10-bar → win  54.7%   avg ret +0.079%   n=1745
+    20-bar → win  54.8%   avg ret +0.123%   n=1745

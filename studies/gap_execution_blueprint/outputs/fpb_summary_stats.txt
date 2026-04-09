@@ -1,0 +1,37 @@
+======================================================================
+FPB (First Pullback to EMA Cloud) vs 40% ATR Entry — Summary
+======================================================================
+
+
+Metric                         |   40% ATR Entry |       FPB Entry
+-------------------------------+-----------------+----------------
+Total Events                   |            1865 |            1809
+Win Rate                       |           50.9% |           51.7%
+Avg Return (EOD)               |          +0.43% |          +0.42%
+Median MAE %                   |          -2.29% |          -1.54%
+Median MFE %                   |          +1.87% |          +1.77%
+Median R:R (MFE/MAE)           |            0.91 |            1.00
+% Events where FPB occurs      |             N/A |           97.0%
+Avg bars until FPB             |             N/A |             6.9
+Avg price improvement          |             N/A |          +0.03%
+
+
+Gap Size Breakdown:
+  Gap 2-5% (n=1341): FPB WR=50.4% (orig 48.8%) | Avg Ret=+0.31% | Med R:R=0.95
+  Gap 5-8% (n=258): FPB WR=56.6% (orig 57.4%) | Avg Ret=+1.06% | Med R:R=1.14
+  Gap 8-12% (n=102): FPB WR=54.9% (orig 52.9%) | Avg Ret=+0.30% | Med R:R=1.30
+  Gap 12%+ (n=107): FPB WR=52.3% (orig 51.4%) | Avg Ret=-0.50% | Med R:R=0.90
+
+Candle Color Breakdown:
+  BULLISH (n=1016): FPB WR=52.1% (orig 49.8%) | Med R:R=1.00
+  NEUTRAL (n=793): FPB WR=51.2% (orig 51.2%) | Med R:R=1.00
+
+Time of FPB Breakdown (CT):
+  Pre-11 AM CT (n=1454): FPB WR=52.0% | Med R:R=1.04
+  Post-11 AM CT (n=355): FPB WR=50.4% | Med R:R=0.85
+
+Price Improvement:
+  Median: +0.28% | Mean: +0.03%
+  FPB cheaper: 60.7% | More expensive: 38.0%
+
+Skipped events: 305

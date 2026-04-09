@@ -1,0 +1,27 @@
+MAGENTA VS NORMAL BEARISH GAP-UP STUDY
+========================================================================
+Population: gap-up >= 2% + bearish bar-1 (from existing contrary-candle results)
+Group A: cs <= -70 AND NOT NR7
+Group B: bearish bar-1 with cs > -70
+
+bearish_non_magenta | n=1316 | Confidence=HIGH
+  Win rate (from open): 67.02%
+  FT rate (close <= open - 0.40*ATR at least once): 63.53%
+  Win rate (FT-entry subset, n=836): 50.48%
+  Avg HoD: 114.4 min | Median HoD: 30.0 min
+  Avg LoD: 133.2 min | Median LoD: 75.0 min
+  Avg FT time: 47.1 min | Median FT time: 15.0 min
+
+magenta_max_bear | n=85 | Confidence=HIGH
+  Win rate (from open): 74.12%
+  FT rate (close <= open - 0.40*ATR at least once): 75.29%
+  Win rate (FT-entry subset, n=64): 60.94%
+  Avg HoD: 89.5 min | Median HoD: 0.0 min
+  Avg LoD: 145.9 min | Median LoD: 95.0 min
+  Avg FT time: 27.8 min | Median FT time: 0.0 min
+
+DIFFERENCE TESTS (A - B)
+  Win rate from open p-value (two-proportion z): 0.175959
+  FT rate p-value (two-proportion z): 0.028238
+  HoD mean diff: -24.93 min | 95% CI [-51.94, 3.55]
+  LoD mean diff: 12.76 min | 95% CI [-17.66, 44.36]

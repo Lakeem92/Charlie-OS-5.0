@@ -1,0 +1,4 @@
+direction,n_base,n_pullback,pullback_rate,confidence
+long,1,1,1.0,INSUFFICIENT
+short,1,1,1.0,INSUFFICIENT
+combined,2,2,1.0,INSUFFICIENT

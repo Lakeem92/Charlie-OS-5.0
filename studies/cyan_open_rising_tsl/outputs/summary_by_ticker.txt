@@ -1,0 +1,27 @@
+========================================================================
+PER-TICKER WIN RATES (12-bar) — Group A Only, Ranked
+Generated: 2026-03-04 11:31
+========================================================================
+
+  Ticker       n   12-bar WinRate  Quality
+  --------------------------------------------------
+  NVDA        16            87.5%  HIGH
+  SOFI         7            85.7%  MIDDLE
+  QQQ         36            78.8%  HIGH
+  AMZN        39            66.7%  LOW
+  TSLA        35            65.7%  LOW
+  AAPL        20            65.0%  MIDDLE
+  MSFT        19            63.2%  HIGH
+  MSTR        24            62.5%  HIGH
+  META        39            62.2%  LOW
+  ARM         31            58.1%  HIGH
+  PLTR        46            56.5%  LOW
+  HOOD        38            55.3%  MIDDLE
+  SPY         24            54.2%  HIGH
+  AMD         24            50.0%  MIDDLE
+  GOOGL       27            48.1%  MIDDLE
+  AVGO        42            38.9%  HIGH
+  COIN        23            34.8%  MIDDLE
+  SMCI        39            33.3%  MIDDLE
+  MU          31            25.8%  HIGH
+  NFLX        28            17.9%  MIDDLE

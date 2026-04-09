@@ -1,0 +1,16 @@
+direction,early_expansion_bucket,n,pct_cloud_pullback,pct_ema21_break,pct_new_extreme_given_break,pct_close_ge_1atr_given_break,median_min_peak_to_pullback,median_min_break_to_new_extreme,confidence
+long,0.50-0.60,0,,,,,,,INSUFFICIENT
+long,0.60-0.70,0,,,,,,,INSUFFICIENT
+long,0.70-0.80,0,,,,,,,INSUFFICIENT
+long,0.80-1.00,0,,,,,,,INSUFFICIENT
+long,1.00+,0,,,,,,,INSUFFICIENT
+short,0.50-0.60,0,,,,,,,INSUFFICIENT
+short,0.60-0.70,0,,,,,,,INSUFFICIENT
+short,0.70-0.80,0,,,,,,,INSUFFICIENT
+short,0.80-1.00,0,,,,,,,INSUFFICIENT
+short,1.00+,0,,,,,,,INSUFFICIENT
+combined,0.50-0.60,0,,,,,,,INSUFFICIENT
+combined,0.60-0.70,0,,,,,,,INSUFFICIENT
+combined,0.70-0.80,0,,,,,,,INSUFFICIENT
+combined,0.80-1.00,0,,,,,,,INSUFFICIENT
+combined,1.00+,0,,,,,,,INSUFFICIENT

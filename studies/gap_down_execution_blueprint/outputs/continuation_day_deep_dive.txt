@@ -1,0 +1,194 @@
+======================================================================
+GAP-DOWN CONTINUATION DAY DEEP DIVE
+Total events: 1861 | Continuation: 844 (45.4%) | V-Bottom: 1017 (54.6%)
+======================================================================
+
+============================================================
+1. CANDLE COLOR — CONTINUATION vs V-BOTTOM
+============================================================
+
+  BEARISH (n=1094):
+    Continuation rate:     44.6%
+    Avg return (winners):  +2.89%
+    Avg MFE (winners):     +4.38%
+
+  NEUTRAL (n=767):
+    Continuation rate:     46.4%
+    Avg return (winners):  +2.14%
+    Avg MFE (winners):     +3.28%
+
+============================================================
+2. GAP SIZE — CONTINUATION RATE BY BUCKET
+============================================================
+
+  Gap        All  Cont    Rate   AvgRet   MedMFE   MedMAE   MedLoD
+  -------- ----- ----- ------- -------- -------- -------- --------
+  2-3%       820   361   44.0%   +1.80% +  2.38% +  0.97%     315m
+  3-5%       630   282   44.8%   +2.43% +  2.57% +  1.12%     322m
+  5-8%       248   108   43.5%   +3.22% +  3.92% +  1.45%     325m
+  8-12%       91    51   56.0%   +4.40% +  5.05% +  2.61%     295m
+  12-20%      51    33   64.7%   +6.00% +  5.01% +  4.02%     270m
+  20%+        21     9   42.9%   +7.78% +  6.06% +  2.15%     205m
+
+============================================================
+3. LOD TIMING — CONTINUATION DAYS ONLY (n=844)
+============================================================
+
+  Median LoD: 315 min (5h 15m)
+  Mean LoD:   274 min (4h 34m)
+  LoD in first 5 min:    0.1%
+  LoD in first 15 min:   0.6%
+  LoD in first 30 min:   2.5%
+  LoD in first 60 min:   6.0%
+  LoD in first 2 hours:  16.2%
+  LoD after 4 hours:     68.4%
+  LoD in last hour:      46.3%
+  LoD in last 30 min:    35.4%
+
+  COMPARISON: Continuation vs V-Bottom LoD
+  Metric                      Continuation       V-Bottom
+  ------------------------- -------------- --------------
+  Median LoD                          315m            65m
+  LoD < 30 min                        2.5%          33.9%
+  LoD > 4 hours                      68.4%          18.1%
+  LoD in last hour                   46.3%           8.7%
+
+============================================================
+4. HOD TIMING — CONTINUATION DAYS (when does the bounce peak?)
+============================================================
+
+  Median HoD: 0 min (0h 0m)
+  HoD in first 5 min:    71.9%
+  HoD in first 15 min:   79.9%
+  HoD in first 30 min:   87.7%
+  HoD in first 60 min:   93.7%
+  HoD in last hour:      0.0%
+
+  COMPARISON: Continuation vs V-Bottom HoD
+  Metric                      Continuation       V-Bottom
+  ------------------------- -------------- --------------
+  Median HoD                            0m            35m
+  HoD < 5 min                        71.9%          37.4%
+  HoD < 30 min                       87.7%          49.1%
+  HoD in last hour                    0.0%          16.7%
+
+============================================================
+5. P&L PROFILE — CONTINUATION DAYS ONLY
+============================================================
+
+  EOD Return (short profit):
+    Median:       +1.58%
+    Mean:         +2.58%
+    25th pctl:    +0.69%
+    75th pctl:    +3.07%
+    Top 10%:      +5.46%
+
+  MAE (worst bounce against short):
+    Median:       +1.22%
+    Mean:         +1.86%
+    90th pctl:    +4.17%
+
+  MFE (best intraday drop):
+    Median:       +2.88%
+    Mean:         +3.92%
+    90th pctl:    +7.40%
+
+  Median R:R (MFE/MAE):  2.37x
+  Median MFE captured at EOD: 66.7%
+  Mean MFE captured at EOD:   61.9%
+
+============================================================
+6. BOUNCE BEHAVIOR — CONTINUATION vs V-BOTTOM
+============================================================
+
+  Did price bounce ABOVE entry before making LoD?
+  Metric                                Continuation       V-Bottom
+  ----------------------------------- -------------- --------------
+  Bounce above entry before LoD                84.7%          86.3%
+  Any price above entry after FT               88.2%          98.6%
+
+  Bounce DEPTH before LoD (how far price goes against you):
+  Metric                                Continuation       V-Bottom
+  ----------------------------------- -------------- --------------
+  Median bounce depth                 +        0.66% +        0.55%
+  Mean bounce depth                   +        1.16% +        1.00%
+  90th pctl bounce                    +        2.97% +        2.52%
+
+  Bounce depth distribution — CONTINUATION days:
+    0-0.5%: 30.8%
+    0.5-1%: 19.4%
+    1-2%: 19.2%
+    2-3%: 8.4%
+    3-5%: 6.5%
+    5%+: 3.2%
+
+  Bounce depth distribution — V-BOTTOM days:
+    0-0.5%: 38.1%
+    0.5-1%: 20.2%
+    1-2%: 17.8%
+    2-3%: 7.0%
+    3-5%: 5.5%
+    5%+: 2.4%
+
+============================================================
+7. FOLLOW-THROUGH TIMING — DOES EARLY FT PREDICT CONTINUATION?
+============================================================
+
+  Metric                      Continuation       V-Bottom
+  ------------------------- -------------- --------------
+  Median FT timing                     35m            30m
+  Mean FT timing                       74m            75m
+  FT in first 5 min           n= 419  cont rate: 42.7%
+  FT in first 15 min          n= 688  cont rate: 43.0%
+  FT in first 30 min          n= 928  cont rate: 44.8%
+  FT in first 60 min          n=1234  cont rate: 45.0%
+
+============================================================
+8. COMBINED FILTERS — HUNTING THE BEST CONTINUATION SETUP
+============================================================
+
+  Filter                                         n      WR   AvgRet   MedMFE   MedMAE    R:R   MedLoD
+  ------------------------------------------ ----- ------- -------- -------- -------- ------ --------
+  No filter (baseline)                        1861   45.4%   -0.28% +  1.47% +  2.15%  0.69x     175m
+  FT in first 5 min (bar 0)                    419   42.7%   -0.63% +  2.00% +  3.90%  0.51x      35m
+  FT in first 15 min                           688   43.0%   -0.55% +  1.87% +  3.29%  0.57x      50m
+  Bearish candle only                         1094   44.6%   -0.31% +  1.60% +  2.34%  0.68x     128m
+  No bounce above entry before LoD             268   48.1%   +0.22% +  1.66% +  1.18%  1.41x     170m
+  Bounce depth < 1%                           1214   43.6%   -0.32% +  1.20% +  1.51%  0.80x     165m
+  Gap 5-8%                                     248   43.5%   -0.47% +  1.98% +  2.76%  0.72x     135m
+  Gap 8-12%                                     91   56.0%   +0.99% +  3.97% +  3.44%  1.15x     230m
+  Gap 12%+                                      72   58.3%   +1.01% +  3.96% +  4.99%  0.79x     162m
+  FT bar 0 + Bearish candle                    375   43.2%   -0.65% +  2.03% +  3.92%  0.52x      35m
+  FT bar 0 + Gap 5%+                           143   47.6%   -0.19% +  2.81% +  5.05%  0.56x      45m
+  FT bar 0 + Gap 8%+                            71   52.1%   +0.53% +  3.78% +  5.78%  0.65x      90m
+  FT bar 0 + Gap 5%+ + Bearish                 128   47.7%   -0.24% +  2.96% +  5.09%  0.58x      42m
+  Gap 8%+ + Bearish candle                      88   56.8%   +1.24% +  4.12% +  5.09%  0.81x     170m
+  Gap 8%+ + FT < 15 min                         89   56.2%   +1.43% +  4.07% +  5.39%  0.76x     105m
+  Gap 8%+ + FT < 15 min + Bearish               70   55.7%   +1.50% +  4.02% +  5.50%  0.73x      92m
+  Gap 5-12% + FT bar 0 + Bearish                99   45.5%   -0.36% +  2.74% +  4.60%  0.60x      25m
+  Gap 12%+ + FT bar 0                           32   50.0%   -0.44% +  3.90% +  8.33%  0.47x      88m
+  Gap 12%+ + FT < 15 min + Bearish              33   60.6%   +2.11% +  4.07% +  7.97%  0.51x     130m
+
+============================================================
+9. CONTINUATION DAY RETURN DISTRIBUTION
+============================================================
+
+  Return buckets (short profit, continuation days only):
+      0-1%: 35.4%  (n=299)
+      1-2%: 21.9%  (n=185)
+      2-3%: 16.4%  (n=138)
+      3-5%: 14.5%  (n=122)
+      5-8%: 6.9%  (n=58)
+       8%+: 5.0%  (n=42)
+
+============================================================
+10. MAKING NEW LOWS — CONTINUATION DAYS TIMING
+============================================================
+
+  Time from follow-through entry to LoD:
+    Median: 200 min
+    Mean:   200 min
+    < 30 min: 8.5%
+    < 60 min: 16.5%
+    < 2 hours: 31.9%
+    > 4 hours: 41.8%

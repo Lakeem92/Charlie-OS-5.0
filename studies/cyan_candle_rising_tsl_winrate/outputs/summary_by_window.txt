@@ -1,0 +1,23 @@
+============================================================
+OVERALL WIN RATES BY FORWARD WINDOW
+Generated: 2026-03-04 11:07
+Total signals: 2,084
+============================================================
+
+  5-bar window (25 minutes):
+    Signals evaluated : 2,084
+    Win rate          : 54.0%
+    Avg return        : +0.040%
+    Median return     : +0.028%
+
+  10-bar window (50 minutes):
+    Signals evaluated : 2,084
+    Win rate          : 55.5%
+    Avg return        : +0.074%
+    Median return     : +0.047%
+
+  20-bar window (100 minutes):
+    Signals evaluated : 2,084
+    Win rate          : 55.2%
+    Avg return        : +0.129%
+    Median return     : +0.068%

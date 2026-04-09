@@ -1,0 +1,4 @@
+direction,denominator_n_triggered,n_cloud_flip,cloud_flip_rate_of_triggered,post_flip_new_extreme_rate,post_flip_still_strong_close_rate,median_min_flip_to_new_extreme,confidence
+long,869,214,0.24626006904487918,0.9065420560747663,1.0,40.0,RELIABLE
+short,757,177,0.23381770145310435,0.8983050847457628,1.0,45.0,RELIABLE
+combined,1626,391,0.24046740467404673,0.9028132992327366,1.0,45.0,RELIABLE

@@ -1,0 +1,14 @@
+study: opening_thrust_ema_cloud_pullback_1atr_trend
+tickers: []
+date_range:
+  start: '2024-01-01'
+  end: today
+intraday:
+  enabled: true
+event:
+  type: opening_thrust_to_cloud_pullback
+  atr_multiple: 1.0
+  thrust_threshold: 0.7
+  thrust_max_bar: 3
+_run_id: 2026-04-03_1207_ALL_intra
+_generated_at: '2026-04-03T12:07:01.293525'

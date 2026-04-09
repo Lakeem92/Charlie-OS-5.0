@@ -1,0 +1,4 @@
+direction,n_base,n_pullback,pullback_rate,confidence
+long,4359,3856,0.8846065611378756,RELIABLE
+short,4326,3807,0.8800277392510403,RELIABLE
+combined,8685,7663,0.8823258491652274,RELIABLE

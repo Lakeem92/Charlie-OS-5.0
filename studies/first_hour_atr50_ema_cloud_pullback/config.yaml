@@ -1,0 +1,42 @@
+# Study Configuration — First Hour 50%+ ATR to EMA Cloud Pullback
+
+study_name: "first_hour_atr50_ema_cloud_pullback"
+description: >
+  When a stock moves 50%+ of its prior-day ATR14 within the first hour of the session
+  (bars 1-12, 8:30-9:30 CT), how often does price pull back to the EMA10/EMA21 cloud
+  on the 5-minute chart in the next hour (12 bars after trigger)?
+  Long and short thrusts are evaluated independently per session day.
+  Key timing split: first 30 minutes (bars 1-6) vs second 30 minutes (bars 7-12).
+
+# Date range — 1 year lookback
+start_date: "2025-04-08"
+end_date: "today"
+
+# Timeframes
+timeframe_daily: "1Day"
+timeframe_intraday: "5Min"
+use_intraday: true
+
+# RTH filter
+rth_only: true
+
+# Universe — empty list means use QuantLab master watchlist
+tickers_default: []
+
+# Core event parameters
+atr_length: 14
+atr_threshold: 0.50              # 50% of prior-day ATR14
+trigger_max_bar: 12              # First hour = bars 1-12 (8:30-9:30 CT)
+next_hour_bars: 12               # Measurement window = 12 bars after trigger bar
+first_30m_max_bar: 6             # Bars 1-6 = first 30 min; 7-12 = second 30 min
+
+# EMA cloud parameters (ThinkScript-mirrored, same as parent study)
+ema_fast_length: 10
+ema_slow_length: 21
+
+# Cache reuse — point at the parent study's latest run
+reuse:
+  enabled: true
+  source_study: "opening_thrust_ema_cloud_pullback_1atr_trend"
+  source_run_id: "auto"          # "auto" reads LATEST.txt from source study outputs/
+  copy_cached_data: true

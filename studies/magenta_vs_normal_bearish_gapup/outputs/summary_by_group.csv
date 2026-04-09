@@ -1,0 +1,3 @@
+group,n,confidence,win_rate_from_open_pct,avg_eod_return_from_open_pct,ft_rate_pct,ft_n,win_rate_from_ft_entry_pct,avg_hod_min,median_hod_min,avg_lod_min,median_lod_min,avg_ft_minutes,median_ft_minutes
+bearish_non_magenta,1316,HIGH,67.02127659574468,1.5137818499743598,63.525835866261396,836,50.47846889952153,114.39589665653496,30.0,133.1838905775076,75.0,47.0933014354067,15.0
+magenta_max_bear,85,HIGH,74.11764705882354,3.4502858455597836,75.29411764705883,64,60.9375,89.47058823529412,0.0,145.94117647058823,95.0,27.8125,0.0

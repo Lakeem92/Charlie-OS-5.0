@@ -1,0 +1,12 @@
+=== Run Archive: 2026-04-08_1052_ALL_intra ===
+Timestamp: 2026-04-08T10:52:56.012715
+Study: first_hour_atr50_ema_cloud_pullback
+Tickers: watchlist
+Date range: 2025-04-08 to today
+Reuse cache: True
+Source run override: none
+
+Step 1: collect_data.py -- DONE
+Step 2: analyze.py -- DONE
+
+Exit: success

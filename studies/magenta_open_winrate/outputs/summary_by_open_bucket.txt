@@ -1,0 +1,22 @@
+========================================================================
+OPEN BUCKET WIN RATES — Group A (Magenta, no NR7) Only
+Generated: 2026-03-04 11:57
+========================================================================
+
+  FIRST_BAR  (n=102)
+      30 min  win_raw= 59.8%  win_thr= 55.9%
+      60 min  win_raw= 52.0%  win_thr= 48.0%
+     120 min  win_raw= 56.4%  win_thr= 50.5%
+         EOD  win_raw= 52.9%  win_thr= 50.0%
+
+  EARLY_OPEN  (n=213)
+      30 min  win_raw= 54.9%  win_thr= 46.0%
+      60 min  win_raw= 53.1%  win_thr= 46.9%
+     120 min  win_raw= 56.7%  win_thr= 51.9%
+         EOD  win_raw= 52.6%  win_thr= 48.4%
+
+  OPEN_WINDOW  (n=319)
+      30 min  win_raw= 59.9%  win_thr= 52.4%
+      60 min  win_raw= 53.5%  win_thr= 45.9%
+     120 min  win_raw= 52.9%  win_thr= 47.5%
+         EOD  win_raw= 46.4%  win_thr= 44.8%

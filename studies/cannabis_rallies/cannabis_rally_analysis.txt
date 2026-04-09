@@ -1,0 +1,17 @@
+======================================================================
+CANNABIS STOCK RALLY COMPARISON ANALYSIS
+======================================================================
+
+RALLY PERIODS:
+- 2018 Rally: TLRY & CGC (July 1 - December 31, 2018)
+- 2021 Rally: MSOS (October 1, 2020 - June 30, 2021)
+
+======================================================================
+CONSOLIDATED METRICS
+======================================================================
+
+Ticker             Rally_Period  Trading_Days  Start_Price  End_Price  Peak_Price  Total_Return_%  Max_Drawdown_%  Avg_Normalized_HL_Range  Log_Returns_Skewness  Avg_Daily_Volume_Rally  Avg_Daily_Volume_Lookback  Volume_Spike_Ratio  Extreme_Volume_Days  Extreme_Volume_Threshold
+  TLRY 2018-07-01 to 2018-12-31           113   223.899994 751.500000 2140.600098      235.640920      -69.218911                 1.012371              0.085883                  591846                          0            0.000000                    0                         0
+   CGC 2018-07-01 to 2018-12-31           125   308.100006 273.700012  568.900024      -11.165204      -53.911056                 0.969560              0.734287                 1023957                     163851            6.249298                   86                    505106
+  MSOS 2020-10-01 to 2021-06-30           187    21.712936  39.836136   54.893097       83.467289      -31.789285                 0.945600              0.154782                  661549                      56870           11.632666                  162                    141919
+

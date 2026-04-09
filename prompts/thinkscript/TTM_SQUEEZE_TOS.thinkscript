@@ -1,0 +1,11 @@
+# TTM Squeeze - ThinkOrSwim Reference
+
+**PASTE THE THINKSCRIPT HERE. This file is reference-only. Do not execute.**
+
+---
+
+This file should contain the official ThinkOrSwim (TOS) TTM Squeeze indicator code for reference purposes only.
+
+Use this as the canonical definition when implementing TTM Squeeze studies in Python.
+
+If TOS code is unavailable, use the canonical Lab definition from [../STRUCTURAL_TRIGGER_MASTER.md](../STRUCTURAL_TRIGGER_MASTER.md) instead.

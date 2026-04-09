@@ -1,0 +1,26 @@
+========================================================================
+TICKER QUALITY TIER WIN RATES — Group A (Magenta) Only
+Generated: 2026-03-04 11:57
+  HIGH:   ['ARM', 'AVGO', 'MSFT', 'MSTR', 'MU', 'NVDA', 'QQQ', 'SPY']
+  MIDDLE: ['AAPL', 'AMD', 'COIN', 'GOOGL', 'HOOD', 'NFLX', 'SMCI', 'SOFI']
+  LOW:    ['AMZN', 'META', 'PLTR', 'TSLA']
+(Tiers set by LONG-side performance in base study — inversion expected)
+========================================================================
+
+  HIGH quality  (total n=261)
+      30 min  win_raw= 65.1%  win_thr= 55.2%
+      60 min  win_raw= 61.2%  win_thr= 51.5%
+     120 min  win_raw= 60.5%  win_thr= 53.5%
+         EOD  win_raw= 53.6%  win_thr= 50.6%
+
+  MIDDLE quality  (total n=271)
+      30 min  win_raw= 53.5%  win_thr= 48.0%
+      60 min  win_raw= 50.2%  win_thr= 45.8%
+     120 min  win_raw= 50.2%  win_thr= 46.5%
+         EOD  win_raw= 48.7%  win_thr= 47.6%
+
+  LOW quality  (total n=102)
+      30 min  win_raw= 52.9%  win_thr= 47.1%
+      60 min  win_raw= 40.2%  win_thr= 36.3%
+     120 min  win_raw= 52.1%  win_thr= 46.9%
+         EOD  win_raw= 41.2%  win_thr= 35.3%

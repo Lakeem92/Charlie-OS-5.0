@@ -1,0 +1,171 @@
+# =========================================================
+# STUDY: Trend Strength Candles v2 + NR7 + Momentum Extremes (Cap Finder)
+# Logic:
+#   - Trend Strength Gradient candles
+#   - NR7 candles painted WHITE (highest priority)
+#   - Oversold + below MA + vol spike => BLUE candle
+#   - Overbought + above MA + vol spike => YELLOW candle
+# Labels include momentum extreme flags.
+# =========================================================
+declare upper;
+
+# =========================================================
+# SECTION 1: TREND STRENGTH INPUTS & CALCS
+# =========================================================
+input pcLookback = 20;
+input emaLen = 21;
+input emaSlopeSmooth = 5;
+input ma1Type = {default "EMA", "SMA"};
+input ma1Len = 20;
+input ma2Type = {default "SMA", "EMA"};
+input ma2Len = 50;
+input atrLen = 14;
+input zscoreLookback = 200;  # Z-score lookback
+
+# === ATR CALCULATION ===
+def tr = Max(high - low, Max(AbsValue(high - close[1]), AbsValue(low - close[1])));
+def atr = MovingAverage(AverageType.EXPONENTIAL, tr, atrLen);
+
+# === METHOD 1: PRICE CHANGE ===
+def pcPrev = close[pcLookback];
+def rawPc = if atr != 0 then (close - pcPrev) / atr else 0;
+
+# === METHOD 2: EMA SLOPE ===
+def emaSeries = MovingAverage(AverageType.EXPONENTIAL, close, emaLen);
+def emaPrev = emaSeries[1];
+def raw_ema_slope = if atr != 0 then (emaSeries - emaPrev) / atr else 0;
+def raw_ema_slope_sm = MovingAverage(AverageType.SIMPLE, raw_ema_slope, emaSlopeSmooth);
+
+# === METHOD 3: MA DISTANCE ===
+def ma1 = if ma1Type == ma1Type."EMA"
+    then MovingAverage(AverageType.EXPONENTIAL, close, ma1Len)
+    else MovingAverage(AverageType.SIMPLE, close, ma1Len);
+def ma2 = if ma2Type == ma2Type."EMA"
+    then MovingAverage(AverageType.EXPONENTIAL, close, ma2Len)
+    else MovingAverage(AverageType.SIMPLE, close, ma2Len);
+def rawMaDist = if atr != 0 then (ma1 - ma2) / atr else 0;
+
+# === Z-SCORE NORMALIZATION ===
+def pcMean = Average(rawPc, zscoreLookback);
+def pcStdDev = StDev(rawPc, zscoreLookback);
+def pcZscore = if pcStdDev != 0 then (rawPc - pcMean) / pcStdDev else 0;
+
+def emaMean = Average(raw_ema_slope_sm, zscoreLookback);
+def emaStdDev = StDev(raw_ema_slope_sm, zscoreLookback);
+def emaZscore = if emaStdDev != 0 then (raw_ema_slope_sm - emaMean) / emaStdDev else 0;
+
+def maMean = Average(rawMaDist, zscoreLookback);
+def maStdDev = StDev(rawMaDist, zscoreLookback);
+def maZscore = if maStdDev != 0 then (rawMaDist - maMean) / maStdDev else 0;
+
+# === CONSENSUS SCORE ===
+def consensusScore = (pcZscore + emaZscore + maZscore) / 3;
+
+# === AGREEMENT FACTOR ===
+def pcSign = if pcZscore > 0 then 1 else if pcZscore < 0 then -1 else 0;
+def emaSign = if emaZscore > 0 then 1 else if emaZscore < 0 then -1 else 0;
+def maSign = if maZscore > 0 then 1 else if maZscore < 0 then -1 else 0;
+def signSum = AbsValue(pcSign + emaSign + maSign);
+def agreement = signSum / 3;
+
+def consensusScaled = consensusScore * 100;
+def consensusClamped = if consensusScaled > 100 then 100 else if consensusScaled < -100 then -100 else consensusScaled;
+
+# === GRADIENT COLOR MATH ===
+def t1 = if (consensusClamped + 100) / 50 < 0 then 0 else if (consensusClamped + 100) / 50 > 1 then 1 else (consensusClamped + 100) / 50;
+def t2 = if (consensusClamped + 50) / 50 < 0 then 0 else if (consensusClamped + 50) / 50 > 1 then 1 else (consensusClamped + 50) / 50;
+def t3 = if consensusClamped / 50 < 0 then 0 else if consensusClamped / 50 > 1 then 1 else consensusClamped / 50;
+def t4 = if (consensusClamped - 50) / 50 < 0 then 0 else if (consensusClamped - 50) / 50 > 1 then 1 else (consensusClamped - 50) / 50;
+
+def colorR = if consensusClamped <= -50 then Round(255 + (255 - 255) * t1)
+             else if consensusClamped <= 0 then Round(255 + (198 - 255) * t2)
+             else if consensusClamped <= 50 then Round(198 + (57 - 198) * t3)
+             else Round(57 + (0 - 57) * t4);
+
+def colorG = if consensusClamped <= -50 then Round(0 + (127 - 0) * t1)
+             else if consensusClamped <= 0 then Round(127 + (197 - 127) * t2)
+             else if consensusClamped <= 50 then Round(197 + (255 - 197) * t3)
+             else Round(255 + (255 - 255) * t4);
+
+def colorB = if consensusClamped <= -50 then Round(122 + (80 - 122) * t1)
+             else if consensusClamped <= 0 then Round(80 + (197 - 80) * t2)
+             else if consensusClamped <= 50 then Round(197 + (20 - 197) * t3)
+             else Round(20 + (255 - 20) * t4);
+
+def finalR = Round(colorR + (128 - colorR) * (1 - agreement) * 0.3);
+def finalG = Round(colorG + (128 - colorG) * (1 - agreement) * 0.3);
+def finalB = Round(colorB + (128 - colorB) * (1 - agreement) * 0.3);
+
+# =========================================================
+# SECTION 2: NR7 LOGIC
+# =========================================================
+input showNR7Triggers = yes;
+
+def range = high - low;
+def lowestPastRange = Lowest(range[1], 6);
+def isNR7 = range < lowestPastRange;
+
+# =========================================================
+# SECTION 5: MOMENTUM EXTREMES (Cap Finder logic, recolored)
+# =========================================================
+input enableMomentumExtremeOverride = yes;
+
+input cap_rsiLength = 14;
+input cap_rsiOversold = 30;
+input cap_rsiOverbought = 70;
+
+input cap_maType = AverageType.SIMPLE;
+input cap_maLength = 50;
+
+input cap_percentageThreshold = 5.0;   # Distance from MA (%)
+input cap_volumeMultiplier = 1.2;
+input cap_volumeLength = 20;
+
+def capRsi = RSI(length = cap_rsiLength);
+def capMa = MovingAverage(cap_maType, close, cap_maLength);
+def capVolAvg = Average(volume, cap_volumeLength);
+
+def capBelow = close < capMa * (1 - cap_percentageThreshold / 100);
+def capAbove = close > capMa * (1 + cap_percentageThreshold / 100);
+def capVolSpike = volume >= capVolAvg * cap_volumeMultiplier;
+
+def oversoldExtreme = capRsi <= cap_rsiOversold and capBelow and capVolSpike;
+def overboughtExtreme = capRsi >= cap_rsiOverbought and capAbove and capVolSpike;
+
+# =========================================================
+# SECTION 3: VISUALIZATION & PRIORITY (SINGLE AssignPriceColor)
+# =========================================================
+AssignPriceColor(
+    if isNR7 then Color.WHITE
+    else if enableMomentumExtremeOverride and oversoldExtreme then Color.BLUE
+    else if enableMomentumExtremeOverride and overboughtExtreme then Color.YELLOW
+    else CreateColor(finalR, finalG, finalB)
+);
+
+plot BuyTrigger = if showNR7Triggers and isNR7 then high else Double.NaN;
+plot SellTrigger = if showNR7Triggers and isNR7 then low else Double.NaN;
+
+BuyTrigger.SetPaintingStrategy(PaintingStrategy.POINTS);
+BuyTrigger.SetDefaultColor(Color.CYAN);
+BuyTrigger.SetLineWeight(3);
+
+SellTrigger.SetPaintingStrategy(PaintingStrategy.POINTS);
+SellTrigger.SetDefaultColor(Color.MAGENTA);
+SellTrigger.SetLineWeight(3);
+
+# =========================================================
+# SECTION 4: LABELS
+# =========================================================
+AddLabel(consensusClamped >= 70, "🔥 MAX CONVICTION BULL [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped >= 50 and consensusClamped < 70, "✅ STRONG BULL [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped >= 30 and consensusClamped < 50, "📈 MILD BULL [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped >= 10 and consensusClamped < 30, "➗ WEAK BULL [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped > -10 and consensusClamped <= 10, "➡️ NEUTRAL [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped > -30 and consensusClamped <= -10, "➗ WEAK BEAR [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped > -50 and consensusClamped <= -30, "📉 MILD BEAR [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped > -70 and consensusClamped <= -50, "❌ STRONG BEAR [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+AddLabel(consensusClamped <= -70, "💀 MAX SHORT [" + Round(consensusClamped) + "]", CreateColor(finalR, finalG, finalB));
+
+AddLabel(isNR7, "NR7 SQUEEZE", Color.WHITE);
+AddLabel(enableMomentumExtremeOverride and oversoldExtreme, "🔵 OVERSOLD MOMENTUM EXTREME", Color.BLUE);
+AddLabel(enableMomentumExtremeOverride and overboughtExtreme, "🟨 OVERBOUGHT MOMENTUM EXTREME", Color.YELLOW);

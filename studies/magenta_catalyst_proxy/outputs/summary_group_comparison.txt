@@ -1,0 +1,50 @@
+================================================================================
+GROUP COMPARISON — MAGENTA OPENING BAR + CATALYST PROXY
+Generated: 2026-03-04 13:13
+Return: positive = stock went DOWN (short won). Dual win def: raw=any, thr=>=0.1%
+
+Groups:
+  A = Magenta + ANY catalyst (gap>=-3% OR earnings overnight)
+  B = Magenta + gap-down only (no earnings)
+  C = Magenta + earnings only (gap < -3%)
+  D = Magenta + BOTH earnings AND gap-down >= -3%
+  E = NAKED magenta — no catalyst proxy
+================================================================================
+
+  Window: 6-bar (30 min)
+  Grp     WinRaw   WinThr(0.1%)      n  Returns
+  ----------------------------------------------------------------------
+  A        36.5%          32.7%     52  avg -1.025%  med -0.754%
+  B        36.5%          32.7%     52  avg -1.025%  med -0.754%
+  C          n/a            n/a      0  n/a
+  D          n/a            n/a      0  n/a
+  E        60.1%          52.4%    582  avg +0.158%  med +0.139%
+
+  Window: 12-bar (60 min)
+  Grp     WinRaw   WinThr(0.1%)      n  Returns
+  ----------------------------------------------------------------------
+  A        36.5%          34.6%     52  avg -0.970%  med -0.502%
+  B        36.5%          34.6%     52  avg -0.970%  med -0.502%
+  C          n/a            n/a      0  n/a
+  D          n/a            n/a      0  n/a
+  E        54.6%          47.7%    581  avg -0.018%  med +0.071%
+
+  Window: 24-bar (120 min)
+  Grp     WinRaw   WinThr(0.1%)      n  Returns
+  ----------------------------------------------------------------------
+  A        48.1%          46.2%     52  avg -0.406%  med -0.334%
+  B        48.1%          46.2%     52  avg -0.406%  med -0.334%
+  C          n/a            n/a      0  n/a
+  D          n/a            n/a      0  n/a
+  E        55.3%          49.7%    573  avg -0.065%  med +0.091%
+
+  Window: End-of-Day
+  Grp     WinRaw   WinThr(0.1%)      n  Returns
+  ----------------------------------------------------------------------
+  A        42.3%          40.4%     52  avg -1.203%  med -0.566%
+  B        42.3%          40.4%     52  avg -1.203%  med -0.566%
+  C          n/a            n/a      0  n/a
+  D          n/a            n/a      0  n/a
+  E        50.2%          47.4%    582  avg +0.066%  med +0.003%
+
+  ⚠  Group A n=52 — INSUFFICIENT SAMPLE (<80). Results are DIRECTIONAL ONLY, not statistically conclusive.

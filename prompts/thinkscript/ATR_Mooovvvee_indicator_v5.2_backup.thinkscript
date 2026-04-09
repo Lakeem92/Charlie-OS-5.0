@@ -1,0 +1,1045 @@
+# =========================================================
+# Trend Strength Line Indicator - GAP-AWARE v5.2
+# Purpose:
+# - Stable TrendScore (Z-score normalization)
+# - Enhanced gap bias with confidence tiers, slope magnitude,
+#   and prior-bar TrendScore zone context
+# - Contrary candle state engine with HoD/LoD tracking (v5.1)
+# - Magenta/Cyan opening bar detection with study stats (v5.2)
+# Changes from v5.1:
+# - MAGENTA OPEN detection: cs <= -70, NOT NR7 (n=85)
+#   Fade WR from open: 74% vs 67% non-magenta
+#   FT rate: 75% (p=0.028 significant), median FT: 0 min
+#   FT-entry WR: 61% vs 50%, avg EOD +3.45% vs +1.51%
+# - CYAN OPEN detection: cs >= 70, NOT NR7 (n=588)
+#   EOD win rate: 58% vs 50% baseline, avg +0.47%
+# - NR7 per-bar detection for signal qualification
+# - Fade/Bounce labels show magenta/cyan-upgraded stats
+# - Tag labels: MAGENTA OPEN / CYAN OPEN / NR7 OPEN
+# Changes from v5.0:
+# - HoD/LoD bar tracking: knows WHEN session high/low set
+# - Fade: topped at open = 67% WR, best combo 71% WR
+# - Bounce: bottomed at open = 66% WR, best combo 73% WR
+# - Kill signals: new highs last hr = 1%, new lows = 0%
+# - Late confirmation: 4hr+ grinding = 83%/76% WR
+# - State engine replaces static time phases for contrary
+# - 8-12% gap-down + bottomed at open = 76% WR sweet spot
+# =========================================================
+declare lower;
+
+DefineGlobalColor("LongGoHigh", CreateColor(0, 255, 140));
+DefineGlobalColor("LongGoMed", CreateColor(0, 220, 120));
+DefineGlobalColor("LongGoLow", CreateColor(100, 255, 170));
+DefineGlobalColor("ShortGoHigh", CreateColor(255, 70, 70));
+DefineGlobalColor("ShortGoMed", CreateColor(235, 95, 95));
+DefineGlobalColor("ShortGoLow", CreateColor(255, 145, 145));
+DefineGlobalColor("FadeGapUp", CreateColor(255, 190, 0));
+DefineGlobalColor("FadePink", CreateColor(255, 105, 180));
+DefineGlobalColor("BounceGapDn", CreateColor(0, 210, 255));
+DefineGlobalColor("Watch", CreateColor(195, 205, 220));
+DefineGlobalColor("Neutral", CreateColor(235, 235, 235));
+DefineGlobalColor("E3Zone", CreateColor(0, 230, 255));
+
+# =========================================================
+# 1) Inputs
+# =========================================================
+input showConsensus = yes;
+input method = {default "Consensus", "Price Change", "EMA Slope", "MA Distance"};
+input pcLookback = 20;
+input emaLen = 21;
+input emaSlopeSmooth = 5;
+input ma1Type = {default "EMA", "SMA"};
+input ma1Len = 20;
+input ma2Type = {default "SMA", "EMA"};
+input ma2Len = 50;
+input atrLen = 14;
+
+# Normalization
+input normLen = 100;
+input zClamp = 2.5;
+input zToUnitRange = 2.0;
+
+# Visuals
+input showHistogram = yes;
+input showMomentum = yes;
+input showSignalLine = yes;
+input signalLength = 9;
+input useColorGradient = yes;
+
+# Slope label
+input showSlopeLabel = yes;
+input slopeLen = 5;
+input slopeSmoothLen = 3;
+input slopeNeutralThreshold = 0.25;
+
+# Gap Bias Module
+input showGapBiasLabel = yes;
+input rthStartTime = 0930;
+input openWindowBars = 4;
+input minAbsGapPct = 1.0;
+input requireVolumeImpulse = yes;
+input volLookback = 50;
+input volMult = 1.5;
+input usePriorBarForBias = yes;
+
+# Gap Confidence Tiers
+input gapTierMed = 2.0;
+input gapTierHigh = 4.0;
+
+# Single-Bar ATR Expansion
+input showATRWarning = yes;
+input atrWarnPct = 70;
+input atrExhaustPct = 80;
+input atrExtremePct = 180;
+
+# Follow-Through + E3 Context
+input showFTLabel = yes;
+input ftAtrPct = 0.40;
+input minGapForStudy = 2.0;
+input e3WindowBars = 6;
+
+# Magenta/Cyan study overlay
+input showMagentaCyanStats = yes;
+
+# =========================================================
+# 2) Calculations (ATR + 3 Methods)
+# =========================================================
+def tr = TrueRange(high, close, low);
+def atr = MovingAverage(AverageType.EXPONENTIAL, tr, atrLen);
+
+def pcPrev = close[pcLookback];
+def rawPc = if atr != 0 then (close - pcPrev) / atr else 0;
+
+def emaSeries = MovingAverage(AverageType.EXPONENTIAL, close, emaLen);
+def emaPrev = emaSeries[1];
+def rawEmaSlope = if atr != 0 then (emaSeries - emaPrev) / atr else 0;
+def rawEmaSlopeSm = MovingAverage(AverageType.SIMPLE, rawEmaSlope, emaSlopeSmooth);
+
+def ma1 =
+    if ma1Type == ma1Type."EMA"
+    then MovingAverage(AverageType.EXPONENTIAL, close, ma1Len)
+    else MovingAverage(AverageType.SIMPLE, close, ma1Len);
+
+def ma2 =
+    if ma2Type == ma2Type."EMA"
+    then MovingAverage(AverageType.EXPONENTIAL, close, ma2Len)
+    else MovingAverage(AverageType.SIMPLE, close, ma2Len);
+
+def rawMaDist = if atr != 0 then (ma1 - ma2) / atr else 0;
+
+# =========================================================
+# 3) Normalization (Z-score -> [-1, +1])
+# =========================================================
+def pcMean = Average(rawPc, normLen);
+def pcStd  = StDev(rawPc, normLen);
+def pcZraw = if pcStd != 0 then (rawPc - pcMean) / pcStd else 0;
+def pcZ    = Max(-zClamp, Min(zClamp, pcZraw));
+def normPc = Max(-1, Min(1, pcZ / zToUnitRange));
+
+def emaMean = Average(rawEmaSlopeSm, normLen);
+def emaStd  = StDev(rawEmaSlopeSm, normLen);
+def emaZraw = if emaStd != 0 then (rawEmaSlopeSm - emaMean) / emaStd else 0;
+def emaZ    = Max(-zClamp, Min(zClamp, emaZraw));
+def normEma = Max(-1, Min(1, emaZ / zToUnitRange));
+
+def maMean = Average(rawMaDist, normLen);
+def maStd  = StDev(rawMaDist, normLen);
+def maZraw = if maStd != 0 then (rawMaDist - maMean) / maStd else 0;
+def maZ    = Max(-zClamp, Min(zClamp, maZraw));
+def normMa = Max(-1, Min(1, maZ / zToUnitRange));
+
+def consensusRaw = (normPc + normEma + normMa) / 3;
+
+def rawScore =
+    if method == method."Consensus" then consensusRaw
+    else if method == method."Price Change" then normPc
+    else if method == method."EMA Slope" then normEma
+    else normMa;
+
+def trendScore = rawScore * 100;
+
+# =========================================================
+# 4) Signal Line
+# =========================================================
+def signalLineData = MovingAverage(AverageType.EXPONENTIAL, trendScore, signalLength);
+
+# =========================================================
+# 5) Momentum / Acceleration
+# =========================================================
+def momentum = trendScore - trendScore[1];
+def acceleration = momentum - momentum[1];
+
+# =========================================================
+# 6) Slope State + Context Label Color
+# =========================================================
+def rawSlope = (trendScore - trendScore[slopeLen]) / slopeLen;
+def slope = MovingAverage(AverageType.EXPONENTIAL, rawSlope, slopeSmoothLen);
+
+def slopeState =
+    if slope > slopeNeutralThreshold then 1
+    else if slope < -slopeNeutralThreshold then -1
+    else 0;
+
+def isRising = slopeState == 1;
+def isDropping = slopeState == -1;
+
+def histGreen = trendScore >= 0;
+def histRed   = trendScore < 0;
+
+def labelColorChoice =
+    if histGreen and isDropping then 3
+    else if histRed and isRising then 4
+    else if isRising then 1
+    else if isDropping then 2
+    else 0;
+
+AddLabel(showSlopeLabel,
+    if isRising then "TS SLOPE: RISING"
+    else if isDropping then "TS SLOPE: DROPPING"
+    else "TS SLOPE: NEUTRAL",
+    if labelColorChoice == 3 then Color.YELLOW
+    else if labelColorChoice == 4 then Color.CYAN
+    else if labelColorChoice == 1 then Color.GREEN
+    else if labelColorChoice == 2 then Color.RED
+    else Color.LIGHT_GRAY
+);
+
+# =========================================================
+# 7) Gap Bias Module — ENHANCED v4.5
+# =========================================================
+def yyyymmdd = GetYYYYMMDD();
+def isNewDay = yyyymmdd != yyyymmdd[1];
+
+def sFrom = SecondsFromTime(rthStartTime);
+def sessionStartBar = (sFrom >= 0 and sFrom[1] < 0) or (isNewDay and sFrom >= 0);
+
+def barsSinceOpen = CompoundValue(
+    1,
+    if sessionStartBar then 0 else barsSinceOpen[1] + 1,
+    0
+);
+
+def inOpenWindow = barsSinceOpen >= 0 and barsSinceOpen < openWindowBars;
+
+# Daily refs on intraday chart
+def prevDayClose = close(period = AggregationPeriod.DAY)[1];
+def dayOpen      = open(period = AggregationPeriod.DAY);
+
+def gapPct = if prevDayClose != 0 then (dayOpen - prevDayClose) / prevDayClose * 100 else 0;
+def absGapPct = AbsValue(gapPct);
+def gapUp = gapPct >= minAbsGapPct;
+def gapDn = gapPct <= -minAbsGapPct;
+
+def avgVol = Average(volume, volLookback);
+def volImpulse = if avgVol != 0 then volume >= avgVol * volMult else no;
+def okVol = if requireVolumeImpulse then volImpulse else yes;
+
+def slopeForBias = if usePriorBarForBias then slope[1] else slope;
+
+def slopeStateForBias =
+    if slopeForBias > slopeNeutralThreshold then 1
+    else if slopeForBias < -slopeNeutralThreshold then -1
+    else 0;
+
+def gapFadeBias =
+    inOpenWindow and okVol and (
+        (gapUp and slopeStateForBias == -1) or
+        (gapDn and slopeStateForBias == 1)
+    );
+
+def gapGoBias =
+    inOpenWindow and okVol and (
+        (gapUp and slopeStateForBias == 1) or
+        (gapDn and slopeStateForBias == -1)
+    );
+
+# --- Confidence Tier (gap size) ---
+def gapTierLabel =
+    if absGapPct >= gapTierHigh then 3
+    else if absGapPct >= gapTierMed then 2
+    else 1;
+
+def gapTierText = gapTierLabel; # 1=LOW, 2=MED, 3=HIGH
+
+# --- Prior-bar TrendScore Zone ---
+def priorTS = trendScore[1];
+def tsZone =
+    if priorTS >= 70 then 5
+    else if priorTS >= 30 then 4
+    else if priorTS > -30 then 3
+    else if priorTS > -70 then 2
+    else 1;
+# 5=OVERBOUGHT, 4=BULLISH, 3=NEUTRAL, 2=BEARISH, 1=OVERSOLD
+
+# --- Zone text helper (encoded as number for concat) ---
+def tsZoneForLabel = tsZone;
+
+# --- Build the enhanced label ---
+AddLabel(showGapBiasLabel,
+    (if !inOpenWindow then "GAP: --"
+     else if !(gapUp or gapDn) then "NO GAP"
+     else if gapFadeBias then
+         (if gapUp then "FADE UP" else "DN BOUNCE")
+         + " | "
+         + (if gapTierText == 3 then "HIGH"
+            else if gapTierText == 2 then "MED"
+            else "LOW")
+         + " | " + Round(gapPct, 1) + "%"
+         + " | "
+         + (if tsZoneForLabel == 5 then "OB"
+            else if tsZoneForLabel == 4 then "BULL"
+            else if tsZoneForLabel == 3 then "NEUT"
+            else if tsZoneForLabel == 2 then "BEAR"
+            else "OS")
+     else if gapGoBias then
+         (if gapUp then "GO UP" else "DN CONT")
+         + " | "
+         + (if gapTierText == 3 then "HIGH"
+            else if gapTierText == 2 then "MED"
+            else "LOW")
+         + " | " + Round(gapPct, 1) + "%"
+         + " | "
+         + (if tsZoneForLabel == 5 then "OB"
+            else if tsZoneForLabel == 4 then "BULL"
+            else if tsZoneForLabel == 3 then "NEUT"
+            else if tsZoneForLabel == 2 then "BEAR"
+            else "OS")
+     else "MIXED | " + Round(gapPct, 1) + "%"),
+    (if !inOpenWindow then GlobalColor("Watch")
+     else if !(gapUp or gapDn) then GlobalColor("Watch")
+     else if gapFadeBias then
+         (if gapUp then GlobalColor("FadeGapUp")
+          else GlobalColor("BounceGapDn"))
+     else if gapGoBias then
+         (if gapUp then
+              (if gapTierText == 3 then GlobalColor("LongGoHigh")
+               else if gapTierText == 2 then GlobalColor("LongGoMed")
+               else GlobalColor("LongGoLow"))
+          else
+              (if gapTierText == 3 then GlobalColor("ShortGoHigh")
+               else if gapTierText == 2 then GlobalColor("ShortGoMed")
+               else GlobalColor("ShortGoLow")))
+     else GlobalColor("Neutral"))
+);
+
+# =========================================================
+# 8) Session ATR + Single-Bar Expansion
+# =========================================================
+def dTR = TrueRange(high(period = AggregationPeriod.DAY),
+                     close(period = AggregationPeriod.DAY),
+                     low(period = AggregationPeriod.DAY));
+def dailyATR = MovingAverage(AverageType.WILDERS, dTR, atrLen);
+def priorDayATR = dailyATR[1];
+
+# --- Session ATR consumed (how much of daily range used so far) ---
+def dayHighRT = high(period = AggregationPeriod.DAY);
+def dayLowRT = low(period = AggregationPeriod.DAY);
+def sessionRange = dayHighRT - dayLowRT;
+def sessionAtrPct = if priorDayATR > 0 then (sessionRange / priorDayATR) * 100 else 0;
+
+AddLabel(showATRWarning,
+    "ATR: " + Round(sessionAtrPct, 0) + "%",
+    if sessionAtrPct >= 100 then Color.RED
+    else if sessionAtrPct >= 80 then Color.ORANGE
+    else if sessionAtrPct >= 60 then Color.YELLOW
+    else if sessionAtrPct >= 40 then Color.GREEN
+    else Color.LIGHT_GRAY);
+
+# --- Single-Bar ATR (per candle vs prior day ATR) ---
+def barRange = high - low;
+def barAtrPct = if priorDayATR > 0 then (barRange / priorDayATR) * 100 else 0;
+
+AddLabel(showATRWarning and barAtrPct >= atrExtremePct,
+    "1-BAR " + Round(barAtrPct, 0) + "% ATR — NO NEW ENTRIES",
+    Color.RED);
+
+AddLabel(showATRWarning and barAtrPct >= atrExhaustPct and barAtrPct < atrExtremePct,
+    "1-BAR " + Round(barAtrPct, 0) + "% ATR EXHAUSTION",
+    Color.ORANGE);
+
+AddLabel(showATRWarning and barAtrPct >= atrWarnPct and barAtrPct < atrExhaustPct,
+    "1-BAR " + Round(barAtrPct, 0) + "% ATR WARNING",
+    Color.YELLOW);
+
+# --- NR7 Detection (per bar: range < lowest of prior 6 bar ranges) ---
+# Matches Python indicator: trend_strength_candles.py
+def lowestPrev6Range = Lowest(barRange[1], 6);
+def isNR7 = barRange < lowestPrev6Range;
+
+# =========================================================
+# 8b) Magenta / Cyan Opening Bar Detection
+#     Source: magenta_vs_normal_bearish_gapup (n=85/1316)
+#             cyan_open_rising_tsl (n=588/1322)
+#     Magenta: trendScore <= -70 AND NOT NR7
+#     Cyan: trendScore >= 70 AND NOT NR7
+# =========================================================
+def openBarTS = CompoundValue(1,
+    if sessionStartBar then trendScore else openBarTS[1], 0);
+def openBarNR7 = CompoundValue(1,
+    if sessionStartBar then (if isNR7 then 1 else 0) else openBarNR7[1], 0);
+
+def isMagentaOpen = openBarTS <= -70 and openBarNR7 == 0;
+def isCyanOpen = openBarTS >= 70 and openBarNR7 == 0;
+def isNR7Open = openBarNR7 == 1;
+
+# Convenience flags for label logic
+def isMagFade = showMagentaCyanStats and isMagentaOpen;
+def isCyanBounce = showMagentaCyanStats and isCyanOpen;
+
+# =========================================================
+# 9) Gap Study — FT + E3 + Time Phases + Pullback Zones
+#    Source: Gap Continuation Rules (1,865 long / 1,861 short)
+# =========================================================
+
+# --- First Candle Classification ---
+def fcO = CompoundValue(1, if sessionStartBar then open else fcO[1], open);
+def fcC = CompoundValue(1, if sessionStartBar then close else fcC[1], close);
+def fcH = CompoundValue(1, if sessionStartBar then high else fcH[1], high);
+def fcL = CompoundValue(1, if sessionStartBar then low else fcL[1], low);
+
+def fcRange = fcH - fcL;
+def fcBody = AbsValue(fcC - fcO);
+def fcBodyPct = if fcRange > 0 then fcBody / fcRange else 0;
+def fcBull = fcC > fcO and fcBodyPct > 0.40;
+def fcBear = fcC < fcO and fcBodyPct > 0.40;
+
+def contraryCandle = (gapPct >= minGapForStudy and fcBear)
+                  or (gapPct <= -minGapForStudy and fcBull);
+
+# --- Study-qualifying gap (>= 2%) ---
+def studyGapUp = gapPct >= minGapForStudy;
+def studyGapDn = gapPct <= -minGapForStudy;
+def studyQualGap = studyGapUp or studyGapDn;
+
+# --- Gap Bucket: 1=2-5%, 2=5-8%, 3=8-12%, 4=12%+ ---
+def gapBucket =
+    if absGapPct >= 12 then 4
+    else if absGapPct >= 8 then 3
+    else if absGapPct >= 5 then 2
+    else if absGapPct >= 2 then 1
+    else 0;
+def gb = gapBucket;
+
+# --- FT Levels ---
+def ftLvlLong = dayOpen + (priorDayATR * ftAtrPct);
+def ftLvlShort = dayOpen - (priorDayATR * ftAtrPct);
+
+# --- Session bias latch (carries open-window bias all day) ---
+# 1 = GO (momentum with gap), -1 = FADE (momentum against), 0 = MIXED
+def sessionBias = CompoundValue(1,
+    if sessionStartBar then 0
+    else if gapGoBias then 1
+    else if gapFadeBias then -1
+    else sessionBias[1], 0);
+
+# --- FT Latch (stays true once confirmed for the session) ---
+def ftLongRaw = studyGapUp and !contraryCandle and close >= ftLvlLong;
+def ftLongFlag = CompoundValue(1,
+    if sessionStartBar then (if ftLongRaw then 1 else 0)
+    else if ftLongFlag[1] == 1 then 1
+    else if ftLongRaw then 1
+    else 0, 0);
+
+def ftShortRaw = studyGapDn and !contraryCandle and close <= ftLvlShort;
+def ftShortFlag = CompoundValue(1,
+    if sessionStartBar then (if ftShortRaw then 1 else 0)
+    else if ftShortFlag[1] == 1 then 1
+    else if ftShortRaw then 1
+    else 0, 0);
+
+# --- Track bar of first FT ---
+def ftLongJustFired = ftLongFlag == 1 and ftLongFlag[1] == 0;
+def ftLongBarN = CompoundValue(1,
+    if sessionStartBar then (if ftLongRaw then 0 else -1)
+    else if ftLongBarN[1] >= 0 then ftLongBarN[1]
+    else if ftLongJustFired then barsSinceOpen
+    else -1, -1);
+def barsSinceFTL = if ftLongBarN >= 0 then barsSinceOpen - ftLongBarN else -1;
+
+def ftShortJustFired = ftShortFlag == 1 and ftShortFlag[1] == 0;
+def ftShortBarN = CompoundValue(1,
+    if sessionStartBar then (if ftShortRaw then 0 else -1)
+    else if ftShortBarN[1] >= 0 then ftShortBarN[1]
+    else if ftShortJustFired then barsSinceOpen
+    else -1, -1);
+def barsSinceFTS = if ftShortBarN >= 0 then barsSinceOpen - ftShortBarN else -1;
+
+# --- E3 Window (~30 min after FT, Rule 8: 69% WR, 6.47x R:R) ---
+def inE3Long = ftLongFlag == 1 and barsSinceFTL >= 0 and barsSinceFTL <= e3WindowBars;
+def inE3Short = ftShortFlag == 1 and barsSinceFTS >= 0 and barsSinceFTS <= e3WindowBars;
+
+# --- FT Entry Price (latch close when FT first fires) ---
+def ftLongEntry = CompoundValue(1,
+    if sessionStartBar then 0
+    else if ftLongJustFired then close
+    else ftLongEntry[1], 0);
+def ftShortEntry = CompoundValue(1,
+    if sessionStartBar then 0
+    else if ftShortJustFired then close
+    else ftShortEntry[1], 0);
+
+# --- Pullback / Bounce from entry (current bar) ---
+def longPBNow = if ftLongFlag == 1 and ftLongEntry > 0 and close < ftLongEntry
+    then (ftLongEntry - close) / ftLongEntry * 100 else 0;
+def shortBounceNow = if ftShortFlag == 1 and ftShortEntry > 0 and close > ftShortEntry
+    then (close - ftShortEntry) / ftShortEntry * 100 else 0;
+
+# --- Long Time Phases (median HoD bar per bucket, Rule 4) ---
+# 2-5%: 170min=bar34, 5-8%: 210min=bar42, 8-12%: 145min=bar29, 12%+: 85min=bar17
+def longHoDBar =
+    if gb == 4 then 17
+    else if gb == 3 then 29
+    else if gb == 2 then 42
+    else 34;
+
+# 1=early(<1hr), 2=building, 3=HoD window(±4bars), 4=trail
+def longPhase =
+    if barsSinceOpen < 12 then 1
+    else if barsSinceOpen < longHoDBar - 4 then 2
+    else if barsSinceOpen < longHoDBar + 4 then 3
+    else 4;
+
+# --- Short Time Phases (Rules 12/17/18) ---
+# bar48=4hr(76% WR continuation), bar66=final hour(46% LoD here)
+def shortPhase =
+    if barsSinceOpen < 12 then 1
+    else if barsSinceOpen < 48 then 2
+    else if barsSinceOpen < 66 then 3
+    else 4;
+
+# =========================================================
+# 9b) Contrary Candle — Fade/Bounce FT + Tracking
+#     Source: Gap Fade Study (1,346 fade / 1,119 bounce)
+#     Gap-up + bearish bar-1 = FADE (short side)
+#     Gap-down + bullish bar-1 = BOUNCE (long side)
+# =========================================================
+
+# --- Contrary FT Logic ---
+# Fade FT: gap-up + bearish bar-1 + close drops to ftLvlShort
+# Bounce FT: gap-down + bullish bar-1 + close rises to ftLvlLong
+
+def ftFadeRaw = studyGapUp and contraryCandle and close <= ftLvlShort;
+def ftFadeFlag = CompoundValue(1,
+    if sessionStartBar then (if ftFadeRaw then 1 else 0)
+    else if ftFadeFlag[1] == 1 then 1
+    else if ftFadeRaw then 1
+    else 0, 0);
+
+def ftBounceRaw = studyGapDn and contraryCandle and close >= ftLvlLong;
+def ftBounceFlag = CompoundValue(1,
+    if sessionStartBar then (if ftBounceRaw then 1 else 0)
+    else if ftBounceFlag[1] == 1 then 1
+    else if ftBounceRaw then 1
+    else 0, 0);
+
+# --- Track bar of first contrary FT ---
+def ftFadeJustFired = ftFadeFlag == 1 and ftFadeFlag[1] == 0;
+def ftFadeBarN = CompoundValue(1,
+    if sessionStartBar then (if ftFadeRaw then 0 else -1)
+    else if ftFadeBarN[1] >= 0 then ftFadeBarN[1]
+    else if ftFadeJustFired then barsSinceOpen
+    else -1, -1);
+def barsSinceFTFade = if ftFadeBarN >= 0 then barsSinceOpen - ftFadeBarN else -1;
+
+def ftBounceJustFired = ftBounceFlag == 1 and ftBounceFlag[1] == 0;
+def ftBounceBarN = CompoundValue(1,
+    if sessionStartBar then (if ftBounceRaw then 0 else -1)
+    else if ftBounceBarN[1] >= 0 then ftBounceBarN[1]
+    else if ftBounceJustFired then barsSinceOpen
+    else -1, -1);
+def barsSinceFTBounce = if ftBounceBarN >= 0 then barsSinceOpen - ftBounceBarN else -1;
+
+# --- E3-equivalent window for contrary candles ---
+def inE3Fade = ftFadeFlag == 1 and barsSinceFTFade >= 0 and barsSinceFTFade <= e3WindowBars;
+def inE3Bounce = ftBounceFlag == 1 and barsSinceFTBounce >= 0 and barsSinceFTBounce <= e3WindowBars;
+
+# --- Entry price latches ---
+def ftFadeEntry = CompoundValue(1,
+    if sessionStartBar then 0
+    else if ftFadeJustFired then close
+    else ftFadeEntry[1], 0);
+def ftBounceEntry = CompoundValue(1,
+    if sessionStartBar then 0
+    else if ftBounceJustFired then close
+    else ftBounceEntry[1], 0);
+
+# --- Adverse move from entry ---
+# Fade (short): adverse = price rising above entry
+def fadeBounceNow = if ftFadeFlag == 1 and ftFadeEntry > 0 and close > ftFadeEntry
+    then (close - ftFadeEntry) / ftFadeEntry * 100 else 0;
+# Bounce (long): adverse = price dropping below entry
+def bouncePBNow = if ftBounceFlag == 1 and ftBounceEntry > 0 and close < ftBounceEntry
+    then (ftBounceEntry - close) / ftBounceEntry * 100 else 0;
+
+# --- Contrary candle time phases (kept for reference, superseded by 9c) ---
+def contraryDestBar = 30;
+def contraryPhase =
+    if barsSinceOpen < 12 then 1
+    else if barsSinceOpen < contraryDestBar - 4 then 2
+    else if barsSinceOpen < contraryDestBar + 4 then 3
+    else 4;
+
+# =========================================================
+# 9c) Session HoD/LoD Tracking + Contrary State Engine (v5.1)
+#     Source: Continuation Deep Dive (Rules 22-28)
+#     Tracks WHEN session high/low last refreshed to determine
+#     continuation vs failure probability in real time.
+#     5-min bars: 0=open, 5=30m, 11=1hr, 48=4hr, 66=last hr
+# =========================================================
+
+# --- Running session high/low (intraday) ---
+def iHi = CompoundValue(1,
+    if sessionStartBar then high
+    else Max(iHi[1], high), high);
+def iLo = CompoundValue(1,
+    if sessionStartBar then low
+    else Min(iLo[1], low), low);
+
+# --- Bar when HoD/LoD last refreshed (strictly new high/low) ---
+def hodBar = CompoundValue(1,
+    if sessionStartBar then 0
+    else if high > iHi[1] then barsSinceOpen
+    else hodBar[1], 0);
+def lodBar = CompoundValue(1,
+    if sessionStartBar then 0
+    else if low < iLo[1] then barsSinceOpen
+    else lodBar[1], 0);
+
+# --- Fade state engine (gap-up + bearish bar-1 = short) ---
+# Priority: DEAD > LOD_LAST_HR > GRINDING > WEAK > BEST > TOPPED > CAUTION > E3 > time
+def fadeActive = studyGapUp and contraryCandle and ftFadeFlag == 1;
+def fadeState =
+    if !fadeActive then 0
+    # Kill: new session highs in last hour (1% continuation)
+    else if barsSinceOpen >= 66 and hodBar >= 66 then 10
+    # Monster: LoD in last hour (91% continuation)
+    else if barsSinceOpen >= 66 and lodBar >= 66 then 9
+    # Strong: still making lows after 4hr (83%)
+    else if barsSinceOpen >= 48 and lodBar >= 48 then 8
+    # Weak: new highs past 30 min (17%)
+    else if barsSinceOpen >= 6 and hodBar >= 6 then 7
+    # Best combo: topped + FT at open (71%)
+    else if barsSinceOpen >= 1 and hodBar == 0 and ftFadeBarN == 0 then 6
+    # Confirmed: topped at open (67%)
+    else if barsSinceOpen >= 1 and hodBar == 0 then 5
+    # Caution: new highs before 30m, HoD not at open (29%)
+    else if barsSinceOpen >= 1 and hodBar > 0 and barsSinceOpen < 6 then -1
+    # E3 hold zone
+    else if inE3Fade then 2
+    # Early session
+    else if barsSinceOpen < 12 then 3
+    # Mid-session default
+    else 4;
+
+# --- Bounce state engine (gap-down + bullish bar-1 = long) ---
+# Priority: DEAD > HOD_LAST_HR > GRINDING > WEAK > BEST > BOTTOMED > CAUTION > E3 > time
+def bounceActive = studyGapDn and contraryCandle and ftBounceFlag == 1;
+def bounceState =
+    if !bounceActive then 0
+    # Kill: new session lows in last hour (0% continuation)
+    else if barsSinceOpen >= 66 and lodBar >= 66 then 10
+    # Monster: HoD in last hour (85% continuation)
+    else if barsSinceOpen >= 66 and hodBar >= 66 then 9
+    # Strong: still making highs after 4hr (76%)
+    else if barsSinceOpen >= 48 and hodBar >= 48 then 8
+    # Weak: new lows past 30 min (18%)
+    else if barsSinceOpen >= 6 and lodBar >= 6 then 7
+    # Best combo: bottomed + FT at open (73%)
+    else if barsSinceOpen >= 1 and lodBar == 0 and ftBounceBarN == 0 then 6
+    # Confirmed: bottomed at open (66%)
+    else if barsSinceOpen >= 1 and lodBar == 0 then 5
+    # Caution: new lows before 30m, LoD not at open (25%)
+    else if barsSinceOpen >= 1 and lodBar > 0 and barsSinceOpen < 6 then -1
+    # E3 hold zone
+    else if inE3Bounce then 2
+    # Early session
+    else if barsSinceOpen < 12 then 3
+    # Mid-session default
+    else 4;
+
+# =========================================================
+# Gap Study Labels — BASE CONDITIONS
+# =========================================================
+
+AddLabel(showFTLabel and !studyQualGap,
+    "NO GAP STUDY",
+    Color.LIGHT_GRAY);
+
+# --- Magenta / Cyan / NR7 Opening Bar Tags ---
+AddLabel(showFTLabel and showMagentaCyanStats and studyQualGap and isMagentaOpen,
+    "MAGENTA OPEN n=85 74%",
+    Color.MAGENTA);
+
+AddLabel(showFTLabel and showMagentaCyanStats and studyQualGap and isCyanOpen,
+    "CYAN OPEN n=588 58%",
+    Color.CYAN);
+
+AddLabel(showFTLabel and showMagentaCyanStats and studyQualGap and isNR7Open and !isMagentaOpen and !isCyanOpen,
+    "NR7 OPEN",
+    Color.LIGHT_GRAY);
+
+# =========================================================
+# Gap Study Labels — CONTRARY CANDLE: FADE PATH (v5.2)
+# Source: Gap Fade Study + Continuation Deep Dive + Magenta Study
+# State engine: fadeState drives label (Rules 22-28)
+# Magenta open: cs <= -70 NOT NR7, WR 74% (n=85), FT 75%
+# =========================================================
+
+# Slope divergence — TS slope rising blocks fade (short) entry suggestions
+AddLabel(showFTLabel and studyGapUp and contraryCandle and isRising,
+    "Divergence — Mean reversion possible",
+    GlobalColor("FadePink"));
+
+# Pre-FT alert — magenta: 74% WR, FT 75% (n=85) | non-magenta: 67% WR (n=1316)
+# Shows TOPPED if HoD still at open bar, warns AVOID on 8-12% bucket
+AddLabel(showFTLabel and studyGapUp and contraryCandle and ftFadeFlag == 0 and !isRising,
+    (if isMagFade
+     then "MAGENTA FADE 74% | FT 75% | AWAIT FT " + Round(ftLvlShort, 2)
+     else "FADE ALERT 67% | AWAIT FT " + Round(ftLvlShort, 2))
+    + " | " + (if gb == 4 then "12%+" else if gb == 3 then "8-12% AVOID"
+               else if gb == 2 then "5-8%" else "2-5%")
+    + (if barsSinceOpen >= 1 and hodBar == 0 then " | TOPPED" else ""),
+    if isMagFade then Color.MAGENTA
+    else if gb == 3 then Color.YELLOW else GlobalColor("FadeGapUp"));
+
+# Main fade status (state engine -- exactly one message at all times)
+# Magenta upgrades: state 5 (67%->74%), state 6 (71%->74%) per study
+# 10=DEAD(1%), 9=LOD_LAST_HR(91%), 8=GRINDING(83%), 7=WEAK(17%),
+# 6=BEST(71%/74%M), 5=TOPPED(67%/74%M), -1=CAUTION(29%), 2=E3, 3=WORKING, 4=BUILDING
+AddLabel(showFTLabel and fadeActive and !isRising,
+    (if fadeState == 10 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "DEAD 1% | EXIT NOW"
+     else if fadeState == 9 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "91% | LOD LAST HR -- TRAIL"
+     else if fadeState == 8 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "83% | STILL MAKING LOWS -- HOLD"
+     else if fadeState == 7 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "WEAK 17% | NEW HIGHS PAST 30M"
+     else if fadeState == 6 then
+        (if isMagFade then "MAGENTA 74% | TOPPED+FT AT OPEN" else "FADE 71% | TOPPED+FT AT OPEN")
+     else if fadeState == 5 then
+        (if isMagFade then "MAGENTA 74% | TOPPED AT OPEN -- HOLD" else "FADE 67% | TOPPED AT OPEN -- HOLD")
+     else if fadeState == -1 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "29% | NEW HIGHS -- TIGHTEN"
+     else if fadeState == 2 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "FT HOLD"
+     else if fadeState == 3 then
+        (if isMagFade then "MAGENTA " else "FADE ") + "WORKING"
+     else (if isMagFade then "MAGENTA " else "FADE ") + "BUILDING")
+    + " | " + (if gb == 4 then "12%+" else if gb == 3 then "8-12% AVOID"
+               else if gb == 2 then "5-8%" else "2-5%"),
+    if fadeState == 10 then Color.RED
+    else if fadeState == 9 then Color.MAGENTA
+    else if fadeState == 8 then Color.MAGENTA
+    else if fadeState == 7 then Color.RED
+    else if fadeState == 6 then (if isMagFade then Color.MAGENTA else GlobalColor("FadePink"))
+    else if fadeState == 5 then (if isMagFade then Color.MAGENTA else GlobalColor("FadePink"))
+    else if fadeState == -1 then Color.YELLOW
+    else if fadeState == 2 then (if gb == 3 then Color.YELLOW else GlobalColor("FadeGapUp"))
+    else GlobalColor("FadeGapUp"));
+
+# Fade entry price — visible after FT fires so trader always sees entry level
+AddLabel(showFTLabel and fadeActive and ftFadeEntry > 0 and !isRising,
+    "ENTRY @ " + Round(ftFadeEntry, 2) + " (FT bar close)",
+    if isMagFade then Color.MAGENTA else GlobalColor("FadeGapUp"));
+
+# Fade FT win rate — magenta 61% (n=64) vs non-magenta 50% (n=836)
+AddLabel(showFTLabel and showMagentaCyanStats and fadeActive and ftFadeEntry > 0 and !isRising,
+    if isMagentaOpen then "FT WR 61% | avg +3.5%"
+    else "FT WR 50% | avg +1.5%",
+    if isMagentaOpen then Color.MAGENTA else GlobalColor("FadeGapUp"));
+
+# Fade adverse move zones (bounce against short)
+# MAE: 25th +1.20%, median +2.35%, 75th +4.26%, 90th +7.31%
+AddLabel(showFTLabel and fadeActive and fadeBounceNow >= 4.26,
+    "BOUNCE " + Round(fadeBounceNow, 1) + "% -- EVALUATE",
+    Color.RED);
+
+AddLabel(showFTLabel and fadeActive and fadeBounceNow >= 2.35 and fadeBounceNow < 4.26,
+    "BOUNCE " + Round(fadeBounceNow, 1) + "% -- DEEP",
+    Color.ORANGE);
+
+AddLabel(showFTLabel and fadeActive and fadeBounceNow >= 0.67 and fadeBounceNow < 2.35,
+    "BOUNCE " + Round(fadeBounceNow, 1) + "% -- NORMAL",
+    GlobalColor("FadePink"));
+
+# =========================================================
+# Gap Study Labels — CONTRARY CANDLE: BOUNCE PATH (v5.2)
+# Source: Gap Fade Study + Continuation Deep Dive + Cyan Open Study
+# State engine: bounceState drives label (Rules 22-28)
+# 8-12% bucket: 62% WR | with bottomed filter: 76% WR
+# Cyan open: cs >= 70 NOT NR7, EOD 58% (n=588)
+# =========================================================
+
+# Slope divergence — TS slope dropping blocks bounce (long) entry suggestions
+AddLabel(showFTLabel and studyGapDn and contraryCandle and isDropping,
+    "Divergence — Mean reversion possible",
+    GlobalColor("FadePink"));
+
+# Pre-FT alert — cyan: 67% gap-specific + 58% EOD general | default: 67%
+# Shows BOTTOMED if LoD still at open bar, highlights 8-12% SWEET spot
+AddLabel(showFTLabel and studyGapDn and contraryCandle and ftBounceFlag == 0 and !isDropping,
+    (if isCyanBounce
+     then "CYAN BOUNCE 67% | EOD 58% | AWAIT FT " + Round(ftLvlLong, 2)
+     else "BOUNCE ALERT 67% | AWAIT FT " + Round(ftLvlLong, 2))
+    + " | " + (if gb == 4 then "12%+" else if gb == 3 then "8-12% SWEET"
+               else if gb == 2 then "5-8%" else "2-5%")
+    + (if barsSinceOpen >= 1 and lodBar == 0 then " | BOTTOMED" else ""),
+    if isCyanBounce then Color.CYAN
+    else if gb >= 3 then Color.CYAN else GlobalColor("BounceGapDn"));
+
+# Main bounce status (state engine -- exactly one message at all times)
+# Cyan prefix when cyan open detected; gap-specific stats remain primary
+# 10=DEAD(0%), 9=HOD_LAST_HR(85%), 8=GRINDING(76%), 7=WEAK(18%),
+# 6=BEST(73%), 5=BOTTOMED(66%), -1=CAUTION(25%), 2=E3, 3=WORKING, 4=BUILDING
+AddLabel(showFTLabel and bounceActive and !isDropping,
+    (if bounceState == 10 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "DEAD 0% | EXIT NOW"
+     else if bounceState == 9 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "85% | HOD LAST HR -- TRAIL"
+     else if bounceState == 8 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "76% | STILL MAKING HIGHS -- HOLD"
+     else if bounceState == 7 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "WEAK 18% | NEW LOWS PAST 30M"
+     else if bounceState == 6 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "73% | BOTTOMED+FT AT OPEN"
+     else if bounceState == 5 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "66% | BOTTOMED AT OPEN -- HOLD"
+     else if bounceState == -1 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "25% | NEW LOWS -- TIGHTEN"
+     else if bounceState == 2 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "FT HOLD"
+     else if bounceState == 3 then
+        (if isCyanBounce then "CYAN " else "BOUNCE ") + "WORKING"
+     else (if isCyanBounce then "CYAN " else "BOUNCE ") + "BUILDING")
+    + " | " + (if gb == 4 then "12%+ 60%" else if gb == 3 then "8-12% 62%"
+               else if gb == 2 then "5-8%" else "2-5%"),
+    if bounceState == 10 then Color.RED
+    else if bounceState == 9 then Color.MAGENTA
+    else if bounceState == 8 then Color.MAGENTA
+    else if bounceState == 7 then Color.RED
+    else if bounceState == 6 then Color.CYAN
+    else if bounceState == 5 then Color.CYAN
+    else if bounceState == -1 then Color.YELLOW
+    else if bounceState == 2 then (if gb >= 3 then Color.CYAN else GlobalColor("BounceGapDn"))
+    else GlobalColor("BounceGapDn"));
+
+# Bounce entry price — visible after FT fires so trader always sees entry level
+AddLabel(showFTLabel and bounceActive and ftBounceEntry > 0 and !isDropping,
+    "ENTRY @ " + Round(ftBounceEntry, 2) + " (FT bar close)",
+    if isCyanBounce then Color.CYAN else GlobalColor("BounceGapDn"));
+
+# Bounce cyan context — general opening bar EOD edge (not gap-specific)
+AddLabel(showFTLabel and showMagentaCyanStats and bounceActive and ftBounceEntry > 0 and !isDropping and isCyanOpen,
+    "CYAN EOD 58% | avg +0.5%",
+    Color.CYAN);
+
+# Bounce adverse move zones (pullback against long)
+# MAE: 25th +1.05%, median +2.00%, 75th +3.84%, 90th +5.82%
+AddLabel(showFTLabel and bounceActive and bouncePBNow >= 3.84,
+    "PB " + Round(bouncePBNow, 1) + "% -- EVALUATE",
+    Color.RED);
+
+AddLabel(showFTLabel and bounceActive and bouncePBNow >= 2.00 and bouncePBNow < 3.84,
+    "PB " + Round(bouncePBNow, 1) + "% -- DEEP",
+    Color.ORANGE);
+
+AddLabel(showFTLabel and bounceActive and bouncePBNow >= 0.60 and bouncePBNow < 2.00,
+    "PB " + Round(bouncePBNow, 1) + "% -- NORMAL",
+    Color.CYAN);
+
+# =========================================================
+# Gap Study Labels — LONG SIDE (Rules 1-10)
+# =========================================================
+
+# Slope divergence — TS slope dropping blocks long entry suggestions
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and isDropping,
+    "Divergence — Mean reversion possible",
+    GlobalColor("FadePink"));
+
+# Awaiting FT
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 0 and !isDropping,
+    "AWAIT FT " + Round(ftLvlLong, 2) + " | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.YELLOW);
+
+# E3 Zone — CYAN (Rule 8: 69% WR, 6.47x R:R; 5-8% bucket: 74%/8.36x)
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and inE3Long and !isDropping,
+    "E3 ZONE — HOLD PB | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%")
+    + (if sessionBias == 1 then " | GO" else if sessionBias == -1 then " | FADE" else ""),
+    if sessionBias == -1 then Color.YELLOW else GlobalColor("E3Zone"));
+
+# Early session — first hour, past E3 (Rule 2: survive 30 min)
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and !inE3Long and longPhase == 1 and !isDropping,
+    "HOLD — TOO EARLY TO CUT | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.GREEN);
+
+# Profit building — past 1hr, before HoD window (Rule 5: don't exit before noon)
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and !inE3Long and longPhase == 2 and !isDropping,
+    "PROFIT BUILDING | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.GREEN);
+
+# HoD window approaching (Rule 4: median HoD per bucket)
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and !inE3Long and longPhase == 3 and !isDropping,
+    "PROFIT ZONE CLOSING | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.YELLOW);
+
+# Past HoD window (Rule 9: only 10% make 2nd run at HoD)
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and !inE3Long and longPhase == 4 and !isDropping,
+    "TRAIL ZONE — 90% DONE AT HOD | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.ORANGE);
+
+# Long entry price — visible after FT fires so trader always sees entry level
+AddLabel(showFTLabel and studyGapUp and !contraryCandle and ftLongFlag == 1 and ftLongEntry > 0 and !isDropping,
+    "ENTRY @ " + Round(ftLongEntry, 2) + " (FT bar close)",
+    Color.GREEN);
+
+# Long pullback from entry — Rule 6 zones
+AddLabel(showFTLabel and ftLongFlag == 1 and longPBNow >= 2.83,
+    "PB " + Round(longPBNow, 1) + "% — EVALUATE EXIT",
+    Color.RED);
+
+AddLabel(showFTLabel and ftLongFlag == 1 and longPBNow >= 1.18 and longPBNow < 2.83,
+    "PB " + Round(longPBNow, 1) + "% — DEEP BUT 90% RECOVER",
+    Color.ORANGE);
+
+AddLabel(showFTLabel and ftLongFlag == 1 and longPBNow >= 0.51 and longPBNow < 1.18,
+    "PB " + Round(longPBNow, 1) + "% — NORMAL",
+    Color.GREEN);
+
+# =========================================================
+# Gap Study Labels — SHORT SIDE (Rules 11-20)
+# =========================================================
+
+# Slope divergence — TS slope rising blocks short entry suggestions
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and isRising,
+    "Divergence — Mean reversion possible",
+    GlobalColor("FadePink"));
+
+# Awaiting FT
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 0 and !isRising,
+    "AWAIT FT " + Round(ftLvlShort, 2) + " | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.YELLOW);
+
+# E3 Zone — CYAN
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and inE3Short and !isRising,
+    "E3 ZONE — HOLD | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%")
+    + (if sessionBias == 1 then " | GO" else if sessionBias == -1 then " | FADE" else ""),
+    if sessionBias == -1 then Color.YELLOW else GlobalColor("E3Zone"));
+
+# Early session — first hour (Rule 14: bounces are normal, don't cover)
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and !inE3Short and shortPhase == 1 and !isRising,
+    "HOLD — TOO EARLY TO COVER | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.RED);
+
+# Short working — 1hr to 4hr (Rule 18: don't cut before 2hr after FT)
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and !inE3Short and shortPhase == 2 and !isRising,
+    "SHORT WORKING | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.RED);
+
+# Continuation confirmed — past 4hr (Rule 17: 76% WR when still making lows)
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and !inE3Short and shortPhase == 3 and !isRising,
+    "CONTINUATION 76% WR | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.MAGENTA);
+
+# Final hour — EOD approaching (Rule 12: 46% of continuation LoDs here)
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and !inE3Short and shortPhase == 4 and !isRising,
+    "EOD — 46% LOD IN LAST HR | "
+    + (if gb == 4 then "12%+" else if gb == 3 then "8-12%"
+       else if gb == 2 then "5-8%" else "2-5%"),
+    Color.ORANGE);
+
+# Short entry price — visible after FT fires so trader always sees entry level
+AddLabel(showFTLabel and studyGapDn and !contraryCandle and ftShortFlag == 1 and ftShortEntry > 0 and !isRising,
+    "ENTRY @ " + Round(ftShortEntry, 2) + " (FT bar close)",
+    Color.RED);
+
+# Short bounce from entry — Rule 14/15 zones
+AddLabel(showFTLabel and ftShortFlag == 1 and shortBounceNow >= 3.12,
+    "BOUNCE " + Round(shortBounceNow, 1) + "% — TIGHTEN",
+    Color.RED);
+
+AddLabel(showFTLabel and ftShortFlag == 1 and shortBounceNow >= 2.15 and shortBounceNow < 3.12,
+    "BOUNCE " + Round(shortBounceNow, 1) + "% — AT MEDIAN MAE",
+    Color.ORANGE);
+
+AddLabel(showFTLabel and ftShortFlag == 1 and shortBounceNow >= 0.59 and shortBounceNow < 2.15,
+    "BOUNCE " + Round(shortBounceNow, 1) + "% — NORMAL",
+    Color.GREEN);
+
+# =========================================================
+# 10) Outputs / Visuals
+# =========================================================
+plot TrendLine = trendScore;
+TrendLine.SetLineWeight(3);
+TrendLine.SetPaintingStrategy(PaintingStrategy.LINE);
+
+TrendLine.AssignValueColor(
+    if !useColorGradient then Color.CURRENT
+    else if trendScore >= 70 then Color.GREEN
+    else if trendScore >= 40 then Color.DARK_GREEN
+    else if trendScore >= 0 then Color.LIGHT_GRAY
+    else if trendScore >= -40 then Color.ORANGE
+    else Color.RED
+);
+
+plot SignalLinePlot = if showSignalLine then signalLineData else Double.NaN;
+SignalLinePlot.SetLineWeight(2);
+SignalLinePlot.SetDefaultColor(Color.MAGENTA);
+SignalLinePlot.SetStyle(Curve.SHORT_DASH);
+
+plot Histogram = if showHistogram then trendScore else Double.NaN;
+Histogram.SetPaintingStrategy(PaintingStrategy.HISTOGRAM);
+Histogram.SetLineWeight(3);
+Histogram.AssignValueColor(if trendScore >= 0 then Color.GREEN else Color.RED);
+
+plot ZeroLine = 0;
+ZeroLine.SetLineWeight(1);
+ZeroLine.SetDefaultColor(Color.LIGHT_GRAY);
+ZeroLine.SetStyle(Curve.SHORT_DASH);
+
+plot OverboughtLine = 70;
+OverboughtLine.SetLineWeight(1);
+OverboughtLine.SetDefaultColor(Color.RED);
+OverboughtLine.SetStyle(Curve.SHORT_DASH);
+
+plot OversoldLine = -70;
+OversoldLine.SetLineWeight(1);
+OversoldLine.SetDefaultColor(Color.CYAN);
+OversoldLine.SetStyle(Curve.SHORT_DASH);
+
+AddCloud(OverboughtLine, 100, Color.RED, Color.RED);
+AddCloud(-100, OversoldLine, Color.CYAN, Color.CYAN);
+
+# Momentum acceleration shading
+def accelUp = showMomentum and momentum > 0 and momentum > momentum[1];
+def accelDown = showMomentum and momentum <= 0 and momentum < momentum[1];
+
+AddCloud(if accelUp then 100 else Double.NaN,
+         if accelUp then 95 else Double.NaN,
+         Color.CYAN, Color.CYAN);
+
+AddCloud(if accelDown then 100 else Double.NaN,
+         if accelDown then 95 else Double.NaN,
+         Color.ORANGE, Color.ORANGE);

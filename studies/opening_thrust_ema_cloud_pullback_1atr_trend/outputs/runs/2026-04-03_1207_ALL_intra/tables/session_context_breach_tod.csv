@@ -1,0 +1,6 @@
+direction,breach_session_bucket,n,denominator_n_breach,rate_of_breach_events
+long,midday,3,369,0.008130081300813009
+long,morning,366,369,0.991869918699187
+short,afternoon,1,446,0.002242152466367713
+short,midday,5,446,0.011210762331838564
+short,morning,440,446,0.9865470852017937
