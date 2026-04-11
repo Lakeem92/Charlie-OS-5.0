@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Smart refresh: every 60 min, but OFF during weekend blackout
+    // Blackout: Friday 3:00 PM CT through Sunday 4:30 PM CT
+    (function() {
+      function inBlackout() {
+        var now  = new Date();
+        var day  = now.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+        var mins = now.getHours() * 60 + now.getMinutes();
+        if (day === 6) return true;                          // all Saturday
+        if (day === 5 && mins >= 15 * 60) return true;      // Fri >= 3:00 PM
+        if (day === 0 && mins < 16 * 60 + 30) return true;  // Sun < 4:30 PM
+        return false;
+      }
+      if (!inBlackout()) {
+        setTimeout(function() { location.reload(); }, 60 * 60 * 1000); // 60 min
+      }
+    })();
+  </script>
+  <title>War Room News Flow — 2026-04-11</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at top, #162236 0%, #0d1117 46%, #080b10 100%);
+      color: #e6edf3;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+    }
+    a { color: #42a5f5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap { max-width: 1440px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ── Header ── */
+    .hero { margin-bottom: 28px; }
+    .hero h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; }
+    .hero-sub { margin-top: 6px; color: #8b949e; font-size: 14px; }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+    .stamp {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #42a5f5; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .stamp-refresh {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #8b949e; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .run-count {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      background: rgba(66,165,245,0.1); border: 1px solid rgba(66,165,245,0.3);
+      color: #42a5f5; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    }
+
+    /* ── Schedule bar ── */
+    .schedule-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .sched-pill {
+      padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      border: 1px solid #30363d; color: #8b949e; letter-spacing: 0.4px;
+    }
+    .sched-pill.done { border-color: #26a69a; color: #26a69a; background: rgba(38,166,154,0.08); }
+    .sched-pill.next { border-color: #42a5f5; color: #42a5f5; background: rgba(66,165,245,0.08); }
+
+    /* ── Run card ── */
+    .run-card {
+      background: linear-gradient(180deg, rgba(22,27,34,0.96) 0%, rgba(13,17,23,0.98) 100%);
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .run-card[open] { border-color: #42a5f5; }
+    .run-summary {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px; cursor: pointer; list-style: none; user-select: none;
+    }
+    .run-summary::-webkit-details-marker { display: none; }
+    .run-summary::before {
+      content: "▶"; font-size: 10px; color: #8b949e; transition: transform 0.15s;
+    }
+    .run-card[open] > .run-summary::before { transform: rotate(90deg); }
+    .run-time { font-size: 18px; font-weight: 700; color: #e6edf3; }
+    .badge-latest {
+      padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(66,165,245,0.15); border: 1px solid #42a5f5; color: #42a5f5;
+    }
+    .run-stats { color: #8b949e; font-size: 12px; margin-left: auto; }
+
+    .run-body { padding: 0 20px 24px; border-top: 1px solid #21262d; }
+
+    /* ── Section headers ── */
+    .section-head {
+      font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: #8b949e; margin: 20px 0 12px; padding-bottom: 6px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    /* ── Alpaca table ── */
+    .news-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .news-table thead tr { border-bottom: 1px solid #30363d; }
+    .news-table th {
+      text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; color: #8b949e;
+    }
+    .news-table td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+    .news-table tr:last-child td { border-bottom: none; }
+    .ticker-cell { font-weight: 700; color: #42a5f5; white-space: nowrap; font-size: 12px; }
+    .meta-cell { color: #8b949e; font-size: 11px; white-space: nowrap; }
+
+    /* ── Tavily categories ── */
+    .cat-block { margin-bottom: 20px; }
+    .cat-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .article-row {
+      display: flex; flex-direction: column; gap: 2px;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-headline { font-size: 13px; color: #e6edf3; line-height: 1.4; }
+    .article-headline:hover { color: #42a5f5; }
+    .article-meta { font-size: 11px; color: #8b949e; }
+
+    .empty { color: #8b949e; font-size: 12px; padding: 8px 0; font-style: italic; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px; padding-top: 16px; border-top: 1px solid #21262d;
+      color: #8b949e; font-size: 11px; letter-spacing: 0.4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>War Room News Flow</h1>
+      <div class="hero-sub">Saturday April 11, 2026 &nbsp;·&nbsp; Pre-market catalyst feed</div>
+      <div class="hero-meta">
+        <span class="stamp">Generated 11:14 AM CT</span>
+        <span class="stamp-refresh">Auto-refresh: 60 min (off weekends)</span>
+        <span class="run-count">2 runs today</span>
+      </div>
+    </div>
+
+    <div class="schedule-bar"><span class="sched-pill ">6:30 AM CT</span><span class="sched-pill ">7:30 AM CT</span><span class="sched-pill ">8:06 AM CT</span></div>
+
+    
+    <details class="run-card" open>
+      <summary class="run-summary">
+        <span class="run-time">11:02 AM CT</span>
+        <span class="badge-latest">LATEST</span>
+        <span class="run-stats">66 ticker items &nbsp;·&nbsp; 110 sector items &nbsp;·&nbsp; 65 dups dropped</span>
+      </summary>
+      <div class="run-body">
+        <div class="section-head">📌 ALPACA NEWS — WATCHLIST TICKER NEWS</div>
+        
+      <table class="news-table">
+        <thead><tr><th>Ticker</th><th>Headline</th><th>Source</th><th>Time (CT)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51769389/president-trump-in-truth-post-said-all-28-of-irans-mine-dropper-boats-are-lying-a" target="_blank" rel="noopener">President Trump, In Truth Post, Said All 28 Of Iran&#x27;s Mine Dropper Boats Are Lying At The Bottom Of The Sea; Now Starting The Process Of Clearing Out The Strait Of Hormuz</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:03 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, CRWV, LEVI, META, NKE, PLTR, PYPL, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51769376/amazon-meta-levi-strauss-and-more-5-stocks-investors-couldnt-stop-buzzing-about-this-week" target="_blank" rel="noopener">Amazon, Meta, Levi Strauss And More: 5 Stocks Investors Couldn&#x27;t Stop Buzzing About This Week</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51769364/bbc-reported-talks-have-now-started-between-the-u-s-iran-talks-still-indirect-thr" target="_blank" rel="noopener">BBC Reported Talks Have Now Started Between The U.S.,  Iran; Talks Still Indirect Through Pakistani Mediators</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BTC, BTCUSD, COIN</td>
+            <td><a href="https://www.benzinga.com/crypto/26/04/51769306/binance-founder-cz-says-crypto-is-too-transparent-warns-of-privacy-gap-as-regulators-catch-up" target="_blank" rel="noopener">Binance Founder CZ Says Crypto Is &#x27;Too Transparent,&#x27; Warns Of Privacy Gap As Regulators Catch Up</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 07:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMC, APLD, AVGO, CRM, CRWV, GOOGL, JTAI, LEVI, NET, NOW, OMEX, PLTR, SNOW, STZ</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51769305/benzinga-bulls-and-bears-broadcom-levi-strauss-jet-ai-and-markets-rebound-as-mideast-tensions-ease" target="_blank" rel="noopener">Benzinga Bulls And Bears: Broadcom, Levi Strauss, Jet.AI — And Markets Rebound As Mideast Tensions Ease</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 07:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMZN, BABA, NVDA, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51768268/anthropic-openai-and-big-techs-number-one-goal-is-to-kill-openclaw-says-venture-capitalist-jason-calacanis" target="_blank" rel="noopener">Anthropic, OpenAI And Big Tech&#x27;s &#x27;Number One Goal&#x27; Is To Kill OpenClaw, Says Venture Capitalist Jason Calacanis</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 03:29 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HOOD</td>
+            <td><a href="https://www.benzinga.com/news/legal/26/04/51768188/arizonas-crackdown-on-kalshi-halted-as-federal-court-sides-with-cftc-in-fight-over-election-betting-and-prediction-markets" target="_blank" rel="noopener">Arizona&#x27;s Crackdown On Kalshi Halted As Federal Court Sides With CFTC In Fight Over Election Betting And Prediction Markets</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:27 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, GOOGL, GS, IBM, MCD, META, NKE, TGT, TSLA</td>
+            <td><a href="https://www.benzinga.com/news/legal/26/04/51768179/ibm-pays-17-million-to-settle-dei-allegations-in-dojs-first-false-claims-act-win" target="_blank" rel="noopener">IBM Pays $17 Million To Settle DEI Allegations In DOJ&#x27;s First False Claims Act Win</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META, NVDA, PLTR</td>
+            <td><a href="https://www.benzinga.com/personal-finance/tax/26/04/51768110/nvidia-ceo-jensen-huang-says-move-to-california-even-as-billionaires-look-to-flee-states-proposed-wealth-tax" target="_blank" rel="noopener">Nvidia CEO Jensen Huang Says &#x27;Move To California&#x27; Even As Billionaires Look To Flee State&#x27;s Proposed Wealth Tax</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BA, LMT</td>
+            <td><a href="https://www.benzinga.com/news/space/26/04/51767961/artemis-ii-crew-splashes-down-after-epic-lunar-journey-welcome-home-says-nasa" target="_blank" rel="noopener">Artemis II Crew Splashes Down After Epic Lunar Journey— &#x27;Welcome Home,&#x27; Says NASA</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 09:41 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META</td>
+            <td><a href="https://www.benzinga.com/markets/private-markets/26/04/51767880/tiger-global-popup-bagels-300m-valuation-viral-chain-investment" target="_blank" rel="noopener">This Viral Bagel Chain Could Be Worth $300 Million After Tiger Global&#x27;s Bet</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 09:12 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">TSLA</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51766868/tesla-posts-on-x-fsd-supervised-approved-in-the-netherlands" target="_blank" rel="noopener">Tesla Posts On X &quot;FSD Supervised approved in the Netherlands&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 04:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">LEN</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51766022/lennar-files-prospectus-for-potential-continuous-offering-of-stocks-preferred-shares-debt-warrants-a" target="_blank" rel="noopener">Lennar Files Prospectus For Potential Continuous Offering Of Stocks, Preferred Shares, Debt, Warrants, And Units</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:33 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51765929/palantir-sell-off-way-over-blown-wall-street-bull-sees-70-upside-for-stock" target="_blank" rel="noopener">Palantir Sell-Off &#x27;Way Over-Blown&#x27;—Wall Street Bull Sees 70% Upside For Stock</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">JPM</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51765894/heres-how-much-you-would-have-made-owning-jpmorgan-chase-stock-in-the-last-15-years" target="_blank" rel="noopener">Here&#x27;s How Much You Would Have Made Owning JPMorgan Chase Stock In The Last 15 Years</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:30 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51765862/lebanese-presidency-posts-on-x-based-on-the-initiative-launched-by-the-president-" target="_blank" rel="noopener">Lebanese Presidency Posts On X &quot;Based on the initiative launched by the President of the Republic, General Joseph Aoun, which is based on diplomatic action through the announcement of a ceasefire and proceeding to direct negotiations with Israel...&quot; &quot;During the call, agreement was reached to hold the first meeting next Tuesday at the U.S. Department of State headquarters to discuss the announcement of a ceasefire and the date for starting negotiations between Lebanon and Israel under American sponsorship.&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:29 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">F, GM, IGV, NOW, QQQ, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51764943/iran-ceasefire-oil-crash-inflation-consumer-confidence-record-low-week-in-review" target="_blank" rel="noopener">Crude Dips On Trump&#x27;s Ceasefire, But Inflation Triggers A Consumer Shock: This Week On Wall Street</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:00 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IGV</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51764938/if-you-invested-100-in-ishares-expanded-tech-software-sector-etf-stock-10-years-ago-you-would-have-" target="_blank" rel="noopener">If You Invested $100 In iShares Expanded Tech-Software Sector ETF Stock 10 Years Ago, You Would Have This Much Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:00 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51764740/iranian-state-media-says-iranian-delegation-led-by-irans-parliament-speaker-qalib" target="_blank" rel="noopener">Iranian State Media Says Iranian Delegation Led By Iran&#x27;s Parliament Speaker Qalibaf Arrived In Islamabad Ahead Of Peace Talks With U.S.; Says Talks With U.S. To Begin If &#x27;Preconditions Are Accepted&#x27;; Iran&#x27;s Delegation Includes Foreign Minister, Defence Council Secretary, C.Bank Governor And Several Parliament Members</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:52 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PSX, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51764350/u-s-energy-dept-says-will-loan-8-5m-barrels-of-crude-oil-from-strategic-petroleum" target="_blank" rel="noopener">U.S. Energy Dept Says Will Loan 8.5M Barrels Of Crude Oil From Strategic Petroleum Reserve To 4 Companies; Companies Taking The U.S. SPR Oil Loans Include Macquarie, Phillips 66</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:39 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51764071/palantir-shares-rise-over-4-percent-after-key-trading-signal" target="_blank" rel="noopener">Palantir Shares Rise Over 4% After Key Trading Signal</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:29 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, GOOGL, MPC, MSFT</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51763772/microsofts-copilot-feels-like-teams-why-this-fund-manager-is-swapping-it-for-claude" target="_blank" rel="noopener">Microsoft&#x27;s Copilot &#x27;Feels Like Teams:&#x27; Why This Fund Manager Is Swapping It For Claude</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:21 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51763757/trump-promises-mass-pardons-to-staff-before-leaving-office-wsj-exclusive" target="_blank" rel="noopener">&#x27;Trump Promises Mass Pardons to Staff Before Leaving Office&#x27; - WSJ Exclusive</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:20 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ADBE, CRM, CRWD, GLW, IGV, INTC, MRVL, MSFT, SMH, SOXX</td>
+            <td><a href="https://www.benzinga.com/etfs/sector-etfs/26/04/51763585/ai-hardware-boom-leaves-software-etfs-in-dust-igv-slides" target="_blank" rel="noopener">AI Hardware Boom Leaves Software ETFs In The Dust As IGV Slides</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:14 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">APO, ARES, BBDC, BX, GS, MS</td>
+            <td><a href="https://www.benzinga.com/markets/private-markets/26/04/51763212/ares-targets-20-billion-for-new-private-credit-fund" target="_blank" rel="noopener">Ares Targets $20 Billion For New Private Credit Fund</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:59 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51762285/the-apple-paradox-shuttering-its-first-unionized-us-store-in-towson" target="_blank" rel="noopener">The Apple Paradox: Shuttering Its First Unionized US Store In Towson</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CQQQ, FXI, KWEB, MCHI</td>
+            <td><a href="https://www.benzinga.com/etfs/emerging-market-etfs/26/04/51762880/chinas-ppi-rebound-signals-industrial-turnaround-why-arent-mchi-fxi-etfs-rallying-yet" target="_blank" rel="noopener">China&#x27;s PPI Rebound Signals Industrial Turnaround — Why Aren&#x27;t MCHI, FXI ETFs Rallying Yet?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:47 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IBKR</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51762396/interactive-brokers-founder-lost-90000-to-insider-trading-but-now-wants-it-legalized" target="_blank" rel="noopener">Interactive Brokers Founder Lost $90,000 To Insider Trading But Now Wants It Legalized</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, AVGO, GOOG, GOOGL, TEL</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761913/why-is-broadcom-stock-trading-higher-on-friday" target="_blank" rel="noopener">Why Is Broadcom Stock Trading Higher On Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:15 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761861/usa-federal-budget-balance-for-mar-164-000b-vs-157-800b-est-prior-308-000b" target="_blank" rel="noopener">USA Federal Budget Balance for Mar $(164.000B) vs $(157.800B) Est; Prior $(308.000B)</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:14 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ARTY, FNDA, SMCI, USRD</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51761757/supermicro-stock-rallies-as-ready-to-ship-ai-servers-aim-to-slash-lead-times" target="_blank" rel="noopener">Supermicro Stock Rallies As &#x27;Ready-To-Ship&#x27; AI Servers Aim To Slash Lead Times</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:11 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ANGX, CRWV, MGRT, OGN, YDDL, ZNTL</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51761716/nasdaq-moves-higher-us-inflation-rate-accelerates-in-march" target="_blank" rel="noopener">Nasdaq Moves Higher; US Inflation Rate Accelerates In March</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:10 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, TSM</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761575/whats-going-on-with-advanced-micro-devices-stock-friday-2" target="_blank" rel="noopener">What&#x27;s Going On With Advanced Micro Devices Stock Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:06 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IUSG, IVW, MSFT, SPYG</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51761533/microsoft-azure-still-poised-to-crush-estimates-despite-150-billion-spending-fears-analyst" target="_blank" rel="noopener">Microsoft Azure Still Poised To Crush Estimates Despite $150 Billion Spending Fears: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">MSFT</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761509/bnp-paribas-maintains-outperform-on-microsoft-lowers-price-target-to-556" target="_blank" rel="noopener">BNP Paribas Maintains Outperform on Microsoft, Lowers Price Target to $556</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:04 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ITA, LMT, PPA, SHLD</td>
+            <td><a href="https://www.benzinga.com/markets/large-cap/26/04/51761211/lockheed-martin-boosts-missile-output-with-4-7-billion-u-s-order" target="_blank" rel="noopener">Lockheed Martin Boosts Missile Output With $4.7 Billion U.S. Order</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:54 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META, NOW, PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761068/servicenow-stock-craters-19-in-weeks-worst-sp-500-showing" target="_blank" rel="noopener">ServiceNow Stock Craters 19% In Week&#x27;s Worst S&amp;P 500 Showing</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:50 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, AVGO, GOOG, GOOGL, META, MSFT, UBER</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51761022/googles-gemini-anthropics-claude-siphon-market-share-from-chatgpt-analyst" target="_blank" rel="noopener">Google&#x27;s Gemini, Anthropic&#x27;s Claude Siphon Market Share From ChatGPT: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NKE</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761011/nike-switches-up-its-innovation-leadership-company-veteran-tony-bignell-is-leaving-the-sneaker-giant" target="_blank" rel="noopener">&#x27;Nike Switches Up Its Innovation Leadership; Company Veteran Tony Bignell Is Leaving The Sneaker Giant After Less Than A Year As Chief Innovation Officer As Its Turnaround Runs Into Snags&#x27; - WSJ</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BAC, C, CRWD, GS, JPM, MS, NET, QLYS, WFC</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51760955/anthropics-mythos-made-scott-bessent-jerome-powell-all-bank-ceos-but-what-do-prediction-markets-say-about-its-ipo" target="_blank" rel="noopener">Anthropic&#x27;s Mythos Made Scott Bessent, Jerome Powell All Bank CEOs: But What Do Prediction Markets Say About Its IPO?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:47 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, ADBE, AMZN, BTCUSD, BUG, CIBR, CRM, CRWD, GOOG, HACK, IGV, META, MNDY, MSFT, NOW, NVDA, ORCL, PANW, QQQ, SPY, TSLA, USO</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51760908/mythos-ai-fears-energy-driven-high-inflation-data-markets-bet-on-an-iranian-off-ramp" target="_blank" rel="noopener">Mythos AI Fears; Energy-Driven High Inflation Data; Markets Bet On An Iranian Off-Ramp</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:46 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SHOP</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51760843/shopify-faces-ai-disruption-fears-but-jpmorgan-isnt-backing-down" target="_blank" rel="noopener">Shopify Faces AI Disruption Fears, But JPMorgan Isn&#x27;t Backing Down</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:43 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ASTS, CHTR, GOOG, GOOGL, LYV, META, NFLX, SATS, VZ</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760646/9-communication-services-stocks-whale-activity-in-todays-session" target="_blank" rel="noopener">9 Communication Services Stocks Whale Activity In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AXON, BE, BETA, CAR, CAT, GEV, HON, TT, VRT, XPO</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760642/10-industrials-stocks-with-whale-alerts-in-todays-session" target="_blank" rel="noopener">10 Industrials Stocks With Whale Alerts In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, AVGO, CRWV, INTC, LITE, MRVL, MSFT, NBIS, PLTR, SMCI</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760641/10-information-technology-stocks-whale-activity-in-todays-session" target="_blank" rel="noopener">10 Information Technology Stocks Whale Activity In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AKAM, ALAB, AMD, AVGO, COHR, DIA, FICO, HUBS, IGV, IWM, MRVL, NET, NOW, NVDA, OGN, PANW, PLTR, QQQ, SMCI, SMH, SNOW, TPL, TSM, VOO, XLB, XLE, XLF, XLK, XLP, XLU, XLV</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51760432/nasdaq-100-streak-low-sentiment-hot-cpi-trump-palantir-oil-ai-chips-friday-wall-street-news" target="_blank" rel="noopener">Trump Throws A Lifeline To Palantir, Nasdaq 100 Targets 8th Green Day: What&#x27;s Moving Markets Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:26 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">FTXL, QCOM, SNAP</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51759884/whats-going-on-with-qualcomm-stock-today" target="_blank" rel="noopener">What&#x27;s Going On With Qualcomm Stock Today?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:09 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY, UNG, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51759845/u-s-baker-hughes-oil-rig-count-0-unchanged-from-411-prior-u-s-baker-hughes-natgas" target="_blank" rel="noopener">U.S. Baker Hughes Oil Rig Count +0, Unchanged From 411 Prior; U.S. Baker Hughes NatGas Rig Count -3 To 127; U.S. Baker Hughes Total Rig Count 545 Vs 548 Prior</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:07 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AIXI, AKAM, AMPGR, AMPGZ, CLRO, FSLY, FUSE, MAXN, MPTIR, RELL, RXT, TDTH</td>
+            <td><a href="https://www.benzinga.com/insights/movers/26/04/51759776/12-information-technology-stocks-moving-in-fridays-intraday-session" target="_blank" rel="noopener">12 Information Technology Stocks Moving In Friday&#x27;s Intraday Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CVX, SHEL, XOM</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51759705/chevron-q1-likely-noisy-earnings-headwinds-reverse-tailwinds-q2" target="_blank" rel="noopener">Chevron Q1 Earnings Will Be &#x27;Noisy&#x27; As Headwinds Reverse To Tailwinds: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:03 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, COF, NVDA, SLV</td>
+            <td><a href="https://www.benzinga.com/analyst-ratings/26/04/51759656/cnbc-halftime-report-final-trades-amazon-nvidia-capital-one-financial-ishares-silver-trust" target="_blank" rel="noopener">CNBC Halftime Report Final Trades: Amazon, NVIDIA, Capital One Financial, iShares Silver Trust</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:01 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BAC, BCS, DB, GS, JPM, SPGI</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51759636/wall-street-builds-new-tool-to-bet-against-private-credit-credit-default-swap-index-could-help-banks" target="_blank" rel="noopener">&#x27;Wall Street Builds New Tool To Bet Against Private Credit; Credit-Default Swap Index Could Help Banks Reduce Exposure To Private Credit And Let Hedge Funds Profit From Turmoil&#x27; - WSJ</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:01 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAOI, GLW, LITE, NVDA, ORCL</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/short-ideas/26/04/51759552/citron-calls-applied-optoelectronics-valuation-delusional" target="_blank" rel="noopener">Citron Calls Applied Optoelectronics&#x27; Valuation &#x27;Delusional&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:59 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">VLO</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51759150/valero-pulls-back-on-mexican-oil-after-texas-refinery-blast-bloomberg-news" target="_blank" rel="noopener">&#x27;Valero Pulls Back on Mexican Oil After Texas Refinery Blast&#x27; - Bloomberg News</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:46 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">GOOGL</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51759125/if-you-invested-1000-in-alphabet-stock-15-years-ago-you-would-have-this-much-today" target="_blank" rel="noopener">If You Invested $1000 In Alphabet Stock 15 Years Ago, You Would Have This Much Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:45 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">DRAM, SNDK</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51758840/sandisk-shares-slip-friday-after-record-run-fueled-by-ai-memory-trade" target="_blank" rel="noopener">Sandisk Shares Slip Friday After Record Run Fueled By AI Memory Trade</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:35 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51758783/metas-ai-outlook-brightens-with-muse-spark-release" target="_blank" rel="noopener">Meta&#x27;s AI Outlook Brightens With Muse Spark Release</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:34 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51758739/president-trump-posts-on-truth-social-the-iranians-dont-seem-to-realize-they-have" target="_blank" rel="noopener">President Trump Posts On Truth Social &quot;The Iranians don&#x27;t seem to realize they have no cards, other than a short term extortion of the World by using International Waterways. The only reason they are alive today is to negotiate&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:32 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CRWV, META, MSFT, NVDA</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51758621/metas-latest-21-billion-move-could-help-de-risk-coreweaves-growth-analyst" target="_blank" rel="noopener">Meta&#x27;s Latest $21 Billion Move Could Help De-Risk CoreWeave&#x27;s Growth: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:28 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PANW</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/26/04/51758543/live-on-cnbc-kevin-simpson-announces-bought-more-palo-alto-networks" target="_blank" rel="noopener">Live On CNBC, Kevin Simpson Announces Bought More Palo Alto Networks</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51758538/trump-shouts-out-palantir-stock-signal-to-buy-the-pltr-dip" target="_blank" rel="noopener">Trump Shouts-Out Palantir Stock: Signal To Buy The PLTR Dip?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">LMT, PLTR, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51758493/palantir-anduril-execs-sound-the-alarm-us-has-8-days-of-munitions-for-a-china-war" target="_blank" rel="noopener">Palantir, Anduril Execs Sound The Alarm: US Has 8 Days Of Munitions For A China War</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:21 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, MPC, MSFT</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/26/04/51758300/live-on-cnbc-kevin-simpson-announces-trimmed-marathon-petroleum-position-bought-more-apple-bought-m" target="_blank" rel="noopener">Live On CNBC, Kevin Simpson Announces Trimmed Marathon Petroleum Position; Bought More Apple; Bought More Microsoft</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:16 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NET</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51758268/heres-how-much-you-would-have-made-owning-cloudflare-stock-in-the-last-5-years" target="_blank" rel="noopener">Here&#x27;s How Much You Would Have Made Owning Cloudflare Stock In The Last 5 Years</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:15 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY, USO</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51758099/president-trump-speaking-to-new-york-post-says-the-u-s-is-preparing-military-if-iran-fails-to-comply" target="_blank" rel="noopener">President Trump Speaking To New York Post Says The U.S. Is Preparing Military If Iran Fails To Comply In Talks</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:10 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HUM, OSCR, UNH</td>
+            <td><a href="https://www.benzinga.com/opinion/26/04/51758015/3-health-insurance-stocks-to-play-on-the-medicare-hike" target="_blank" rel="noopener">3 Health Insurance Stocks to Play On the Medicare Hike</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:06 AM CT</td>
+          </tr></tbody>
+      </table>
+        <div class="section-head" style="margin-top:28px;">🌐 TAVILY — SECTOR CATALYST SWEEPS</div>
+        
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #7c3aed;padding-left:8px;color:#7c3aed;">🤖 AI DISPLACEMENT</div>
+        
+            <div class="article-row">
+              <a href="https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html" target="_blank" rel="noopener" class="article-headline">Meta debuts new AI model, attempting to catch up to Google, OpenAI</a>
+              <span class="article-meta">www.cnbc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=rXSPopXet1o" target="_blank" rel="noopener" class="article-headline">Why Meta&#x27;s New AI Model Is Such A Big Deal - YouTube</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.nytimes.com/2026/04/08/technology/meta-muse-spark-ai-model.html" target="_blank" rel="noopener" class="article-headline">Meta Unveils New A.I. Model, Its First From the Superintelligence Lab</a>
+              <span class="article-meta">www.nytimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://nypost.com/2026/04/09/business/meta-rolls-out-new-ai-model-in-latest-effort-to-catch-up-with-rivals/" target="_blank" rel="noopener" class="article-headline">Meta rolls out new AI model in latest effort to catch up with rivals</a>
+              <span class="article-meta">nypost.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.wsj.com/tech/ai/meta-ai-model-muse-spark-09ceeac5" target="_blank" rel="noopener" class="article-headline">Meta Announces New AI Model &#x27;Muse Spark&#x27; - WSJ</a>
+              <span class="article-meta">www.wsj.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/Neewtoop/posts/mark-zuckerberg-said-ai-could-replace-mid-level-engineers-as-companies-shift-tow/968405289100664/" target="_blank" rel="noopener" class="article-headline">Mark Zuckerberg said AI could replace mid-level engineers ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reddit.com/r/ArtificialInteligence/comments/1s493x7/the_ai_is_replacing_software_engineers_narrative/" target="_blank" rel="noopener" class="article-headline">The &quot;AI is replacing software engineers&quot; narrative was a lie. ...</a>
+              <span class="article-meta">www.reddit.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://bootcamps.cs.cmu.edu/blog/will-ai-replace-software-engineers-reality-check" target="_blank" rel="noopener" class="article-headline">Will AI Make Software Engineers Obsolete? Here&#x27;s the Reality</a>
+              <span class="article-meta">bootcamps.cs.cmu.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.morganstanley.com/insights/articles/ai-software-development-industry-growth" target="_blank" rel="noopener" class="article-headline">How AI Coding Is Creating Jobs</a>
+              <span class="article-meta">www.morganstanley.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.snhu.edu/about-us/newsroom/career/what-jobs-will-ai-replace" target="_blank" rel="noopener" class="article-headline">What Jobs Will AI Replace?</a>
+              <span class="article-meta">www.snhu.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #dc2626;padding-left:8px;color:#dc2626;">⚖️ REGULATORY</div>
+        
+            <div class="article-row">
+              <a href="https://www.stocktitan.net/news/fda-approvals.html" target="_blank" rel="noopener" class="article-headline">Today&#x27;s FDA Approvals &amp; Drug Decisions News Live Feed</a>
+              <span class="article-meta">www.stocktitan.net &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reuters.com/business/healthcare-pharmaceuticals/approvals/" target="_blank" rel="noopener" class="article-headline">Approvals News | Today&#x27;s Latest Stories - Reuters</a>
+              <span class="article-meta">www.reuters.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/news/3-recent-fda-rejections-reveal-075552463.html" target="_blank" rel="noopener" class="article-headline">What 3 recent FDA rejections reveal about shifts inside the agency</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.medcentral.com/drug-news" target="_blank" rel="noopener" class="article-headline">FDA Actions &amp; Drug News - MedCentral</a>
+              <span class="article-meta">www.medcentral.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.healthlawadvisor.com/supreme-court-rejects-challenge-to-fda-approval-of-mifepristone-on-standing-but-the-battle-continues" target="_blank" rel="noopener" class="article-headline">Supreme Court Rejects Challenge to FDA Approval of Mifepristone ...</a>
+              <span class="article-meta">www.healthlawadvisor.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ftc.gov/news-events/news/press-releases/2026/02/federal-trade-commission-department-justice-seek-public-comment-guidance-business-collaborations" target="_blank" rel="noopener" class="article-headline">Federal Trade Commission and Department of Justice Seek Public ...</a>
+              <span class="article-meta">www.ftc.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.justice.gov/atr/press-releases" target="_blank" rel="noopener" class="article-headline">Antitrust Division | Press Releases - Department of Justice</a>
+              <span class="article-meta">www.justice.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ftc.gov/news-events/news/press-releases" target="_blank" rel="noopener" class="article-headline">Press Releases | Federal Trade Commission</a>
+              <span class="article-meta">www.ftc.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.antitrustalert.com/category/doj-developments/" target="_blank" rel="noopener" class="article-headline">DOJ Developments Archives - Antitrust Alert</a>
+              <span class="article-meta">www.antitrustalert.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://en.wikipedia.org/wiki/Liberation_Day_tariffs" target="_blank" rel="noopener" class="article-headline">Liberation Day tariffs</a>
+              <span class="article-meta">en.wikipedia.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ustr.gov/trade-topics/presidential-tariff-actions" target="_blank" rel="noopener" class="article-headline">Presidential Tariff Actions</a>
+              <span class="article-meta">ustr.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ballotpedia.org/Donald_Trump%27s_executive_orders_and_actions_on_trade_and_tariffs,_2025-2026" target="_blank" rel="noopener" class="article-headline">Donald Trump&#x27;s executive orders and actions on trade ...</a>
+              <span class="article-meta">ballotpedia.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.presidency.ucsb.edu/documents/executive-order-14257-regulating-imports-with-reciprocal-tariff-rectify-trade-practices" target="_blank" rel="noopener" class="article-headline">Executive Order 14257—Regulating Imports With a ...</a>
+              <span class="article-meta">www.presidency.ucsb.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.whitehouse.gov/presidential-actions/2026/02/ending-certain-tariff-actions/" target="_blank" rel="noopener" class="article-headline">Ending Certain Tariff Actions</a>
+              <span class="article-meta">www.whitehouse.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.businesswire.com/newsroom/industry/defense/contracts" target="_blank" rel="noopener" class="article-headline">Defense Contracts Breaking News and Press Releases</a>
+              <span class="article-meta">www.businesswire.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.war.gov/News/Contracts/Contract/Article/4283984/contracts-for-aug-22-2025/" target="_blank" rel="noopener" class="article-headline">Contracts For Aug. 22, 2025 - Department of War</a>
+              <span class="article-meta">www.war.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.dcma.mil/News/Article-View/Article/1904647/high-dollar-contracts-announced-dcma-will-administer/" target="_blank" rel="noopener" class="article-headline">High-dollar contracts announced, DCMA will administer</a>
+              <span class="article-meta">www.dcma.mil &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.usaspending.gov/keyword_search/H2ZDMKZLM472" target="_blank" rel="noopener" class="article-headline">Federal Awards | Keyword Search - USAspending</a>
+              <span class="article-meta">www.usaspending.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #2563eb;padding-left:8px;color:#2563eb;">📊 MACRO DATA</div>
+        
+            <div class="article-row">
+              <a href="https://streetstats.finance/cycle/inflation" target="_blank" rel="noopener" class="article-headline">Inflation Indicators - PCI, PCE, PPI - StreetStats</a>
+              <span class="article-meta">streetstats.finance &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://fred.stlouisfed.org/categories/9" target="_blank" rel="noopener" class="article-headline">Consumer Price Indexes (CPI and PCE) | FRED | St. Louis Fed</a>
+              <span class="article-meta">fred.stlouisfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.clevelandfed.org/center-for-inflation-research/consumer-price-data" target="_blank" rel="noopener" class="article-headline">Consumer Price Data and Measures Explained</a>
+              <span class="article-meta">www.clevelandfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting" target="_blank" rel="noopener" class="article-headline">Inflation Nowcasting - Federal Reserve Bank of Cleveland</a>
+              <span class="article-meta">www.clevelandfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bea.gov/data/personal-consumption-expenditures-price-index" target="_blank" rel="noopener" class="article-headline">Personal Consumption Expenditures Price Index</a>
+              <span class="article-meta">www.bea.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://adpemploymentreport.com/" target="_blank" rel="noopener" class="article-headline">ADP® Employment Report</a>
+              <span class="article-meta">adpemploymentreport.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://mediacenter.adp.com/2025-12-03-ADP-National-Employment-Report-Private-Sector-Employment-Shed-32,000-Jobs-in-November-Annual-Pay-was-Up-4-4" target="_blank" rel="noopener" class="article-headline">ADP National Employment Report: Private Sector Employment Shed ...</a>
+              <span class="article-meta">mediacenter.adp.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investopedia.com/terms/a/adpreport.asp" target="_blank" rel="noopener" class="article-headline">ADP National Employment Report Explained: Insights on US Private ...</a>
+              <span class="article-meta">www.investopedia.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ycharts.com/indicators/adp_employment_change" target="_blank" rel="noopener" class="article-headline">ADP Employment Change (Monthly) - United States - YCharts</a>
+              <span class="article-meta">ycharts.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/economic-calendar/adp-nonfarm-employment-change-1" target="_blank" rel="noopener" class="article-headline">United States ADP Nonfarm Employment Change - Investing.com</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.forexfactory.com/calendar/252-us-ism-manufacturing-pmi" target="_blank" rel="noopener" class="article-headline">US ISM Manufacturing PMI - Forex Factory</a>
+              <span class="article-meta">www.forexfactory.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/united-states/business-confidence" target="_blank" rel="noopener" class="article-headline">United States ISM Manufacturing PMI - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/" target="_blank" rel="noopener" class="article-headline">Release Dates for the ISM Manufacturing and Services PMI ® Reports</a>
+              <span class="article-meta">www.ismworld.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/" target="_blank" rel="noopener" class="article-headline">ISM® PMI® Reports</a>
+              <span class="article-meta">www.ismworld.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://en.macromicro.me/collections/8/us-industry-relative/54/ism" target="_blank" rel="noopener" class="article-headline">ISM Manufacturing PMI | US Industry | Collection - MacroMicro</a>
+              <span class="article-meta">en.macromicro.me &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://economics.td.com/us-housing-starts-and-permits" target="_blank" rel="noopener" class="article-headline">U.S. Housing Starts and Permits (January 2026) - TD Economics</a>
+              <span class="article-meta">economics.td.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.economy.com/united-states/residential-housing-starts" target="_blank" rel="noopener" class="article-headline">United States Residential Housing Starts | Moody&#x27;s Analytics</a>
+              <span class="article-meta">www.economy.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/united-states/housing-starts" target="_blank" rel="noopener" class="article-headline">United States Housing Starts - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://fred.stlouisfed.org/categories/32302" target="_blank" rel="noopener" class="article-headline">Housing Starts | FRED | St. Louis Fed</a>
+              <span class="article-meta">fred.stlouisfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ycharts.com/indicators/housing_starts" target="_blank" rel="noopener" class="article-headline">US Housing Starts (Monthly) - United States - Historical Da… - YCharts</a>
+              <span class="article-meta">ycharts.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #d97706;padding-left:8px;color:#d97706;">🛢️ COMMODITY / ENERGY</div>
+        
+            <div class="article-row">
+              <a href="https://stocktwits.com/news-articles/markets/equity/oil-prices-pull-back-after-opec-supply-boost-shocks-markets/chFt5Y3RPxQ" target="_blank" rel="noopener" class="article-headline">Oil Prices Pull Back After OPEC+ Supply Boost Shocks Markets ...</a>
+              <span class="article-meta">stocktwits.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://oilprice.com/Latest-Energy-News/World-News/OPEC-Output-Plunges-by-7-Million-Bpd-as-War-Chokes-Supply.html" target="_blank" rel="noopener" class="article-headline">OPEC Output Plunges by 7 Million Bpd as War Chokes Supply</a>
+              <span class="article-meta">oilprice.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://oilprice.com/Energy/Energy-General/The-Worlds-Biggest-Oil-Supply-Shock-Is-Now-Unfolding.html" target="_blank" rel="noopener" class="article-headline">The World&#x27;s Biggest Oil Supply Shock Is Now Unfolding | OilPrice.com</a>
+              <span class="article-meta">oilprice.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/news/crude-oil-jumps-4-traders-104700909.html" target="_blank" rel="noopener" class="article-headline">Crude Oil Jumps 4% as Traders Price In Supply Disruption</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=p-h6e3lBpI0" target="_blank" rel="noopener" class="article-headline">Oil prices soar above $110 as OPEC+ struggles to ease supply fears</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://goldinvest.de/en/commodity-prices/" target="_blank" rel="noopener" class="article-headline">Commodity Prices - Gold, Silver, Lithium &amp; More - GOLDINVEST.de</a>
+              <span class="article-meta">goldinvest.de &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/commodities/uranium-futures" target="_blank" rel="noopener" class="article-headline">Uranium Futures Price Today - Investing.com</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/commodity/uranium" target="_blank" rel="noopener" class="article-headline">Uranium - Price - Chart - Historical Data - News - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.juniorminingnetwork.com/commodity-charts.html" target="_blank" rel="noopener" class="article-headline">Commodity Spot Price Charts - Gold, Silver, Copper, Platinum ...</a>
+              <span class="article-meta">www.juniorminingnetwork.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.cameco.com/invest/markets/uranium-price" target="_blank" rel="noopener" class="article-headline">Uranium Price - Cameco</a>
+              <span class="article-meta">www.cameco.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #059669;padding-left:8px;color:#059669;">🌍 GEOPOLITICAL</div>
+        
+            <div class="article-row">
+              <a href="https://apnews.com/article/china-taiwan-huawei-smic-export-restrictions-semiconductor-6f43d0b9f34d39258ca3e3c1406d9055" target="_blank" rel="noopener" class="article-headline">Taiwan adds China&#x27;s Huawei and SMIC to export control list</a>
+              <span class="article-meta">apnews.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/TheNationThailand/posts/taiwan-has-today-announced-a-stringent-ban-on-the-export-of-chips-to-chinese-tec/1128444759308857/" target="_blank" rel="noopener" class="article-headline">Taiwan has today announced a stringent ban on the export ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.cnbc.com/2025/06/16/taiwan-blacklists-china-huawei-smic-further-aligning-with-us-trade-policy-.html" target="_blank" rel="noopener" class="article-headline">Taiwan blacklists China&#x27;s Huawei and SMIC, aligning more ...</a>
+              <span class="article-meta">www.cnbc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://law.asia/taiwan-semiconductor-export-controls/" target="_blank" rel="noopener" class="article-headline">Taiwan&#x27;s cross-border semiconductor controls: Export ...</a>
+              <span class="article-meta">law.asia &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bbc.com/news/articles/creve4x8drgo" target="_blank" rel="noopener" class="article-headline">US revokes TSMC&#x27;s authorisation on China-bound tech</a>
+              <span class="article-meta">www.bbc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bisg.org/news/middle-east-conflict-supply-chain-disruption-what-you-need-to-know" target="_blank" rel="noopener" class="article-headline">Middle East Conflict Supply Chain Disruption: What You Need to Know</a>
+              <span class="article-meta">www.bisg.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.oiaglobal.com/middle-east-supply-chain-updates/" target="_blank" rel="noopener" class="article-headline">Middle East Supply Chain Updates - OIA Global</a>
+              <span class="article-meta">www.oiaglobal.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.tive.com/blog/middle-east-risks-resurface-supply-chain-disruptions-and-key-insights" target="_blank" rel="noopener" class="article-headline">Middle East Risks Resurface: Supply Chain Disruptions and Key ...</a>
+              <span class="article-meta">www.tive.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.oliverwyman.com/our-expertise/insights/2026/mar/how-middle-east-tensions-impact-supply-chain.html" target="_blank" rel="noopener" class="article-headline">How conflict in the Middle East is affecting supply chains</a>
+              <span class="article-meta">www.oliverwyman.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=ZdCf1PsrI3Q" target="_blank" rel="noopener" class="article-headline">Middle East conflict disrupts aid supply - YouTube</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.gisreportsonline.com/r/sanctions-trade-routes/" target="_blank" rel="noopener" class="article-headline">Sanctions and the geopolitics of trade - GIS Reports</a>
+              <span class="article-meta">www.gisreportsonline.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.oliverwyman.com/our-expertise/insights/2023/may/industrial-goods-sector-impact-of-geopolitics-and-trade-sanctions.html" target="_blank" rel="noopener" class="article-headline">How Geopolitics And Trade Sanctions Impact Industrial Goods</a>
+              <span class="article-meta">www.oliverwyman.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://openknowledge.worldbank.org/entities/publication/2545f9a8-0ca3-497d-adaf-ed5823954e76" target="_blank" rel="noopener" class="article-headline">Publication: Geopolitical Risks and Trade</a>
+              <span class="article-meta">openknowledge.worldbank.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.sciencedirect.com/science/article/pii/S2096248725000268" target="_blank" rel="noopener" class="article-headline">Energy sanctions in the global economy: Geopolitical disruptions ...</a>
+              <span class="article-meta">www.sciencedirect.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.usbank.com/investing/financial-perspectives/market-news/russia-ukraine-global-market.html" target="_blank" rel="noopener" class="article-headline">Geopolitical conflict and its impact on global markets - U.S. Bank</a>
+              <span class="article-meta">www.usbank.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #db2777;padding-left:8px;color:#db2777;">🏛️ BELLWETHER SIGNALS</div>
+        
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=m7lI1YR5Te0" target="_blank" rel="noopener" class="article-headline">NVDA Gets New Bull, ASML Earnings Rally, DLTR Raises Guidance</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=NQi95W6IQnM" target="_blank" rel="noopener" class="article-headline">TSM, ASML And Goldman Sachs Lead Earnings Amid Iran War ...</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=G6sMnlERB9o" target="_blank" rel="noopener" class="article-headline">TSMC Earnings Just Changed Everything for NVDA Stock - YouTube</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reddit.com/r/ValueInvesting/comments/1m1732j/asml_amazing_earnings_beats_all_metrics_but_tanks/" target="_blank" rel="noopener" class="article-headline">ASML amazing earnings beats all metrics but tanks 7-8% - Reddit</a>
+              <span class="article-meta">www.reddit.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://seekingalpha.com/news/4522124-earnings-week-ahead-nvda-wmt-hd-tgt-low-bidu-zim-xpev-and-more" target="_blank" rel="noopener" class="article-headline">Earnings week ahead: NVDA, WMT, HD, TGT, LOW, BIDU, ZIM ...</a>
+              <span class="article-meta">seekingalpha.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.nasdaq.com/market-activity/stocks/tgt/earnings" target="_blank" rel="noopener" class="article-headline">Target Corporation Common Stock (TGT) Earnings Report Date</a>
+              <span class="article-meta">www.nasdaq.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://public.com/stocks/tgt/earnings" target="_blank" rel="noopener" class="article-headline">Target (TGT) Earnings: Latest Report, Earnings Call &amp; Financials</a>
+              <span class="article-meta">public.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.moomoo.com/stock/TGT-US/earnings" target="_blank" rel="noopener" class="article-headline">Target (TGT) Earnings Dates, Reports &amp; Conference Call - Moomoo</a>
+              <span class="article-meta">www.moomoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.msn.com/en-us/money/watchlist?id=a246z2&amp;ocid=bingnewssearch" target="_blank" rel="noopener" class="article-headline">TARGET CORPORATION (TGT) Stock, Price, News, Quotes ... - MSN</a>
+              <span class="article-meta">www.msn.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.affinityfcu.com/financial-wellbeing/blog/personal-banking/what-to-watch-this-earnings-season" target="_blank" rel="noopener" class="article-headline">Weekly Market Commentary: What To Watch This Earnings Season</a>
+              <span class="article-meta">www.affinityfcu.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/Reuters/posts/nvidias-shares-fell-as-the-ai-bellwethers-upbeat-results-failed-to-lift-sentimen/1479368167387244/" target="_blank" rel="noopener" class="article-headline">Nvidia&#x27;s shares fell as the AI bellwether&#x27;s upbeat results failed to lift ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/Reuters/posts/from-bellwether-walmart-reporting-earnings-to-new-economic-data-out-of-the-uk-th/1467480478576013/?locale=lv_LV" target="_blank" rel="noopener" class="article-headline">From bellwether Walmart reporting earnings to new economic data ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/analysis/why-the-financials-sector-is-the-sp-500-bellwether-right-now-200677285" target="_blank" rel="noopener" class="article-headline">Why the Financials Sector is the S&amp;P 500 Bellwether Right Now</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.msn.com/en-us/money/savingandinvesting/more-bad-news-comes-for-this-40-trillion-market-bellwether-stock-falls-to-record-low/ar-AA201FBS?ocid=finance-verthp-feeds" target="_blank" rel="noopener" class="article-headline">bad news comes for this $40 trillion market. Bellwether stock falls to ...</a>
+              <span class="article-meta">www.msn.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #0891b2;padding-left:8px;color:#0891b2;">📅 NON-EARNINGS RECURRING DATA</div>
+        
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/markets/stocks/articles/tsmc-q1-2026-earnings-record-121456920.html" target="_blank" rel="noopener" class="article-headline">TSMC Q1 2026 earnings: Record revenue on strong AI chip demand</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.digitimes.com/news/a20260410VL213/tsmc-revenue-performance-2026.html" target="_blank" rel="noopener" class="article-headline">TSMC smashes records with massive 45% revenue surge in March</a>
+              <span class="article-meta">www.digitimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://semiwiki.com/forum/threads/tsmc-march-2026-revenue-report.24915/" target="_blank" rel="noopener" class="article-headline">TSMC March 2026 Revenue Report | SemiWiki</a>
+              <span class="article-meta">semiwiki.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/news/sec-filings/tsmc-reports-452-yearoveryear-revenue-growth-for-march-2026-93CH-4607419" target="_blank" rel="noopener" class="article-headline">TSMC reports 45.2% year-over-year revenue growth for March 2026</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://pr.tsmc.com/system/files/newspdf/attachment/3e871375bc9359a7833780672fcb4729be6da27d/Mar%202026%20%28E%29_final_wmn.pdf" target="_blank" rel="noopener" class="article-headline">[PDF] TSMC March 2026 Revenue Report</a>
+              <span class="article-meta">pr.tsmc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.smartkarma.com/insights/samsung-electronics-better-than-expected-preliminary-results-in-1q-2026" target="_blank" rel="noopener" class="article-headline">Samsung Electronics: Better Than Expected Preliminary Results in 1Q 2026 - Douglas Kim</a>
+              <span class="article-meta">www.smartkarma.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://markets.ft.com/data/announce/detail?dockey=1323-17535212-71CCGK5337V8TU6ABQ6HVNPIM0" target="_blank" rel="noopener" class="article-headline">1Q 2026 Pre-Earnings Guidance – Company Announcement - FT.com</a>
+              <span class="article-meta">markets.ft.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://news.samsung.com/my/samsung-electronics-announces-earnings-guidance-for-first-quarter-2026" target="_blank" rel="noopener" class="article-headline">Samsung Electronics Announces Earnings Guidance for First ...</a>
+              <span class="article-meta">news.samsung.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.chosun.com/english/market-money-en/2026/04/01/WZ6FUXWMSJDAJGXE2X6OZIQDJM/" target="_blank" rel="noopener" class="article-headline">South Korea&#x27;s Exports Surpass $80 Billion on Semiconductor Surge</a>
+              <span class="article-meta">www.chosun.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://english.motir.go.kr/eng/article/EATCLdfa319ada/2519/view" target="_blank" rel="noopener" class="article-headline">February 2026 Exports Hit Record High for Any February at $67.5 ...</a>
+              <span class="article-meta">english.motir.go.kr &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bloomberg.com/news/articles/2026-04-08/s-korea-posts-record-current-account-surplus-on-chip-exports" target="_blank" rel="noopener" class="article-headline">South Korea Posts Record Current Account Surplus on Semiconductor Chip Exports - Bloomberg</a>
+              <span class="article-meta">www.bloomberg.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://eubusinesshub.eu/en/missions-catalogue/semiconductors-korea-2026" target="_blank" rel="noopener" class="article-headline">Semiconductors Korea 2026 | EU Business Hub</a>
+              <span class="article-meta">eubusinesshub.eu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://mzv.gov.cz/public/3c/8/50/5956448_3429295_Semiconductors_Korea_2026_Flyer.pdf" target="_blank" rel="noopener" class="article-headline">[PDF] Semiconductors Korea 2026</a>
+              <span class="article-meta">mzv.gov.cz &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://iconnect007.com/article/90877/na-semiconductor-equipments-may-booktobill-ratio-below-parity/90880/ein" target="_blank" rel="noopener" class="article-headline">N.A. Semiconductor Equipment&#x27;s May Book-to-Bill Ratio Below Parity :: I-Connect007</a>
+              <span class="article-meta">iconnect007.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.economy.com/united-states/discontinued-semiconductor-equipment-book-to-bill" target="_blank" rel="noopener" class="article-headline">United States [DISCONTINUED] Semiconductor Equipment Book-to-Bill | Moody&#x27;s Analytics</a>
+              <span class="article-meta">www.economy.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.semi.org/en/products-services/market-data/equipment-article-archive" target="_blank" rel="noopener" class="article-headline">Equipment Articles | SEMI</a>
+              <span class="article-meta">www.semi.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.semiconductorpackagingnews.com/press/93023.html" target="_blank" rel="noopener" class="article-headline">SEMI Reports Global Semiconductor Equipment Billings Reached $135 Billion in 2025, Up 15% Year-on-Year</a>
+              <span class="article-meta">www.semiconductorpackagingnews.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.seaj.or.jp/statistics/54771971525101.pdf" target="_blank" rel="noopener" class="article-headline">2026 年 2 月度販売高（SEAJ 速報値）</a>
+              <span class="article-meta">www.seaj.or.jp &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.wsj.com/economy/trade/taiwan-exports-start-2026-strong-in-bright-sign-for-economy-8e48424e" target="_blank" rel="noopener" class="article-headline">Taiwan Exports Start 2026 Strong in Bright Sign for Economy - WSJ</a>
+              <span class="article-meta">www.wsj.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.taiwannews.com.tw/news/6314373" target="_blank" rel="noopener" class="article-headline">Taiwan&#x27;s January export orders surge 60% | Taiwan News | Mar. 5, 2026 10:41</a>
+              <span class="article-meta">www.taiwannews.com.tw &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://taiwantoday.tw/Economics/Top-News/282045/Taiwan-export-orders-up-60.1-percent-in-January" target="_blank" rel="noopener" class="article-headline">Taiwan export orders up 60.1 percent in January</a>
+              <span class="article-meta">taiwantoday.tw &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.techinasia.com/news/taiwan-export-orders-hit-record-high-strong-ai-chip-demand" target="_blank" rel="noopener" class="article-headline">Taiwan export orders hit record high on strong AI, chip demand</a>
+              <span class="article-meta">www.techinasia.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.digitimes.com/news/a20260210PD223/taiwan-exports-2026-2025-growth.html" target="_blank" rel="noopener" class="article-headline">Taiwan exports exceed NT$2 trillion in January, memory shortage ...</a>
+              <span class="article-meta">www.digitimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      </div>
+    </details>
+    <details class="run-card" >
+      <summary class="run-summary">
+        <span class="run-time">10:54 AM CT</span>
+        
+        <span class="run-stats">67 ticker items &nbsp;·&nbsp; 112 sector items &nbsp;·&nbsp; 63 dups dropped</span>
+      </summary>
+      <div class="run-body">
+        <div class="section-head">📌 ALPACA NEWS — WATCHLIST TICKER NEWS</div>
+        
+      <table class="news-table">
+        <thead><tr><th>Ticker</th><th>Headline</th><th>Source</th><th>Time (CT)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51769389/president-trump-in-truth-post-said-all-28-of-irans-mine-dropper-boats-are-lying-a" target="_blank" rel="noopener">President Trump, In Truth Post, Said All 28 Of Iran&#x27;s Mine Dropper Boats Are Lying At The Bottom Of The Sea; Now Starting The Process Of Clearing Out The Strait Of Hormuz</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:03 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, CRWV, LEVI, META, NKE, PLTR, PYPL, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51769376/amazon-meta-levi-strauss-and-more-5-stocks-investors-couldnt-stop-buzzing-about-this-week" target="_blank" rel="noopener">Amazon, Meta, Levi Strauss And More: 5 Stocks Investors Couldn&#x27;t Stop Buzzing About This Week</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51769364/bbc-reported-talks-have-now-started-between-the-u-s-iran-talks-still-indirect-thr" target="_blank" rel="noopener">BBC Reported Talks Have Now Started Between The U.S.,  Iran; Talks Still Indirect Through Pakistani Mediators</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 08:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BTC, BTCUSD, COIN</td>
+            <td><a href="https://www.benzinga.com/crypto/26/04/51769306/binance-founder-cz-says-crypto-is-too-transparent-warns-of-privacy-gap-as-regulators-catch-up" target="_blank" rel="noopener">Binance Founder CZ Says Crypto Is &#x27;Too Transparent,&#x27; Warns Of Privacy Gap As Regulators Catch Up</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 07:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMC, APLD, AVGO, CRM, CRWV, GOOGL, JTAI, LEVI, NET, NOW, OMEX, PLTR, SNOW, STZ</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51769305/benzinga-bulls-and-bears-broadcom-levi-strauss-jet-ai-and-markets-rebound-as-mideast-tensions-ease" target="_blank" rel="noopener">Benzinga Bulls And Bears: Broadcom, Levi Strauss, Jet.AI — And Markets Rebound As Mideast Tensions Ease</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 07:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMZN, BABA, NVDA, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51768268/anthropic-openai-and-big-techs-number-one-goal-is-to-kill-openclaw-says-venture-capitalist-jason-calacanis" target="_blank" rel="noopener">Anthropic, OpenAI And Big Tech&#x27;s &#x27;Number One Goal&#x27; Is To Kill OpenClaw, Says Venture Capitalist Jason Calacanis</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 03:29 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HOOD</td>
+            <td><a href="https://www.benzinga.com/news/legal/26/04/51768188/arizonas-crackdown-on-kalshi-halted-as-federal-court-sides-with-cftc-in-fight-over-election-betting-and-prediction-markets" target="_blank" rel="noopener">Arizona&#x27;s Crackdown On Kalshi Halted As Federal Court Sides With CFTC In Fight Over Election Betting And Prediction Markets</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:27 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, GOOGL, GS, IBM, MCD, META, NKE, TGT, TSLA</td>
+            <td><a href="https://www.benzinga.com/news/legal/26/04/51768179/ibm-pays-17-million-to-settle-dei-allegations-in-dojs-first-false-claims-act-win" target="_blank" rel="noopener">IBM Pays $17 Million To Settle DEI Allegations In DOJ&#x27;s First False Claims Act Win</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META, NVDA, PLTR</td>
+            <td><a href="https://www.benzinga.com/personal-finance/tax/26/04/51768110/nvidia-ceo-jensen-huang-says-move-to-california-even-as-billionaires-look-to-flee-states-proposed-wealth-tax" target="_blank" rel="noopener">Nvidia CEO Jensen Huang Says &#x27;Move To California&#x27; Even As Billionaires Look To Flee State&#x27;s Proposed Wealth Tax</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BA, LMT</td>
+            <td><a href="https://www.benzinga.com/news/space/26/04/51767961/artemis-ii-crew-splashes-down-after-epic-lunar-journey-welcome-home-says-nasa" target="_blank" rel="noopener">Artemis II Crew Splashes Down After Epic Lunar Journey— &#x27;Welcome Home,&#x27; Says NASA</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 09:41 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META</td>
+            <td><a href="https://www.benzinga.com/markets/private-markets/26/04/51767880/tiger-global-popup-bagels-300m-valuation-viral-chain-investment" target="_blank" rel="noopener">This Viral Bagel Chain Could Be Worth $300 Million After Tiger Global&#x27;s Bet</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 09:12 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">TSLA</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51766868/tesla-posts-on-x-fsd-supervised-approved-in-the-netherlands" target="_blank" rel="noopener">Tesla Posts On X &quot;FSD Supervised approved in the Netherlands&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 04:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">LEN</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51766022/lennar-files-prospectus-for-potential-continuous-offering-of-stocks-preferred-shares-debt-warrants-a" target="_blank" rel="noopener">Lennar Files Prospectus For Potential Continuous Offering Of Stocks, Preferred Shares, Debt, Warrants, And Units</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:33 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51765929/palantir-sell-off-way-over-blown-wall-street-bull-sees-70-upside-for-stock" target="_blank" rel="noopener">Palantir Sell-Off &#x27;Way Over-Blown&#x27;—Wall Street Bull Sees 70% Upside For Stock</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">JPM</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51765894/heres-how-much-you-would-have-made-owning-jpmorgan-chase-stock-in-the-last-15-years" target="_blank" rel="noopener">Here&#x27;s How Much You Would Have Made Owning JPMorgan Chase Stock In The Last 15 Years</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:30 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51765862/lebanese-presidency-posts-on-x-based-on-the-initiative-launched-by-the-president-" target="_blank" rel="noopener">Lebanese Presidency Posts On X &quot;Based on the initiative launched by the President of the Republic, General Joseph Aoun, which is based on diplomatic action through the announcement of a ceasefire and proceeding to direct negotiations with Israel...&quot; &quot;During the call, agreement was reached to hold the first meeting next Tuesday at the U.S. Department of State headquarters to discuss the announcement of a ceasefire and the date for starting negotiations between Lebanon and Israel under American sponsorship.&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:29 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">F, GM, IGV, NOW, QQQ, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51764943/iran-ceasefire-oil-crash-inflation-consumer-confidence-record-low-week-in-review" target="_blank" rel="noopener">Crude Dips On Trump&#x27;s Ceasefire, But Inflation Triggers A Consumer Shock: This Week On Wall Street</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:00 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IGV</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51764938/if-you-invested-100-in-ishares-expanded-tech-software-sector-etf-stock-10-years-ago-you-would-have-" target="_blank" rel="noopener">If You Invested $100 In iShares Expanded Tech-Software Sector ETF Stock 10 Years Ago, You Would Have This Much Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 03:00 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51764740/iranian-state-media-says-iranian-delegation-led-by-irans-parliament-speaker-qalib" target="_blank" rel="noopener">Iranian State Media Says Iranian Delegation Led By Iran&#x27;s Parliament Speaker Qalibaf Arrived In Islamabad Ahead Of Peace Talks With U.S.; Says Talks With U.S. To Begin If &#x27;Preconditions Are Accepted&#x27;; Iran&#x27;s Delegation Includes Foreign Minister, Defence Council Secretary, C.Bank Governor And Several Parliament Members</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:52 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PSX, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51764350/u-s-energy-dept-says-will-loan-8-5m-barrels-of-crude-oil-from-strategic-petroleum" target="_blank" rel="noopener">U.S. Energy Dept Says Will Loan 8.5M Barrels Of Crude Oil From Strategic Petroleum Reserve To 4 Companies; Companies Taking The U.S. SPR Oil Loans Include Macquarie, Phillips 66</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:39 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51764071/palantir-shares-rise-over-4-percent-after-key-trading-signal" target="_blank" rel="noopener">Palantir Shares Rise Over 4% After Key Trading Signal</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:29 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, GOOGL, MPC, MSFT</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51763772/microsofts-copilot-feels-like-teams-why-this-fund-manager-is-swapping-it-for-claude" target="_blank" rel="noopener">Microsoft&#x27;s Copilot &#x27;Feels Like Teams:&#x27; Why This Fund Manager Is Swapping It For Claude</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:21 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51763757/trump-promises-mass-pardons-to-staff-before-leaving-office-wsj-exclusive" target="_blank" rel="noopener">&#x27;Trump Promises Mass Pardons to Staff Before Leaving Office&#x27; - WSJ Exclusive</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:20 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ADBE, CRM, CRWD, GLW, IGV, INTC, MRVL, MSFT, SMH, SOXX</td>
+            <td><a href="https://www.benzinga.com/etfs/sector-etfs/26/04/51763585/ai-hardware-boom-leaves-software-etfs-in-dust-igv-slides" target="_blank" rel="noopener">AI Hardware Boom Leaves Software ETFs In The Dust As IGV Slides</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 02:14 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">APO, ARES, BBDC, BX, GS, MS</td>
+            <td><a href="https://www.benzinga.com/markets/private-markets/26/04/51763212/ares-targets-20-billion-for-new-private-credit-fund" target="_blank" rel="noopener">Ares Targets $20 Billion For New Private Credit Fund</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:59 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51762285/the-apple-paradox-shuttering-its-first-unionized-us-store-in-towson" target="_blank" rel="noopener">The Apple Paradox: Shuttering Its First Unionized US Store In Towson</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CQQQ, FXI, KWEB, MCHI</td>
+            <td><a href="https://www.benzinga.com/etfs/emerging-market-etfs/26/04/51762880/chinas-ppi-rebound-signals-industrial-turnaround-why-arent-mchi-fxi-etfs-rallying-yet" target="_blank" rel="noopener">China&#x27;s PPI Rebound Signals Industrial Turnaround — Why Aren&#x27;t MCHI, FXI ETFs Rallying Yet?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:47 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IBKR</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51762396/interactive-brokers-founder-lost-90000-to-insider-trading-but-now-wants-it-legalized" target="_blank" rel="noopener">Interactive Brokers Founder Lost $90,000 To Insider Trading But Now Wants It Legalized</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, AVGO, GOOG, GOOGL, TEL</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761913/why-is-broadcom-stock-trading-higher-on-friday" target="_blank" rel="noopener">Why Is Broadcom Stock Trading Higher On Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:15 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761861/usa-federal-budget-balance-for-mar-164-000b-vs-157-800b-est-prior-308-000b" target="_blank" rel="noopener">USA Federal Budget Balance for Mar $(164.000B) vs $(157.800B) Est; Prior $(308.000B)</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:14 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ARTY, FNDA, SMCI, USRD</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51761757/supermicro-stock-rallies-as-ready-to-ship-ai-servers-aim-to-slash-lead-times" target="_blank" rel="noopener">Supermicro Stock Rallies As &#x27;Ready-To-Ship&#x27; AI Servers Aim To Slash Lead Times</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:11 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ANGX, CRWV, MGRT, OGN, YDDL, ZNTL</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51761716/nasdaq-moves-higher-us-inflation-rate-accelerates-in-march" target="_blank" rel="noopener">Nasdaq Moves Higher; US Inflation Rate Accelerates In March</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:10 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, TSM</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761575/whats-going-on-with-advanced-micro-devices-stock-friday-2" target="_blank" rel="noopener">What&#x27;s Going On With Advanced Micro Devices Stock Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:06 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IUSG, IVW, MSFT, SPYG</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51761533/microsoft-azure-still-poised-to-crush-estimates-despite-150-billion-spending-fears-analyst" target="_blank" rel="noopener">Microsoft Azure Still Poised To Crush Estimates Despite $150 Billion Spending Fears: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">MSFT</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761509/bnp-paribas-maintains-outperform-on-microsoft-lowers-price-target-to-556" target="_blank" rel="noopener">BNP Paribas Maintains Outperform on Microsoft, Lowers Price Target to $556</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 01:04 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ITA, LMT, PPA, SHLD</td>
+            <td><a href="https://www.benzinga.com/markets/large-cap/26/04/51761211/lockheed-martin-boosts-missile-output-with-4-7-billion-u-s-order" target="_blank" rel="noopener">Lockheed Martin Boosts Missile Output With $4.7 Billion U.S. Order</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:54 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META, NOW, PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51761068/servicenow-stock-craters-19-in-weeks-worst-sp-500-showing" target="_blank" rel="noopener">ServiceNow Stock Craters 19% In Week&#x27;s Worst S&amp;P 500 Showing</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:50 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, AVGO, GOOG, GOOGL, META, MSFT, UBER</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51761022/googles-gemini-anthropics-claude-siphon-market-share-from-chatgpt-analyst" target="_blank" rel="noopener">Google&#x27;s Gemini, Anthropic&#x27;s Claude Siphon Market Share From ChatGPT: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NKE</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51761011/nike-switches-up-its-innovation-leadership-company-veteran-tony-bignell-is-leaving-the-sneaker-giant" target="_blank" rel="noopener">&#x27;Nike Switches Up Its Innovation Leadership; Company Veteran Tony Bignell Is Leaving The Sneaker Giant After Less Than A Year As Chief Innovation Officer As Its Turnaround Runs Into Snags&#x27; - WSJ</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:49 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BAC, C, CRWD, GS, JPM, MS, NET, QLYS, WFC</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51760955/anthropics-mythos-made-scott-bessent-jerome-powell-all-bank-ceos-but-what-do-prediction-markets-say-about-its-ipo" target="_blank" rel="noopener">Anthropic&#x27;s Mythos Made Scott Bessent, Jerome Powell All Bank CEOs: But What Do Prediction Markets Say About Its IPO?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:47 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, ADBE, AMZN, BTCUSD, BUG, CIBR, CRM, CRWD, GOOG, HACK, IGV, META, MNDY, MSFT, NOW, NVDA, ORCL, PANW, QQQ, SPY, TSLA, USO</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51760908/mythos-ai-fears-energy-driven-high-inflation-data-markets-bet-on-an-iranian-off-ramp" target="_blank" rel="noopener">Mythos AI Fears; Energy-Driven High Inflation Data; Markets Bet On An Iranian Off-Ramp</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:46 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SHOP</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51760843/shopify-faces-ai-disruption-fears-but-jpmorgan-isnt-backing-down" target="_blank" rel="noopener">Shopify Faces AI Disruption Fears, But JPMorgan Isn&#x27;t Backing Down</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:43 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ASTS, CHTR, GOOG, GOOGL, LYV, META, NFLX, SATS, VZ</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760646/9-communication-services-stocks-whale-activity-in-todays-session" target="_blank" rel="noopener">9 Communication Services Stocks Whale Activity In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AXON, BE, BETA, CAR, CAT, GEV, HON, TT, VRT, XPO</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760642/10-industrials-stocks-with-whale-alerts-in-todays-session" target="_blank" rel="noopener">10 Industrials Stocks With Whale Alerts In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, AVGO, CRWV, INTC, LITE, MRVL, MSFT, NBIS, PLTR, SMCI</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51760641/10-information-technology-stocks-whale-activity-in-todays-session" target="_blank" rel="noopener">10 Information Technology Stocks Whale Activity In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AKAM, ALAB, AMD, AVGO, COHR, DIA, FICO, HUBS, IGV, IWM, MRVL, NET, NOW, NVDA, OGN, PANW, PLTR, QQQ, SMCI, SMH, SNOW, TPL, TSM, VOO, XLB, XLE, XLF, XLK, XLP, XLU, XLV</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51760432/nasdaq-100-streak-low-sentiment-hot-cpi-trump-palantir-oil-ai-chips-friday-wall-street-news" target="_blank" rel="noopener">Trump Throws A Lifeline To Palantir, Nasdaq 100 Targets 8th Green Day: What&#x27;s Moving Markets Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:26 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">FTXL, QCOM, SNAP</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51759884/whats-going-on-with-qualcomm-stock-today" target="_blank" rel="noopener">What&#x27;s Going On With Qualcomm Stock Today?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:09 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY, UNG, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51759845/u-s-baker-hughes-oil-rig-count-0-unchanged-from-411-prior-u-s-baker-hughes-natgas" target="_blank" rel="noopener">U.S. Baker Hughes Oil Rig Count +0, Unchanged From 411 Prior; U.S. Baker Hughes NatGas Rig Count -3 To 127; U.S. Baker Hughes Total Rig Count 545 Vs 548 Prior</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:07 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AIXI, AKAM, AMPGR, AMPGZ, CLRO, FSLY, FUSE, MAXN, MPTIR, RELL, RXT, TDTH</td>
+            <td><a href="https://www.benzinga.com/insights/movers/26/04/51759776/12-information-technology-stocks-moving-in-fridays-intraday-session" target="_blank" rel="noopener">12 Information Technology Stocks Moving In Friday&#x27;s Intraday Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CVX, SHEL, XOM</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51759705/chevron-q1-likely-noisy-earnings-headwinds-reverse-tailwinds-q2" target="_blank" rel="noopener">Chevron Q1 Earnings Will Be &#x27;Noisy&#x27; As Headwinds Reverse To Tailwinds: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:03 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, COF, NVDA, SLV</td>
+            <td><a href="https://www.benzinga.com/analyst-ratings/26/04/51759656/cnbc-halftime-report-final-trades-amazon-nvidia-capital-one-financial-ishares-silver-trust" target="_blank" rel="noopener">CNBC Halftime Report Final Trades: Amazon, NVIDIA, Capital One Financial, iShares Silver Trust</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:01 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BAC, BCS, DB, GS, JPM, SPGI</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51759636/wall-street-builds-new-tool-to-bet-against-private-credit-credit-default-swap-index-could-help-banks" target="_blank" rel="noopener">&#x27;Wall Street Builds New Tool To Bet Against Private Credit; Credit-Default Swap Index Could Help Banks Reduce Exposure To Private Credit And Let Hedge Funds Profit From Turmoil&#x27; - WSJ</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 12:01 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAOI, GLW, LITE, NVDA, ORCL</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/short-ideas/26/04/51759552/citron-calls-applied-optoelectronics-valuation-delusional" target="_blank" rel="noopener">Citron Calls Applied Optoelectronics&#x27; Valuation &#x27;Delusional&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:59 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">VLO</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51759150/valero-pulls-back-on-mexican-oil-after-texas-refinery-blast-bloomberg-news" target="_blank" rel="noopener">&#x27;Valero Pulls Back on Mexican Oil After Texas Refinery Blast&#x27; - Bloomberg News</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:46 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">GOOGL</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51759125/if-you-invested-1000-in-alphabet-stock-15-years-ago-you-would-have-this-much-today" target="_blank" rel="noopener">If You Invested $1000 In Alphabet Stock 15 Years Ago, You Would Have This Much Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:45 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">DRAM, SNDK</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51758840/sandisk-shares-slip-friday-after-record-run-fueled-by-ai-memory-trade" target="_blank" rel="noopener">Sandisk Shares Slip Friday After Record Run Fueled By AI Memory Trade</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:35 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">META</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51758783/metas-ai-outlook-brightens-with-muse-spark-release" target="_blank" rel="noopener">Meta&#x27;s AI Outlook Brightens With Muse Spark Release</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:34 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EIS, SPY, USO</td>
+            <td><a href="https://www.benzinga.com/economics/macro-economic-events/26/04/51758739/president-trump-posts-on-truth-social-the-iranians-dont-seem-to-realize-they-have" target="_blank" rel="noopener">President Trump Posts On Truth Social &quot;The Iranians don&#x27;t seem to realize they have no cards, other than a short term extortion of the World by using International Waterways. The only reason they are alive today is to negotiate&quot;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:32 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CRWV, META, MSFT, NVDA</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51758621/metas-latest-21-billion-move-could-help-de-risk-coreweaves-growth-analyst" target="_blank" rel="noopener">Meta&#x27;s Latest $21 Billion Move Could Help De-Risk CoreWeave&#x27;s Growth: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:28 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PANW</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/26/04/51758543/live-on-cnbc-kevin-simpson-announces-bought-more-palo-alto-networks" target="_blank" rel="noopener">Live On CNBC, Kevin Simpson Announces Bought More Palo Alto Networks</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">PLTR</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51758538/trump-shouts-out-palantir-stock-signal-to-buy-the-pltr-dip" target="_blank" rel="noopener">Trump Shouts-Out Palantir Stock: Signal To Buy The PLTR Dip?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:24 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">LMT, PLTR, TSLA</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51758493/palantir-anduril-execs-sound-the-alarm-us-has-8-days-of-munitions-for-a-china-war" target="_blank" rel="noopener">Palantir, Anduril Execs Sound The Alarm: US Has 8 Days Of Munitions For A China War</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:21 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, MPC, MSFT</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/26/04/51758300/live-on-cnbc-kevin-simpson-announces-trimmed-marathon-petroleum-position-bought-more-apple-bought-m" target="_blank" rel="noopener">Live On CNBC, Kevin Simpson Announces Trimmed Marathon Petroleum Position; Bought More Apple; Bought More Microsoft</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:16 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NET</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51758268/heres-how-much-you-would-have-made-owning-cloudflare-stock-in-the-last-5-years" target="_blank" rel="noopener">Here&#x27;s How Much You Would Have Made Owning Cloudflare Stock In The Last 5 Years</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:15 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">SPY, USO</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51758099/president-trump-speaking-to-new-york-post-says-the-u-s-is-preparing-military-if-iran-fails-to-comply" target="_blank" rel="noopener">President Trump Speaking To New York Post Says The U.S. Is Preparing Military If Iran Fails To Comply In Talks</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:10 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">HUM, OSCR, UNH</td>
+            <td><a href="https://www.benzinga.com/opinion/26/04/51758015/3-health-insurance-stocks-to-play-on-the-medicare-hike" target="_blank" rel="noopener">3 Health Insurance Stocks to Play On the Medicare Hike</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:06 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AVGO</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51757815/heres-how-much-100-invested-in-broadcom-15-years-ago-would-be-worth-today" target="_blank" rel="noopener">Here&#x27;s How Much $100 Invested In Broadcom 15 Years Ago Would Be Worth Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-10 11:00 AM CT</td>
+          </tr></tbody>
+      </table>
+        <div class="section-head" style="margin-top:28px;">🌐 TAVILY — SECTOR CATALYST SWEEPS</div>
+        
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #7c3aed;padding-left:8px;color:#7c3aed;">🤖 AI DISPLACEMENT</div>
+        
+            <div class="article-row">
+              <a href="https://www.nytimes.com/2026/04/08/technology/meta-muse-spark-ai-model.html" target="_blank" rel="noopener" class="article-headline">Meta Unveils New A.I. Model, Its First From the Superintelligence Lab</a>
+              <span class="article-meta">www.nytimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/sectors/technology/article/tech-stocks-today-suspect-arrested-in-alleged-attack-on-openai-ceo-altmans-home-144220291.html" target="_blank" rel="noopener" class="article-headline">Tech stocks today: Suspect arrested in alleged attack on OpenAI ...</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://nypost.com/2026/04/09/business/meta-rolls-out-new-ai-model-in-latest-effort-to-catch-up-with-rivals/" target="_blank" rel="noopener" class="article-headline">Meta rolls out new AI model in latest effort to catch up with rivals</a>
+              <span class="article-meta">nypost.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html" target="_blank" rel="noopener" class="article-headline">Meta debuts new AI model, attempting to catch up to Google, OpenAI</a>
+              <span class="article-meta">www.cnbc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://indianexpress.com/article/technology/tech-news-technology/meta-unveils-new-ai-model-as-it-tries-to-catch-up-with-google-and-openai-after-spending-billions-10627005/" target="_blank" rel="noopener" class="article-headline">Meta unveils new AI model as it tries to catch up with Google and ...</a>
+              <span class="article-meta">indianexpress.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://introduct.tech/blog/ai-and-the-future-of-it-jobs-uncertainty-opportunity-and-change/" target="_blank" rel="noopener" class="article-headline">AI&#x27;s Impact on IT Jobs: Replacement or Transformation?</a>
+              <span class="article-meta">introduct.tech &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reddit.com/r/EngineeringStudents/comments/1rriu0b/ai_tools_might_change_software_jobs_but_theyre/" target="_blank" rel="noopener" class="article-headline">AI tools might change software jobs, but they&#x27;re not ...</a>
+              <span class="article-meta">www.reddit.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://theconversation.com/ai-threatens-to-eat-business-software-and-it-could-change-the-way-we-work-275546" target="_blank" rel="noopener" class="article-headline">AI threatens to eat business software – and it could change ...</a>
+              <span class="article-meta">theconversation.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=moiuHRHB6nE" target="_blank" rel="noopener" class="article-headline">Why Replacing Developers with AI is Going Horribly Wrong</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://bootcamps.cs.cmu.edu/blog/will-ai-replace-software-engineers-reality-check" target="_blank" rel="noopener" class="article-headline">Will AI Make Software Engineers Obsolete? Here&#x27;s the Reality</a>
+              <span class="article-meta">bootcamps.cs.cmu.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #dc2626;padding-left:8px;color:#dc2626;">⚖️ REGULATORY</div>
+        
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/news/3-recent-fda-rejections-reveal-075552463.html" target="_blank" rel="noopener" class="article-headline">What 3 recent FDA rejections reveal about shifts inside the agency</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.statnews.com/2025/07/10/fda-publishes-drug-rejection-letters-marty-makary-transparency-effort/" target="_blank" rel="noopener" class="article-headline">FDA publishes rejection letters sent to drugmakers, with a big caveat</a>
+              <span class="article-meta">www.statnews.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.oncologynewscentral.com/drug/info/drug-rejections-safety-notice-and-more-fda-news-roundup-for-july-2025" target="_blank" rel="noopener" class="article-headline">Drug Rejections, Safety Notice, and More: FDA News Rapid ...</a>
+              <span class="article-meta">www.oncologynewscentral.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reuters.com/business/healthcare-pharmaceuticals/approvals/" target="_blank" rel="noopener" class="article-headline">Approvals News | Today&#x27;s Latest Stories - Reuters</a>
+              <span class="article-meta">www.reuters.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.healthlawadvisor.com/supreme-court-rejects-challenge-to-fda-approval-of-mifepristone-on-standing-but-the-battle-continues" target="_blank" rel="noopener" class="article-headline">Supreme Court Rejects Challenge to FDA Approval of Mifepristone ...</a>
+              <span class="article-meta">www.healthlawadvisor.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ftc.gov/news-events/news/press-releases/2026/02/federal-trade-commission-department-justice-seek-public-comment-guidance-business-collaborations" target="_blank" rel="noopener" class="article-headline">Federal Trade Commission and Department of Justice Seek Public ...</a>
+              <span class="article-meta">www.ftc.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.justice.gov/atr" target="_blank" rel="noopener" class="article-headline">Antitrust Division - Department of Justice</a>
+              <span class="article-meta">www.justice.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=aaNihkPz-0o" target="_blank" rel="noopener" class="article-headline">DOJ and FTC plan antitrust probes into Nvidia, OpenAI, and Microsoft</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.antitrustalert.com/category/doj-developments/" target="_blank" rel="noopener" class="article-headline">DOJ Developments Archives - Antitrust Alert</a>
+              <span class="article-meta">www.antitrustalert.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ftc.gov/news-events/news/press-releases/2024/05/ftc-doj-seek-info-serial-acquisitions-roll-strategies-across-us-economy" target="_blank" rel="noopener" class="article-headline">FTC and DOJ Seek Info on Serial Acquisitions, Roll-Up Strategies ...</a>
+              <span class="article-meta">www.ftc.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.presidency.ucsb.edu/documents/executive-order-14257-regulating-imports-with-reciprocal-tariff-rectify-trade-practices" target="_blank" rel="noopener" class="article-headline">Executive Order 14257—Regulating Imports With a Reciprocal Tariff ...</a>
+              <span class="article-meta">www.presidency.ucsb.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ustr.gov/trade-topics/presidential-tariff-actions" target="_blank" rel="noopener" class="article-headline">Presidential Tariff Actions | United States Trade Representative</a>
+              <span class="article-meta">ustr.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and" target="_blank" rel="noopener" class="article-headline">Regulating Imports With a Reciprocal Tariff To Rectify Trade ...</a>
+              <span class="article-meta">www.federalregister.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://ballotpedia.org/Donald_Trump%27s_executive_orders_and_actions_on_trade_and_tariffs,_2025-2026" target="_blank" rel="noopener" class="article-headline">Donald Trump&#x27;s executive orders and actions on trade and tariffs ...</a>
+              <span class="article-meta">ballotpedia.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://en.wikipedia.org/wiki/Liberation_Day_tariffs" target="_blank" rel="noopener" class="article-headline">Liberation Day tariffs - Wikipedia</a>
+              <span class="article-meta">en.wikipedia.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.war.gov/News/Contracts/Contract/article/4261297/" target="_blank" rel="noopener" class="article-headline">Contracts For Jul. 31, 2025 - War.gov</a>
+              <span class="article-meta">www.war.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.businesswire.com/newsroom/industry/defense/contracts" target="_blank" rel="noopener" class="article-headline">Defense Contracts Breaking News and Press Releases</a>
+              <span class="article-meta">www.businesswire.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.usaspending.gov/keyword_search/H2ZDMKZLM472" target="_blank" rel="noopener" class="article-headline">Federal Awards | Keyword Search - USAspending</a>
+              <span class="article-meta">www.usaspending.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.dcma.mil/News/Article-View/Article/2066342/high-dollar-contracts-announced-dcma-will-administer/" target="_blank" rel="noopener" class="article-headline">High-dollar contracts announced, DCMA will administer</a>
+              <span class="article-meta">www.dcma.mil &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.washingtontechnology.com/contracts/" target="_blank" rel="noopener" class="article-headline">Contracts - Washington Technology</a>
+              <span class="article-meta">www.washingtontechnology.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #2563eb;padding-left:8px;color:#2563eb;">📊 MACRO DATA</div>
+        
+            <div class="article-row">
+              <a href="https://streetstats.finance/cycle/inflation" target="_blank" rel="noopener" class="article-headline">Inflation Indicators - PCI, PCE, PPI - StreetStats</a>
+              <span class="article-meta">streetstats.finance &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bls.gov/schedule/news_release/cpi.htm" target="_blank" rel="noopener" class="article-headline">Schedule of Releases for the Consumer Price Index</a>
+              <span class="article-meta">www.bls.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bea.gov/data/personal-consumption-expenditures-price-index" target="_blank" rel="noopener" class="article-headline">Personal Consumption Expenditures Price Index</a>
+              <span class="article-meta">www.bea.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting" target="_blank" rel="noopener" class="article-headline">Inflation Nowcasting - Federal Reserve Bank of Cleveland</a>
+              <span class="article-meta">www.clevelandfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener" class="article-headline">CPI Home : U.S. Bureau of Labor Statistics</a>
+              <span class="article-meta">www.bls.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://adpemploymentreport.com/" target="_blank" rel="noopener" class="article-headline">ADP® Employment Report</a>
+              <span class="article-meta">adpemploymentreport.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.advisorperspectives.com/dshort/updates/2026/04/01/adp-private-employment-report-march-2026" target="_blank" rel="noopener" class="article-headline">ADP National Employment Report: 62K Private Jobs ...</a>
+              <span class="article-meta">www.advisorperspectives.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investopedia.com/terms/a/adpreport.asp" target="_blank" rel="noopener" class="article-headline">ADP National Employment Report Explained: Key Insights ...</a>
+              <span class="article-meta">www.investopedia.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/economic-calendar/adp-nonfarm-employment-change-1" target="_blank" rel="noopener" class="article-headline">United States ADP Nonfarm Employment Change</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/united-states/business-confidence" target="_blank" rel="noopener" class="article-headline">United States ISM Manufacturing PMI - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/" target="_blank" rel="noopener" class="article-headline">ISM® PMI® Reports</a>
+              <span class="article-meta">www.ismworld.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://en.macromicro.me/collections/8/us-industry-relative/54/ism" target="_blank" rel="noopener" class="article-headline">ISM Manufacturing PMI | US Industry | Collection - MacroMicro</a>
+              <span class="article-meta">en.macromicro.me &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/economic-calendar/ism-manufacturing-pmi-173" target="_blank" rel="noopener" class="article-headline">United States ISM Manufacturing PMI - Investing.com</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/" target="_blank" rel="noopener" class="article-headline">Release Dates for the ISM Manufacturing and Services PMI ® Reports</a>
+              <span class="article-meta">www.ismworld.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://fred.stlouisfed.org/tags/series?t=housing%3Bretail+trade%3Bsales" target="_blank" rel="noopener" class="article-headline">Housing, Sales, Retail Trade - Economic Data Series - FRED</a>
+              <span class="article-meta">fred.stlouisfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://economics.td.com/us-housing-starts-and-permits" target="_blank" rel="noopener" class="article-headline">U.S. Housing Starts and Permits (January 2026) - TD Economics</a>
+              <span class="article-meta">economics.td.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.economy.com/united-states/residential-housing-starts" target="_blank" rel="noopener" class="article-headline">United States Residential Housing Starts | Moody&#x27;s Analytics</a>
+              <span class="article-meta">www.economy.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/united-states/housing-starts" target="_blank" rel="noopener" class="article-headline">United States Housing Starts - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://fred.stlouisfed.org/categories/32302" target="_blank" rel="noopener" class="article-headline">Housing Starts | FRED | St. Louis Fed</a>
+              <span class="article-meta">fred.stlouisfed.org &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #d97706;padding-left:8px;color:#d97706;">🛢️ COMMODITY / ENERGY</div>
+        
+            <div class="article-row">
+              <a href="https://stocktwits.com/news-articles/markets/equity/oil-prices-pull-back-after-opec-supply-boost-shocks-markets/chFt5Y3RPxQ" target="_blank" rel="noopener" class="article-headline">Oil Prices Pull Back After OPEC+ Supply Boost Shocks ...</a>
+              <span class="article-meta">stocktwits.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/WIONews/posts/oil-shock-fears-grip-global-marketsoil-prices-are-highly-volatile-as-geopolitica/1239888798250292/" target="_blank" rel="noopener" class="article-headline">Oil shock fears grip global markets Oil prices are highly ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://oilprice.com/Energy/Energy-General/The-Worlds-Biggest-Oil-Supply-Shock-Is-Now-Unfolding.html" target="_blank" rel="noopener" class="article-headline">The World&#x27;s Biggest Oil Supply Shock Is Now Unfolding</a>
+              <span class="article-meta">oilprice.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.eia.gov/finance/markets/crudeoil/supply-opec.php" target="_blank" rel="noopener" class="article-headline">What drives crude oil prices: Supply OPEC</a>
+              <span class="article-meta">www.eia.gov &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=p-h6e3lBpI0" target="_blank" rel="noopener" class="article-headline">Oil prices soar above $110 as OPEC+ struggles to ease ...</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=dQN8_tt8HOI" target="_blank" rel="noopener" class="article-headline">Gerardo Del Real: Gold, Uranium, Copper and More - YouTube</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://goldinvest.de/en/commodity-prices/" target="_blank" rel="noopener" class="article-headline">Commodity Prices - Gold, Silver, Lithium &amp; More - GOLDINVEST.de</a>
+              <span class="article-meta">goldinvest.de &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://carboncredits.com/uranium-prices-today/" target="_blank" rel="noopener" class="article-headline">Live Uranium Prices Today - CarbonCredits.com</a>
+              <span class="article-meta">carboncredits.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/commodities/uranium-futures" target="_blank" rel="noopener" class="article-headline">Uranium Futures Price Today - Investing.com</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://tradingeconomics.com/commodity/uranium" target="_blank" rel="noopener" class="article-headline">Uranium - Price - Chart - Historical Data - News - Trading Economics</a>
+              <span class="article-meta">tradingeconomics.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #059669;padding-left:8px;color:#059669;">🌍 GEOPOLITICAL</div>
+        
+            <div class="article-row">
+              <a href="https://apnews.com/article/china-taiwan-huawei-smic-export-restrictions-semiconductor-6f43d0b9f34d39258ca3e3c1406d9055" target="_blank" rel="noopener" class="article-headline">Taiwan adds China&#x27;s Huawei and SMIC to export control list | AP News</a>
+              <span class="article-meta">apnews.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://law.asia/taiwan-semiconductor-export-controls/" target="_blank" rel="noopener" class="article-headline">Taiwan&#x27;s cross-border semiconductor controls: Export, security and ...</a>
+              <span class="article-meta">law.asia &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://thediplomat.com/2025/06/taiwan-adds-new-export-controls-on-chinas-chip-industry/" target="_blank" rel="noopener" class="article-headline">Taiwan Adds New Export Controls on China&#x27;s Chip Industry</a>
+              <span class="article-meta">thediplomat.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.cnbc.com/2025/06/16/taiwan-blacklists-china-huawei-smic-further-aligning-with-us-trade-policy-.html" target="_blank" rel="noopener" class="article-headline">Taiwan blacklists China&#x27;s Huawei and SMIC, aligning more with U.S. ...</a>
+              <span class="article-meta">www.cnbc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/news/taiwan-just-flashed-chip-power-151734979.html" target="_blank" rel="noopener" class="article-headline">Taiwan Just Flashed Its Chip Power--and South Africa, China Are ...</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bisg.org/news/middle-east-conflict-supply-chain-disruption-what-you-need-to-know" target="_blank" rel="noopener" class="article-headline">Middle East Conflict Supply Chain Disruption: What You Need to Know</a>
+              <span class="article-meta">www.bisg.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.tive.com/blog/middle-east-risks-resurface-supply-chain-disruptions-and-key-insights" target="_blank" rel="noopener" class="article-headline">Middle East Risks Resurface: Supply Chain Disruptions and Key ...</a>
+              <span class="article-meta">www.tive.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.oliverwyman.com/our-expertise/insights/2026/mar/how-middle-east-tensions-impact-supply-chain.html" target="_blank" rel="noopener" class="article-headline">How conflict in the Middle East is affecting supply chains</a>
+              <span class="article-meta">www.oliverwyman.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=ZdCf1PsrI3Q" target="_blank" rel="noopener" class="article-headline">Middle East conflict disrupts aid supply - YouTube</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.maersk.com/news/articles/2026/03/13/middle-east-conflict-impact-global-supply-chains" target="_blank" rel="noopener" class="article-headline">Middle East Conflict and Its Growing Impact on Global Supply Chains</a>
+              <span class="article-meta">www.maersk.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.gisreportsonline.com/r/sanctions-trade-routes/" target="_blank" rel="noopener" class="article-headline">Sanctions and the geopolitics of trade - GIS Reports</a>
+              <span class="article-meta">www.gisreportsonline.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://digitalcommons.newhaven.edu/cgi/viewcontent.cgi?article=3628&amp;context=americanbusinessreview" target="_blank" rel="noopener" class="article-headline">[PDF] The Impact of Economic Sanctions and War-Related Uncertainty on ...</a>
+              <span class="article-meta">digitalcommons.newhaven.edu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.sciencedirect.com/science/article/pii/S2096248725000268" target="_blank" rel="noopener" class="article-headline">Energy sanctions in the global economy: Geopolitical disruptions ...</a>
+              <span class="article-meta">www.sciencedirect.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.usbank.com/investing/financial-perspectives/market-news/russia-ukraine-global-market.html" target="_blank" rel="noopener" class="article-headline">Geopolitical conflict and its impact on global markets - U.S. Bank</a>
+              <span class="article-meta">www.usbank.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://openknowledge.worldbank.org/entities/publication/2545f9a8-0ca3-497d-adaf-ed5823954e76" target="_blank" rel="noopener" class="article-headline">Publication: Geopolitical Risks and Trade</a>
+              <span class="article-meta">openknowledge.worldbank.org &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #db2777;padding-left:8px;color:#db2777;">🏛️ BELLWETHER SIGNALS</div>
+        
+            <div class="article-row">
+              <a href="https://www.youtube.com/watch?v=m7lI1YR5Te0" target="_blank" rel="noopener" class="article-headline">NVDA Gets New Bull, ASML Earnings Rally, DLTR Raises Guidance</a>
+              <span class="article-meta">www.youtube.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.reddit.com/r/NvidiaStock/comments/1idwp49/tsm_and_asml_reported_impressive_growth_in_their/" target="_blank" rel="noopener" class="article-headline">TSM and ASML reported impressive growth in their last earnings ...</a>
+              <span class="article-meta">www.reddit.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.fool.com/investing/2025/07/17/asml-earnings-drop-what-it-means-for-nvidia-amd-an/" target="_blank" rel="noopener" class="article-headline">ASML Earnings Drop: What It Means for Nvidia, AMD, and TSMC</a>
+              <span class="article-meta">www.fool.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://daloopa.com/blog/analyst-pov/what-do-tsm-and-asml-earnings-mean-for-nvda-and-the-sox" target="_blank" rel="noopener" class="article-headline">What do TSM and ASML earnings mean for NVDA and the SOX?</a>
+              <span class="article-meta">daloopa.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://seekingalpha.com/article/4889478-asml-q1-earnings-preview-strong-growth-tailwinds-valuation-stretched" target="_blank" rel="noopener" class="article-headline">ASML Q1 Earnings Preview: Strong Growth Tailwinds, But Valuation ...</a>
+              <span class="article-meta">seekingalpha.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://public.com/stocks/tgt/earnings" target="_blank" rel="noopener" class="article-headline">Target (TGT) Earnings: Latest Report, Earnings Call &amp; Financials</a>
+              <span class="article-meta">public.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/equities/target-earnings" target="_blank" rel="noopener" class="article-headline">Target (TGT) Earnings Date &amp; Report - Investing.com</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.nasdaq.com/market-activity/stocks/tgt/earnings" target="_blank" rel="noopener" class="article-headline">Target Corporation Common Stock (TGT) Earnings Report Date</a>
+              <span class="article-meta">www.nasdaq.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/quote/JPM/" target="_blank" rel="noopener" class="article-headline">JPMorgan Chase &amp; Co. (JPM) Stock Price, News, Quote &amp; History</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.msn.com/en-us/money/watchlist?id=a246z2&amp;ocid=bingnewssearch" target="_blank" rel="noopener" class="article-headline">TARGET CORPORATION (TGT) Stock, Price, News, Quotes ... - MSN</a>
+              <span class="article-meta">www.msn.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.affinityfcu.com/financial-wellbeing/blog/personal-banking/what-to-watch-this-earnings-season" target="_blank" rel="noopener" class="article-headline">Weekly Market Commentary: What To Watch This Earnings Season</a>
+              <span class="article-meta">www.affinityfcu.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/Reuters/posts/from-bellwether-walmart-reporting-earnings-to-new-economic-data-out-of-the-uk-th/1467480478576013/?locale=lv_LV" target="_blank" rel="noopener" class="article-headline">From bellwether Walmart reporting earnings to new economic data ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.facebook.com/Reuters/posts/nvidias-shares-fell-as-the-ai-bellwethers-upbeat-results-failed-to-lift-sentimen/1479368167387244/" target="_blank" rel="noopener" class="article-headline">Nvidia&#x27;s shares fell as the AI bellwether&#x27;s upbeat results failed to lift ...</a>
+              <span class="article-meta">www.facebook.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.marketbeat.com/earnings/beats-and-misses/" target="_blank" rel="noopener" class="article-headline">Biggest Earnings Surprises Today | Beats and Misses - MarketBeat</a>
+              <span class="article-meta">www.marketbeat.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.msn.com/en-us/money/savingandinvesting/more-bad-news-comes-for-this-40-trillion-market-bellwether-stock-falls-to-record-low/ar-AA201FBS?ocid=finance-verthp-feeds" target="_blank" rel="noopener" class="article-headline">bad news comes for this $40 trillion market. Bellwether stock falls to ...</a>
+              <span class="article-meta">www.msn.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      <div class="cat-block">
+        <div class="cat-label" style="border-left:3px solid #0891b2;padding-left:8px;color:#0891b2;">📅 NON-EARNINGS RECURRING DATA</div>
+        
+            <div class="article-row">
+              <a href="https://finance.yahoo.com/markets/stocks/articles/tsmc-q1-2026-earnings-record-121456920.html" target="_blank" rel="noopener" class="article-headline">TSMC Q1 2026 earnings: Record revenue on strong AI chip demand</a>
+              <span class="article-meta">finance.yahoo.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.digitimes.com/news/a20260410VL213/tsmc-revenue-performance-2026.html" target="_blank" rel="noopener" class="article-headline">TSMC smashes records with massive 45% revenue surge in March</a>
+              <span class="article-meta">www.digitimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://semiwiki.com/forum/threads/tsmc-march-2026-revenue-report.24915/" target="_blank" rel="noopener" class="article-headline">TSMC March 2026 Revenue Report | SemiWiki</a>
+              <span class="article-meta">semiwiki.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.investing.com/news/sec-filings/tsmc-reports-452-yearoveryear-revenue-growth-for-march-2026-93CH-4607419" target="_blank" rel="noopener" class="article-headline">TSMC reports 45.2% year-over-year revenue growth for March 2026</a>
+              <span class="article-meta">www.investing.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://pr.tsmc.com/system/files/newspdf/attachment/3e871375bc9359a7833780672fcb4729be6da27d/Mar%202026%20%28E%29_final_wmn.pdf" target="_blank" rel="noopener" class="article-headline">[PDF] TSMC March 2026 Revenue Report</a>
+              <span class="article-meta">pr.tsmc.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.smartkarma.com/insights/samsung-electronics-better-than-expected-preliminary-results-in-1q-2026" target="_blank" rel="noopener" class="article-headline">Samsung Electronics: Better Than Expected Preliminary Results in 1Q 2026 - Douglas Kim</a>
+              <span class="article-meta">www.smartkarma.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://markets.ft.com/data/announce/detail?dockey=1323-17535212-71CCGK5337V8TU6ABQ6HVNPIM0" target="_blank" rel="noopener" class="article-headline">1Q 2026 Pre-Earnings Guidance – Company Announcement - FT.com</a>
+              <span class="article-meta">markets.ft.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://news.samsung.com/my/samsung-electronics-announces-earnings-guidance-for-first-quarter-2026" target="_blank" rel="noopener" class="article-headline">Samsung Electronics Announces Earnings Guidance for First ...</a>
+              <span class="article-meta">news.samsung.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.chosun.com/english/market-money-en/2026/04/01/WZ6FUXWMSJDAJGXE2X6OZIQDJM/" target="_blank" rel="noopener" class="article-headline">South Korea&#x27;s Exports Surpass $80 Billion on Semiconductor Surge</a>
+              <span class="article-meta">www.chosun.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://english.motir.go.kr/eng/article/EATCLdfa319ada/2519/view" target="_blank" rel="noopener" class="article-headline">February 2026 Exports Hit Record High for Any February at $67.5 ...</a>
+              <span class="article-meta">english.motir.go.kr &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.bloomberg.com/news/articles/2026-04-08/s-korea-posts-record-current-account-surplus-on-chip-exports" target="_blank" rel="noopener" class="article-headline">South Korea Posts Record Current Account Surplus on Semiconductor Chip Exports - Bloomberg</a>
+              <span class="article-meta">www.bloomberg.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://eubusinesshub.eu/en/missions-catalogue/semiconductors-korea-2026" target="_blank" rel="noopener" class="article-headline">Semiconductors Korea 2026 | EU Business Hub</a>
+              <span class="article-meta">eubusinesshub.eu &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://mzv.gov.cz/public/3c/8/50/5956448_3429295_Semiconductors_Korea_2026_Flyer.pdf" target="_blank" rel="noopener" class="article-headline">[PDF] Semiconductors Korea 2026</a>
+              <span class="article-meta">mzv.gov.cz &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://iconnect007.com/article/90877/na-semiconductor-equipments-may-booktobill-ratio-below-parity/90880/ein" target="_blank" rel="noopener" class="article-headline">N.A. Semiconductor Equipment&#x27;s May Book-to-Bill Ratio Below Parity :: I-Connect007</a>
+              <span class="article-meta">iconnect007.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.economy.com/united-states/discontinued-semiconductor-equipment-book-to-bill" target="_blank" rel="noopener" class="article-headline">United States [DISCONTINUED] Semiconductor Equipment Book-to-Bill | Moody&#x27;s Analytics</a>
+              <span class="article-meta">www.economy.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.semi.org/en/products-services/market-data/equipment-article-archive" target="_blank" rel="noopener" class="article-headline">Equipment Articles | SEMI</a>
+              <span class="article-meta">www.semi.org &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.semiconductorpackagingnews.com/press/93023.html" target="_blank" rel="noopener" class="article-headline">SEMI Reports Global Semiconductor Equipment Billings Reached $135 Billion in 2025, Up 15% Year-on-Year</a>
+              <span class="article-meta">www.semiconductorpackagingnews.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.seaj.or.jp/statistics/54771971525101.pdf" target="_blank" rel="noopener" class="article-headline">2026 年 2 月度販売高（SEAJ 速報値）</a>
+              <span class="article-meta">www.seaj.or.jp &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.wsj.com/economy/trade/taiwan-exports-start-2026-strong-in-bright-sign-for-economy-8e48424e" target="_blank" rel="noopener" class="article-headline">Taiwan Exports Start 2026 Strong in Bright Sign for Economy - WSJ</a>
+              <span class="article-meta">www.wsj.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.taiwannews.com.tw/news/6314373" target="_blank" rel="noopener" class="article-headline">Taiwan&#x27;s January export orders surge 60% | Taiwan News | Mar. 5, 2026 10:41</a>
+              <span class="article-meta">www.taiwannews.com.tw &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://taiwantoday.tw/Economics/Top-News/282045/Taiwan-export-orders-up-60.1-percent-in-January" target="_blank" rel="noopener" class="article-headline">Taiwan export orders up 60.1 percent in January</a>
+              <span class="article-meta">taiwantoday.tw &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.techinasia.com/news/taiwan-export-orders-hit-record-high-strong-ai-chip-demand" target="_blank" rel="noopener" class="article-headline">Taiwan export orders hit record high on strong AI, chip demand</a>
+              <span class="article-meta">www.techinasia.com &nbsp;·&nbsp; N/A</span>
+            </div>
+            <div class="article-row">
+              <a href="https://www.digitimes.com/news/a20260210PD223/taiwan-exports-2026-2025-growth.html" target="_blank" rel="noopener" class="article-headline">Taiwan exports exceed NT$2 trillion in January, memory shortage ...</a>
+              <span class="article-meta">www.digitimes.com &nbsp;·&nbsp; N/A</span>
+            </div>
+      </div>
+      </div>
+    </details>
+
+    <div class="footer">
+      QuantLab Data Lab &nbsp;·&nbsp; Scans: 6:30 AM / 7:30 AM / 8:06 AM CT (Mon–Fri) &nbsp;·&nbsp; Page refreshes every 60 min (off Fri 3 PM – Sun 4:30 PM CT)
+    </div>
+
+  </div>
+</body>
+</html>

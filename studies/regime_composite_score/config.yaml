@@ -1,0 +1,51 @@
+# ── Regime Composite Score Study ──────────────────────────────────
+# "Diet CTA" macro regime composite: 4 z-scored signals averaged
+# into a single score, tested for forward return predictive power.
+
+study_name: regime_composite_score
+start_date: '2016-01-01'
+end_date: null  # uses today
+
+# Equity tickers (via DataRouter / Alpaca)
+tickers_equity:
+  - XLY
+  - XLP
+  - SPY
+  - QQQ
+  - IWM
+
+# FRED series (via FREDClient)
+fred_series:
+  vix: VIXCLS
+  hy_spread: BAMLH0A0HYM2
+  yield_curve: T10Y2Y
+
+# Z-score lookback (trading days)
+zscore_window: 252
+
+# Regime thresholds (composite z-score boundaries)
+regime_thresholds:
+  extreme_risk_off: -2.0
+  risk_off: -1.0
+  mild_risk_off: 0.0
+  mild_risk_on: 1.0
+  # above 1.0 = RISK-ON
+
+# XLY/XLP cliff dive definition
+cliff_dive_threshold: -0.10   # 20d ROC < -10%
+cliff_dive_roc_window: 20     # trading days
+cliff_dive_gap: 20            # min gap between events (trading days)
+
+# Forward return windows (trading days)
+forward_windows:
+  - 1
+  - 3
+  - 5
+  - 10
+  - 20
+
+# Confidence doctrine
+confidence:
+  reliable: 20
+  low_confidence: 10
+  insufficient: 10  # below this

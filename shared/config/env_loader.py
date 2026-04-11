@@ -1,19 +1,31 @@
 """Environment key loader for local key files.
 
-This loader reads allowed key files from `shared/config/keys/{env}.env`
-and loads them into `os.environ` for the current process only.
+Loads keys from `shared/config/keys/{env}.env` into os.environ.
+Also auto-loads the root .env on import for FRED, FMP, Tiingo, etc.
 
 Usage:
   from shared.config.env_loader import load_keys
-  load_keys('paper')
-
-It intentionally avoids printing secret values.
+  load_keys('paper')   # or 'live'
 """
 from pathlib import Path
 import os
 from typing import Dict
 
 
+# ── Auto-load root .env on import (FRED, FMP, Tiingo, etc.) ──────────────────
+def _load_root_env():
+    try:
+        from dotenv import load_dotenv
+        root_env = Path(__file__).resolve().parents[2] / '.env'
+        if root_env.exists():
+            load_dotenv(root_env, override=False)
+    except ImportError:
+        pass
+
+_load_root_env()
+
+
+# ── Key file reader ───────────────────────────────────────────────────────────
 def _read_env_file(path: Path) -> Dict[str, str]:
     result = {}
     if not path.exists():
@@ -31,24 +43,40 @@ def _read_env_file(path: Path) -> Dict[str, str]:
     return result
 
 
-def load_keys(env_name: str, override: bool = False) -> Dict[str, str]:
-    """Load allowed Alpaca key names from `shared/config/keys/{env_name}.env`.
+# ── Primary loader ────────────────────────────────────────────────────────────
+_ALPACA_KEYS = {
+    'ALPACA_API_KEY', 'ALPACA_API_SECRET',
+    'APCA_API_KEY_ID', 'APCA_API_SECRET_KEY',
+    'APCA_API_BASE_URL', 'ALPACA_API_BASE_URL',
+}
 
-    Keys are injected into `os.environ` only if they are not already set.
-    Returns the dict of keys that were loaded (names without values masked).
+_ALL_ALLOWED_KEYS = _ALPACA_KEYS | {
+    'FRED_API_KEY',
+    'FMP_API_KEY',
+    'TIINGO_API_KEY',
+    'ALPHA_VANTAGE_API_KEY',
+}
+
+
+def load_keys(env_name: str, override: bool = False) -> Dict[str, str]:
+    """Load all allowed keys from `shared/config/keys/{env_name}.env`.
+
+    Injects them into os.environ. Returns dict of key names that were loaded.
     """
     repo_root = Path(__file__).resolve().parents[2]
     key_file = repo_root / 'shared' / 'config' / 'keys' / f"{env_name}.env"
     data = _read_env_file(key_file)
-    allowed = {'ALPACA_API_KEY', 'ALPACA_API_SECRET', 'APCA_API_KEY_ID', 'APCA_API_SECRET_KEY', 'APCA_API_BASE_URL', 'ALPACA_API_BASE_URL'}
     loaded = {}
     for k, v in data.items():
-        if k in allowed and (override or not os.getenv(k)):
+        if k not in _ALL_ALLOWED_KEYS:
+            continue
+        if override or not os.getenv(k):
             os.environ[k] = v
             loaded[k] = '<loaded>'
-        elif k in allowed:
+        else:
             loaded[k] = '<present>'
-    # Map ALPACA_* names to APCA_* equivalents so code using either naming convention works
+
+    # Map ALPACA_* to APCA_* equivalents so both naming conventions work
     try:
         if os.getenv('ALPACA_API_KEY') and not os.getenv('APCA_API_KEY_ID'):
             os.environ['APCA_API_KEY_ID'] = os.environ['ALPACA_API_KEY']
@@ -61,47 +89,16 @@ def load_keys(env_name: str, override: bool = False) -> Dict[str, str]:
             loaded.setdefault('APCA_API_BASE_URL', '<mapped>')
     except Exception:
         pass
+
     return loaded
 
 
 def set_alpaca_env(env_name: str) -> Dict[str, str]:
-    """Helper to set `ALPACA_ENV` and load keys for that env.
-
-    Returns loaded key names.
-    """
+    """Set ALPACA_ENV and load keys for that env."""
     os.environ['ALPACA_ENV'] = env_name
     return load_keys(env_name)
-"""
-Environment Loader
-------------------
-Centralized .env loading for all API configurations.
-Import this module first to ensure environment variables are loaded.
-"""
-
-from dotenv import load_dotenv, find_dotenv
-import os
-
-# Load .env file automatically on import
-# override=False means existing environment variables take precedence
-_env_file = find_dotenv()
-if _env_file:
-    load_dotenv(_env_file, override=False)
-else:
-    # Try to find .env in project root
-    import sys
-    from pathlib import Path
-    
-    # Get project root (3 levels up from this file)
-    project_root = Path(__file__).parent.parent.parent
-    env_path = project_root / '.env'
-    
-    if env_path.exists():
-        load_dotenv(env_path, override=False)
 
 
 def ensure_env_loaded():
-    """
-    Explicitly ensure environment is loaded.
-    This is called automatically on module import, but can be called manually if needed.
-    """
-    pass  # Loading happens at module import time
+    """No-op — loading happens at module import time."""
+    pass

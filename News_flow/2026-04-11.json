@@ -1,0 +1,2537 @@
+[
+  {
+    "run_ts": "2026-04-11T10:54:21.942241-05:00",
+    "run_label": "10:54 AM CT",
+    "alpaca_count": 67,
+    "tavily_count": 112,
+    "dups_dropped": 63,
+    "alpaca_items": [
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "President Trump, In Truth Post, Said All 28 Of Iran's Mine Dropper Boats Are Lying At The Bottom Of The Sea; Now Starting The Process Of Clearing Out The Strait Of Hormuz",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:03:19Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51769389/president-trump-in-truth-post-said-all-28-of-irans-mine-dropper-boats-are-lying-a"
+      },
+      {
+        "ticker": "AMZN, CRWV, LEVI, META, NKE, PLTR, PYPL, TSLA",
+        "headline": "Amazon, Meta, Levi Strauss And More: 5 Stocks Investors Couldn't Stop Buzzing About This Week",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:00:44Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769376/amazon-meta-levi-strauss-and-more-5-stocks-investors-couldnt-stop-buzzing-about-this-week"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "BBC Reported Talks Have Now Started Between The U.S.,  Iran; Talks Still Indirect Through Pakistani Mediators",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:00:15Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51769364/bbc-reported-talks-have-now-started-between-the-u-s-iran-talks-still-indirect-thr"
+      },
+      {
+        "ticker": "BTC, BTCUSD, COIN",
+        "headline": "Binance Founder CZ Says Crypto Is 'Too Transparent,' Warns Of Privacy Gap As Regulators Catch Up",
+        "source": "benzinga",
+        "published_at": "2026-04-11T12:01:24Z",
+        "url": "https://www.benzinga.com/crypto/26/04/51769306/binance-founder-cz-says-crypto-is-too-transparent-warns-of-privacy-gap-as-regulators-catch-up"
+      },
+      {
+        "ticker": "AMC, APLD, AVGO, CRM, CRWV, GOOGL, JTAI, LEVI, NET, NOW, OMEX, PLTR, SNOW, STZ",
+        "headline": "Benzinga Bulls And Bears: Broadcom, Levi Strauss, Jet.AI — And Markets Rebound As Mideast Tensions Ease",
+        "source": "benzinga",
+        "published_at": "2026-04-11T12:01:23Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51769305/benzinga-bulls-and-bears-broadcom-levi-strauss-jet-ai-and-markets-rebound-as-mideast-tensions-ease"
+      },
+      {
+        "ticker": "AAPL, AMZN, BABA, NVDA, TSLA",
+        "headline": "Anthropic, OpenAI And Big Tech's 'Number One Goal' Is To Kill OpenClaw, Says Venture Capitalist Jason Calacanis",
+        "source": "benzinga",
+        "published_at": "2026-04-11T08:29:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51768268/anthropic-openai-and-big-techs-number-one-goal-is-to-kill-openclaw-says-venture-capitalist-jason-calacanis"
+      },
+      {
+        "ticker": "HOOD",
+        "headline": "Arizona's Crackdown On Kalshi Halted As Federal Court Sides With CFTC In Fight Over Election Betting And Prediction Markets",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:27:23Z",
+        "url": "https://www.benzinga.com/news/legal/26/04/51768188/arizonas-crackdown-on-kalshi-halted-as-federal-court-sides-with-cftc-in-fight-over-election-betting-and-prediction-markets"
+      },
+      {
+        "ticker": "AMZN, GOOGL, GS, IBM, MCD, META, NKE, TGT, TSLA",
+        "headline": "IBM Pays $17 Million To Settle DEI Allegations In DOJ's First False Claims Act Win",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:24:42Z",
+        "url": "https://www.benzinga.com/news/legal/26/04/51768179/ibm-pays-17-million-to-settle-dei-allegations-in-dojs-first-false-claims-act-win"
+      },
+      {
+        "ticker": "META, NVDA, PLTR",
+        "headline": "Nvidia CEO Jensen Huang Says 'Move To California' Even As Billionaires Look To Flee State's Proposed Wealth Tax",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:00:56Z",
+        "url": "https://www.benzinga.com/personal-finance/tax/26/04/51768110/nvidia-ceo-jensen-huang-says-move-to-california-even-as-billionaires-look-to-flee-states-proposed-wealth-tax"
+      },
+      {
+        "ticker": "BA, LMT",
+        "headline": "Artemis II Crew Splashes Down After Epic Lunar Journey— 'Welcome Home,' Says NASA",
+        "source": "benzinga",
+        "published_at": "2026-04-11T02:41:58Z",
+        "url": "https://www.benzinga.com/news/space/26/04/51767961/artemis-ii-crew-splashes-down-after-epic-lunar-journey-welcome-home-says-nasa"
+      },
+      {
+        "ticker": "META",
+        "headline": "This Viral Bagel Chain Could Be Worth $300 Million After Tiger Global's Bet",
+        "source": "benzinga",
+        "published_at": "2026-04-11T02:12:06Z",
+        "url": "https://www.benzinga.com/markets/private-markets/26/04/51767880/tiger-global-popup-bagels-300m-valuation-viral-chain-investment"
+      },
+      {
+        "ticker": "TSLA",
+        "headline": "Tesla Posts On X \"FSD Supervised approved in the Netherlands\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T21:31:10Z",
+        "url": "https://www.benzinga.com/news/26/04/51766868/tesla-posts-on-x-fsd-supervised-approved-in-the-netherlands"
+      },
+      {
+        "ticker": "LEN",
+        "headline": "Lennar Files Prospectus For Potential Continuous Offering Of Stocks, Preferred Shares, Debt, Warrants, And Units",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:33:25Z",
+        "url": "https://www.benzinga.com/news/26/04/51766022/lennar-files-prospectus-for-potential-continuous-offering-of-stocks-preferred-shares-debt-warrants-a"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Palantir Sell-Off 'Way Over-Blown'—Wall Street Bull Sees 70% Upside For Stock",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:31:36Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51765929/palantir-sell-off-way-over-blown-wall-street-bull-sees-70-upside-for-stock"
+      },
+      {
+        "ticker": "JPM",
+        "headline": "Here's How Much You Would Have Made Owning JPMorgan Chase Stock In The Last 15 Years",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:30:22Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51765894/heres-how-much-you-would-have-made-owning-jpmorgan-chase-stock-in-the-last-15-years"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "Lebanese Presidency Posts On X \"Based on the initiative launched by the President of the Republic, General Joseph Aoun, which is based on diplomatic action through the announcement of a ceasefire and proceeding to direct negotiations with Israel...\" \"During the call, agreement was reached to hold the first meeting next Tuesday at the U.S. Department of State headquarters to discuss the announcement of a ceasefire and the date for starting negotiations between Lebanon and Israel under American sponsorship.\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:29:31Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51765862/lebanese-presidency-posts-on-x-based-on-the-initiative-launched-by-the-president-"
+      },
+      {
+        "ticker": "F, GM, IGV, NOW, QQQ, SPY, USO",
+        "headline": "Crude Dips On Trump's Ceasefire, But Inflation Triggers A Consumer Shock: This Week On Wall Street",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:00:34Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51764943/iran-ceasefire-oil-crash-inflation-consumer-confidence-record-low-week-in-review"
+      },
+      {
+        "ticker": "IGV",
+        "headline": "If You Invested $100 In iShares Expanded Tech-Software Sector ETF Stock 10 Years Ago, You Would Have This Much Today",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:00:28Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51764938/if-you-invested-100-in-ishares-expanded-tech-software-sector-etf-stock-10-years-ago-you-would-have-"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "Iranian State Media Says Iranian Delegation Led By Iran's Parliament Speaker Qalibaf Arrived In Islamabad Ahead Of Peace Talks With U.S.; Says Talks With U.S. To Begin If 'Preconditions Are Accepted'; Iran's Delegation Includes Foreign Minister, Defence Council Secretary, C.Bank Governor And Several Parliament Members",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:52:12Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51764740/iranian-state-media-says-iranian-delegation-led-by-irans-parliament-speaker-qalib"
+      },
+      {
+        "ticker": "PSX, SPY, USO",
+        "headline": "U.S. Energy Dept Says Will Loan 8.5M Barrels Of Crude Oil From Strategic Petroleum Reserve To 4 Companies; Companies Taking The U.S. SPR Oil Loans Include Macquarie, Phillips 66",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:39:24Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51764350/u-s-energy-dept-says-will-loan-8-5m-barrels-of-crude-oil-from-strategic-petroleum"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Palantir Shares Rise Over 4% After Key Trading Signal",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:29:54Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51764071/palantir-shares-rise-over-4-percent-after-key-trading-signal"
+      },
+      {
+        "ticker": "AAPL, GOOGL, MPC, MSFT",
+        "headline": "Microsoft's Copilot 'Feels Like Teams:' Why This Fund Manager Is Swapping It For Claude",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:21:00Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51763772/microsofts-copilot-feels-like-teams-why-this-fund-manager-is-swapping-it-for-claude"
+      },
+      {
+        "ticker": "SPY",
+        "headline": "'Trump Promises Mass Pardons to Staff Before Leaving Office' - WSJ Exclusive",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:20:29Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51763757/trump-promises-mass-pardons-to-staff-before-leaving-office-wsj-exclusive"
+      },
+      {
+        "ticker": "ADBE, CRM, CRWD, GLW, IGV, INTC, MRVL, MSFT, SMH, SOXX",
+        "headline": "AI Hardware Boom Leaves Software ETFs In The Dust As IGV Slides",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:14:31Z",
+        "url": "https://www.benzinga.com/etfs/sector-etfs/26/04/51763585/ai-hardware-boom-leaves-software-etfs-in-dust-igv-slides"
+      },
+      {
+        "ticker": "APO, ARES, BBDC, BX, GS, MS",
+        "headline": "Ares Targets $20 Billion For New Private Credit Fund",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:59:04Z",
+        "url": "https://www.benzinga.com/markets/private-markets/26/04/51763212/ares-targets-20-billion-for-new-private-credit-fund"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "The Apple Paradox: Shuttering Its First Unionized US Store In Towson",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:49:10Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51762285/the-apple-paradox-shuttering-its-first-unionized-us-store-in-towson"
+      },
+      {
+        "ticker": "CQQQ, FXI, KWEB, MCHI",
+        "headline": "China's PPI Rebound Signals Industrial Turnaround — Why Aren't MCHI, FXI ETFs Rallying Yet?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:47:01Z",
+        "url": "https://www.benzinga.com/etfs/emerging-market-etfs/26/04/51762880/chinas-ppi-rebound-signals-industrial-turnaround-why-arent-mchi-fxi-etfs-rallying-yet"
+      },
+      {
+        "ticker": "IBKR",
+        "headline": "Interactive Brokers Founder Lost $90,000 To Insider Trading But Now Wants It Legalized",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:31:11Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51762396/interactive-brokers-founder-lost-90000-to-insider-trading-but-now-wants-it-legalized"
+      },
+      {
+        "ticker": "AMZN, AVGO, GOOG, GOOGL, TEL",
+        "headline": "Why Is Broadcom Stock Trading Higher On Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:15:22Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761913/why-is-broadcom-stock-trading-higher-on-friday"
+      },
+      {
+        "ticker": "SPY",
+        "headline": "USA Federal Budget Balance for Mar $(164.000B) vs $(157.800B) Est; Prior $(308.000B)",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:14:15Z",
+        "url": "https://www.benzinga.com/news/26/04/51761861/usa-federal-budget-balance-for-mar-164-000b-vs-157-800b-est-prior-308-000b"
+      },
+      {
+        "ticker": "ARTY, FNDA, SMCI, USRD",
+        "headline": "Supermicro Stock Rallies As 'Ready-To-Ship' AI Servers Aim To Slash Lead Times",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:11:41Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51761757/supermicro-stock-rallies-as-ready-to-ship-ai-servers-aim-to-slash-lead-times"
+      },
+      {
+        "ticker": "ANGX, CRWV, MGRT, OGN, YDDL, ZNTL",
+        "headline": "Nasdaq Moves Higher; US Inflation Rate Accelerates In March",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:10:34Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51761716/nasdaq-moves-higher-us-inflation-rate-accelerates-in-march"
+      },
+      {
+        "ticker": "AMD, TSM",
+        "headline": "What's Going On With Advanced Micro Devices Stock Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:06:24Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761575/whats-going-on-with-advanced-micro-devices-stock-friday-2"
+      },
+      {
+        "ticker": "IUSG, IVW, MSFT, SPYG",
+        "headline": "Microsoft Azure Still Poised To Crush Estimates Despite $150 Billion Spending Fears: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:05:02Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51761533/microsoft-azure-still-poised-to-crush-estimates-despite-150-billion-spending-fears-analyst"
+      },
+      {
+        "ticker": "MSFT",
+        "headline": "BNP Paribas Maintains Outperform on Microsoft, Lowers Price Target to $556",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:04:08Z",
+        "url": "https://www.benzinga.com/news/26/04/51761509/bnp-paribas-maintains-outperform-on-microsoft-lowers-price-target-to-556"
+      },
+      {
+        "ticker": "ITA, LMT, PPA, SHLD",
+        "headline": "Lockheed Martin Boosts Missile Output With $4.7 Billion U.S. Order",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:54:13Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51761211/lockheed-martin-boosts-missile-output-with-4-7-billion-u-s-order"
+      },
+      {
+        "ticker": "META, NOW, PLTR",
+        "headline": "ServiceNow Stock Craters 19% In Week's Worst S&P 500 Showing",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:50:50Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761068/servicenow-stock-craters-19-in-weeks-worst-sp-500-showing"
+      },
+      {
+        "ticker": "AMZN, AVGO, GOOG, GOOGL, META, MSFT, UBER",
+        "headline": "Google's Gemini, Anthropic's Claude Siphon Market Share From ChatGPT: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:49:55Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51761022/googles-gemini-anthropics-claude-siphon-market-share-from-chatgpt-analyst"
+      },
+      {
+        "ticker": "NKE",
+        "headline": "'Nike Switches Up Its Innovation Leadership; Company Veteran Tony Bignell Is Leaving The Sneaker Giant After Less Than A Year As Chief Innovation Officer As Its Turnaround Runs Into Snags' - WSJ",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:49:38Z",
+        "url": "https://www.benzinga.com/news/26/04/51761011/nike-switches-up-its-innovation-leadership-company-veteran-tony-bignell-is-leaving-the-sneaker-giant"
+      },
+      {
+        "ticker": "BAC, C, CRWD, GS, JPM, MS, NET, QLYS, WFC",
+        "headline": "Anthropic's Mythos Made Scott Bessent, Jerome Powell All Bank CEOs: But What Do Prediction Markets Say About Its IPO?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:47:50Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51760955/anthropics-mythos-made-scott-bessent-jerome-powell-all-bank-ceos-but-what-do-prediction-markets-say-about-its-ipo"
+      },
+      {
+        "ticker": "AAPL, ADBE, AMZN, BTCUSD, BUG, CIBR, CRM, CRWD, GOOG, HACK, IGV, META, MNDY, MSFT, NOW, NVDA, ORCL, PANW, QQQ, SPY, TSLA, USO",
+        "headline": "Mythos AI Fears; Energy-Driven High Inflation Data; Markets Bet On An Iranian Off-Ramp",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:46:05Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51760908/mythos-ai-fears-energy-driven-high-inflation-data-markets-bet-on-an-iranian-off-ramp"
+      },
+      {
+        "ticker": "SHOP",
+        "headline": "Shopify Faces AI Disruption Fears, But JPMorgan Isn't Backing Down",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:43:31Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51760843/shopify-faces-ai-disruption-fears-but-jpmorgan-isnt-backing-down"
+      },
+      {
+        "ticker": "ASTS, CHTR, GOOG, GOOGL, LYV, META, NFLX, SATS, VZ",
+        "headline": "9 Communication Services Stocks Whale Activity In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:27Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760646/9-communication-services-stocks-whale-activity-in-todays-session"
+      },
+      {
+        "ticker": "AXON, BE, BETA, CAR, CAT, GEV, HON, TT, VRT, XPO",
+        "headline": "10 Industrials Stocks With Whale Alerts In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:22Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760642/10-industrials-stocks-with-whale-alerts-in-todays-session"
+      },
+      {
+        "ticker": "AMD, AVGO, CRWV, INTC, LITE, MRVL, MSFT, NBIS, PLTR, SMCI",
+        "headline": "10 Information Technology Stocks Whale Activity In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:16Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760641/10-information-technology-stocks-whale-activity-in-todays-session"
+      },
+      {
+        "ticker": "AKAM, ALAB, AMD, AVGO, COHR, DIA, FICO, HUBS, IGV, IWM, MRVL, NET, NOW, NVDA, OGN, PANW, PLTR, QQQ, SMCI, SMH, SNOW, TPL, TSM, VOO, XLB, XLE, XLF, XLK, XLP, XLU, XLV",
+        "headline": "Trump Throws A Lifeline To Palantir, Nasdaq 100 Targets 8th Green Day: What's Moving Markets Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:26:28Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51760432/nasdaq-100-streak-low-sentiment-hot-cpi-trump-palantir-oil-ai-chips-friday-wall-street-news"
+      },
+      {
+        "ticker": "FTXL, QCOM, SNAP",
+        "headline": "What's Going On With Qualcomm Stock Today?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:09:07Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51759884/whats-going-on-with-qualcomm-stock-today"
+      },
+      {
+        "ticker": "SPY, UNG, USO",
+        "headline": "U.S. Baker Hughes Oil Rig Count +0, Unchanged From 411 Prior; U.S. Baker Hughes NatGas Rig Count -3 To 127; U.S. Baker Hughes Total Rig Count 545 Vs 548 Prior",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:07:09Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51759845/u-s-baker-hughes-oil-rig-count-0-unchanged-from-411-prior-u-s-baker-hughes-natgas"
+      },
+      {
+        "ticker": "AIXI, AKAM, AMPGR, AMPGZ, CLRO, FSLY, FUSE, MAXN, MPTIR, RELL, RXT, TDTH",
+        "headline": "12 Information Technology Stocks Moving In Friday's Intraday Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:05:41Z",
+        "url": "https://www.benzinga.com/insights/movers/26/04/51759776/12-information-technology-stocks-moving-in-fridays-intraday-session"
+      },
+      {
+        "ticker": "CVX, SHEL, XOM",
+        "headline": "Chevron Q1 Earnings Will Be 'Noisy' As Headwinds Reverse To Tailwinds: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:03:26Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51759705/chevron-q1-likely-noisy-earnings-headwinds-reverse-tailwinds-q2"
+      },
+      {
+        "ticker": "AMZN, COF, NVDA, SLV",
+        "headline": "CNBC Halftime Report Final Trades: Amazon, NVIDIA, Capital One Financial, iShares Silver Trust",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:01:55Z",
+        "url": "https://www.benzinga.com/analyst-ratings/26/04/51759656/cnbc-halftime-report-final-trades-amazon-nvidia-capital-one-financial-ishares-silver-trust"
+      },
+      {
+        "ticker": "BAC, BCS, DB, GS, JPM, SPGI",
+        "headline": "'Wall Street Builds New Tool To Bet Against Private Credit; Credit-Default Swap Index Could Help Banks Reduce Exposure To Private Credit And Let Hedge Funds Profit From Turmoil' - WSJ",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:01:42Z",
+        "url": "https://www.benzinga.com/news/26/04/51759636/wall-street-builds-new-tool-to-bet-against-private-credit-credit-default-swap-index-could-help-banks"
+      },
+      {
+        "ticker": "AAOI, GLW, LITE, NVDA, ORCL",
+        "headline": "Citron Calls Applied Optoelectronics' Valuation 'Delusional'",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:59:24Z",
+        "url": "https://www.benzinga.com/trading-ideas/short-ideas/26/04/51759552/citron-calls-applied-optoelectronics-valuation-delusional"
+      },
+      {
+        "ticker": "VLO",
+        "headline": "'Valero Pulls Back on Mexican Oil After Texas Refinery Blast' - Bloomberg News",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:46:27Z",
+        "url": "https://www.benzinga.com/news/26/04/51759150/valero-pulls-back-on-mexican-oil-after-texas-refinery-blast-bloomberg-news"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "If You Invested $1000 In Alphabet Stock 15 Years Ago, You Would Have This Much Today",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:45:58Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51759125/if-you-invested-1000-in-alphabet-stock-15-years-ago-you-would-have-this-much-today"
+      },
+      {
+        "ticker": "DRAM, SNDK",
+        "headline": "Sandisk Shares Slip Friday After Record Run Fueled By AI Memory Trade",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:35:28Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51758840/sandisk-shares-slip-friday-after-record-run-fueled-by-ai-memory-trade"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta's AI Outlook Brightens With Muse Spark Release",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:34:02Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51758783/metas-ai-outlook-brightens-with-muse-spark-release"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "President Trump Posts On Truth Social \"The Iranians don't seem to realize they have no cards, other than a short term extortion of the World by using International Waterways. The only reason they are alive today is to negotiate\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:32:40Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51758739/president-trump-posts-on-truth-social-the-iranians-dont-seem-to-realize-they-have"
+      },
+      {
+        "ticker": "CRWV, META, MSFT, NVDA",
+        "headline": "Meta's Latest $21 Billion Move Could Help De-Risk CoreWeave's Growth: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:28:29Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51758621/metas-latest-21-billion-move-could-help-de-risk-coreweaves-growth-analyst"
+      },
+      {
+        "ticker": "PANW",
+        "headline": "Live On CNBC, Kevin Simpson Announces Bought More Palo Alto Networks",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:24:36Z",
+        "url": "https://www.benzinga.com/trading-ideas/26/04/51758543/live-on-cnbc-kevin-simpson-announces-bought-more-palo-alto-networks"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Trump Shouts-Out Palantir Stock: Signal To Buy The PLTR Dip?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:24:22Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51758538/trump-shouts-out-palantir-stock-signal-to-buy-the-pltr-dip"
+      },
+      {
+        "ticker": "LMT, PLTR, TSLA",
+        "headline": "Palantir, Anduril Execs Sound The Alarm: US Has 8 Days Of Munitions For A China War",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:21:58Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51758493/palantir-anduril-execs-sound-the-alarm-us-has-8-days-of-munitions-for-a-china-war"
+      },
+      {
+        "ticker": "AAPL, MPC, MSFT",
+        "headline": "Live On CNBC, Kevin Simpson Announces Trimmed Marathon Petroleum Position; Bought More Apple; Bought More Microsoft",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:16:41Z",
+        "url": "https://www.benzinga.com/trading-ideas/26/04/51758300/live-on-cnbc-kevin-simpson-announces-trimmed-marathon-petroleum-position-bought-more-apple-bought-m"
+      },
+      {
+        "ticker": "NET",
+        "headline": "Here's How Much You Would Have Made Owning Cloudflare Stock In The Last 5 Years",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:15:44Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51758268/heres-how-much-you-would-have-made-owning-cloudflare-stock-in-the-last-5-years"
+      },
+      {
+        "ticker": "SPY, USO",
+        "headline": "President Trump Speaking To New York Post Says The U.S. Is Preparing Military If Iran Fails To Comply In Talks",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:10:38Z",
+        "url": "https://www.benzinga.com/news/26/04/51758099/president-trump-speaking-to-new-york-post-says-the-u-s-is-preparing-military-if-iran-fails-to-comply"
+      },
+      {
+        "ticker": "HUM, OSCR, UNH",
+        "headline": "3 Health Insurance Stocks to Play On the Medicare Hike",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:06:41Z",
+        "url": "https://www.benzinga.com/opinion/26/04/51758015/3-health-insurance-stocks-to-play-on-the-medicare-hike"
+      },
+      {
+        "ticker": "AVGO",
+        "headline": "Here's How Much $100 Invested In Broadcom 15 Years Ago Would Be Worth Today",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:00:23Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51757815/heres-how-much-100-invested-in-broadcom-15-years-ago-would-be-worth-today"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [
+        {
+          "headline": "Meta Unveils New A.I. Model, Its First From the Superintelligence Lab",
+          "source": "www.nytimes.com",
+          "published_at": "",
+          "url": "https://www.nytimes.com/2026/04/08/technology/meta-muse-spark-ai-model.html",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Tech stocks today: Suspect arrested in alleged attack on OpenAI ...",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/sectors/technology/article/tech-stocks-today-suspect-arrested-in-alleged-attack-on-openai-ceo-altmans-home-144220291.html",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta rolls out new AI model in latest effort to catch up with rivals",
+          "source": "nypost.com",
+          "published_at": "",
+          "url": "https://nypost.com/2026/04/09/business/meta-rolls-out-new-ai-model-in-latest-effort-to-catch-up-with-rivals/",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta debuts new AI model, attempting to catch up to Google, OpenAI",
+          "source": "www.cnbc.com",
+          "published_at": "",
+          "url": "https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta unveils new AI model as it tries to catch up with Google and ...",
+          "source": "indianexpress.com",
+          "published_at": "",
+          "url": "https://indianexpress.com/article/technology/tech-news-technology/meta-unveils-new-ai-model-as-it-tries-to-catch-up-with-google-and-openai-after-spending-billions-10627005/",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "AI's Impact on IT Jobs: Replacement or Transformation?",
+          "source": "introduct.tech",
+          "published_at": "",
+          "url": "https://introduct.tech/blog/ai-and-the-future-of-it-jobs-uncertainty-opportunity-and-change/",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "AI tools might change software jobs, but they're not ...",
+          "source": "www.reddit.com",
+          "published_at": "",
+          "url": "https://www.reddit.com/r/EngineeringStudents/comments/1rriu0b/ai_tools_might_change_software_jobs_but_theyre/",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "AI threatens to eat business software – and it could change ...",
+          "source": "theconversation.com",
+          "published_at": "",
+          "url": "https://theconversation.com/ai-threatens-to-eat-business-software-and-it-could-change-the-way-we-work-275546",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "Why Replacing Developers with AI is Going Horribly Wrong",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=moiuHRHB6nE",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "Will AI Make Software Engineers Obsolete? Here's the Reality",
+          "source": "bootcamps.cs.cmu.edu",
+          "published_at": "",
+          "url": "https://bootcamps.cs.cmu.edu/blog/will-ai-replace-software-engineers-reality-check",
+          "query": "AI tool replacing software jobs sector impact today"
+        }
+      ],
+      "REGULATORY": [
+        {
+          "headline": "What 3 recent FDA rejections reveal about shifts inside the agency",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/news/3-recent-fda-rejections-reveal-075552463.html",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "FDA publishes rejection letters sent to drugmakers, with a big caveat",
+          "source": "www.statnews.com",
+          "published_at": "",
+          "url": "https://www.statnews.com/2025/07/10/fda-publishes-drug-rejection-letters-marty-makary-transparency-effort/",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Drug Rejections, Safety Notice, and More: FDA News Rapid ...",
+          "source": "www.oncologynewscentral.com",
+          "published_at": "",
+          "url": "https://www.oncologynewscentral.com/drug/info/drug-rejections-safety-notice-and-more-fda-news-roundup-for-july-2025",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Approvals News | Today's Latest Stories - Reuters",
+          "source": "www.reuters.com",
+          "published_at": "",
+          "url": "https://www.reuters.com/business/healthcare-pharmaceuticals/approvals/",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Supreme Court Rejects Challenge to FDA Approval of Mifepristone ...",
+          "source": "www.healthlawadvisor.com",
+          "published_at": "",
+          "url": "https://www.healthlawadvisor.com/supreme-court-rejects-challenge-to-fda-approval-of-mifepristone-on-standing-but-the-battle-continues",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Federal Trade Commission and Department of Justice Seek Public ...",
+          "source": "www.ftc.gov",
+          "published_at": "",
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2026/02/federal-trade-commission-department-justice-seek-public-comment-guidance-business-collaborations",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "Antitrust Division - Department of Justice",
+          "source": "www.justice.gov",
+          "published_at": "",
+          "url": "https://www.justice.gov/atr",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "DOJ and FTC plan antitrust probes into Nvidia, OpenAI, and Microsoft",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=aaNihkPz-0o",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "DOJ Developments Archives - Antitrust Alert",
+          "source": "www.antitrustalert.com",
+          "published_at": "",
+          "url": "https://www.antitrustalert.com/category/doj-developments/",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "FTC and DOJ Seek Info on Serial Acquisitions, Roll-Up Strategies ...",
+          "source": "www.ftc.gov",
+          "published_at": "",
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2024/05/ftc-doj-seek-info-serial-acquisitions-roll-strategies-across-us-economy",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "Executive Order 14257—Regulating Imports With a Reciprocal Tariff ...",
+          "source": "www.presidency.ucsb.edu",
+          "published_at": "",
+          "url": "https://www.presidency.ucsb.edu/documents/executive-order-14257-regulating-imports-with-reciprocal-tariff-rectify-trade-practices",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Presidential Tariff Actions | United States Trade Representative",
+          "source": "ustr.gov",
+          "published_at": "",
+          "url": "https://ustr.gov/trade-topics/presidential-tariff-actions",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Regulating Imports With a Reciprocal Tariff To Rectify Trade ...",
+          "source": "www.federalregister.gov",
+          "published_at": "",
+          "url": "https://www.federalregister.gov/documents/2025/04/07/2025-06063/regulating-imports-with-a-reciprocal-tariff-to-rectify-trade-practices-that-contribute-to-large-and",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Donald Trump's executive orders and actions on trade and tariffs ...",
+          "source": "ballotpedia.org",
+          "published_at": "",
+          "url": "https://ballotpedia.org/Donald_Trump%27s_executive_orders_and_actions_on_trade_and_tariffs,_2025-2026",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Liberation Day tariffs - Wikipedia",
+          "source": "en.wikipedia.org",
+          "published_at": "",
+          "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Contracts For Jul. 31, 2025 - War.gov",
+          "source": "www.war.gov",
+          "published_at": "",
+          "url": "https://www.war.gov/News/Contracts/Contract/article/4261297/",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "Defense Contracts Breaking News and Press Releases",
+          "source": "www.businesswire.com",
+          "published_at": "",
+          "url": "https://www.businesswire.com/newsroom/industry/defense/contracts",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "Federal Awards | Keyword Search - USAspending",
+          "source": "www.usaspending.gov",
+          "published_at": "",
+          "url": "https://www.usaspending.gov/keyword_search/H2ZDMKZLM472",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "High-dollar contracts announced, DCMA will administer",
+          "source": "www.dcma.mil",
+          "published_at": "",
+          "url": "https://www.dcma.mil/News/Article-View/Article/2066342/high-dollar-contracts-announced-dcma-will-administer/",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "Contracts - Washington Technology",
+          "source": "www.washingtontechnology.com",
+          "published_at": "",
+          "url": "https://www.washingtontechnology.com/contracts/",
+          "query": "defense budget contract award today"
+        }
+      ],
+      "MACRO_DATA": [
+        {
+          "headline": "Inflation Indicators - PCI, PCE, PPI - StreetStats",
+          "source": "streetstats.finance",
+          "published_at": "",
+          "url": "https://streetstats.finance/cycle/inflation",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Schedule of Releases for the Consumer Price Index",
+          "source": "www.bls.gov",
+          "published_at": "",
+          "url": "https://www.bls.gov/schedule/news_release/cpi.htm",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Personal Consumption Expenditures Price Index",
+          "source": "www.bea.gov",
+          "published_at": "",
+          "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Inflation Nowcasting - Federal Reserve Bank of Cleveland",
+          "source": "www.clevelandfed.org",
+          "published_at": "",
+          "url": "https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "CPI Home : U.S. Bureau of Labor Statistics",
+          "source": "www.bls.gov",
+          "published_at": "",
+          "url": "https://www.bls.gov/cpi/",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "ADP® Employment Report",
+          "source": "adpemploymentreport.com",
+          "published_at": "",
+          "url": "https://adpemploymentreport.com/",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "ADP National Employment Report: 62K Private Jobs ...",
+          "source": "www.advisorperspectives.com",
+          "published_at": "",
+          "url": "https://www.advisorperspectives.com/dshort/updates/2026/04/01/adp-private-employment-report-march-2026",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "ADP National Employment Report Explained: Key Insights ...",
+          "source": "www.investopedia.com",
+          "published_at": "",
+          "url": "https://www.investopedia.com/terms/a/adpreport.asp",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "United States ADP Nonfarm Employment Change",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/economic-calendar/adp-nonfarm-employment-change-1",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "United States ISM Manufacturing PMI - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/united-states/business-confidence",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "ISM® PMI® Reports",
+          "source": "www.ismworld.org",
+          "published_at": "",
+          "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "ISM Manufacturing PMI | US Industry | Collection - MacroMicro",
+          "source": "en.macromicro.me",
+          "published_at": "",
+          "url": "https://en.macromicro.me/collections/8/us-industry-relative/54/ism",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "United States ISM Manufacturing PMI - Investing.com",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/economic-calendar/ism-manufacturing-pmi-173",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "Release Dates for the ISM Manufacturing and Services PMI ® Reports",
+          "source": "www.ismworld.org",
+          "published_at": "",
+          "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "Housing, Sales, Retail Trade - Economic Data Series - FRED",
+          "source": "fred.stlouisfed.org",
+          "published_at": "",
+          "url": "https://fred.stlouisfed.org/tags/series?t=housing%3Bretail+trade%3Bsales",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "U.S. Housing Starts and Permits (January 2026) - TD Economics",
+          "source": "economics.td.com",
+          "published_at": "",
+          "url": "https://economics.td.com/us-housing-starts-and-permits",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "United States Residential Housing Starts | Moody's Analytics",
+          "source": "www.economy.com",
+          "published_at": "",
+          "url": "https://www.economy.com/united-states/residential-housing-starts",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "United States Housing Starts - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/united-states/housing-starts",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "Housing Starts | FRED | St. Louis Fed",
+          "source": "fred.stlouisfed.org",
+          "published_at": "",
+          "url": "https://fred.stlouisfed.org/categories/32302",
+          "query": "retail sales housing starts economic data today"
+        }
+      ],
+      "COMMODITY_ENERGY": [
+        {
+          "headline": "Oil Prices Pull Back After OPEC+ Supply Boost Shocks ...",
+          "source": "stocktwits.com",
+          "published_at": "",
+          "url": "https://stocktwits.com/news-articles/markets/equity/oil-prices-pull-back-after-opec-supply-boost-shocks-markets/chFt5Y3RPxQ",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Oil shock fears grip global markets Oil prices are highly ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/WIONews/posts/oil-shock-fears-grip-global-marketsoil-prices-are-highly-volatile-as-geopolitica/1239888798250292/",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "The World's Biggest Oil Supply Shock Is Now Unfolding",
+          "source": "oilprice.com",
+          "published_at": "",
+          "url": "https://oilprice.com/Energy/Energy-General/The-Worlds-Biggest-Oil-Supply-Shock-Is-Now-Unfolding.html",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "What drives crude oil prices: Supply OPEC",
+          "source": "www.eia.gov",
+          "published_at": "",
+          "url": "https://www.eia.gov/finance/markets/crudeoil/supply-opec.php",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Oil prices soar above $110 as OPEC+ struggles to ease ...",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=p-h6e3lBpI0",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Gerardo Del Real: Gold, Uranium, Copper and More - YouTube",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=dQN8_tt8HOI",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Commodity Prices - Gold, Silver, Lithium & More - GOLDINVEST.de",
+          "source": "goldinvest.de",
+          "published_at": "",
+          "url": "https://goldinvest.de/en/commodity-prices/",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Live Uranium Prices Today - CarbonCredits.com",
+          "source": "carboncredits.com",
+          "published_at": "",
+          "url": "https://carboncredits.com/uranium-prices-today/",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Uranium Futures Price Today - Investing.com",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/commodities/uranium-futures",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Uranium - Price - Chart - Historical Data - News - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/commodity/uranium",
+          "query": "copper gold lithium uranium price move today"
+        }
+      ],
+      "GEOPOLITICAL": [
+        {
+          "headline": "Taiwan adds China's Huawei and SMIC to export control list | AP News",
+          "source": "apnews.com",
+          "published_at": "",
+          "url": "https://apnews.com/article/china-taiwan-huawei-smic-export-restrictions-semiconductor-6f43d0b9f34d39258ca3e3c1406d9055",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan's cross-border semiconductor controls: Export, security and ...",
+          "source": "law.asia",
+          "published_at": "",
+          "url": "https://law.asia/taiwan-semiconductor-export-controls/",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan Adds New Export Controls on China's Chip Industry",
+          "source": "thediplomat.com",
+          "published_at": "",
+          "url": "https://thediplomat.com/2025/06/taiwan-adds-new-export-controls-on-chinas-chip-industry/",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan blacklists China's Huawei and SMIC, aligning more with U.S. ...",
+          "source": "www.cnbc.com",
+          "published_at": "",
+          "url": "https://www.cnbc.com/2025/06/16/taiwan-blacklists-china-huawei-smic-further-aligning-with-us-trade-policy-.html",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan Just Flashed Its Chip Power--and South Africa, China Are ...",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/news/taiwan-just-flashed-chip-power-151734979.html",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Middle East Conflict Supply Chain Disruption: What You Need to Know",
+          "source": "www.bisg.org",
+          "published_at": "",
+          "url": "https://www.bisg.org/news/middle-east-conflict-supply-chain-disruption-what-you-need-to-know",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East Risks Resurface: Supply Chain Disruptions and Key ...",
+          "source": "www.tive.com",
+          "published_at": "",
+          "url": "https://www.tive.com/blog/middle-east-risks-resurface-supply-chain-disruptions-and-key-insights",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "How conflict in the Middle East is affecting supply chains",
+          "source": "www.oliverwyman.com",
+          "published_at": "",
+          "url": "https://www.oliverwyman.com/our-expertise/insights/2026/mar/how-middle-east-tensions-impact-supply-chain.html",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East conflict disrupts aid supply - YouTube",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=ZdCf1PsrI3Q",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East Conflict and Its Growing Impact on Global Supply Chains",
+          "source": "www.maersk.com",
+          "published_at": "",
+          "url": "https://www.maersk.com/news/articles/2026/03/13/middle-east-conflict-impact-global-supply-chains",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Sanctions and the geopolitics of trade - GIS Reports",
+          "source": "www.gisreportsonline.com",
+          "published_at": "",
+          "url": "https://www.gisreportsonline.com/r/sanctions-trade-routes/",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "[PDF] The Impact of Economic Sanctions and War-Related Uncertainty on ...",
+          "source": "digitalcommons.newhaven.edu",
+          "published_at": "",
+          "url": "https://digitalcommons.newhaven.edu/cgi/viewcontent.cgi?article=3628&context=americanbusinessreview",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Energy sanctions in the global economy: Geopolitical disruptions ...",
+          "source": "www.sciencedirect.com",
+          "published_at": "",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2096248725000268",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Geopolitical conflict and its impact on global markets - U.S. Bank",
+          "source": "www.usbank.com",
+          "published_at": "",
+          "url": "https://www.usbank.com/investing/financial-perspectives/market-news/russia-ukraine-global-market.html",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Publication: Geopolitical Risks and Trade",
+          "source": "openknowledge.worldbank.org",
+          "published_at": "",
+          "url": "https://openknowledge.worldbank.org/entities/publication/2545f9a8-0ca3-497d-adaf-ed5823954e76",
+          "query": "sanctions trade deal geopolitical market impact today"
+        }
+      ],
+      "BELLWETHER_SIGNALS": [
+        {
+          "headline": "NVDA Gets New Bull, ASML Earnings Rally, DLTR Raises Guidance",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=m7lI1YR5Te0",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "TSM and ASML reported impressive growth in their last earnings ...",
+          "source": "www.reddit.com",
+          "published_at": "",
+          "url": "https://www.reddit.com/r/NvidiaStock/comments/1idwp49/tsm_and_asml_reported_impressive_growth_in_their/",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "ASML Earnings Drop: What It Means for Nvidia, AMD, and TSMC",
+          "source": "www.fool.com",
+          "published_at": "",
+          "url": "https://www.fool.com/investing/2025/07/17/asml-earnings-drop-what-it-means-for-nvidia-amd-an/",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "What do TSM and ASML earnings mean for NVDA and the SOX?",
+          "source": "daloopa.com",
+          "published_at": "",
+          "url": "https://daloopa.com/blog/analyst-pov/what-do-tsm-and-asml-earnings-mean-for-nvda-and-the-sox",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "ASML Q1 Earnings Preview: Strong Growth Tailwinds, But Valuation ...",
+          "source": "seekingalpha.com",
+          "published_at": "",
+          "url": "https://seekingalpha.com/article/4889478-asml-q1-earnings-preview-strong-growth-tailwinds-valuation-stretched",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "Target (TGT) Earnings: Latest Report, Earnings Call & Financials",
+          "source": "public.com",
+          "published_at": "",
+          "url": "https://public.com/stocks/tgt/earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Target (TGT) Earnings Date & Report - Investing.com",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/equities/target-earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Target Corporation Common Stock (TGT) Earnings Report Date",
+          "source": "www.nasdaq.com",
+          "published_at": "",
+          "url": "https://www.nasdaq.com/market-activity/stocks/tgt/earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "JPMorgan Chase & Co. (JPM) Stock Price, News, Quote & History",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/quote/JPM/",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "TARGET CORPORATION (TGT) Stock, Price, News, Quotes ... - MSN",
+          "source": "www.msn.com",
+          "published_at": "",
+          "url": "https://www.msn.com/en-us/money/watchlist?id=a246z2&ocid=bingnewssearch",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Weekly Market Commentary: What To Watch This Earnings Season",
+          "source": "www.affinityfcu.com",
+          "published_at": "",
+          "url": "https://www.affinityfcu.com/financial-wellbeing/blog/personal-banking/what-to-watch-this-earnings-season",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "From bellwether Walmart reporting earnings to new economic data ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/Reuters/posts/from-bellwether-walmart-reporting-earnings-to-new-economic-data-out-of-the-uk-th/1467480478576013/?locale=lv_LV",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "Nvidia's shares fell as the AI bellwether's upbeat results failed to lift ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/Reuters/posts/nvidias-shares-fell-as-the-ai-bellwethers-upbeat-results-failed-to-lift-sentimen/1479368167387244/",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "Biggest Earnings Surprises Today | Beats and Misses - MarketBeat",
+          "source": "www.marketbeat.com",
+          "published_at": "",
+          "url": "https://www.marketbeat.com/earnings/beats-and-misses/",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "bad news comes for this $40 trillion market. Bellwether stock falls to ...",
+          "source": "www.msn.com",
+          "published_at": "",
+          "url": "https://www.msn.com/en-us/money/savingandinvesting/more-bad-news-comes-for-this-40-trillion-market-bellwether-stock-falls-to-record-low/ar-AA201FBS?ocid=finance-verthp-feeds",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        }
+      ],
+      "NON_EARNINGS_RECURRING": [
+        {
+          "headline": "TSMC Q1 2026 earnings: Record revenue on strong AI chip demand",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/tsmc-q1-2026-earnings-record-121456920.html",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC smashes records with massive 45% revenue surge in March",
+          "source": "www.digitimes.com",
+          "published_at": "",
+          "url": "https://www.digitimes.com/news/a20260410VL213/tsmc-revenue-performance-2026.html",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC March 2026 Revenue Report | SemiWiki",
+          "source": "semiwiki.com",
+          "published_at": "",
+          "url": "https://semiwiki.com/forum/threads/tsmc-march-2026-revenue-report.24915/",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC reports 45.2% year-over-year revenue growth for March 2026",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/news/sec-filings/tsmc-reports-452-yearoveryear-revenue-growth-for-march-2026-93CH-4607419",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "[PDF] TSMC March 2026 Revenue Report",
+          "source": "pr.tsmc.com",
+          "published_at": "",
+          "url": "https://pr.tsmc.com/system/files/newspdf/attachment/3e871375bc9359a7833780672fcb4729be6da27d/Mar%202026%20%28E%29_final_wmn.pdf",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "Samsung Electronics: Better Than Expected Preliminary Results in 1Q 2026 - Douglas Kim",
+          "source": "www.smartkarma.com",
+          "published_at": "",
+          "url": "https://www.smartkarma.com/insights/samsung-electronics-better-than-expected-preliminary-results-in-1q-2026",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "1Q 2026 Pre-Earnings Guidance – Company Announcement - FT.com",
+          "source": "markets.ft.com",
+          "published_at": "",
+          "url": "https://markets.ft.com/data/announce/detail?dockey=1323-17535212-71CCGK5337V8TU6ABQ6HVNPIM0",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "Samsung Electronics Announces Earnings Guidance for First ...",
+          "source": "news.samsung.com",
+          "published_at": "",
+          "url": "https://news.samsung.com/my/samsung-electronics-announces-earnings-guidance-for-first-quarter-2026",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "South Korea's Exports Surpass $80 Billion on Semiconductor Surge",
+          "source": "www.chosun.com",
+          "published_at": "",
+          "url": "https://www.chosun.com/english/market-money-en/2026/04/01/WZ6FUXWMSJDAJGXE2X6OZIQDJM/",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "February 2026 Exports Hit Record High for Any February at $67.5 ...",
+          "source": "english.motir.go.kr",
+          "published_at": "",
+          "url": "https://english.motir.go.kr/eng/article/EATCLdfa319ada/2519/view",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "South Korea Posts Record Current Account Surplus on Semiconductor Chip Exports - Bloomberg",
+          "source": "www.bloomberg.com",
+          "published_at": "",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-08/s-korea-posts-record-current-account-surplus-on-chip-exports",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "Semiconductors Korea 2026 | EU Business Hub",
+          "source": "eubusinesshub.eu",
+          "published_at": "",
+          "url": "https://eubusinesshub.eu/en/missions-catalogue/semiconductors-korea-2026",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "[PDF] Semiconductors Korea 2026",
+          "source": "mzv.gov.cz",
+          "published_at": "",
+          "url": "https://mzv.gov.cz/public/3c/8/50/5956448_3429295_Semiconductors_Korea_2026_Flyer.pdf",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "N.A. Semiconductor Equipment's May Book-to-Bill Ratio Below Parity :: I-Connect007",
+          "source": "iconnect007.com",
+          "published_at": "",
+          "url": "https://iconnect007.com/article/90877/na-semiconductor-equipments-may-booktobill-ratio-below-parity/90880/ein",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "United States [DISCONTINUED] Semiconductor Equipment Book-to-Bill | Moody's Analytics",
+          "source": "www.economy.com",
+          "published_at": "",
+          "url": "https://www.economy.com/united-states/discontinued-semiconductor-equipment-book-to-bill",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "Equipment Articles | SEMI",
+          "source": "www.semi.org",
+          "published_at": "",
+          "url": "https://www.semi.org/en/products-services/market-data/equipment-article-archive",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "SEMI Reports Global Semiconductor Equipment Billings Reached $135 Billion in 2025, Up 15% Year-on-Year",
+          "source": "www.semiconductorpackagingnews.com",
+          "published_at": "",
+          "url": "https://www.semiconductorpackagingnews.com/press/93023.html",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "2026 年 2 月度販売高（SEAJ 速報値）",
+          "source": "www.seaj.or.jp",
+          "published_at": "",
+          "url": "https://www.seaj.or.jp/statistics/54771971525101.pdf",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "Taiwan Exports Start 2026 Strong in Bright Sign for Economy - WSJ",
+          "source": "www.wsj.com",
+          "published_at": "",
+          "url": "https://www.wsj.com/economy/trade/taiwan-exports-start-2026-strong-in-bright-sign-for-economy-8e48424e",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan's January export orders surge 60% | Taiwan News | Mar. 5, 2026 10:41",
+          "source": "www.taiwannews.com.tw",
+          "published_at": "",
+          "url": "https://www.taiwannews.com.tw/news/6314373",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan export orders up 60.1 percent in January",
+          "source": "taiwantoday.tw",
+          "published_at": "",
+          "url": "https://taiwantoday.tw/Economics/Top-News/282045/Taiwan-export-orders-up-60.1-percent-in-January",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan export orders hit record high on strong AI, chip demand",
+          "source": "www.techinasia.com",
+          "published_at": "",
+          "url": "https://www.techinasia.com/news/taiwan-export-orders-hit-record-high-strong-ai-chip-demand",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan exports exceed NT$2 trillion in January, memory shortage ...",
+          "source": "www.digitimes.com",
+          "published_at": "",
+          "url": "https://www.digitimes.com/news/a20260210PD223/taiwan-exports-2026-2025-growth.html",
+          "query": "Taiwan export orders technology 2026"
+        }
+      ]
+    }
+  },
+  {
+    "run_ts": "2026-04-11T11:02:29.694667-05:00",
+    "run_label": "11:02 AM CT",
+    "alpaca_count": 66,
+    "tavily_count": 110,
+    "dups_dropped": 65,
+    "alpaca_items": [
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "President Trump, In Truth Post, Said All 28 Of Iran's Mine Dropper Boats Are Lying At The Bottom Of The Sea; Now Starting The Process Of Clearing Out The Strait Of Hormuz",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:03:19Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51769389/president-trump-in-truth-post-said-all-28-of-irans-mine-dropper-boats-are-lying-a"
+      },
+      {
+        "ticker": "AMZN, CRWV, LEVI, META, NKE, PLTR, PYPL, TSLA",
+        "headline": "Amazon, Meta, Levi Strauss And More: 5 Stocks Investors Couldn't Stop Buzzing About This Week",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:00:44Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769376/amazon-meta-levi-strauss-and-more-5-stocks-investors-couldnt-stop-buzzing-about-this-week"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "BBC Reported Talks Have Now Started Between The U.S.,  Iran; Talks Still Indirect Through Pakistani Mediators",
+        "source": "benzinga",
+        "published_at": "2026-04-11T13:00:15Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51769364/bbc-reported-talks-have-now-started-between-the-u-s-iran-talks-still-indirect-thr"
+      },
+      {
+        "ticker": "BTC, BTCUSD, COIN",
+        "headline": "Binance Founder CZ Says Crypto Is 'Too Transparent,' Warns Of Privacy Gap As Regulators Catch Up",
+        "source": "benzinga",
+        "published_at": "2026-04-11T12:01:24Z",
+        "url": "https://www.benzinga.com/crypto/26/04/51769306/binance-founder-cz-says-crypto-is-too-transparent-warns-of-privacy-gap-as-regulators-catch-up"
+      },
+      {
+        "ticker": "AMC, APLD, AVGO, CRM, CRWV, GOOGL, JTAI, LEVI, NET, NOW, OMEX, PLTR, SNOW, STZ",
+        "headline": "Benzinga Bulls And Bears: Broadcom, Levi Strauss, Jet.AI — And Markets Rebound As Mideast Tensions Ease",
+        "source": "benzinga",
+        "published_at": "2026-04-11T12:01:23Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51769305/benzinga-bulls-and-bears-broadcom-levi-strauss-jet-ai-and-markets-rebound-as-mideast-tensions-ease"
+      },
+      {
+        "ticker": "AAPL, AMZN, BABA, NVDA, TSLA",
+        "headline": "Anthropic, OpenAI And Big Tech's 'Number One Goal' Is To Kill OpenClaw, Says Venture Capitalist Jason Calacanis",
+        "source": "benzinga",
+        "published_at": "2026-04-11T08:29:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51768268/anthropic-openai-and-big-techs-number-one-goal-is-to-kill-openclaw-says-venture-capitalist-jason-calacanis"
+      },
+      {
+        "ticker": "HOOD",
+        "headline": "Arizona's Crackdown On Kalshi Halted As Federal Court Sides With CFTC In Fight Over Election Betting And Prediction Markets",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:27:23Z",
+        "url": "https://www.benzinga.com/news/legal/26/04/51768188/arizonas-crackdown-on-kalshi-halted-as-federal-court-sides-with-cftc-in-fight-over-election-betting-and-prediction-markets"
+      },
+      {
+        "ticker": "AMZN, GOOGL, GS, IBM, MCD, META, NKE, TGT, TSLA",
+        "headline": "IBM Pays $17 Million To Settle DEI Allegations In DOJ's First False Claims Act Win",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:24:42Z",
+        "url": "https://www.benzinga.com/news/legal/26/04/51768179/ibm-pays-17-million-to-settle-dei-allegations-in-dojs-first-false-claims-act-win"
+      },
+      {
+        "ticker": "META, NVDA, PLTR",
+        "headline": "Nvidia CEO Jensen Huang Says 'Move To California' Even As Billionaires Look To Flee State's Proposed Wealth Tax",
+        "source": "benzinga",
+        "published_at": "2026-04-11T06:00:56Z",
+        "url": "https://www.benzinga.com/personal-finance/tax/26/04/51768110/nvidia-ceo-jensen-huang-says-move-to-california-even-as-billionaires-look-to-flee-states-proposed-wealth-tax"
+      },
+      {
+        "ticker": "BA, LMT",
+        "headline": "Artemis II Crew Splashes Down After Epic Lunar Journey— 'Welcome Home,' Says NASA",
+        "source": "benzinga",
+        "published_at": "2026-04-11T02:41:58Z",
+        "url": "https://www.benzinga.com/news/space/26/04/51767961/artemis-ii-crew-splashes-down-after-epic-lunar-journey-welcome-home-says-nasa"
+      },
+      {
+        "ticker": "META",
+        "headline": "This Viral Bagel Chain Could Be Worth $300 Million After Tiger Global's Bet",
+        "source": "benzinga",
+        "published_at": "2026-04-11T02:12:06Z",
+        "url": "https://www.benzinga.com/markets/private-markets/26/04/51767880/tiger-global-popup-bagels-300m-valuation-viral-chain-investment"
+      },
+      {
+        "ticker": "TSLA",
+        "headline": "Tesla Posts On X \"FSD Supervised approved in the Netherlands\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T21:31:10Z",
+        "url": "https://www.benzinga.com/news/26/04/51766868/tesla-posts-on-x-fsd-supervised-approved-in-the-netherlands"
+      },
+      {
+        "ticker": "LEN",
+        "headline": "Lennar Files Prospectus For Potential Continuous Offering Of Stocks, Preferred Shares, Debt, Warrants, And Units",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:33:25Z",
+        "url": "https://www.benzinga.com/news/26/04/51766022/lennar-files-prospectus-for-potential-continuous-offering-of-stocks-preferred-shares-debt-warrants-a"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Palantir Sell-Off 'Way Over-Blown'—Wall Street Bull Sees 70% Upside For Stock",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:31:36Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51765929/palantir-sell-off-way-over-blown-wall-street-bull-sees-70-upside-for-stock"
+      },
+      {
+        "ticker": "JPM",
+        "headline": "Here's How Much You Would Have Made Owning JPMorgan Chase Stock In The Last 15 Years",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:30:22Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51765894/heres-how-much-you-would-have-made-owning-jpmorgan-chase-stock-in-the-last-15-years"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "Lebanese Presidency Posts On X \"Based on the initiative launched by the President of the Republic, General Joseph Aoun, which is based on diplomatic action through the announcement of a ceasefire and proceeding to direct negotiations with Israel...\" \"During the call, agreement was reached to hold the first meeting next Tuesday at the U.S. Department of State headquarters to discuss the announcement of a ceasefire and the date for starting negotiations between Lebanon and Israel under American sponsorship.\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:29:31Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51765862/lebanese-presidency-posts-on-x-based-on-the-initiative-launched-by-the-president-"
+      },
+      {
+        "ticker": "F, GM, IGV, NOW, QQQ, SPY, USO",
+        "headline": "Crude Dips On Trump's Ceasefire, But Inflation Triggers A Consumer Shock: This Week On Wall Street",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:00:34Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51764943/iran-ceasefire-oil-crash-inflation-consumer-confidence-record-low-week-in-review"
+      },
+      {
+        "ticker": "IGV",
+        "headline": "If You Invested $100 In iShares Expanded Tech-Software Sector ETF Stock 10 Years Ago, You Would Have This Much Today",
+        "source": "benzinga",
+        "published_at": "2026-04-10T20:00:28Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51764938/if-you-invested-100-in-ishares-expanded-tech-software-sector-etf-stock-10-years-ago-you-would-have-"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "Iranian State Media Says Iranian Delegation Led By Iran's Parliament Speaker Qalibaf Arrived In Islamabad Ahead Of Peace Talks With U.S.; Says Talks With U.S. To Begin If 'Preconditions Are Accepted'; Iran's Delegation Includes Foreign Minister, Defence Council Secretary, C.Bank Governor And Several Parliament Members",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:52:12Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51764740/iranian-state-media-says-iranian-delegation-led-by-irans-parliament-speaker-qalib"
+      },
+      {
+        "ticker": "PSX, SPY, USO",
+        "headline": "U.S. Energy Dept Says Will Loan 8.5M Barrels Of Crude Oil From Strategic Petroleum Reserve To 4 Companies; Companies Taking The U.S. SPR Oil Loans Include Macquarie, Phillips 66",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:39:24Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51764350/u-s-energy-dept-says-will-loan-8-5m-barrels-of-crude-oil-from-strategic-petroleum"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Palantir Shares Rise Over 4% After Key Trading Signal",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:29:54Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51764071/palantir-shares-rise-over-4-percent-after-key-trading-signal"
+      },
+      {
+        "ticker": "AAPL, GOOGL, MPC, MSFT",
+        "headline": "Microsoft's Copilot 'Feels Like Teams:' Why This Fund Manager Is Swapping It For Claude",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:21:00Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51763772/microsofts-copilot-feels-like-teams-why-this-fund-manager-is-swapping-it-for-claude"
+      },
+      {
+        "ticker": "SPY",
+        "headline": "'Trump Promises Mass Pardons to Staff Before Leaving Office' - WSJ Exclusive",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:20:29Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51763757/trump-promises-mass-pardons-to-staff-before-leaving-office-wsj-exclusive"
+      },
+      {
+        "ticker": "ADBE, CRM, CRWD, GLW, IGV, INTC, MRVL, MSFT, SMH, SOXX",
+        "headline": "AI Hardware Boom Leaves Software ETFs In The Dust As IGV Slides",
+        "source": "benzinga",
+        "published_at": "2026-04-10T19:14:31Z",
+        "url": "https://www.benzinga.com/etfs/sector-etfs/26/04/51763585/ai-hardware-boom-leaves-software-etfs-in-dust-igv-slides"
+      },
+      {
+        "ticker": "APO, ARES, BBDC, BX, GS, MS",
+        "headline": "Ares Targets $20 Billion For New Private Credit Fund",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:59:04Z",
+        "url": "https://www.benzinga.com/markets/private-markets/26/04/51763212/ares-targets-20-billion-for-new-private-credit-fund"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "The Apple Paradox: Shuttering Its First Unionized US Store In Towson",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:49:10Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51762285/the-apple-paradox-shuttering-its-first-unionized-us-store-in-towson"
+      },
+      {
+        "ticker": "CQQQ, FXI, KWEB, MCHI",
+        "headline": "China's PPI Rebound Signals Industrial Turnaround — Why Aren't MCHI, FXI ETFs Rallying Yet?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:47:01Z",
+        "url": "https://www.benzinga.com/etfs/emerging-market-etfs/26/04/51762880/chinas-ppi-rebound-signals-industrial-turnaround-why-arent-mchi-fxi-etfs-rallying-yet"
+      },
+      {
+        "ticker": "IBKR",
+        "headline": "Interactive Brokers Founder Lost $90,000 To Insider Trading But Now Wants It Legalized",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:31:11Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51762396/interactive-brokers-founder-lost-90000-to-insider-trading-but-now-wants-it-legalized"
+      },
+      {
+        "ticker": "AMZN, AVGO, GOOG, GOOGL, TEL",
+        "headline": "Why Is Broadcom Stock Trading Higher On Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:15:22Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761913/why-is-broadcom-stock-trading-higher-on-friday"
+      },
+      {
+        "ticker": "SPY",
+        "headline": "USA Federal Budget Balance for Mar $(164.000B) vs $(157.800B) Est; Prior $(308.000B)",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:14:15Z",
+        "url": "https://www.benzinga.com/news/26/04/51761861/usa-federal-budget-balance-for-mar-164-000b-vs-157-800b-est-prior-308-000b"
+      },
+      {
+        "ticker": "ARTY, FNDA, SMCI, USRD",
+        "headline": "Supermicro Stock Rallies As 'Ready-To-Ship' AI Servers Aim To Slash Lead Times",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:11:41Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51761757/supermicro-stock-rallies-as-ready-to-ship-ai-servers-aim-to-slash-lead-times"
+      },
+      {
+        "ticker": "ANGX, CRWV, MGRT, OGN, YDDL, ZNTL",
+        "headline": "Nasdaq Moves Higher; US Inflation Rate Accelerates In March",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:10:34Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51761716/nasdaq-moves-higher-us-inflation-rate-accelerates-in-march"
+      },
+      {
+        "ticker": "AMD, TSM",
+        "headline": "What's Going On With Advanced Micro Devices Stock Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:06:24Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761575/whats-going-on-with-advanced-micro-devices-stock-friday-2"
+      },
+      {
+        "ticker": "IUSG, IVW, MSFT, SPYG",
+        "headline": "Microsoft Azure Still Poised To Crush Estimates Despite $150 Billion Spending Fears: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:05:02Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51761533/microsoft-azure-still-poised-to-crush-estimates-despite-150-billion-spending-fears-analyst"
+      },
+      {
+        "ticker": "MSFT",
+        "headline": "BNP Paribas Maintains Outperform on Microsoft, Lowers Price Target to $556",
+        "source": "benzinga",
+        "published_at": "2026-04-10T18:04:08Z",
+        "url": "https://www.benzinga.com/news/26/04/51761509/bnp-paribas-maintains-outperform-on-microsoft-lowers-price-target-to-556"
+      },
+      {
+        "ticker": "ITA, LMT, PPA, SHLD",
+        "headline": "Lockheed Martin Boosts Missile Output With $4.7 Billion U.S. Order",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:54:13Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51761211/lockheed-martin-boosts-missile-output-with-4-7-billion-u-s-order"
+      },
+      {
+        "ticker": "META, NOW, PLTR",
+        "headline": "ServiceNow Stock Craters 19% In Week's Worst S&P 500 Showing",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:50:50Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51761068/servicenow-stock-craters-19-in-weeks-worst-sp-500-showing"
+      },
+      {
+        "ticker": "AMZN, AVGO, GOOG, GOOGL, META, MSFT, UBER",
+        "headline": "Google's Gemini, Anthropic's Claude Siphon Market Share From ChatGPT: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:49:55Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51761022/googles-gemini-anthropics-claude-siphon-market-share-from-chatgpt-analyst"
+      },
+      {
+        "ticker": "NKE",
+        "headline": "'Nike Switches Up Its Innovation Leadership; Company Veteran Tony Bignell Is Leaving The Sneaker Giant After Less Than A Year As Chief Innovation Officer As Its Turnaround Runs Into Snags' - WSJ",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:49:38Z",
+        "url": "https://www.benzinga.com/news/26/04/51761011/nike-switches-up-its-innovation-leadership-company-veteran-tony-bignell-is-leaving-the-sneaker-giant"
+      },
+      {
+        "ticker": "BAC, C, CRWD, GS, JPM, MS, NET, QLYS, WFC",
+        "headline": "Anthropic's Mythos Made Scott Bessent, Jerome Powell All Bank CEOs: But What Do Prediction Markets Say About Its IPO?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:47:50Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51760955/anthropics-mythos-made-scott-bessent-jerome-powell-all-bank-ceos-but-what-do-prediction-markets-say-about-its-ipo"
+      },
+      {
+        "ticker": "AAPL, ADBE, AMZN, BTCUSD, BUG, CIBR, CRM, CRWD, GOOG, HACK, IGV, META, MNDY, MSFT, NOW, NVDA, ORCL, PANW, QQQ, SPY, TSLA, USO",
+        "headline": "Mythos AI Fears; Energy-Driven High Inflation Data; Markets Bet On An Iranian Off-Ramp",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:46:05Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51760908/mythos-ai-fears-energy-driven-high-inflation-data-markets-bet-on-an-iranian-off-ramp"
+      },
+      {
+        "ticker": "SHOP",
+        "headline": "Shopify Faces AI Disruption Fears, But JPMorgan Isn't Backing Down",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:43:31Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51760843/shopify-faces-ai-disruption-fears-but-jpmorgan-isnt-backing-down"
+      },
+      {
+        "ticker": "ASTS, CHTR, GOOG, GOOGL, LYV, META, NFLX, SATS, VZ",
+        "headline": "9 Communication Services Stocks Whale Activity In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:27Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760646/9-communication-services-stocks-whale-activity-in-todays-session"
+      },
+      {
+        "ticker": "AXON, BE, BETA, CAR, CAT, GEV, HON, TT, VRT, XPO",
+        "headline": "10 Industrials Stocks With Whale Alerts In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:22Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760642/10-industrials-stocks-with-whale-alerts-in-todays-session"
+      },
+      {
+        "ticker": "AMD, AVGO, CRWV, INTC, LITE, MRVL, MSFT, NBIS, PLTR, SMCI",
+        "headline": "10 Information Technology Stocks Whale Activity In Today's Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:35:16Z",
+        "url": "https://www.benzinga.com/insights/options/26/04/51760641/10-information-technology-stocks-whale-activity-in-todays-session"
+      },
+      {
+        "ticker": "AKAM, ALAB, AMD, AVGO, COHR, DIA, FICO, HUBS, IGV, IWM, MRVL, NET, NOW, NVDA, OGN, PANW, PLTR, QQQ, SMCI, SMH, SNOW, TPL, TSM, VOO, XLB, XLE, XLF, XLK, XLP, XLU, XLV",
+        "headline": "Trump Throws A Lifeline To Palantir, Nasdaq 100 Targets 8th Green Day: What's Moving Markets Friday?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:26:28Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51760432/nasdaq-100-streak-low-sentiment-hot-cpi-trump-palantir-oil-ai-chips-friday-wall-street-news"
+      },
+      {
+        "ticker": "FTXL, QCOM, SNAP",
+        "headline": "What's Going On With Qualcomm Stock Today?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:09:07Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51759884/whats-going-on-with-qualcomm-stock-today"
+      },
+      {
+        "ticker": "SPY, UNG, USO",
+        "headline": "U.S. Baker Hughes Oil Rig Count +0, Unchanged From 411 Prior; U.S. Baker Hughes NatGas Rig Count -3 To 127; U.S. Baker Hughes Total Rig Count 545 Vs 548 Prior",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:07:09Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51759845/u-s-baker-hughes-oil-rig-count-0-unchanged-from-411-prior-u-s-baker-hughes-natgas"
+      },
+      {
+        "ticker": "AIXI, AKAM, AMPGR, AMPGZ, CLRO, FSLY, FUSE, MAXN, MPTIR, RELL, RXT, TDTH",
+        "headline": "12 Information Technology Stocks Moving In Friday's Intraday Session",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:05:41Z",
+        "url": "https://www.benzinga.com/insights/movers/26/04/51759776/12-information-technology-stocks-moving-in-fridays-intraday-session"
+      },
+      {
+        "ticker": "CVX, SHEL, XOM",
+        "headline": "Chevron Q1 Earnings Will Be 'Noisy' As Headwinds Reverse To Tailwinds: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:03:26Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51759705/chevron-q1-likely-noisy-earnings-headwinds-reverse-tailwinds-q2"
+      },
+      {
+        "ticker": "AMZN, COF, NVDA, SLV",
+        "headline": "CNBC Halftime Report Final Trades: Amazon, NVIDIA, Capital One Financial, iShares Silver Trust",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:01:55Z",
+        "url": "https://www.benzinga.com/analyst-ratings/26/04/51759656/cnbc-halftime-report-final-trades-amazon-nvidia-capital-one-financial-ishares-silver-trust"
+      },
+      {
+        "ticker": "BAC, BCS, DB, GS, JPM, SPGI",
+        "headline": "'Wall Street Builds New Tool To Bet Against Private Credit; Credit-Default Swap Index Could Help Banks Reduce Exposure To Private Credit And Let Hedge Funds Profit From Turmoil' - WSJ",
+        "source": "benzinga",
+        "published_at": "2026-04-10T17:01:42Z",
+        "url": "https://www.benzinga.com/news/26/04/51759636/wall-street-builds-new-tool-to-bet-against-private-credit-credit-default-swap-index-could-help-banks"
+      },
+      {
+        "ticker": "AAOI, GLW, LITE, NVDA, ORCL",
+        "headline": "Citron Calls Applied Optoelectronics' Valuation 'Delusional'",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:59:24Z",
+        "url": "https://www.benzinga.com/trading-ideas/short-ideas/26/04/51759552/citron-calls-applied-optoelectronics-valuation-delusional"
+      },
+      {
+        "ticker": "VLO",
+        "headline": "'Valero Pulls Back on Mexican Oil After Texas Refinery Blast' - Bloomberg News",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:46:27Z",
+        "url": "https://www.benzinga.com/news/26/04/51759150/valero-pulls-back-on-mexican-oil-after-texas-refinery-blast-bloomberg-news"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "If You Invested $1000 In Alphabet Stock 15 Years Ago, You Would Have This Much Today",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:45:58Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51759125/if-you-invested-1000-in-alphabet-stock-15-years-ago-you-would-have-this-much-today"
+      },
+      {
+        "ticker": "DRAM, SNDK",
+        "headline": "Sandisk Shares Slip Friday After Record Run Fueled By AI Memory Trade",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:35:28Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51758840/sandisk-shares-slip-friday-after-record-run-fueled-by-ai-memory-trade"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta's AI Outlook Brightens With Muse Spark Release",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:34:02Z",
+        "url": "https://www.benzinga.com/Opinion/26/04/51758783/metas-ai-outlook-brightens-with-muse-spark-release"
+      },
+      {
+        "ticker": "EIS, SPY, USO",
+        "headline": "President Trump Posts On Truth Social \"The Iranians don't seem to realize they have no cards, other than a short term extortion of the World by using International Waterways. The only reason they are alive today is to negotiate\"",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:32:40Z",
+        "url": "https://www.benzinga.com/economics/macro-economic-events/26/04/51758739/president-trump-posts-on-truth-social-the-iranians-dont-seem-to-realize-they-have"
+      },
+      {
+        "ticker": "CRWV, META, MSFT, NVDA",
+        "headline": "Meta's Latest $21 Billion Move Could Help De-Risk CoreWeave's Growth: Analyst",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:28:29Z",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51758621/metas-latest-21-billion-move-could-help-de-risk-coreweaves-growth-analyst"
+      },
+      {
+        "ticker": "PANW",
+        "headline": "Live On CNBC, Kevin Simpson Announces Bought More Palo Alto Networks",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:24:36Z",
+        "url": "https://www.benzinga.com/trading-ideas/26/04/51758543/live-on-cnbc-kevin-simpson-announces-bought-more-palo-alto-networks"
+      },
+      {
+        "ticker": "PLTR",
+        "headline": "Trump Shouts-Out Palantir Stock: Signal To Buy The PLTR Dip?",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:24:22Z",
+        "url": "https://www.benzinga.com/trading-ideas/movers/26/04/51758538/trump-shouts-out-palantir-stock-signal-to-buy-the-pltr-dip"
+      },
+      {
+        "ticker": "LMT, PLTR, TSLA",
+        "headline": "Palantir, Anduril Execs Sound The Alarm: US Has 8 Days Of Munitions For A China War",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:21:58Z",
+        "url": "https://www.benzinga.com/markets/prediction-markets/26/04/51758493/palantir-anduril-execs-sound-the-alarm-us-has-8-days-of-munitions-for-a-china-war"
+      },
+      {
+        "ticker": "AAPL, MPC, MSFT",
+        "headline": "Live On CNBC, Kevin Simpson Announces Trimmed Marathon Petroleum Position; Bought More Apple; Bought More Microsoft",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:16:41Z",
+        "url": "https://www.benzinga.com/trading-ideas/26/04/51758300/live-on-cnbc-kevin-simpson-announces-trimmed-marathon-petroleum-position-bought-more-apple-bought-m"
+      },
+      {
+        "ticker": "NET",
+        "headline": "Here's How Much You Would Have Made Owning Cloudflare Stock In The Last 5 Years",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:15:44Z",
+        "url": "https://www.benzinga.com/insights/news/26/04/51758268/heres-how-much-you-would-have-made-owning-cloudflare-stock-in-the-last-5-years"
+      },
+      {
+        "ticker": "SPY, USO",
+        "headline": "President Trump Speaking To New York Post Says The U.S. Is Preparing Military If Iran Fails To Comply In Talks",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:10:38Z",
+        "url": "https://www.benzinga.com/news/26/04/51758099/president-trump-speaking-to-new-york-post-says-the-u-s-is-preparing-military-if-iran-fails-to-comply"
+      },
+      {
+        "ticker": "HUM, OSCR, UNH",
+        "headline": "3 Health Insurance Stocks to Play On the Medicare Hike",
+        "source": "benzinga",
+        "published_at": "2026-04-10T16:06:41Z",
+        "url": "https://www.benzinga.com/opinion/26/04/51758015/3-health-insurance-stocks-to-play-on-the-medicare-hike"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [
+        {
+          "headline": "Meta debuts new AI model, attempting to catch up to Google, OpenAI",
+          "source": "www.cnbc.com",
+          "published_at": "",
+          "url": "https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Why Meta's New AI Model Is Such A Big Deal - YouTube",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=rXSPopXet1o",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta Unveils New A.I. Model, Its First From the Superintelligence Lab",
+          "source": "www.nytimes.com",
+          "published_at": "",
+          "url": "https://www.nytimes.com/2026/04/08/technology/meta-muse-spark-ai-model.html",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta rolls out new AI model in latest effort to catch up with rivals",
+          "source": "nypost.com",
+          "published_at": "",
+          "url": "https://nypost.com/2026/04/09/business/meta-rolls-out-new-ai-model-in-latest-effort-to-catch-up-with-rivals/",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Meta Announces New AI Model 'Muse Spark' - WSJ",
+          "source": "www.wsj.com",
+          "published_at": "",
+          "url": "https://www.wsj.com/tech/ai/meta-ai-model-muse-spark-09ceeac5",
+          "query": "new AI model announced OpenAI Anthropic Google Meta today"
+        },
+        {
+          "headline": "Mark Zuckerberg said AI could replace mid-level engineers ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/Neewtoop/posts/mark-zuckerberg-said-ai-could-replace-mid-level-engineers-as-companies-shift-tow/968405289100664/",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "The \"AI is replacing software engineers\" narrative was a lie. ...",
+          "source": "www.reddit.com",
+          "published_at": "",
+          "url": "https://www.reddit.com/r/ArtificialInteligence/comments/1s493x7/the_ai_is_replacing_software_engineers_narrative/",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "Will AI Make Software Engineers Obsolete? Here's the Reality",
+          "source": "bootcamps.cs.cmu.edu",
+          "published_at": "",
+          "url": "https://bootcamps.cs.cmu.edu/blog/will-ai-replace-software-engineers-reality-check",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "How AI Coding Is Creating Jobs",
+          "source": "www.morganstanley.com",
+          "published_at": "",
+          "url": "https://www.morganstanley.com/insights/articles/ai-software-development-industry-growth",
+          "query": "AI tool replacing software jobs sector impact today"
+        },
+        {
+          "headline": "What Jobs Will AI Replace?",
+          "source": "www.snhu.edu",
+          "published_at": "",
+          "url": "https://www.snhu.edu/about-us/newsroom/career/what-jobs-will-ai-replace",
+          "query": "AI tool replacing software jobs sector impact today"
+        }
+      ],
+      "REGULATORY": [
+        {
+          "headline": "Today's FDA Approvals & Drug Decisions News Live Feed",
+          "source": "www.stocktitan.net",
+          "published_at": "",
+          "url": "https://www.stocktitan.net/news/fda-approvals.html",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Approvals News | Today's Latest Stories - Reuters",
+          "source": "www.reuters.com",
+          "published_at": "",
+          "url": "https://www.reuters.com/business/healthcare-pharmaceuticals/approvals/",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "What 3 recent FDA rejections reveal about shifts inside the agency",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/news/3-recent-fda-rejections-reveal-075552463.html",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "FDA Actions & Drug News - MedCentral",
+          "source": "www.medcentral.com",
+          "published_at": "",
+          "url": "https://www.medcentral.com/drug-news",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Supreme Court Rejects Challenge to FDA Approval of Mifepristone ...",
+          "source": "www.healthlawadvisor.com",
+          "published_at": "",
+          "url": "https://www.healthlawadvisor.com/supreme-court-rejects-challenge-to-fda-approval-of-mifepristone-on-standing-but-the-battle-continues",
+          "query": "FDA approval rejection drug decision today"
+        },
+        {
+          "headline": "Federal Trade Commission and Department of Justice Seek Public ...",
+          "source": "www.ftc.gov",
+          "published_at": "",
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2026/02/federal-trade-commission-department-justice-seek-public-comment-guidance-business-collaborations",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "Antitrust Division | Press Releases - Department of Justice",
+          "source": "www.justice.gov",
+          "published_at": "",
+          "url": "https://www.justice.gov/atr/press-releases",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "Press Releases | Federal Trade Commission",
+          "source": "www.ftc.gov",
+          "published_at": "",
+          "url": "https://www.ftc.gov/news-events/news/press-releases",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "DOJ Developments Archives - Antitrust Alert",
+          "source": "www.antitrustalert.com",
+          "published_at": "",
+          "url": "https://www.antitrustalert.com/category/doj-developments/",
+          "query": "FTC DOJ antitrust investigation announcement today"
+        },
+        {
+          "headline": "Liberation Day tariffs",
+          "source": "en.wikipedia.org",
+          "published_at": "",
+          "url": "https://en.wikipedia.org/wiki/Liberation_Day_tariffs",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Presidential Tariff Actions",
+          "source": "ustr.gov",
+          "published_at": "",
+          "url": "https://ustr.gov/trade-topics/presidential-tariff-actions",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Donald Trump's executive orders and actions on trade ...",
+          "source": "ballotpedia.org",
+          "published_at": "",
+          "url": "https://ballotpedia.org/Donald_Trump%27s_executive_orders_and_actions_on_trade_and_tariffs,_2025-2026",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Executive Order 14257—Regulating Imports With a ...",
+          "source": "www.presidency.ucsb.edu",
+          "published_at": "",
+          "url": "https://www.presidency.ucsb.edu/documents/executive-order-14257-regulating-imports-with-reciprocal-tariff-rectify-trade-practices",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Ending Certain Tariff Actions",
+          "source": "www.whitehouse.gov",
+          "published_at": "",
+          "url": "https://www.whitehouse.gov/presidential-actions/2026/02/ending-certain-tariff-actions/",
+          "query": "tariff trade policy executive order stocks today"
+        },
+        {
+          "headline": "Defense Contracts Breaking News and Press Releases",
+          "source": "www.businesswire.com",
+          "published_at": "",
+          "url": "https://www.businesswire.com/newsroom/industry/defense/contracts",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "Contracts For Aug. 22, 2025 - Department of War",
+          "source": "www.war.gov",
+          "published_at": "",
+          "url": "https://www.war.gov/News/Contracts/Contract/Article/4283984/contracts-for-aug-22-2025/",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "High-dollar contracts announced, DCMA will administer",
+          "source": "www.dcma.mil",
+          "published_at": "",
+          "url": "https://www.dcma.mil/News/Article-View/Article/1904647/high-dollar-contracts-announced-dcma-will-administer/",
+          "query": "defense budget contract award today"
+        },
+        {
+          "headline": "Federal Awards | Keyword Search - USAspending",
+          "source": "www.usaspending.gov",
+          "published_at": "",
+          "url": "https://www.usaspending.gov/keyword_search/H2ZDMKZLM472",
+          "query": "defense budget contract award today"
+        }
+      ],
+      "MACRO_DATA": [
+        {
+          "headline": "Inflation Indicators - PCI, PCE, PPI - StreetStats",
+          "source": "streetstats.finance",
+          "published_at": "",
+          "url": "https://streetstats.finance/cycle/inflation",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Consumer Price Indexes (CPI and PCE) | FRED | St. Louis Fed",
+          "source": "fred.stlouisfed.org",
+          "published_at": "",
+          "url": "https://fred.stlouisfed.org/categories/9",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Consumer Price Data and Measures Explained",
+          "source": "www.clevelandfed.org",
+          "published_at": "",
+          "url": "https://www.clevelandfed.org/center-for-inflation-research/consumer-price-data",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Inflation Nowcasting - Federal Reserve Bank of Cleveland",
+          "source": "www.clevelandfed.org",
+          "published_at": "",
+          "url": "https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "Personal Consumption Expenditures Price Index",
+          "source": "www.bea.gov",
+          "published_at": "",
+          "url": "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
+          "query": "CPI PPI PCE inflation data release today"
+        },
+        {
+          "headline": "ADP® Employment Report",
+          "source": "adpemploymentreport.com",
+          "published_at": "",
+          "url": "https://adpemploymentreport.com/",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "ADP National Employment Report: Private Sector Employment Shed ...",
+          "source": "mediacenter.adp.com",
+          "published_at": "",
+          "url": "https://mediacenter.adp.com/2025-12-03-ADP-National-Employment-Report-Private-Sector-Employment-Shed-32,000-Jobs-in-November-Annual-Pay-was-Up-4-4",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "ADP National Employment Report Explained: Insights on US Private ...",
+          "source": "www.investopedia.com",
+          "published_at": "",
+          "url": "https://www.investopedia.com/terms/a/adpreport.asp",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "ADP Employment Change (Monthly) - United States - YCharts",
+          "source": "ycharts.com",
+          "published_at": "",
+          "url": "https://ycharts.com/indicators/adp_employment_change",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "United States ADP Nonfarm Employment Change - Investing.com",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/economic-calendar/adp-nonfarm-employment-change-1",
+          "query": "jobs report NFP ADP employment data today"
+        },
+        {
+          "headline": "US ISM Manufacturing PMI - Forex Factory",
+          "source": "www.forexfactory.com",
+          "published_at": "",
+          "url": "https://www.forexfactory.com/calendar/252-us-ism-manufacturing-pmi",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "United States ISM Manufacturing PMI - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/united-states/business-confidence",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "Release Dates for the ISM Manufacturing and Services PMI ® Reports",
+          "source": "www.ismworld.org",
+          "published_at": "",
+          "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "ISM® PMI® Reports",
+          "source": "www.ismworld.org",
+          "published_at": "",
+          "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "ISM Manufacturing PMI | US Industry | Collection - MacroMicro",
+          "source": "en.macromicro.me",
+          "published_at": "",
+          "url": "https://en.macromicro.me/collections/8/us-industry-relative/54/ism",
+          "query": "ISM PMI manufacturing services data today"
+        },
+        {
+          "headline": "U.S. Housing Starts and Permits (January 2026) - TD Economics",
+          "source": "economics.td.com",
+          "published_at": "",
+          "url": "https://economics.td.com/us-housing-starts-and-permits",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "United States Residential Housing Starts | Moody's Analytics",
+          "source": "www.economy.com",
+          "published_at": "",
+          "url": "https://www.economy.com/united-states/residential-housing-starts",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "United States Housing Starts - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/united-states/housing-starts",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "Housing Starts | FRED | St. Louis Fed",
+          "source": "fred.stlouisfed.org",
+          "published_at": "",
+          "url": "https://fred.stlouisfed.org/categories/32302",
+          "query": "retail sales housing starts economic data today"
+        },
+        {
+          "headline": "US Housing Starts (Monthly) - United States - Historical Da… - YCharts",
+          "source": "ycharts.com",
+          "published_at": "",
+          "url": "https://ycharts.com/indicators/housing_starts",
+          "query": "retail sales housing starts economic data today"
+        }
+      ],
+      "COMMODITY_ENERGY": [
+        {
+          "headline": "Oil Prices Pull Back After OPEC+ Supply Boost Shocks Markets ...",
+          "source": "stocktwits.com",
+          "published_at": "",
+          "url": "https://stocktwits.com/news-articles/markets/equity/oil-prices-pull-back-after-opec-supply-boost-shocks-markets/chFt5Y3RPxQ",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "OPEC Output Plunges by 7 Million Bpd as War Chokes Supply",
+          "source": "oilprice.com",
+          "published_at": "",
+          "url": "https://oilprice.com/Latest-Energy-News/World-News/OPEC-Output-Plunges-by-7-Million-Bpd-as-War-Chokes-Supply.html",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "The World's Biggest Oil Supply Shock Is Now Unfolding | OilPrice.com",
+          "source": "oilprice.com",
+          "published_at": "",
+          "url": "https://oilprice.com/Energy/Energy-General/The-Worlds-Biggest-Oil-Supply-Shock-Is-Now-Unfolding.html",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Crude Oil Jumps 4% as Traders Price In Supply Disruption",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/news/crude-oil-jumps-4-traders-104700909.html",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Oil prices soar above $110 as OPEC+ struggles to ease supply fears",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=p-h6e3lBpI0",
+          "query": "crude oil price move OPEC supply shock today"
+        },
+        {
+          "headline": "Commodity Prices - Gold, Silver, Lithium & More - GOLDINVEST.de",
+          "source": "goldinvest.de",
+          "published_at": "",
+          "url": "https://goldinvest.de/en/commodity-prices/",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Uranium Futures Price Today - Investing.com",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/commodities/uranium-futures",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Uranium - Price - Chart - Historical Data - News - Trading Economics",
+          "source": "tradingeconomics.com",
+          "published_at": "",
+          "url": "https://tradingeconomics.com/commodity/uranium",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Commodity Spot Price Charts - Gold, Silver, Copper, Platinum ...",
+          "source": "www.juniorminingnetwork.com",
+          "published_at": "",
+          "url": "https://www.juniorminingnetwork.com/commodity-charts.html",
+          "query": "copper gold lithium uranium price move today"
+        },
+        {
+          "headline": "Uranium Price - Cameco",
+          "source": "www.cameco.com",
+          "published_at": "",
+          "url": "https://www.cameco.com/invest/markets/uranium-price",
+          "query": "copper gold lithium uranium price move today"
+        }
+      ],
+      "GEOPOLITICAL": [
+        {
+          "headline": "Taiwan adds China's Huawei and SMIC to export control list",
+          "source": "apnews.com",
+          "published_at": "",
+          "url": "https://apnews.com/article/china-taiwan-huawei-smic-export-restrictions-semiconductor-6f43d0b9f34d39258ca3e3c1406d9055",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan has today announced a stringent ban on the export ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/TheNationThailand/posts/taiwan-has-today-announced-a-stringent-ban-on-the-export-of-chips-to-chinese-tec/1128444759308857/",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan blacklists China's Huawei and SMIC, aligning more ...",
+          "source": "www.cnbc.com",
+          "published_at": "",
+          "url": "https://www.cnbc.com/2025/06/16/taiwan-blacklists-china-huawei-smic-further-aligning-with-us-trade-policy-.html",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Taiwan's cross-border semiconductor controls: Export ...",
+          "source": "law.asia",
+          "published_at": "",
+          "url": "https://law.asia/taiwan-semiconductor-export-controls/",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "US revokes TSMC's authorisation on China-bound tech",
+          "source": "www.bbc.com",
+          "published_at": "",
+          "url": "https://www.bbc.com/news/articles/creve4x8drgo",
+          "query": "Taiwan China semiconductor trade restriction today"
+        },
+        {
+          "headline": "Middle East Conflict Supply Chain Disruption: What You Need to Know",
+          "source": "www.bisg.org",
+          "published_at": "",
+          "url": "https://www.bisg.org/news/middle-east-conflict-supply-chain-disruption-what-you-need-to-know",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East Supply Chain Updates - OIA Global",
+          "source": "www.oiaglobal.com",
+          "published_at": "",
+          "url": "https://www.oiaglobal.com/middle-east-supply-chain-updates/",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East Risks Resurface: Supply Chain Disruptions and Key ...",
+          "source": "www.tive.com",
+          "published_at": "",
+          "url": "https://www.tive.com/blog/middle-east-risks-resurface-supply-chain-disruptions-and-key-insights",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "How conflict in the Middle East is affecting supply chains",
+          "source": "www.oliverwyman.com",
+          "published_at": "",
+          "url": "https://www.oliverwyman.com/our-expertise/insights/2026/mar/how-middle-east-tensions-impact-supply-chain.html",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Middle East conflict disrupts aid supply - YouTube",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=ZdCf1PsrI3Q",
+          "query": "Middle East supply chain disruption today"
+        },
+        {
+          "headline": "Sanctions and the geopolitics of trade - GIS Reports",
+          "source": "www.gisreportsonline.com",
+          "published_at": "",
+          "url": "https://www.gisreportsonline.com/r/sanctions-trade-routes/",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "How Geopolitics And Trade Sanctions Impact Industrial Goods",
+          "source": "www.oliverwyman.com",
+          "published_at": "",
+          "url": "https://www.oliverwyman.com/our-expertise/insights/2023/may/industrial-goods-sector-impact-of-geopolitics-and-trade-sanctions.html",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Publication: Geopolitical Risks and Trade",
+          "source": "openknowledge.worldbank.org",
+          "published_at": "",
+          "url": "https://openknowledge.worldbank.org/entities/publication/2545f9a8-0ca3-497d-adaf-ed5823954e76",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Energy sanctions in the global economy: Geopolitical disruptions ...",
+          "source": "www.sciencedirect.com",
+          "published_at": "",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2096248725000268",
+          "query": "sanctions trade deal geopolitical market impact today"
+        },
+        {
+          "headline": "Geopolitical conflict and its impact on global markets - U.S. Bank",
+          "source": "www.usbank.com",
+          "published_at": "",
+          "url": "https://www.usbank.com/investing/financial-perspectives/market-news/russia-ukraine-global-market.html",
+          "query": "sanctions trade deal geopolitical market impact today"
+        }
+      ],
+      "BELLWETHER_SIGNALS": [
+        {
+          "headline": "NVDA Gets New Bull, ASML Earnings Rally, DLTR Raises Guidance",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=m7lI1YR5Te0",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "TSM, ASML And Goldman Sachs Lead Earnings Amid Iran War ...",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=NQi95W6IQnM",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "TSMC Earnings Just Changed Everything for NVDA Stock - YouTube",
+          "source": "www.youtube.com",
+          "published_at": "",
+          "url": "https://www.youtube.com/watch?v=G6sMnlERB9o",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "ASML amazing earnings beats all metrics but tanks 7-8% - Reddit",
+          "source": "www.reddit.com",
+          "published_at": "",
+          "url": "https://www.reddit.com/r/ValueInvesting/comments/1m1732j/asml_amazing_earnings_beats_all_metrics_but_tanks/",
+          "query": "NVDA AMD TSM ASML earnings guidance update today"
+        },
+        {
+          "headline": "Earnings week ahead: NVDA, WMT, HD, TGT, LOW, BIDU, ZIM ...",
+          "source": "seekingalpha.com",
+          "published_at": "",
+          "url": "https://seekingalpha.com/news/4522124-earnings-week-ahead-nvda-wmt-hd-tgt-low-bidu-zim-xpev-and-more",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Target Corporation Common Stock (TGT) Earnings Report Date",
+          "source": "www.nasdaq.com",
+          "published_at": "",
+          "url": "https://www.nasdaq.com/market-activity/stocks/tgt/earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Target (TGT) Earnings: Latest Report, Earnings Call & Financials",
+          "source": "public.com",
+          "published_at": "",
+          "url": "https://public.com/stocks/tgt/earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Target (TGT) Earnings Dates, Reports & Conference Call - Moomoo",
+          "source": "www.moomoo.com",
+          "published_at": "",
+          "url": "https://www.moomoo.com/stock/TGT-US/earnings",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "TARGET CORPORATION (TGT) Stock, Price, News, Quotes ... - MSN",
+          "source": "www.msn.com",
+          "published_at": "",
+          "url": "https://www.msn.com/en-us/money/watchlist?id=a246z2&ocid=bingnewssearch",
+          "query": "JPM GS BAC WMT HD TGT earnings guidance today"
+        },
+        {
+          "headline": "Weekly Market Commentary: What To Watch This Earnings Season",
+          "source": "www.affinityfcu.com",
+          "published_at": "",
+          "url": "https://www.affinityfcu.com/financial-wellbeing/blog/personal-banking/what-to-watch-this-earnings-season",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "Nvidia's shares fell as the AI bellwether's upbeat results failed to lift ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/Reuters/posts/nvidias-shares-fell-as-the-ai-bellwethers-upbeat-results-failed-to-lift-sentimen/1479368167387244/",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "From bellwether Walmart reporting earnings to new economic data ...",
+          "source": "www.facebook.com",
+          "published_at": "",
+          "url": "https://www.facebook.com/Reuters/posts/from-bellwether-walmart-reporting-earnings-to-new-economic-data-out-of-the-uk-th/1467480478576013/?locale=lv_LV",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "Why the Financials Sector is the S&P 500 Bellwether Right Now",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/analysis/why-the-financials-sector-is-the-sp-500-bellwether-right-now-200677285",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        },
+        {
+          "headline": "bad news comes for this $40 trillion market. Bellwether stock falls to ...",
+          "source": "www.msn.com",
+          "published_at": "",
+          "url": "https://www.msn.com/en-us/money/savingandinvesting/more-bad-news-comes-for-this-40-trillion-market-bellwether-stock-falls-to-record-low/ar-AA201FBS?ocid=finance-verthp-feeds",
+          "query": "sector bellwether earnings surprise guidance cut today"
+        }
+      ],
+      "NON_EARNINGS_RECURRING": [
+        {
+          "headline": "TSMC Q1 2026 earnings: Record revenue on strong AI chip demand",
+          "source": "finance.yahoo.com",
+          "published_at": "",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/tsmc-q1-2026-earnings-record-121456920.html",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC smashes records with massive 45% revenue surge in March",
+          "source": "www.digitimes.com",
+          "published_at": "",
+          "url": "https://www.digitimes.com/news/a20260410VL213/tsmc-revenue-performance-2026.html",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC March 2026 Revenue Report | SemiWiki",
+          "source": "semiwiki.com",
+          "published_at": "",
+          "url": "https://semiwiki.com/forum/threads/tsmc-march-2026-revenue-report.24915/",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "TSMC reports 45.2% year-over-year revenue growth for March 2026",
+          "source": "www.investing.com",
+          "published_at": "",
+          "url": "https://www.investing.com/news/sec-filings/tsmc-reports-452-yearoveryear-revenue-growth-for-march-2026-93CH-4607419",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "[PDF] TSMC March 2026 Revenue Report",
+          "source": "pr.tsmc.com",
+          "published_at": "",
+          "url": "https://pr.tsmc.com/system/files/newspdf/attachment/3e871375bc9359a7833780672fcb4729be6da27d/Mar%202026%20%28E%29_final_wmn.pdf",
+          "query": "TSMC monthly revenue report 2026"
+        },
+        {
+          "headline": "Samsung Electronics: Better Than Expected Preliminary Results in 1Q 2026 - Douglas Kim",
+          "source": "www.smartkarma.com",
+          "published_at": "",
+          "url": "https://www.smartkarma.com/insights/samsung-electronics-better-than-expected-preliminary-results-in-1q-2026",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "1Q 2026 Pre-Earnings Guidance – Company Announcement - FT.com",
+          "source": "markets.ft.com",
+          "published_at": "",
+          "url": "https://markets.ft.com/data/announce/detail?dockey=1323-17535212-71CCGK5337V8TU6ABQ6HVNPIM0",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "Samsung Electronics Announces Earnings Guidance for First ...",
+          "source": "news.samsung.com",
+          "published_at": "",
+          "url": "https://news.samsung.com/my/samsung-electronics-announces-earnings-guidance-for-first-quarter-2026",
+          "query": "Samsung preliminary earnings results 2026"
+        },
+        {
+          "headline": "South Korea's Exports Surpass $80 Billion on Semiconductor Surge",
+          "source": "www.chosun.com",
+          "published_at": "",
+          "url": "https://www.chosun.com/english/market-money-en/2026/04/01/WZ6FUXWMSJDAJGXE2X6OZIQDJM/",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "February 2026 Exports Hit Record High for Any February at $67.5 ...",
+          "source": "english.motir.go.kr",
+          "published_at": "",
+          "url": "https://english.motir.go.kr/eng/article/EATCLdfa319ada/2519/view",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "South Korea Posts Record Current Account Surplus on Semiconductor Chip Exports - Bloomberg",
+          "source": "www.bloomberg.com",
+          "published_at": "",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-08/s-korea-posts-record-current-account-surplus-on-chip-exports",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "Semiconductors Korea 2026 | EU Business Hub",
+          "source": "eubusinesshub.eu",
+          "published_at": "",
+          "url": "https://eubusinesshub.eu/en/missions-catalogue/semiconductors-korea-2026",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "[PDF] Semiconductors Korea 2026",
+          "source": "mzv.gov.cz",
+          "published_at": "",
+          "url": "https://mzv.gov.cz/public/3c/8/50/5956448_3429295_Semiconductors_Korea_2026_Flyer.pdf",
+          "query": "Korea semiconductor exports 2026"
+        },
+        {
+          "headline": "N.A. Semiconductor Equipment's May Book-to-Bill Ratio Below Parity :: I-Connect007",
+          "source": "iconnect007.com",
+          "published_at": "",
+          "url": "https://iconnect007.com/article/90877/na-semiconductor-equipments-may-booktobill-ratio-below-parity/90880/ein",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "United States [DISCONTINUED] Semiconductor Equipment Book-to-Bill | Moody's Analytics",
+          "source": "www.economy.com",
+          "published_at": "",
+          "url": "https://www.economy.com/united-states/discontinued-semiconductor-equipment-book-to-bill",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "Equipment Articles | SEMI",
+          "source": "www.semi.org",
+          "published_at": "",
+          "url": "https://www.semi.org/en/products-services/market-data/equipment-article-archive",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "SEMI Reports Global Semiconductor Equipment Billings Reached $135 Billion in 2025, Up 15% Year-on-Year",
+          "source": "www.semiconductorpackagingnews.com",
+          "published_at": "",
+          "url": "https://www.semiconductorpackagingnews.com/press/93023.html",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "2026 年 2 月度販売高（SEAJ 速報値）",
+          "source": "www.seaj.or.jp",
+          "published_at": "",
+          "url": "https://www.seaj.or.jp/statistics/54771971525101.pdf",
+          "query": "SEMI book-to-bill ratio 2026"
+        },
+        {
+          "headline": "Taiwan Exports Start 2026 Strong in Bright Sign for Economy - WSJ",
+          "source": "www.wsj.com",
+          "published_at": "",
+          "url": "https://www.wsj.com/economy/trade/taiwan-exports-start-2026-strong-in-bright-sign-for-economy-8e48424e",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan's January export orders surge 60% | Taiwan News | Mar. 5, 2026 10:41",
+          "source": "www.taiwannews.com.tw",
+          "published_at": "",
+          "url": "https://www.taiwannews.com.tw/news/6314373",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan export orders up 60.1 percent in January",
+          "source": "taiwantoday.tw",
+          "published_at": "",
+          "url": "https://taiwantoday.tw/Economics/Top-News/282045/Taiwan-export-orders-up-60.1-percent-in-January",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan export orders hit record high on strong AI, chip demand",
+          "source": "www.techinasia.com",
+          "published_at": "",
+          "url": "https://www.techinasia.com/news/taiwan-export-orders-hit-record-high-strong-ai-chip-demand",
+          "query": "Taiwan export orders technology 2026"
+        },
+        {
+          "headline": "Taiwan exports exceed NT$2 trillion in January, memory shortage ...",
+          "source": "www.digitimes.com",
+          "published_at": "",
+          "url": "https://www.digitimes.com/news/a20260210PD223/taiwan-exports-2026-2025-growth.html",
+          "query": "Taiwan export orders technology 2026"
+        }
+      ]
+    }
+  }
+]

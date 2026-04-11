@@ -358,45 +358,31 @@ class AlphaVantageClient:
 
 
 class FREDClient:
-    """FRED Economic Data API Client"""
-    
+    """FRED Economic Data API Client — powered by fredapi."""
+
     def __init__(self):
-        self.api_key = APIConfig.FRED_API_KEY
-        self.base_url = APIConfig.FRED_BASE_URL
-    
-    def get_series(self, series_id: str) -> Dict:
-        """Get economic data series"""
-        url = f"{self.base_url}/series/observations"
-        params = {
-            'series_id': series_id,
-            'api_key': self.api_key,
-            'file_type': 'json'
-        }
-        response = requests.get(url, params=params)
-        return response.json()
-    
-    def search_series(self, search_text: str, limit: int = 10) -> Dict:
-        """Search for economic data series"""
-        url = f"{self.base_url}/series/search"
-        params = {
-            'search_text': search_text,
-            'api_key': self.api_key,
-            'file_type': 'json',
-            'limit': limit
-        }
-        response = requests.get(url, params=params)
-        return response.json()
-    
-    def get_series_info(self, series_id: str) -> Dict:
-        """Get series information"""
-        url = f"{self.base_url}/series"
-        params = {
-            'series_id': series_id,
-            'api_key': self.api_key,
-            'file_type': 'json'
-        }
-        response = requests.get(url, params=params)
-        return response.json()
+        import fredapi
+        self.api_key = os.environ.get('FRED_API_KEY') or APIConfig.FRED_API_KEY
+        if not self.api_key:
+            raise ValueError("FRED_API_KEY not found in environment or APIConfig")
+        self._fred = fredapi.Fred(api_key=self.api_key)
+
+    def get_series(self, series_id: str, start_date: str = None, end_date: str = None):
+        """Return a pandas Series with the requested FRED data."""
+        kwargs = {}
+        if start_date:
+            kwargs['observation_start'] = start_date
+        if end_date:
+            kwargs['observation_end'] = end_date
+        return self._fred.get_series(series_id, **kwargs)
+
+    def search_series(self, query: str, limit: int = 10):
+        """Search FRED for series matching query."""
+        return self._fred.search(query, limit=limit)
+
+    def get_series_info(self, series_id: str):
+        """Get metadata for a FRED series."""
+        return self._fred.get_series_info(series_id)
 
 
 class SchwabClient:

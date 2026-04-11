@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/tracker/log_outcome.py --id 2 --json \"{\\\\\"price_at_analysis\\\\\": 100.00, \\\\\"price_1d\\\\\": 103.50, \\\\\"price_3d\\\\\": 106.20, \\\\\"price_5d\\\\\": 108.00, \\\\\"price_10d\\\\\": 111.50, \\\\\"catalyst_resolved\\\\\": \\\\\"YES\\\\\", \\\\\"resolution_notes\\\\\": \\\\\"Smoke test - delete me\\\\\"}\")",
+      "Bash(python scripts/tracker/query_patterns.py --report recent --n 5)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Bash(python tools/watchlist_scanner/scan_news.py)"
+    ]
+  }
+}
