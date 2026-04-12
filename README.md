@@ -34,6 +34,13 @@
 4. Agent returns: **text summary first (with sample size and confidence), then visualizations** where applicable
 5. All outputs persisted to `studies/{name}/outputs/` or `scratch/` (quick queries) or `prompts/WAR_ROOM_CONTEXT.md` (context updates)
 
+News Flow note: the watchlist scanner now has three source layers per run.
+- Alpaca ticker news
+- Official sources from `sec.gov` and company investor-relations/newsroom pages
+- Tavily sector catalyst sweeps
+
+Focus-list runs that use `--skip-tavily` still keep the official-source layer. That flag only skips sector sweeps.
+
 ---
 
 ## Complete System Capabilities

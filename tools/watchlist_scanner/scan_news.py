@@ -25,6 +25,7 @@ import difflib
 import html as html_module
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
@@ -62,6 +63,47 @@ FEED_CONFIGS = {
 }
 FEED_DISPLAY_ORDER = ['focus', 'master']
 
+OFFICIAL_COMPANY_EXCLUDE_DOMAINS = {
+    'alphaspread.com',
+    'benzinga.com',
+    'businesswire.com',
+    'eqs-news.com',
+    'finance.yahoo.com',
+    'globenewswire.com',
+    'marketchameleon.com',
+    'marketwatch.com',
+    'nasdaq.com',
+    'otcmarkets.com',
+    'prnewswire.com',
+    'quartr.com',
+    'reuters.com',
+    'seekingalpha.com',
+    'stocktitan.net',
+    'stockwatch.com',
+    'theglobeandmail.com',
+    'wsj.com',
+    'yahoo.com',
+}
+OFFICIAL_SEC_FORM_PREFIXES = (
+    '8-K',
+    '6-K',
+    '10-Q',
+    '10-K',
+    '20-F',
+    '13D',
+    '13G',
+    'S-3',
+    'F-3',
+    '424B',
+    '425',
+)
+OFFICIAL_SOURCE_LOOKBACK_DAYS = 7
+OFFICIAL_SOURCE_MAX_TICKERS = {
+    'master': 25,
+    'focus': 20,
+}
+_SEC_TICKER_CACHE = None
+
 
 def _get_feed_config(feed_name: str) -> dict:
     if feed_name not in FEED_CONFIGS:
@@ -75,6 +117,34 @@ def _get_feed_tickers(feed_name: str) -> list:
     if feed_name == 'focus':
         return get_focus_list()
     return get_watchlist()
+
+
+def _extract_host(url: str) -> str:
+    if not url:
+        return ''
+    try:
+        return urlparse(url).netloc.lower().removeprefix('www.')
+    except Exception:
+        return ''
+
+
+def _dedupe_strings(values: list[str]) -> list[str]:
+    seen = set()
+    result = []
+    for value in values:
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
+
+
+def _sec_headers() -> dict:
+    return {
+        'User-Agent': 'QuantLab Data Lab lakeem@users.noreply.github.com',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': 'application/json',
+    }
 
 
 # ── Key loading ────────────────────────────────────────────────────────────────
@@ -131,6 +201,39 @@ def _get_tavily_key() -> str:
     return ''
 
 
+def _load_sec_ticker_map() -> dict:
+    global _SEC_TICKER_CACHE
+
+    if _SEC_TICKER_CACHE is not None:
+        return _SEC_TICKER_CACHE
+
+    try:
+        response = requests.get(
+            'https://www.sec.gov/files/company_tickers.json',
+            headers=_sec_headers(),
+            timeout=20,
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except Exception as exc:
+        print(f'WARNING: Could not load SEC ticker map: {exc}')
+        _SEC_TICKER_CACHE = {}
+        return _SEC_TICKER_CACHE
+
+    ticker_map = {}
+    for record in payload.values():
+        ticker = str(record.get('ticker', '')).strip().upper()
+        if not ticker:
+            continue
+        ticker_map[ticker] = {
+            'cik': str(record.get('cik_str', '')).strip().zfill(10),
+            'title': str(record.get('title', '')).strip() or ticker,
+        }
+
+    _SEC_TICKER_CACHE = ticker_map
+    return _SEC_TICKER_CACHE
+
+
 # ── CT timestamp helpers ───────────────────────────────────────────────────────
 def _to_ct(dt_str: str) -> str:
     if not dt_str:
@@ -148,6 +251,314 @@ def _to_ct(dt_str: str) -> str:
 
 def _now_ct() -> datetime:
     return datetime.now(CT)
+
+
+def _ticker_list_from_items(items: list) -> list[str]:
+    tickers = []
+    for item in items:
+        raw_tickers = str(item.get('ticker', ''))
+        for ticker in raw_tickers.split(','):
+            cleaned = ticker.strip().upper()
+            if cleaned:
+                tickers.append(cleaned)
+    return _dedupe_strings(tickers)
+
+
+def _official_candidate_tickers(feed_name: str, alpaca_items: list) -> list[str]:
+    max_tickers = OFFICIAL_SOURCE_MAX_TICKERS.get(feed_name, 20)
+    active_tickers = _ticker_list_from_items(alpaca_items)
+
+    if feed_name == 'focus':
+        candidates = active_tickers + _get_feed_tickers(feed_name)
+    else:
+        candidates = active_tickers
+
+    return _dedupe_strings(candidates)[:max_tickers]
+
+
+def _is_relevant_sec_form(form: str) -> bool:
+    normalized = str(form or '').upper()
+    return any(normalized.startswith(prefix) for prefix in OFFICIAL_SEC_FORM_PREFIXES)
+
+
+def _recent_enough(date_str: str, lookback_days: int = OFFICIAL_SOURCE_LOOKBACK_DAYS) -> bool:
+    if not date_str:
+        return False
+    try:
+        filing_dt = datetime.fromisoformat(date_str).date()
+    except Exception:
+        return False
+    return (_now_ct().date() - filing_dt).days <= lookback_days
+
+
+def fetch_sec_official_news(tickers: list[str], sec_map: dict) -> list:
+    if not tickers:
+        return []
+
+    items = []
+    for ticker in tickers:
+        meta = sec_map.get(ticker)
+        if not meta or not meta.get('cik'):
+            continue
+
+        try:
+            response = requests.get(
+                f'https://data.sec.gov/submissions/CIK{meta["cik"]}.json',
+                headers=_sec_headers(),
+                timeout=20,
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except Exception as exc:
+            print(f'  [WARN] SEC submissions pull failed for {ticker}: {exc}')
+            continue
+
+        recent = payload.get('filings', {}).get('recent', {})
+        forms = recent.get('form', [])
+        dates = recent.get('filingDate', [])
+        accessions = recent.get('accessionNumber', [])
+        docs = recent.get('primaryDocument', [])
+        descriptions = recent.get('primaryDocDescription', [])
+
+        for idx, form in enumerate(forms):
+            filing_date = dates[idx] if idx < len(dates) else ''
+            if not _is_relevant_sec_form(form) or not _recent_enough(filing_date):
+                continue
+
+            accession = accessions[idx] if idx < len(accessions) else ''
+            primary_doc = docs[idx] if idx < len(docs) else ''
+            description = descriptions[idx] if idx < len(descriptions) else ''
+            accession_no_dash = accession.replace('-', '')
+            cik_no_zeros = str(int(meta['cik'])) if meta['cik'].isdigit() else meta['cik'].lstrip('0')
+
+            url = ''
+            if accession_no_dash and primary_doc and cik_no_zeros:
+                url = f'https://www.sec.gov/Archives/edgar/data/{cik_no_zeros}/{accession_no_dash}/{primary_doc}'
+
+            headline_suffix = description or primary_doc or 'SEC filing'
+            items.append({
+                'ticker': ticker,
+                'headline': f'{ticker} filed {form} — {headline_suffix}',
+                'source': 'sec.gov',
+                'published_at': f'{filing_date}T00:00:00+00:00' if filing_date else '',
+                'url': url,
+            })
+
+        time.sleep(0.2)
+
+    return items
+
+
+def fetch_sec_search_news(tickers: list[str], sec_map: dict) -> list:
+    tavily_key = _get_tavily_key()
+    if not tavily_key or not tickers:
+        return []
+
+    items = []
+    cutoff_date = (_now_ct().date() - timedelta(days=OFFICIAL_SOURCE_LOOKBACK_DAYS)).isoformat()
+    for ticker in tickers:
+        company_name = sec_map.get(ticker, {}).get('title', ticker)
+        query = f'"{company_name}" {ticker} site:sec.gov (8-K OR 6-K OR 10-Q OR 10-K OR filing) since {cutoff_date}'
+        try:
+            response = requests.post(
+                'https://api.tavily.com/search',
+                json={
+                    'api_key': tavily_key,
+                    'query': query,
+                    'search_depth': 'basic',
+                    'max_results': 5,
+                },
+                timeout=20,
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except Exception as exc:
+            print(f'  [WARN] SEC search fallback failed for {ticker}: {exc}')
+            continue
+
+        for result in payload.get('results', []):
+            url = result.get('url', '')
+            if not _extract_host(url).endswith('sec.gov'):
+                continue
+            items.append({
+                'ticker': ticker,
+                'headline': result.get('title', ''),
+                'source': 'sec.gov',
+                'published_at': result.get('published_date', ''),
+                'url': url,
+            })
+
+        time.sleep(0.2)
+
+    return items
+
+
+def _is_official_company_url(url: str) -> bool:
+    host = _extract_host(url)
+    path = urlparse(url).path.lower() if url else ''
+
+    if not host or host.endswith('sec.gov'):
+        return False
+    if any(host.endswith(domain) for domain in OFFICIAL_COMPANY_EXCLUDE_DOMAINS):
+        return False
+
+    official_markers = (
+        'investor',
+        'ir.',
+        '/investor',
+        '/investors',
+        '/news',
+        '/press',
+        '/press-release',
+        '/pressrelease',
+        '/news-release',
+        '/releases',
+        '/media',
+    )
+    return any(marker in host or marker in path for marker in official_markers)
+
+
+def fetch_company_site_news(tickers: list[str], sec_map: dict) -> list:
+    tavily_key = _get_tavily_key()
+    if not tavily_key or not tickers:
+        return []
+
+    items = []
+    cutoff_date = (_now_ct().date() - timedelta(days=OFFICIAL_SOURCE_LOOKBACK_DAYS)).isoformat()
+    for ticker in tickers:
+        company_name = sec_map.get(ticker, {}).get('title', ticker)
+        if company_name == ticker:
+            continue
+        query = f'"{company_name}" {ticker} investor relations press release since {cutoff_date}'
+        try:
+            response = requests.post(
+                'https://api.tavily.com/search',
+                json={
+                    'api_key': tavily_key,
+                    'query': query,
+                    'search_depth': 'basic',
+                    'max_results': 5,
+                },
+                timeout=20,
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except Exception as exc:
+            print(f'  [WARN] Company-site search failed for {ticker}: {exc}')
+            continue
+
+        for result in payload.get('results', []):
+            url = result.get('url', '')
+            if not _is_official_company_url(url):
+                continue
+            items.append({
+                'ticker': ticker,
+                'headline': result.get('title', ''),
+                'source': _extract_host(url),
+                'published_at': result.get('published_date', ''),
+                'url': url,
+            })
+
+        time.sleep(0.2)
+
+    return items
+
+
+def fetch_fmp_company_meta(tickers: list[str]) -> dict:
+    if not tickers:
+        return {}
+
+    try:
+        from shared.config.api_clients import FMPClient
+        client = FMPClient()
+    except Exception:
+        return {}
+
+    metadata = {}
+    for ticker in tickers:
+        try:
+            payload = client.get_company_profile(ticker)
+        except Exception:
+            continue
+
+        if isinstance(payload, list) and payload:
+            profile = payload[0]
+        elif isinstance(payload, dict):
+            profile = payload
+        else:
+            continue
+
+        title = str(profile.get('companyName', '')).strip()
+        cik = str(profile.get('cik', '')).strip()
+        if title or cik:
+            metadata[ticker] = {}
+            if title:
+                metadata[ticker]['title'] = title
+            if cik:
+                metadata[ticker]['cik'] = cik.zfill(10)
+
+        time.sleep(0.1)
+
+    return metadata
+
+
+def fetch_alpaca_company_names(tickers: list[str]) -> dict:
+    api_key, api_secret = _get_alpaca_keys()
+    if not api_key or not api_secret or not tickers:
+        return {}
+
+    headers = {
+        'APCA-API-KEY-ID': api_key,
+        'APCA-API-SECRET-KEY': api_secret,
+    }
+    names = {}
+
+    for ticker in tickers:
+        try:
+            response = requests.get(
+                f'https://api.alpaca.markets/v2/assets/{ticker}',
+                headers=headers,
+                timeout=15,
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except Exception:
+            continue
+
+        name = str(payload.get('name', '')).strip()
+        if name:
+            names[ticker] = name
+
+        time.sleep(0.1)
+
+    return names
+
+
+def fetch_official_source_news(feed_name: str, alpaca_items: list) -> list:
+    tickers = _official_candidate_tickers(feed_name, alpaca_items)
+    if not tickers:
+        return []
+
+    sec_map = _load_sec_ticker_map()
+    fmp_meta = fetch_fmp_company_meta(tickers)
+    alpaca_name_map = fetch_alpaca_company_names(tickers)
+    merged_meta = {ticker: dict(sec_map.get(ticker, {})) for ticker in tickers}
+    for ticker in tickers:
+        if fmp_meta.get(ticker, {}).get('title'):
+            merged_meta[ticker]['title'] = fmp_meta[ticker]['title']
+        if fmp_meta.get(ticker, {}).get('cik'):
+            merged_meta[ticker]['cik'] = fmp_meta[ticker]['cik']
+        if alpaca_name_map.get(ticker):
+            merged_meta[ticker]['title'] = alpaca_name_map[ticker]
+
+    sec_items = fetch_sec_official_news(tickers, merged_meta)
+    if not sec_items:
+        sec_items = fetch_sec_search_news(tickers, merged_meta)
+    company_items = fetch_company_site_news(tickers, merged_meta)
+
+    combined = sec_items + company_items
+    combined.sort(key=lambda item: _parse_dt(item.get('published_at', '')), reverse=True)
+    return combined
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -427,6 +838,7 @@ def load_day_cache(cache_path: Path) -> list:
 def save_run_to_cache(
     cache_path: Path,
     alpaca_items: list,
+    official_items: list,
     tavily_by_pattern: dict,
     dups_dropped: int,
     feed_name: str = 'master',
@@ -442,9 +854,11 @@ def save_run_to_cache(
         'run_ts':       now_ct.isoformat(),
         'run_label':    now_ct.strftime('%I:%M %p CT').lstrip('0'),
         'alpaca_count': len(alpaca_items),
+        'official_count': len(official_items),
         'tavily_count': sum(len(v) for v in tavily_by_pattern.values()),
         'dups_dropped': dups_dropped,
         'alpaca_items': alpaca_items,
+        'official_items': official_items,
         'tavily':       tavily_by_pattern,
     }
     existing = load_day_cache(cache_path)
@@ -458,8 +872,10 @@ def save_run_to_cache(
 # ─────────────────────────────────────────────────────────────────────────────
 def write_markdown(
     tiingo_items: list,
+    official_items: list,
     tavily_by_pattern: dict,
     tiingo_raw_count: int,
+    official_raw_count: int,
     tavily_raw_count: int,
     dups_dropped: int,
     output_path: Path,
@@ -470,13 +886,16 @@ def write_markdown(
     feed_config = _get_feed_config(feed_name)
     date_str  = now_ct.strftime(f'%A %B {now_ct.day}, %Y')
     time_str  = now_ct.strftime('%I:%M %p CT')
-    total     = len(tiingo_items) + sum(len(v) for v in tavily_by_pattern.values())
+    total     = len(tiingo_items) + len(official_items) + sum(len(v) for v in tavily_by_pattern.values())
 
     lines = []
     lines.append('')
     lines.append('---')
     lines.append(f'## {feed_config["label"].upper()} SCAN RUN — {date_str} {time_str}')
-    lines.append(f'Alpaca News: {len(tiingo_items)} items | Tavily: {sum(len(v) for v in tavily_by_pattern.values())} items | After dedup: {total} total')
+    lines.append(
+        f'Alpaca News: {len(tiingo_items)} items | Official Sources: {len(official_items)} items | '
+        f'Tavily: {sum(len(v) for v in tavily_by_pattern.values())} items | After dedup: {total} total'
+    )
     lines.append('---')
     lines.append('')
 
@@ -494,6 +913,24 @@ def write_markdown(
         lines.append('*(newest first)*')
     else:
         lines.append('*No Alpaca News results — check API keys in shared/config/keys/live.env*')
+
+    lines.append('')
+    lines.append('---')
+    lines.append('')
+    lines.append('### OFFICIAL SOURCES — SEC FILINGS + COMPANY WEBSITES')
+    lines.append('*Direct pulls from sec.gov and company investor-relations/newsroom pages*')
+    lines.append('')
+
+    if official_items:
+        for item in official_items:
+            ct_str = _to_ct(item.get('published_at', '')) if item.get('published_at') else 'N/A'
+            lines.append(f"**{item['ticker']}** | {item['source']} | {ct_str}")
+            lines.append(item['headline'])
+            lines.append(f"🔗 {item['url']}")
+            lines.append('')
+        lines.append('*(official-source items only)*')
+    else:
+        lines.append('*No SEC/company-site items found this run*')
 
     if include_tavily:
         lines.append('')
@@ -556,6 +993,29 @@ def _build_alpaca_section(items: list, feed_name: str) -> str:
       </table>'''
 
 
+def _build_official_section(items: list) -> str:
+        if not items:
+                return '<p class="empty">No SEC/company-site items found this run.</p>'
+
+        rows = []
+        for item in items:
+                ct_str = _to_ct(item.get('published_at', '')) if item.get('published_at') else 'N/A'
+                url = item.get('url', '#')
+                rows.append(f'''
+                    <tr>
+                        <td class="ticker-cell">{_h(item.get("ticker", ""))}</td>
+                        <td><a href="{_h(url)}" target="_blank" rel="noopener">{_h(item.get("headline", ""))}</a></td>
+                        <td class="meta-cell">{_h(item.get("source", ""))}</td>
+                        <td class="meta-cell">{_h(ct_str)}</td>
+                    </tr>''')
+
+        return f'''
+            <table class="news-table">
+                <thead><tr><th>Ticker</th><th>Official Headline / Filing</th><th>Source</th><th>Time (CT)</th></tr></thead>
+                <tbody>{"".join(rows)}</tbody>
+            </table>'''
+
+
 def _build_tavily_section(pattern: str, items: list) -> str:
     label = SECTION_LABELS.get(pattern, pattern)
     color = SECTION_COLORS.get(pattern, '#42a5f5')
@@ -586,9 +1046,11 @@ def _build_run_card(run: dict, idx: int, total_runs: int) -> str:
     label      = run.get('run_label', 'Unknown')
     ts         = run.get('run_ts', '')
     a_count    = run.get('alpaca_count', 0)
+    o_count    = run.get('official_count', 0)
     t_count    = run.get('tavily_count', 0)
     dups       = run.get('dups_dropped', 0)
     alpaca     = run.get('alpaca_items', [])
+    official   = run.get('official_items', [])
     tavily     = run.get('tavily', {})
     has_tavily = any(tavily.get(pattern, []) for pattern in TAVILY_QUERIES)
 
@@ -606,11 +1068,13 @@ def _build_run_card(run: dict, idx: int, total_runs: int) -> str:
       <summary class="run-summary">
         <span class="run-time">{_h(label)}</span>
         {badge}
-        <span class="run-stats">{a_count} ticker items &nbsp;·&nbsp; {t_count} sector items &nbsp;·&nbsp; {dups} dups dropped</span>
+        <span class="run-stats">{a_count} ticker items &nbsp;·&nbsp; {o_count} official items &nbsp;·&nbsp; {t_count} sector items &nbsp;·&nbsp; {dups} dups dropped</span>
       </summary>
       <div class="run-body">
                 <div class="section-head">📌 {_h(feed_config['alpaca_heading'])}</div>
                 {_build_alpaca_section(alpaca, feed_name)}
+            <div class="section-head" style="margin-top:28px;">🏛️ OFFICIAL SOURCES — SEC FILINGS + COMPANY WEBSITES</div>
+            {_build_official_section(official)}
                 {f'<div class="section-head" style="margin-top:28px;">🌐 TAVILY — SECTOR CATALYST SWEEPS</div>{tavily_html}' if has_tavily else ''}
       </div>
     </details>'''
@@ -888,16 +1352,21 @@ def _build_schedule_bar(feed_runs: list, now_ct: datetime, feed_name: str) -> st
 # ─────────────────────────────────────────────────────────────────────────────
 # STEP 5 — TERMINAL CONFIRMATION
 # ─────────────────────────────────────────────────────────────────────────────
-def print_summary(feed_name, tiingo_count, tavily_count, dups_dropped, total, output_path, include_tavily=True):
+def print_summary(feed_name, tiingo_count, official_count, tavily_count, dups_dropped, total, output_path, include_tavily=True):
     today_str = _now_ct().strftime('%Y-%m-%d')
     feed_config = _get_feed_config(feed_name)
     print(f'\nNews_flow updated → News_flow/{today_str}.md + .html')
     print(f'   Feed: {feed_config["label"]}')
-    print(f'   Alpaca: {tiingo_count} | Tavily: {tavily_count} | Deduped: {dups_dropped} | Total: {total}')
+    print(
+        f'   Alpaca: {tiingo_count} | Official: {official_count} | Tavily: {tavily_count} | '
+        f'Deduped: {dups_dropped} | Total: {total}'
+    )
     print(f'   File: {output_path}')
 
     if tiingo_count == 0:
         print('\nWARNING: Alpaca News returned 0 results — check keys in shared/config/keys/live.env')
+    if official_count == 0:
+        print('\nWARNING: No SEC/company-site items found this run')
     if include_tavily and tavily_count == 0:
         print('\nWARNING: Tavily returned 0 results — check API key')
 
@@ -908,7 +1377,7 @@ def print_summary(feed_name, tiingo_count, tavily_count, dups_dropped, total, ou
 def parse_args():
     parser = argparse.ArgumentParser(description='QuantLab watchlist news scanner')
     parser.add_argument('--feed', choices=sorted(FEED_CONFIGS), default='master', help='Ticker universe to scan')
-    parser.add_argument('--skip-tavily', action='store_true', help='Skip Tavily sector sweeps for this run')
+    parser.add_argument('--skip-tavily', action='store_true', help='Skip Tavily sector sweeps for this run (official SEC/company-source pulls still run)')
     return parser.parse_args()
 
 
@@ -926,35 +1395,43 @@ def main():
     print(f'-----------------------------------------------------------\n')
 
     # Step 1: Alpaca ticker news
-    print(f'[1/5] Pulling Alpaca {feed_config["label"].lower()} news...')
+    print(f'[1/6] Pulling Alpaca {feed_config["label"].lower()} news...')
     tiingo_raw = fetch_alpaca_news(args.feed)
     print(f'      Raw: {len(tiingo_raw)} items')
 
-    # Step 2: Tavily
+    # Step 2: Official SEC + company-site sources
+    print('[2/6] Pulling official SEC + company-site sources...')
+    official_raw = fetch_official_source_news(args.feed, tiingo_raw)
+    print(f'      Raw: {len(official_raw)} items')
+
+    # Step 3: Tavily sector sweeps
     if args.skip_tavily:
-        print('[2/5] Skipping Tavily sector sweeps...')
+        print('[3/6] Skipping Tavily sector sweeps...')
         tavily_raw = {k: [] for k in TAVILY_QUERIES}
         tavily_raw_count = 0
         print('      Raw: 0 items across 0 patterns')
     else:
-        print('[2/5] Running Tavily sector sweeps...')
+        print('[3/6] Running Tavily sector sweeps...')
         tavily_raw = fetch_tavily_news()
         tavily_raw_count = sum(len(v) for v in tavily_raw.values())
         print(f'      Raw: {tavily_raw_count} items across {len(TAVILY_QUERIES)} patterns')
 
-    # Step 3: Dedup
-    print('[3/5] Deduplicating...')
+    # Step 4: Dedup
+    print('[4/6] Deduplicating...')
     tiingo_deduped, tiingo_dups = deduplicate_tiingo(tiingo_raw)
+    official_deduped, official_dups = deduplicate(official_raw)
     tavily_deduped, tavily_dups = deduplicate_tavily(tavily_raw)
-    total_dups = tiingo_dups + tavily_dups
+    total_dups = tiingo_dups + official_dups + tavily_dups
     print(f'      Dropped {total_dups} duplicates')
 
-    # Step 4: Write markdown (append) + JSON sidecar + HTML (overwrite)
-    print('[4/5] Writing markdown...')
+    # Step 5: Write markdown (append) + JSON sidecar + HTML (overwrite)
+    print('[5/6] Writing markdown...')
     write_markdown(
         tiingo_items      = tiingo_deduped,
+        official_items    = official_deduped,
         tavily_by_pattern = tavily_deduped,
         tiingo_raw_count  = len(tiingo_raw),
+        official_raw_count = len(official_raw),
         tavily_raw_count  = tavily_raw_count,
         dups_dropped      = total_dups,
         output_path       = output_md,
@@ -962,10 +1439,11 @@ def main():
         include_tavily    = not args.skip_tavily,
     )
 
-    print('[5/5] Saving cache + generating HTML dashboard...')
+    print('[6/6] Saving cache + generating HTML dashboard...')
     all_runs = save_run_to_cache(
         cache_path     = output_cache,
         alpaca_items   = tiingo_deduped,
+        official_items = official_deduped,
         tavily_by_pattern = tavily_deduped,
         dups_dropped   = total_dups,
         feed_name      = args.feed,
@@ -974,10 +1452,11 @@ def main():
     write_html_dashboard(all_runs, output_html)
     print(f'      Dashboard: {output_html}')
 
-    total = len(tiingo_deduped) + sum(len(v) for v in tavily_deduped.values())
+    total = len(tiingo_deduped) + len(official_deduped) + sum(len(v) for v in tavily_deduped.values())
     print_summary(
         feed_name    = args.feed,
         tiingo_count = len(tiingo_deduped),
+        official_count = len(official_deduped),
         tavily_count = sum(len(v) for v in tavily_deduped.values()),
         dups_dropped = total_dups,
         total        = total,

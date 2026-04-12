@@ -68,5 +68,3149 @@
       "BELLWETHER_SIGNALS": [],
       "NON_EARNINGS_RECURRING": []
     }
+  },
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T12:00:22.375383-05:00",
+    "run_label": "12:00 PM CT",
+    "alpaca_count": 7,
+    "official_count": 60,
+    "tavily_count": 0,
+    "dups_dropped": 5,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "official_items": [
+      {
+        "ticker": "AAOI",
+        "headline": "News Releases | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. Common Stock (AAOI) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aaoi/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "AAOI Investor Relations - Applied Optoelectronics Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aaoi/investor-relations"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "ALAB Press Releases Astera Labs",
+        "source": "marketchameleon.com",
+        "published_at": "",
+        "url": "https://marketchameleon.com/Overview/ALAB/PressReleases/"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Astera Labs, Inc. Common Stock (ALAB) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/alab/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology, Inc. Common Stock (AMKR) Press Releases",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/amkr/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology (AMKR) Investor presentation Summary | Quartr",
+        "source": "quartr.com",
+        "published_at": "",
+        "url": "https://quartr.com/events/amkor-technology-inc-amkr-investor-presentation_3eabsJ4y"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Events and Presentations - Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/investor-calendar"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Press Releases | Besi",
+        "source": "besi.com",
+        "published_at": "",
+        "url": "https://www.besi.com/investor-relations/press-releases/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Pressreleases | BE Group",
+        "source": "begroup.com",
+        "published_at": "",
+        "url": "http://www.begroup.com/investors/pressreleases"
+      },
+      {
+        "ticker": "BE",
+        "headline": "News Releases - Be Biopharma",
+        "source": "be.bio",
+        "published_at": "",
+        "url": "https://be.bio/investors-media/news-releases/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "News Releases - Investor Relations | Belite Bio, Inc.",
+        "source": "investors.belitebio.com",
+        "published_at": "",
+        "url": "https://investors.belitebio.com/news/news-releases"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Investors Archive ﻿﻿﻿﻿﻿|﻿﻿﻿﻿﻿ ﻿﻿Be - Be Shaping the Future",
+        "source": "be-tse.it",
+        "published_at": "",
+        "url": "https://www.be-tse.it/investor/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "News & Press Releases | Cars Commerce Investor Relations",
+        "source": "investor.cars.com",
+        "published_at": "",
+        "url": "https://investor.cars.com/news?l=100"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Investor Relations | CarGurus",
+        "source": "investors.cargurus.com",
+        "published_at": "",
+        "url": "https://investors.cargurus.com/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "INVESTOR RELATIONS | JLR Corporate Website",
+        "source": "jlr.com",
+        "published_at": "",
+        "url": "https://www.jlr.com/investor-relations"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave, Inc. Class A Common Stock (CRWV) Press Releases",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/crwv/press-releases"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "Events & Presentations - CoreWeave - Investor Relations",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/events-and-presentations/default.aspx"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Inc. Class C Capital Stock (GOOG) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/goog/press-releases"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Investor Relations - Investors - News",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/default.aspx"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Investors - Earnings - Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/earnings/"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Press Releases :: Intel Corporation (INTC)",
+        "source": "intc.com",
+        "published_at": "",
+        "url": "https://www.intc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Intel Corporation Common Stock (INTC) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/intc/press-releases"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "INTC Investor Relations - Intel Corp - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/intc/investor-relations"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/home/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta - Press Releases",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-news/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Financials - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/financials/"
+      },
+      {
+        "ticker": "META",
+        "headline": "Search Results - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/search-results/default.aspx?SearchTerm=&PageNumber=218"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta - Investor Events",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-events/"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group N.V. Class A Ordinary Shares (NBIS) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/nbis/press-releases"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group announces proposed private offering of $3.75 billion of convertible senior notes | Corporate - EQS News",
+        "source": "eqs-news.com",
+        "published_at": "",
+        "url": "https://www.eqs-news.com/news/corporate/nebius-group-announces-proposed-private-offering-of-3-75-billion-of-convertible-senior-notes/88df8a8f-d983-45ab-88a9-de88145689aa_en"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Investor Hub - Nebius",
+        "source": "nebius.com",
+        "published_at": "",
+        "url": "https://nebius.com/investor-hub"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "MAIN < Management Information < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/view/investor/investor-relations.do"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "Earnings Release < IR Library < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/investor/lib/announce.do"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. Common Stock (TTMI) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/ttmi/press-releases"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTMI Investor Relations - TTM Technologies Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/ttmi/investor-relations"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Press Releases :: TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "AAPL Investor Relations - Apple Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aapl/investor-relations"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Apple (AAPL) Press Releases - Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aapl/press-releases"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Stockwatch",
+        "source": "stockwatch.com",
+        "published_at": "",
+        "url": "https://www.stockwatch.com/News/Item/U-CN23320-U!AIIO-20260401/U/AIIO"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "AIIO Investor Relations - Robo.ai Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aiio/investor-relations"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Robo.ai Inc. Class B Ordinary Shares (AIIO) Press Releases - Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aiio/press-releases"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "AMZN Investor Relations - Amazon.com Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/amzn/investor-relations"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - News release",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/news-release/default.aspx"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - Overview",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/overview/default.aspx"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "APLD Press Releases Applied Digital",
+        "source": "marketchameleon.com",
+        "published_at": "",
+        "url": "https://marketchameleon.com/Overview/APLD/PressReleases/"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation Common Stock (APLD) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/apld/press-releases"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Press Releases :: Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/news-events/press-releases"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "BABA Investor Relations - Alibaba Group Holding Ltd - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nyse/baba/investor-relations"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Group Holding Limited American Depositary Shares each representing eight Ordinary share (BABA) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/baba/press-releases"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "FLY Investor Relations - Firefly Aerospace Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/fly/investor-relations"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Investor Relations - Firefly Aerospace",
+        "source": "investors.fireflyspace.com",
+        "published_at": "",
+        "url": "https://investors.fireflyspace.com/investor-relations"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Inc. Common Stock (FLY) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/fly/press-releases"
+      },
+      {
+        "ticker": "GM",
+        "headline": "GM releases 2025 financial results and 2026 guidance; Board declares dividend at 20% higher quarterly rate, and approves new $6.0 billion share repurchase authorization | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-releases/news-release-details/gm-releases-2025-financial-results-and-2026-guidance-board/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "News - GM Investor Relations - General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-events/news"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Investor Relations | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Quarterly Results | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/shareholders/quarterly-results"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
+  },
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T12:01:51.869487-05:00",
+    "run_label": "12:01 PM CT",
+    "alpaca_count": 7,
+    "official_count": 108,
+    "tavily_count": 0,
+    "dups_dropped": 48,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "official_items": [
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. 10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000168316826001184/aaoi_8k.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "securities and exchange commission - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000110465924131385/tm2431223d10_8k.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "EDGAR Filing Documents for 0001104659-26-014691",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000110465926014691/0001104659-26-014691-index.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "aaoi20251231_10k.htm - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000143774926005875/aaoi20251231_10k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "EDGAR Filing Documents for 0001736297-25-000136 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000136/0001736297-25-000136-index.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20251231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629726000010/alab-20251231.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Document - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000007/amkr123125erex-991.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "amkr-20241231",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712725000030/amkr-20241231.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "amkr-20250930",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712725000190/amkr-20250930.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225021955/form8-k.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "SEC.gov | Forms Index",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/submit-filings/forms-index"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Exchange Act Form 8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/rules-regulations/staff-guidance/compliance-disclosure-interpretations/exchange-act-form-8-k"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Investor Bulletin:  How to Read an 8-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/investor/pubs/readan8k.pdf"
+      },
+      {
+        "ticker": "BE",
+        "headline": "[PDF] Form 8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/files/form8-k.pdf"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "EDGAR Entity Landing Page - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://sec.gov/edgar/browse/?CIK=1683606"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "8-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1683606/000119312526073457/cars-20260226.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "EDGAR Filing Documents for 0001769628-26-000094",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000094/0001769628-26-000094-index.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "EDGAR Filing Documents for 0001193125-25-165924",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000119312525165924/0001193125-25-165924-index.html"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "crwv-20251231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "goog-20250630 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000062/goog-20250630.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20260408 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000072/intc-20260408.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20251227 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20241228 - Investor Relations :: Intel Corporation (INTC)",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086325000009/intc-20241228.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20221231",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086323000006/intc-20221231.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "meta-20260128 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003832/meta-20260128.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "EDGAR Filing Documents for 0001326801-25-000054",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680125000054/0001326801-25-000054-index.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta Reports Fourth Quarter and Full Year 2025 Results - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003832/meta-12312025xexhibit991.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "FORM 6-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925088312/tm2525580d1_6k.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "NEBIUS GROUP N.V._December 31, 2024 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000155837025005991/nbis-20241231x20f.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Amended and Restated Equity Incentive Plan - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000155837025005991/nbis-20241231xex2d2.htm"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "0001582616-14-000020.txt - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1582616/0001582616-14-000020.txt"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "SKM Press Release - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/52988/000005298813000151/skmpressrelease.htm"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "0001193125-14-053399.txt - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1103019/0001193125-14-053399.txt"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312525260708/ttmi-20250929.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "ttmi-10k_20220103.htm",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000156459022008035/ttmi-10k_20220103.htm"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Apple Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036125044561/ef20060722_8k.htm"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "aapl-20240928 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Untitled",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025098377/ea0261012-424b3_robo.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com Form 8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000089102003001911/v91628e8vk.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "amzn-20260205 - Securities Exchange Act of 1934 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000002/amzn-20260205.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "apld-20260408",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000029/apld-20260408.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "apld-20251022",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000076/apld-20251022.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "8-K - Applied Digital Corporation",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225017609/form8-k.htm"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Current Report - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1975940/000121390025094777/ea0259824-8k_fly.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "gm-20201231",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785821000037/gm-20201231.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "gm-20241231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785825000032/gm-20241231.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "gm-20251007 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785825000136/gm-20251007.htm"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204420000008/goog10-k2019.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "News Releases | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. Common Stock (AAOI) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aaoi/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "AAOI Investor Relations - Applied Optoelectronics Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aaoi/investor-relations"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "ALAB Press Releases Astera Labs",
+        "source": "marketchameleon.com",
+        "published_at": "",
+        "url": "https://marketchameleon.com/Overview/ALAB/PressReleases/"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Astera Labs, Inc. Common Stock (ALAB) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/alab/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology, Inc. Common Stock (AMKR) Press Releases",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/amkr/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology (AMKR) Investor presentation Summary | Quartr",
+        "source": "quartr.com",
+        "published_at": "",
+        "url": "https://quartr.com/events/amkor-technology-inc-amkr-investor-presentation_3eabsJ4y"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Events and Presentations - Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/investor-calendar"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Press Releases | Besi",
+        "source": "besi.com",
+        "published_at": "",
+        "url": "https://www.besi.com/investor-relations/press-releases/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Pressreleases | BE Group",
+        "source": "begroup.com",
+        "published_at": "",
+        "url": "http://www.begroup.com/investors/pressreleases"
+      },
+      {
+        "ticker": "BE",
+        "headline": "News Releases - Be Biopharma",
+        "source": "be.bio",
+        "published_at": "",
+        "url": "https://be.bio/investors-media/news-releases/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "News Releases - Investor Relations | Belite Bio, Inc.",
+        "source": "investors.belitebio.com",
+        "published_at": "",
+        "url": "https://investors.belitebio.com/news/news-releases"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Investors Archive ﻿﻿﻿﻿﻿|﻿﻿﻿﻿﻿ ﻿﻿Be - Be Shaping the Future",
+        "source": "be-tse.it",
+        "published_at": "",
+        "url": "https://www.be-tse.it/investor/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "News & Press Releases | Cars Commerce Investor Relations",
+        "source": "investor.cars.com",
+        "published_at": "",
+        "url": "https://investor.cars.com/news?l=100"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Investor Relations | CarGurus",
+        "source": "investors.cargurus.com",
+        "published_at": "",
+        "url": "https://investors.cargurus.com/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "INVESTOR RELATIONS | JLR Corporate Website",
+        "source": "jlr.com",
+        "published_at": "",
+        "url": "https://www.jlr.com/investor-relations"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave, Inc. Class A Common Stock (CRWV) Press Releases",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/crwv/press-releases"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "Events & Presentations - CoreWeave - Investor Relations",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/events-and-presentations/default.aspx"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Inc. Class C Capital Stock (GOOG) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/goog/press-releases"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Investor Relations - Investors - News",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/default.aspx"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Investors - Earnings - Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/earnings/"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Press Releases :: Intel Corporation (INTC)",
+        "source": "intc.com",
+        "published_at": "",
+        "url": "https://www.intc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Intel Corporation Common Stock (INTC) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/intc/press-releases"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "INTC Investor Relations - Intel Corp - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/intc/investor-relations"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/home/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta - Press Releases",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-news/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Financials - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/financials/"
+      },
+      {
+        "ticker": "META",
+        "headline": "Search Results - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/search-results/default.aspx?SearchTerm=&PageNumber=218"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta - Investor Events",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-events/"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group N.V. Class A Ordinary Shares (NBIS) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/nbis/press-releases"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group announces proposed private offering of $3.75 billion of convertible senior notes | Corporate - EQS News",
+        "source": "eqs-news.com",
+        "published_at": "",
+        "url": "https://www.eqs-news.com/news/corporate/nebius-group-announces-proposed-private-offering-of-3-75-billion-of-convertible-senior-notes/88df8a8f-d983-45ab-88a9-de88145689aa_en"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Investor Hub - Nebius",
+        "source": "nebius.com",
+        "published_at": "",
+        "url": "https://nebius.com/investor-hub"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "MAIN < Management Information < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/view/investor/investor-relations.do"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "Earnings Release < IR Library < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/investor/lib/announce.do"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. Common Stock (TTMI) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/ttmi/press-releases"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTMI Investor Relations - TTM Technologies Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/ttmi/investor-relations"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Press Releases :: TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "AAPL Investor Relations - Apple Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aapl/investor-relations"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Apple (AAPL) Press Releases - Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aapl/press-releases"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Stockwatch",
+        "source": "stockwatch.com",
+        "published_at": "",
+        "url": "https://www.stockwatch.com/News/Item/U-CN23320-U!AIIO-20260401/U/AIIO"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "AIIO Investor Relations - Robo.ai Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/aiio/investor-relations"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Robo.ai Inc. Class B Ordinary Shares (AIIO) Press Releases - Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/aiio/press-releases"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "AMZN Investor Relations - Amazon.com Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/amzn/investor-relations"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - News release",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/news-release/default.aspx"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - Overview",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/overview/default.aspx"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "APLD Press Releases Applied Digital",
+        "source": "marketchameleon.com",
+        "published_at": "",
+        "url": "https://marketchameleon.com/Overview/APLD/PressReleases/"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation Common Stock (APLD) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/apld/press-releases"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Press Releases :: Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/news-events/press-releases"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "BABA Investor Relations - Alibaba Group Holding Ltd - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nyse/baba/investor-relations"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Group Holding Limited American Depositary Shares each representing eight Ordinary share (BABA) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/baba/press-releases"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "FLY Investor Relations - Firefly Aerospace Inc - Alpha Spread",
+        "source": "alphaspread.com",
+        "published_at": "",
+        "url": "https://www.alphaspread.com/security/nasdaq/fly/investor-relations"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Investor Relations - Firefly Aerospace",
+        "source": "investors.fireflyspace.com",
+        "published_at": "",
+        "url": "https://investors.fireflyspace.com/investor-relations"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Inc. Common Stock (FLY) Press Releases | Nasdaq",
+        "source": "nasdaq.com",
+        "published_at": "",
+        "url": "https://www.nasdaq.com/market-activity/stocks/fly/press-releases"
+      },
+      {
+        "ticker": "GM",
+        "headline": "GM releases 2025 financial results and 2026 guidance; Board declares dividend at 20% higher quarterly rate, and approves new $6.0 billion share repurchase authorization | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-releases/news-release-details/gm-releases-2025-financial-results-and-2026-guidance-board/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "News - GM Investor Relations - General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-events/news"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Investor Relations | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Quarterly Results | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/shareholders/quarterly-results"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
+  },
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T12:04:10.853105-05:00",
+    "run_label": "12:04 PM CT",
+    "alpaca_count": 7,
+    "official_count": 83,
+    "tavily_count": 0,
+    "dups_dropped": 48,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "official_items": [
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. 10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000168316826001522/aaoi_8k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Astera Labs, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000110465926012606/tm265461d1_8k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "SEC FORM 4",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000199816326000009/xslF345X06/wk-form4_1775255505.xml"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Leslie Green - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000145/q325exhibit991.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20251231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629726000010/alab-20251231.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "united states securities and exchange commission - SEC FORM 4",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "http://www.sec.gov/Archives/edgar/data/1736297/000199805326000006/xslF345X03/wk-form4_1773961115.xml"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "AMKR 6.30.15 10Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001047127/000104712715000035/amkr6301510q.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712719000007/amkr12311810k.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "amkr-20250908 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712725000179/amkr-20250908.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Document - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712723000004/amkr123122erex-991.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "EDGAR Filing Documents for 0001628280-26-005798 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000162828026005798/0001628280-26-005798-index.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "bloom energy corporation - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000110465925074738/tm2522712d1_8k.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "EDGAR Filing Documents for 0001950047-25-007223 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000195004725007223/0001950047-25-007223-index.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "FORM 8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000095014226000556/eh260743682_8k.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "car-20250210 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000072361225000002/car-20250210.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Group, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000095014223002963/eh230429453_8k.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "crwv-20250909 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962825000047/crwv-20250909.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "crwv-20260331 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000154/crwv-20260331.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000095010325014006/dp236631_8k.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000119312526148912/d136714d8k.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "goog-20250902 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000067/goog-20250902.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204420000008/goog10-k2019.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20221231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086323000006/intc-20221231.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20260330",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000069/intc-20260330.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "meta-20260128 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003832/meta-20260128.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "meta-20230314",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000035/meta-20230314.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "99.1 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465924110042/tm2426559d1_ex99-1.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Untitled",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925089208/tm2525503d1_fwp.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "tm2530771-1_424b5 - none - 5.7067147s - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925110025/tm2530771-1_424b5.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312525260708/ttmi-20250929.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "STATEMENT OF CHANGES IN BENEFICIAL OWNERSHIP - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312526053411/xslF345X05/ownership.xml"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Apple Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036125044561/ef20060722_8k.htm"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "aapl-20260129 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000005/aapl-20260129.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Robo.ai Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025092323/ea0252214-06.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "securities and exchange commission - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025080142/ea0254407-6k_roboai.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000089102003000462/v87444sc13gza.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Exhibit - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872420000004/amzn-20191231xex46.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "amzn-20230913 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000014/amzn-20230913.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "8-K - Applied Digital Corporation",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315226005788/form8-k.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "applied digital corporation - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225013210/form8-k.htm"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Inc. - 10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1860160/000119312525277941/fly-20250930.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "8-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000119312526119684/d114837d8k.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "GM Form 8-K Director Nomination - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785815000042/gmform8-kdirectornomination.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "general motors company - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785820000028/gm201910k.htm"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "ALPHABET INC. - DEF14A - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000130817925000511/goog012701-def14a.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "News Releases | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Investor Relations | Applied Optoelectronics, Inc. - AOI",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Press Releases - Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Bloom Energy - Bloom Energy to Announce Fourth Quarter 2025 Financial Results on February 5, 2026",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-to-Announce-Fourth-Quarter-2025-Financial-Results-on-February-5-2026/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Bloom Energy - Bloom Energy Reports Fourth Quarter and Full Year 2025 Financial Results with Record Full Year Revenues",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-with-Record-Full-Year-Revenues/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Press Releases - Bloom Energy - Investors",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Contact Investor Relations - Bloom Energy - Investor Resources",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/investor-resources/contact-investor-relations/default.aspx"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Press Releases - Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/press-releases?page=3"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "News - CoreWeave - Investor Relations",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/news/default.aspx"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave - Financials - Quarterly Results",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/financials/quarterly-results/default.aspx"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Press Releases - Investor Relations :: Intel Corporation (INTC)",
+        "source": "intc.com",
+        "published_at": "",
+        "url": "https://www.intc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/home/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Financials - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/financials/"
+      },
+      {
+        "ticker": "META",
+        "headline": "Press Releases - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-news/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "META - Meta Platforms, Inc. | News - OTC Markets",
+        "source": "otcmarkets.com",
+        "published_at": "",
+        "url": "https://www.otcmarkets.com/stock/META/news/Meta-to-Announce-Fourth-Quarter-and-Full-Year-2025-Results?e&id=3386965"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group announces proposed public offering of Class A ordinary shares",
+        "source": "nebius.com",
+        "published_at": "",
+        "url": "https://nebius.com/newsroom/nebius-group-announces-proposed-public-offering-of-class-a-ordinary-shares"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "Earnings Release < IR Library < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/investor/lib/announce.do"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "SK Telecom Shareholders Approve 2025 Results, Capital Changes ...",
+        "source": "theglobeandmail.com",
+        "published_at": "",
+        "url": "https://www.theglobeandmail.com/investing/markets/stocks/SKM/pressreleases/1004954/sk-telecom-shareholders-approve-2025-results-capital-changes-and-new-board-line-up/"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. Board of Directors Approves New $100 million Share Repurchase Program :: TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases/detail/380/ttm-technologies-inc-board-of-directors-approves-new-100"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Press Releases - TTM Technologies, Inc.",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "SEC Filings - Apple Investor Relations",
+        "source": "investor.apple.com",
+        "published_at": "",
+        "url": "https://investor.apple.com/sec-filings/default.aspx"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "AIIO - Robo.ai Inc. | News - OTC Markets",
+        "source": "otcmarkets.com",
+        "published_at": "",
+        "url": "https://www.otcmarkets.com/stock/AIIO/news/Roboai-Subsidiary-Secures-Initial-Order-for-Embodied-AI-Robot-Data-Collection?e&id=3404253"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "News release - Amazon.com, Inc.",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/news-release/default.aspx"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - Overview",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/overview/default.aspx"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Presentations :: Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/news-events/presentations"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Reports March 2026 Share Issuances and Confirms Hong ...",
+        "source": "theglobeandmail.com",
+        "published_at": "",
+        "url": "https://www.theglobeandmail.com/investing/markets/stocks/BABA/pressreleases/1229796/alibaba-reports-march-2026-share-issuances-and-confirms-hong-kong-public-float-compliance/"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "News - Investor Relations - Firefly Aerospace",
+        "source": "investors.fireflyspace.com",
+        "published_at": "",
+        "url": "https://investors.fireflyspace.com/news"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Announces Pricing of Upsized Initial Public Offering",
+        "source": "fireflyspace.com",
+        "published_at": "",
+        "url": "https://fireflyspace.com/news/firefly-aerospace-announces-pricing-of-upsized-initial-public-offering/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Investor Relations | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "[PDF] Strong 2025 drives momentum into 2026 - GM Investor Relations",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/static-files/b27e351f-4214-4f7b-ab74-d7a80a9f6f3e"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Quarterly Results - GM Investor Relations - General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/shareholders/quarterly-results"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Earnings Releases | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-events/earnings-releases"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Investors - News - Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/default.aspx"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
+  },
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T12:06:14.005583-05:00",
+    "run_label": "12:06 PM CT",
+    "alpaca_count": 7,
+    "official_count": 84,
+    "tavily_count": 0,
+    "dups_dropped": 54,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "official_items": [
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. 10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000168316826001522/aaoi_8k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Astera Labs, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000110465926012606/tm265461d1_8k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "SEC FORM 4",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000199816326000009/xslF345X06/wk-form4_1775255505.xml"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Leslie Green - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000145/q325exhibit991.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20251231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629726000010/alab-20251231.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "united states securities and exchange commission - SEC FORM 4",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "http://www.sec.gov/Archives/edgar/data/1736297/000199805326000006/xslF345X03/wk-form4_1773961115.xml"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712719000007/amkr12311810k.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "amkr-20231231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712724000019/amkr-20231231.htm"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "amkr-20250908 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1047127/000104712725000179/amkr-20250908.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "EDGAR Filing Documents for 0001628280-26-005798 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000162828026005798/0001628280-26-005798-index.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "bloom energy corporation - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000110465925074738/tm2522712d1_8k.htm"
+      },
+      {
+        "ticker": "BE",
+        "headline": "EDGAR Filing Documents for 0001950047-25-007223 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1664703/000195004725007223/0001950047-25-007223-index.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "FORM 8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000095014226000556/eh260743682_8k.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "car-20250210 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000072361225000002/car-20250210.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Group, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000095014223002963/eh230429453_8k.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "crwv-20250909 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962825000047/crwv-20250909.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "crwv-20260331 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000154/crwv-20260331.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000095010325014006/dp236631_8k.htm"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "8-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000119312526148912/d136714d8k.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "goog-20250902 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204425000067/goog-20250902.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204420000008/goog10-k2019.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20221231 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086323000006/intc-20221231.htm"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "intc-20260330",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000069/intc-20260330.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "meta-20260128 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003832/meta-20260128.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "meta-20230314",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000035/meta-20230314.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "99.1 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465924110042/tm2426559d1_ex99-1.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Untitled",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925089208/tm2525503d1_fwp.htm"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "tm2530771-1_424b5 - none - 5.7067147s - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925110025/tm2530771-1_424b5.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312525260708/ttmi-20250929.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "STATEMENT OF CHANGES IN BENEFICIAL OWNERSHIP - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312526053411/xslF345X05/ownership.xml"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Apple Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036125044561/ef20060722_8k.htm"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "aapl-20260129 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000005/aapl-20260129.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Robo.ai Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025092323/ea0252214-06.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "securities and exchange commission - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025080142/ea0254407-6k_roboai.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000089102003000462/v87444sc13gza.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Exhibit - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872420000004/amzn-20191231xex46.htm"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "amzn-20230913 - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000014/amzn-20230913.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "8-K - Applied Digital Corporation",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315226005788/form8-k.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "applied digital corporation - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225013210/form8-k.htm"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Group Holding Limited - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1577552/000110465923020248/tm236514d1_sc13ga.htm"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Inc. - 10-Q - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1860160/000119312525277941/fly-20250930.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "GM Form 8-K Director Nomination - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785815000042/gmform8-kdirectornomination.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "general motors company - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785820000028/gm201910k.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Annual Report on Form 10-K for the year ended December 31, 2018",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785819000033/gm201810k.htm"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "ALPHABET INC. - DEF14A - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000130817925000511/goog012701-def14a.htm"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "8-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525139948/d949049d8k.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "News Releases | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Investor Relations | Applied Optoelectronics, Inc. - AOI",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Press Releases - Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Bloom Energy - Bloom Energy to Announce Fourth Quarter 2025 Financial Results on February 5, 2026",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-to-Announce-Fourth-Quarter-2025-Financial-Results-on-February-5-2026/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Bloom Energy - Bloom Energy Reports Fourth Quarter and Full Year 2025 Financial Results with Record Full Year Revenues",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-with-Record-Full-Year-Revenues/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Press Releases - Bloom Energy - Investors",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Contact Investor Relations - Bloom Energy - Investor Resources",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/investor-resources/contact-investor-relations/default.aspx"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Press Releases - Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/press-releases?page=3"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "News - CoreWeave - Investor Relations",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/news/default.aspx"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave - Financials - Quarterly Results",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/financials/quarterly-results/default.aspx"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Press Releases - Investor Relations :: Intel Corporation (INTC)",
+        "source": "intc.com",
+        "published_at": "",
+        "url": "https://www.intc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/home/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "Financials - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/financials/"
+      },
+      {
+        "ticker": "META",
+        "headline": "Press Releases - Meta Investor Relations",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-news/default.aspx"
+      },
+      {
+        "ticker": "META",
+        "headline": "META - Meta Platforms, Inc. | News - OTC Markets",
+        "source": "otcmarkets.com",
+        "published_at": "",
+        "url": "https://www.otcmarkets.com/stock/META/news/Meta-to-Announce-Fourth-Quarter-and-Full-Year-2025-Results?e&id=3386965"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Nebius Group announces proposed public offering of Class A ordinary shares",
+        "source": "nebius.com",
+        "published_at": "",
+        "url": "https://nebius.com/newsroom/nebius-group-announces-proposed-public-offering-of-class-a-ordinary-shares"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "Earnings Release < IR Library < Investor Relations < HOME",
+        "source": "sktelecom.com",
+        "published_at": "",
+        "url": "https://www.sktelecom.com/en/investor/lib/announce.do"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "SK Telecom Shareholders Approve 2025 Results, Capital Changes ...",
+        "source": "theglobeandmail.com",
+        "published_at": "",
+        "url": "https://www.theglobeandmail.com/investing/markets/stocks/SKM/pressreleases/1004954/sk-telecom-shareholders-approve-2025-results-capital-changes-and-new-board-line-up/"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. Board of Directors Approves New $100 million Share Repurchase Program :: TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases/detail/380/ttm-technologies-inc-board-of-directors-approves-new-100"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Press Releases - TTM Technologies, Inc.",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "SEC Filings - Apple Investor Relations",
+        "source": "investor.apple.com",
+        "published_at": "",
+        "url": "https://investor.apple.com/sec-filings/default.aspx"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "AIIO - Robo.ai Inc. | News - OTC Markets",
+        "source": "otcmarkets.com",
+        "published_at": "",
+        "url": "https://www.otcmarkets.com/stock/AIIO/news/Roboai-Subsidiary-Secures-Initial-Order-for-Embodied-AI-Robot-Data-Collection?e&id=3404253"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "News release - Amazon.com, Inc.",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/news-release/default.aspx"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "Amazon.com, Inc. - Overview",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/overview/default.aspx"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Presentations :: Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/news-events/presentations"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Reports March 2026 Share Issuances and Confirms Hong ...",
+        "source": "theglobeandmail.com",
+        "published_at": "",
+        "url": "https://www.theglobeandmail.com/investing/markets/stocks/BABA/pressreleases/1229796/alibaba-reports-march-2026-share-issuances-and-confirms-hong-kong-public-float-compliance/"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "News - Investor Relations - Firefly Aerospace",
+        "source": "investors.fireflyspace.com",
+        "published_at": "",
+        "url": "https://investors.fireflyspace.com/news"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "Firefly Aerospace Announces Pricing of Upsized Initial Public Offering",
+        "source": "fireflyspace.com",
+        "published_at": "",
+        "url": "https://fireflyspace.com/news/firefly-aerospace-announces-pricing-of-upsized-initial-public-offering/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Investor Relations | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/"
+      },
+      {
+        "ticker": "GM",
+        "headline": "[PDF] Strong 2025 drives momentum into 2026 - GM Investor Relations",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/static-files/b27e351f-4214-4f7b-ab74-d7a80a9f6f3e"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Quarterly Results - GM Investor Relations - General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/shareholders/quarterly-results"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Earnings Releases | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-events/earnings-releases"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Investors - News - Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/default.aspx"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
+  },
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T12:08:47.027440-05:00",
+    "run_label": "12:08 PM CT",
+    "alpaca_count": 7,
+    "official_count": 62,
+    "tavily_count": 0,
+    "dups_dropped": 36,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "official_items": [
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics, Inc. 10-Q",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1158114/000168316825005755/aaoi_8k.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20251104",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000145/alab-20251104.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20250805",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000097/alab-20250805.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20250210",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629725000001/alab-20250210.htm"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "alab-20240507",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1736297/000173629724000004/alab-20240507.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Car Rental",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1391303/000072361207000038/fwp.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Form 10-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/0000723612/000119312509039260/d10k.htm"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "10-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/723612/000072361216000244/car-20151231x10k.htm"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "EDGAR Entity Landing Page - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://sec.gov/edgar/browse/?CIK=1530950"
+      },
+      {
+        "ticker": "META",
+        "headline": "8-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1431959/000119312521203407/d189140d8k.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "10-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1431959/000095017023009314/mmat-20221231.htm"
+      },
+      {
+        "ticker": "META",
+        "headline": "Form 10-K for The Wet Seal, Inc. (FYE: 01/29/05)",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/863456/000119312505090552/d10k.htm"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "Form 6-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1015650/000119312526101145/d25304d6k.htm"
+      },
+      {
+        "ticker": "SKM",
+        "headline": "SEC FORM 3",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1015650/000095017024139275/xslF345X02/ownership.xml"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "EDGAR Filing Documents for 0001193125-26-051976",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000119312526051976/0001193125-26-051976-index.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "EDGAR Filing Documents for 0000950170-25-024839",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1116942/000095017025024839/0000950170-25-024839-index.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "FORM 10-K - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1640266/000155837021001865/vygr-20201231x10k.htm"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Prepared by R.R. Donnelley Financial -- Form 10-K",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1133421/000089843002000975/d10k405.htm"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "0001145549-23-046557.txt - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1395397/000114554923046557/0001145549-23-046557.txt"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "securities and exchange commission - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1932737/000121390025080142/ea0254407-6k_roboai.htm"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "10-K/A",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1819175/000119312522057837/d288911d10ka.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "apld-20250531",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "apld-20230831",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000189884423000006/apld-20230831.htm"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "SYSCOMM INTERNATIONAL CORPORATION - Form 10-Q as filed on February 14, 2002",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1037417/000095013802000048/form10q_021402.htm"
+      },
+      {
+        "ticker": "BABA",
+        "headline": "Alibaba Group Holding Limited - SEC.gov",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1577552/000110465921024028/a21-6259_1sc13ga.htm"
+      },
+      {
+        "ticker": "GM",
+        "headline": "GM Form 8-K/A 01132014 EXEC COMP",
+        "source": "sec.gov",
+        "published_at": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785814000034/gmform8-ka01132014execcomp.htm"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Applied Optoelectronics to Host Investor Session at OFC  | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-releases/news-release-details/applied-optoelectronics-host-investor-session-ofc-4"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "News Releases | Applied Optoelectronics, Inc.",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/news-events/press-releases?page=2"
+      },
+      {
+        "ticker": "AAOI",
+        "headline": "Investor Relations | Applied Optoelectronics, Inc. - AOI",
+        "source": "investors.ao-inc.com",
+        "published_at": "",
+        "url": "https://investors.ao-inc.com/"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Astera Labs Announces Conference Call to Review First Quarter 2026 Financial Results | Markets Insider",
+        "source": "markets.businessinsider.com",
+        "published_at": "",
+        "url": "https://markets.businessinsider.com/news/stocks/astera-labs-announces-conference-call-to-review-first-quarter-2026-financial-results-1035992301"
+      },
+      {
+        "ticker": "ALAB",
+        "headline": "Investors Purchase High Volume of Astera Labs Call Options (NASDAQ:ALAB)",
+        "source": "marketbeat.com",
+        "published_at": "",
+        "url": "https://www.marketbeat.com/instant-alerts/investors-purchase-high-volume-of-astera-labs-call-options-nasdaqalab-2026-04-10/"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Press Releases - Investor Relations | Amkor Technology",
+        "source": "ir.amkor.com",
+        "published_at": "",
+        "url": "https://ir.amkor.com/press-releases"
+      },
+      {
+        "ticker": "AMKR",
+        "headline": "Amkor Technology, Inc.: Official Announcements - Stock Market News",
+        "source": "marketscreener.com",
+        "published_at": "",
+        "url": "https://www.marketscreener.com/quote/stock/AMKOR-TECHNOLOGY-INC-8349/news-press-releases/"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Press Releases - Bloom Energy - Investors",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Bloom Energy Reports Fourth Quarter and Full Year 2025 Financial ...",
+        "source": "investor.bloomenergy.com",
+        "published_at": "",
+        "url": "https://investor.bloomenergy.com/press-releases/press-release-details/2026/Bloom-Energy-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-with-Record-Full-Year-Revenues/default.aspx"
+      },
+      {
+        "ticker": "BE",
+        "headline": "Newsroom | Press Releases, Articles, and Events - Bloom Energy",
+        "source": "bloomenergy.com",
+        "published_at": "",
+        "url": "https://www.bloomenergy.com/newsroom/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Press Releases - Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/press-releases"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Avis Budget Group: Investor Relations",
+        "source": "ir.avisbudgetgroup.com",
+        "published_at": "",
+        "url": "https://ir.avisbudgetgroup.com/"
+      },
+      {
+        "ticker": "CAR",
+        "headline": "Press Release - Avis Budget Group",
+        "source": "wordpress.uat.avisbudget.com",
+        "published_at": "",
+        "url": "https://wordpress.uat.avisbudget.com/press-release/"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave Reports Strong Fourth Quarter and Fiscal Year ...",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Fourth-Quarter-and-Fiscal-Year-2025-Results/"
+      },
+      {
+        "ticker": "CRWV",
+        "headline": "CoreWeave - Investor Relations",
+        "source": "investors.coreweave.com",
+        "published_at": "",
+        "url": "https://investors.coreweave.com/overview/default.aspx"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Investor Relations",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/"
+      },
+      {
+        "ticker": "GOOG",
+        "headline": "Alphabet Announces Date of First Quarter 2026 Financial Results ...",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Date-of-First-Quarter-2026-Financial-Results-Conference-Call-2026-18KYkWPpu7/default.aspx"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Intel to Report First-Quarter 2026 Financial Results | Press Releases | kdhnews.com",
+        "source": "kdhnews.com",
+        "published_at": "",
+        "url": "https://kdhnews.com/online_features/press_releases/intel-to-report-first-quarter-2026-financial-results/article_07970ed9-c75f-5f8a-b251-7d933a89e04e.html"
+      },
+      {
+        "ticker": "INTC",
+        "headline": "Press Releases - Investor Relations :: Intel Corporation (INTC)",
+        "source": "intc.com",
+        "published_at": "",
+        "url": "https://www.intc.com/news-events/press-releases"
+      },
+      {
+        "ticker": "META",
+        "headline": "Press Releases about Meta Platforms, Inc. - Class A Common Stock (Nasdaq:META) | FinancialContent",
+        "source": "financialcontent.com",
+        "published_at": "",
+        "url": "https://www.financialcontent.com/quote/NQ:META/pressReleases"
+      },
+      {
+        "ticker": "META",
+        "headline": "Meta - Meta to Announce Fourth Quarter and Full Year 2025 Results",
+        "source": "investor.atmeta.com",
+        "published_at": "",
+        "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-to-Announce-Fourth-Quarter-and-Full-Year-2025-Results/default.aspx"
+      },
+      {
+        "ticker": "NBIS",
+        "headline": "Investor Hub - Nebius",
+        "source": "nebius.com",
+        "published_at": "",
+        "url": "https://nebius.com/investor-hub"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "TTM Technologies, Inc. (TTMI)",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/"
+      },
+      {
+        "ticker": "TTMI",
+        "headline": "Press Releases - TTM Technologies, Inc.",
+        "source": "investors.ttm.com",
+        "published_at": "",
+        "url": "https://investors.ttm.com/news-events/press-releases"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "Investor Relations - Apple",
+        "source": "investor.apple.com",
+        "published_at": "",
+        "url": "https://investor.apple.com/investor-relations/default.aspx"
+      },
+      {
+        "ticker": "AAPL",
+        "headline": "SEC Filings - Apple Investor Relations",
+        "source": "investor.apple.com",
+        "published_at": "",
+        "url": "https://investor.apple.com/sec-filings/default.aspx"
+      },
+      {
+        "ticker": "AIIO",
+        "headline": "Robo.ai announces 1-for-20 reverse stock split effective April 6",
+        "source": "in.investing.com",
+        "published_at": "",
+        "url": "https://in.investing.com/news/company-news/roboai-announces-1for20-reverse-stock-split-effective-april-6-93CH-5318494"
+      },
+      {
+        "ticker": "AMZN",
+        "headline": "News release - Amazon.com, Inc.",
+        "source": "ir.aboutamazon.com",
+        "published_at": "",
+        "url": "https://ir.aboutamazon.com/news-release/default.aspx"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation (APLD)",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Reports Fiscal Third Quarter 2026 Results",
+        "source": "ir.applieddigital.com",
+        "published_at": "",
+        "url": "https://ir.applieddigital.com/news-events/press-releases/detail/148/applied-digital-reports-fiscal-third-quarter-2026-results"
+      },
+      {
+        "ticker": "APLD",
+        "headline": "Applied Digital Corporation: Official Announcements - Stock Market News",
+        "source": "uk.marketscreener.com",
+        "published_at": "",
+        "url": "https://uk.marketscreener.com/quote/stock/APPLIED-DIGITAL-CORPORATI-120787468/news-press-releases/"
+      },
+      {
+        "ticker": "FLY",
+        "headline": "News - Investor Relations - Firefly Aerospace",
+        "source": "investors.fireflyspace.com",
+        "published_at": "",
+        "url": "https://investors.fireflyspace.com/news"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Earnings Releases - GM Investor Relations - General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/news-events/earnings-releases"
+      },
+      {
+        "ticker": "GM",
+        "headline": "Investor Relations | General Motors",
+        "source": "investor.gm.com",
+        "published_at": "",
+        "url": "https://investor.gm.com/"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Inc.: Official Announcements - Stock Market News",
+        "source": "marketscreener.com",
+        "published_at": "",
+        "url": "https://www.marketscreener.com/quote/stock/ALPHABET-INC-24203373/news-press-releases/"
+      },
+      {
+        "ticker": "GOOGL",
+        "headline": "Alphabet Announces Fourth Quarter 2025 and Fiscal Year Results",
+        "source": "abc.xyz",
+        "published_at": "",
+        "url": "https://abc.xyz/investor/news/news-details/2026/Alphabet-Announces-Fourth-Quarter-2025-and-Fiscal-Year-Results-2026-KEvZIMKBLS/default.aspx"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
   }
 ]
