@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Refresh Dashboard Hub",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": ["${workspaceFolder}\\scratch\\dashboard_hub\\update_dashboard_hub.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Start News Flow Server",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\pythonw.exe",
+            "args": ["${workspaceFolder}\\News_flow\\serve.py"],
+            "group": "build",
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Launch QuantLab Dashboard",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": ["${workspaceFolder}\\scratch\\dashboard\\morning_dashboard.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Update Focus List",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": ["${workspaceFolder}\\watchlists\\update_focus_list.py"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Paste Focus List Symbols",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "${workspaceFolder}\\watchlists\\update_focus_list.py",
+                "--symbols",
+                "${input:focusSymbols}"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "focusSymbols",
+            "type": "promptString",
+            "description": "Paste focus tickers separated by commas, spaces, or new lines",
+            "default": "NVDA AMD AMZN"
+        }
+    ]
+}

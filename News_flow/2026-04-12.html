@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Smart refresh: every 60 min, but OFF during weekend blackout
+    // Blackout: Friday 3:00 PM CT through Sunday 4:30 PM CT
+    (function() {
+      function inBlackout() {
+        var now  = new Date();
+        var day  = now.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+        var mins = now.getHours() * 60 + now.getMinutes();
+        if (day === 6) return true;                          // all Saturday
+        if (day === 5 && mins >= 15 * 60) return true;      // Fri >= 3:00 PM
+        if (day === 0 && mins < 16 * 60 + 30) return true;  // Sun < 4:30 PM
+        return false;
+      }
+      if (!inBlackout()) {
+        setTimeout(function() { location.reload(); }, 60 * 60 * 1000); // 60 min
+      }
+    })();
+  </script>
+  <title>War Room News Flow — 2026-04-12</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at top, #162236 0%, #0d1117 46%, #080b10 100%);
+      color: #e6edf3;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+    }
+    a { color: #42a5f5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap { max-width: 1440px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ── Header ── */
+    .hero { margin-bottom: 28px; }
+    .hero h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; }
+    .hero-sub { margin-top: 6px; color: #8b949e; font-size: 14px; }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+    .stamp {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #42a5f5; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .stamp-refresh {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #8b949e; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .run-count {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      background: rgba(66,165,245,0.1); border: 1px solid rgba(66,165,245,0.3);
+      color: #42a5f5; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    }
+
+    /* ── Schedule bar ── */
+    .schedule-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .sched-pill {
+      padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      border: 1px solid #30363d; color: #8b949e; letter-spacing: 0.4px;
+    }
+    .sched-pill.done { border-color: #26a69a; color: #26a69a; background: rgba(38,166,154,0.08); }
+    .sched-pill.next { border-color: #42a5f5; color: #42a5f5; background: rgba(66,165,245,0.08); }
+
+    .feed-section { margin-bottom: 36px; }
+    .feed-header { margin-bottom: 14px; }
+    .feed-header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
+    .feed-sub { margin-top: 4px; color: #8b949e; font-size: 13px; }
+
+    /* ── Run card ── */
+    .run-card {
+      background: linear-gradient(180deg, rgba(22,27,34,0.96) 0%, rgba(13,17,23,0.98) 100%);
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .run-card[open] { border-color: #42a5f5; }
+    .run-summary {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px; cursor: pointer; list-style: none; user-select: none;
+    }
+    .run-summary::-webkit-details-marker { display: none; }
+    .run-summary::before {
+      content: "▶"; font-size: 10px; color: #8b949e; transition: transform 0.15s;
+    }
+    .run-card[open] > .run-summary::before { transform: rotate(90deg); }
+    .run-time { font-size: 18px; font-weight: 700; color: #e6edf3; }
+    .badge-latest {
+      padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(66,165,245,0.15); border: 1px solid #42a5f5; color: #42a5f5;
+    }
+    .run-stats { color: #8b949e; font-size: 12px; margin-left: auto; }
+
+    .run-body { padding: 0 20px 24px; border-top: 1px solid #21262d; }
+
+    /* ── Section headers ── */
+    .section-head {
+      font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: #8b949e; margin: 20px 0 12px; padding-bottom: 6px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    /* ── Alpaca table ── */
+    .news-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .news-table thead tr { border-bottom: 1px solid #30363d; }
+    .news-table th {
+      text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; color: #8b949e;
+    }
+    .news-table td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+    .news-table tr:last-child td { border-bottom: none; }
+    .ticker-cell { font-weight: 700; color: #42a5f5; white-space: nowrap; font-size: 12px; }
+    .meta-cell { color: #8b949e; font-size: 11px; white-space: nowrap; }
+
+    /* ── Tavily categories ── */
+    .cat-block { margin-bottom: 20px; }
+    .cat-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .article-row {
+      display: flex; flex-direction: column; gap: 2px;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-headline { font-size: 13px; color: #e6edf3; line-height: 1.4; }
+    .article-headline:hover { color: #42a5f5; }
+    .article-meta { font-size: 11px; color: #8b949e; }
+
+    .empty { color: #8b949e; font-size: 12px; padding: 8px 0; font-style: italic; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px; padding-top: 16px; border-top: 1px solid #21262d;
+      color: #8b949e; font-size: 11px; letter-spacing: 0.4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>War Room News Flow</h1>
+      <div class="hero-sub">Sunday April 12, 2026 &nbsp;·&nbsp; Pre-market catalyst feed</div>
+      <div class="hero-meta">
+        <span class="stamp">Generated 11:46 AM CT</span>
+        <span class="stamp-refresh">Auto-refresh: 60 min (off weekends)</span>
+        <span class="run-count">1 run today</span>
+      </div>
+    </div>
+
+    
+        <section class="feed-section" id="focus-news">
+            <div class="feed-header">
+                <h2>Focus List News</h2>
+                <div class="feed-sub">Ticker-specific developments from your Focus list</div>
+                <div class="hero-meta">
+                    <span class="stamp">1 run today</span>
+                    <span class="stamp-refresh">Mon-Fri: 7:15 AM / 10:30 AM / 3:30 PM CT | Sun: 6:00 PM CT</span>
+                </div>
+            </div>
+
+            <div class="schedule-bar"><span class="sched-pill ">7:15 AM CT</span><span class="sched-pill ">10:30 AM CT</span><span class="sched-pill ">3:30 PM CT</span><span class="sched-pill next">→ Sun 6:00 PM CT</span></div>
+
+            
+    <details class="run-card" open>
+      <summary class="run-summary">
+        <span class="run-time">11:46 AM CT</span>
+        <span class="badge-latest">LATEST</span>
+        <span class="run-stats">7 ticker items &nbsp;·&nbsp; 0 sector items &nbsp;·&nbsp; 0 dups dropped</span>
+      </summary>
+      <div class="run-body">
+                <div class="section-head">📌 ALPACA NEWS — FOCUS LIST NEWS</div>
+                
+      <table class="news-table">
+        <thead><tr><th>Ticker</th><th>Headline</th><th>Source</th><th>Time (CT)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI</td>
+            <td><a href="https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio" target="_blank" rel="noopener">Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 08:31 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more" target="_blank" rel="noopener">Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic &amp; More</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 07:30 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMZN</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse" target="_blank" rel="noopener">Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 06:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NVDA</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy" target="_blank" rel="noopener">Trump&#x27;s Tariffs Drive Inflation, Dimon&#x27;s Debt Crisis Warning And More: This Week In Economy</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 05:01 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAL, AMZN</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo" target="_blank" rel="noopener">Elon Musk&#x27;s Starlink World&#x27;s &#x27;Least Understood&#x27; Tech Successes, Says Marc Andreessen Ahead Of SpaceX&#x27;s $1.75 Trillion IPO</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 03:43 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, GOOG, GOOGL, MSFT</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock" target="_blank" rel="noopener">Anthropic Launches Claude for Word, Challenges Microsoft&#x27;s Enterprise Dominance As MSFT Stock Slides 22% This Year</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-12 12:08 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">BAC, C, JPM, WFC</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears" target="_blank" rel="noopener">Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-11 01:46 PM CT</td>
+          </tr></tbody>
+      </table>
+                
+      </div>
+    </details>
+        </section>
+        <section class="feed-section" id="master-news">
+            <div class="feed-header">
+                <h2>Master Watchlist News</h2>
+                <div class="feed-sub">Ticker-specific developments from your master watchlist</div>
+                <div class="hero-meta">
+                    <span class="stamp">0 runs today</span>
+                    <span class="stamp-refresh">Mon-Fri: 6:30 AM / 7:30 AM / 8:06 AM CT</span>
+                </div>
+            </div>
+
+            <div class="schedule-bar"><span class="sched-pill ">6:30 AM CT</span><span class="sched-pill ">7:30 AM CT</span><span class="sched-pill ">8:06 AM CT</span></div>
+
+            <p style="color:#8b949e;padding:20px;">No Master Watchlist runs found for today.</p>
+        </section>
+
+    <div class="footer">
+            QuantLab Data Lab &nbsp;·&nbsp; Master: Mon-Fri 6:30 AM / 7:30 AM / 8:06 AM CT &nbsp;·&nbsp; Focus: Mon-Fri 7:15 AM / 10:30 AM / 3:30 PM CT + Sun 6:00 PM CT &nbsp;·&nbsp; Page refreshes every 60 min (off Fri 3 PM – Sun 4:30 PM CT)
+    </div>
+
+  </div>
+</body>
+</html>

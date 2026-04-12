@@ -755,12 +755,40 @@ SEC Filings:           SEC EDGAR
 
 The master universe is stored in `shared/config/watchlist.csv` and accessed via `shared/watchlist.py`.
 
+The Focus list lives in `watchlists/focus_list.csv` so it is easy to find and refresh manually.
+
+Use `watchlists/update_focus_list.py` to normalize a fresh export into the canonical file without creating extra copies. If you do not pass `--input`, the script uses the newest matching CSV in your Downloads folder and overwrites `watchlists/focus_list.csv` in place.
+
+There are also two lightweight VS Code tasks in `.vscode/tasks.json`: `Update Focus List` for the newest Downloads export, and `Paste Focus List Symbols` when you just want to paste a ticker block directly.
+
 ```python
-from shared.watchlist import get_watchlist, get_watchlist_count, ticker_in_watchlist
+from shared.watchlist import (
+        get_focus_list,
+        get_focus_list_count,
+        get_watchlist,
+        get_watchlist_count,
+        ticker_in_focus_list,
+        ticker_in_watchlist,
+)
 
 tickers = get_watchlist()       # → ['AA', 'AAL', 'AAPL', ... ]  (240 tickers)
 count = get_watchlist_count()   # → 240
 check = ticker_in_watchlist('TSLA')  # → True
+
+focus = get_focus_list()        # → ['RIOT', 'NVDA', 'BAC', ... ]
+focus_count = get_focus_list_count()
+focus_check = ticker_in_focus_list('NVDA')  # → True
+```
+
+```python
+# Refresh the canonical Focus list from the newest export in Downloads
+python watchlists/update_focus_list.py
+
+# Or point it at a specific raw export
+python watchlists/update_focus_list.py --input C:/Users/datak/Downloads/Lakeem-Focus_list.csv
+
+# Or paste raw ticker text directly
+python watchlists/update_focus_list.py --symbols "NVDA AMD AMZN CRWV"
 ```
 
 **Coverage:** Momentum-focused universe of US equities — mega-cap tech (AAPL, NVDA, TSLA, AMZN), growth (APP, AFRM, PLTR), China ADRs (BABA, BIDU, JD, PDD), biotech, cannabis (TLRY, CGC, MSOS), semis (AMD, MU, AVGO, SMCI), ARK ETFs, and more. Curated for stocks Lakeem actively trades or monitors.

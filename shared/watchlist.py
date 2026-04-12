@@ -1,35 +1,45 @@
 """
-WATCHLIST HELPER — Canonical access to Lakeem's master watchlist.
+WATCHLIST HELPER — Canonical access to Lakeem's ticker universes.
 Usage:
-    from shared.watchlist import get_watchlist
-    tickers = get_watchlist()
+    from shared.watchlist import get_watchlist, get_focus_list
+    master = get_watchlist()
+    focus = get_focus_list()
 """
 
 import pandas as pd
 from pathlib import Path
 
-WATCHLIST_PATH = Path(r'C:\QuantLab\Data_Lab\shared\config\watchlist.csv')
+ROOT = Path(r'C:\QuantLab\Data_Lab')
+WATCHLIST_PATH = ROOT / 'shared' / 'config' / 'watchlist.csv'
+FOCUS_LIST_PATH = ROOT / 'watchlists' / 'focus_list.csv'
+
+
+def _read_list(path: Path, label: str) -> pd.DataFrame:
+    if not path.exists():
+        raise FileNotFoundError(
+            f"{label} not found at {path}. "
+            "Create or refresh the CSV first."
+        )
+
+    df = pd.read_csv(path)
+    if 'Symbol' not in df.columns:
+        raise ValueError(f"{label} must contain a 'Symbol' column: {path}")
+
+    cleaned = df.copy()
+    cleaned['Symbol'] = cleaned['Symbol'].astype(str).str.strip().str.upper()
+    cleaned = cleaned[cleaned['Symbol'] != '']
+    cleaned = cleaned.drop_duplicates(subset=['Symbol']).reset_index(drop=True)
+    return cleaned
 
 
 def get_watchlist() -> list:
     """Return the master watchlist as a list of ticker strings."""
-    if not WATCHLIST_PATH.exists():
-        raise FileNotFoundError(
-            f"Watchlist not found at {WATCHLIST_PATH}. "
-            "Run the watchlist ingestion script first."
-        )
-    df = pd.read_csv(WATCHLIST_PATH)
-    return df['Symbol'].tolist()
+    return _read_list(WATCHLIST_PATH, 'Watchlist')['Symbol'].tolist()
 
 
 def get_watchlist_df() -> pd.DataFrame:
     """Return the master watchlist as a DataFrame."""
-    if not WATCHLIST_PATH.exists():
-        raise FileNotFoundError(
-            f"Watchlist not found at {WATCHLIST_PATH}. "
-            "Run the watchlist ingestion script first."
-        )
-    return pd.read_csv(WATCHLIST_PATH)
+    return _read_list(WATCHLIST_PATH, 'Watchlist')
 
 
 def ticker_in_watchlist(ticker: str) -> bool:
@@ -38,5 +48,25 @@ def ticker_in_watchlist(ticker: str) -> bool:
 
 
 def get_watchlist_count() -> int:
-    """Return the number of tickers in the watchlist."""
+    """Return the number of tickers in the master watchlist."""
     return len(get_watchlist())
+
+
+def get_focus_list() -> list:
+    """Return the focus list as a list of ticker strings."""
+    return _read_list(FOCUS_LIST_PATH, 'Focus list')['Symbol'].tolist()
+
+
+def get_focus_list_df() -> pd.DataFrame:
+    """Return the focus list as a DataFrame."""
+    return _read_list(FOCUS_LIST_PATH, 'Focus list')
+
+
+def ticker_in_focus_list(ticker: str) -> bool:
+    """Check if a ticker is in the focus list."""
+    return ticker.upper() in get_focus_list()
+
+
+def get_focus_list_count() -> int:
+    """Return the number of tickers in the focus list."""
+    return len(get_focus_list())

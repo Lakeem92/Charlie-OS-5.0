@@ -1,0 +1,72 @@
+[
+  {
+    "feed_name": "focus",
+    "feed_label": "Focus List",
+    "include_tavily": false,
+    "run_ts": "2026-04-12T11:46:48.262141-05:00",
+    "run_label": "11:46 AM CT",
+    "alpaca_count": 7,
+    "tavily_count": 0,
+    "dups_dropped": 0,
+    "alpaca_items": [
+      {
+        "ticker": "AAOI, ALAB, AMKR, BE, CAR, CRWV, GOOG, INTC, META, NBIS, SKM, TTMI",
+        "headline": "Intel, Nebius, And Applied Optoelectronics Are Among the Top 10 Large-Cap Gainers Last Week (April 6-April 10): Are the Others in Your Portfolio?",
+        "source": "benzinga",
+        "published_at": "2026-04-12T13:31:19Z",
+        "url": "https://www.benzinga.com/markets/large-cap/26/04/51770602/intel-nebius-and-applied-optoelectronics-are-among-the-top-10-large-cap-gainers-last-week-april-6-april-10-are-the-others-in-your-portfolio"
+      },
+      {
+        "ticker": "AAPL, AIIO, AMZN, APLD, BABA, CRWV, FLY, GM, GOOG, GOOGL, IONQ, META, NIO, NVDA, ORCL, PONY, RDDT, RR, TSLA, TSM, U, UBER",
+        "headline": "Consumer Tech News (April 6-April 10): Tesla China Sales Drop, CoreWeave Grabs AI Deal With Meta and Anthropic & More",
+        "source": "benzinga",
+        "published_at": "2026-04-12T12:30:00Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770524/consumer-tech-news-apr-6-aug-10-tesla-china-sales-drop-coreweave-grabs-ai-deal-with-meta-and-anthropic-more"
+      },
+      {
+        "ticker": "AAPL, AMZN",
+        "headline": "Apple TV On Amazon Prime, Store Closures, Foldable iPhone And More: This Week In Appleverse",
+        "source": "benzinga",
+        "published_at": "2026-04-12T11:01:21Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770420/apple-tv-on-amazon-prime-store-closures-foldable-iphone-and-more-this-week-in-appleverse"
+      },
+      {
+        "ticker": "NVDA",
+        "headline": "Trump's Tariffs Drive Inflation, Dimon's Debt Crisis Warning And More: This Week In Economy",
+        "source": "benzinga",
+        "published_at": "2026-04-12T10:01:18Z",
+        "url": "https://www.benzinga.com/markets/market-summary/26/04/51770360/trumps-tariffs-drive-inflation-dimons-debt-crisis-warning-and-more-this-week-in-economy"
+      },
+      {
+        "ticker": "AAL, AMZN",
+        "headline": "Elon Musk's Starlink World's 'Least Understood' Tech Successes, Says Marc Andreessen Ahead Of SpaceX's $1.75 Trillion IPO",
+        "source": "benzinga",
+        "published_at": "2026-04-12T08:43:18Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770258/elon-musks-starlink-success-marc-andreessen-spacex-1-75-trillion-ipo"
+      },
+      {
+        "ticker": "AMZN, GOOG, GOOGL, MSFT",
+        "headline": "Anthropic Launches Claude for Word, Challenges Microsoft's Enterprise Dominance As MSFT Stock Slides 22% This Year",
+        "source": "benzinga",
+        "published_at": "2026-04-12T05:08:45Z",
+        "url": "https://www.benzinga.com/markets/tech/26/04/51770150/anthropic-claude-word-microsoft-office-dominance-msft-stock"
+      },
+      {
+        "ticker": "BAC, C, JPM, WFC",
+        "headline": "Banks Put On Alert As Powerful Anthropic AI Raises Cybersecurity Fears",
+        "source": "benzinga",
+        "published_at": "2026-04-11T18:46:21Z",
+        "url": "https://www.benzinga.com/markets/equities/26/04/51769757/banks-put-on-alert-as-powerful-anthropic-ai-raises-cybersecurity-fears"
+      }
+    ],
+    "tavily": {
+      "AI_DISPLACEMENT": [],
+      "REGULATORY": [],
+      "MACRO_DATA": [],
+      "COMMODITY_ENERGY": [],
+      "GEOPOLITICAL": [],
+      "BELLWETHER_SIGNALS": [],
+      "NON_EARNINGS_RECURRING": []
+    }
+  }
+]

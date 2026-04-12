@@ -18,6 +18,7 @@ Generates/overwrites News_flow/YYYY-MM-DD.html (all runs, newest first)
 """
 
 import json
+import argparse
 import time
 import requests
 import difflib
@@ -33,6 +34,47 @@ MCP_JSON     = ROOT / '.vscode' / 'mcp.json'
 NEWS_FLOW.mkdir(parents=True, exist_ok=True)
 
 CT = ZoneInfo('America/Chicago')
+
+FEED_CONFIGS = {
+    'master': {
+        'label': 'Master Watchlist',
+        'alpaca_heading': 'ALPACA NEWS — MASTER WATCHLIST NEWS',
+        'alpaca_description': 'Ticker-specific developments from your master watchlist',
+        'schedule_text': 'Mon-Fri: 6:30 AM / 7:30 AM / 8:06 AM CT',
+        'schedule_slots': [
+            {'label': '6:30 AM CT', 'display_label': '6:30 AM CT', 'minutes': 6 * 60 + 30, 'days': 'weekday'},
+            {'label': '7:30 AM CT', 'display_label': '7:30 AM CT', 'minutes': 7 * 60 + 30, 'days': 'weekday'},
+            {'label': '8:06 AM CT', 'display_label': '8:06 AM CT', 'minutes': 8 * 60 + 6, 'days': 'weekday'},
+        ],
+    },
+    'focus': {
+        'label': 'Focus List',
+        'alpaca_heading': 'ALPACA NEWS — FOCUS LIST NEWS',
+        'alpaca_description': 'Ticker-specific developments from your Focus list',
+        'schedule_text': 'Mon-Fri: 7:15 AM / 10:30 AM / 3:30 PM CT | Sun: 6:00 PM CT',
+        'schedule_slots': [
+            {'label': '7:15 AM CT', 'display_label': '7:15 AM CT', 'minutes': 7 * 60 + 15, 'days': 'weekday'},
+            {'label': '10:30 AM CT', 'display_label': '10:30 AM CT', 'minutes': 10 * 60 + 30, 'days': 'weekday'},
+            {'label': '3:30 PM CT', 'display_label': '3:30 PM CT', 'minutes': 15 * 60 + 30, 'days': 'weekday'},
+            {'label': '6:00 PM CT', 'display_label': 'Sun 6:00 PM CT', 'minutes': 18 * 60, 'days': 'sun'},
+        ],
+    },
+}
+FEED_DISPLAY_ORDER = ['focus', 'master']
+
+
+def _get_feed_config(feed_name: str) -> dict:
+    if feed_name not in FEED_CONFIGS:
+        raise ValueError(f'Unsupported feed: {feed_name}')
+    return FEED_CONFIGS[feed_name]
+
+
+def _get_feed_tickers(feed_name: str) -> list:
+    from shared.watchlist import get_focus_list, get_watchlist
+
+    if feed_name == 'focus':
+        return get_focus_list()
+    return get_watchlist()
 
 
 # ── Key loading ────────────────────────────────────────────────────────────────
@@ -111,16 +153,17 @@ def _now_ct() -> datetime:
 # ─────────────────────────────────────────────────────────────────────────────
 # STEP 1 — ALPACA NEWS: TICKER-SPECIFIC NEWS
 # ─────────────────────────────────────────────────────────────────────────────
-def fetch_tiingo_news() -> list:
+def fetch_alpaca_news(feed_name: str = 'master') -> list:
     """
-    Pulls last 24h news from Alpaca News API for the full watchlist.
+    Pulls last 24h news from Alpaca News API for the selected ticker list.
     Endpoint: GET https://data.alpaca.markets/v1beta1/news
     Batches in groups of 50 (Alpaca symbols param limit).
-    Returns list of dicts with same keys the Tiingo section used.
+    Returns list of dicts with same keys the Alpaca section uses.
     """
     api_key, api_secret = _get_alpaca_keys()
+    feed_config = _get_feed_config(feed_name)
     if not api_key or not api_secret:
-        print('WARNING: ALPACA_API_KEY/SECRET not found — skipping ticker news pull')
+        print(f'WARNING: ALPACA_API_KEY/SECRET not found — skipping {feed_config["label"]} ticker news pull')
         print('   Keys should be in shared/config/keys/live.env')
         return []
 
@@ -129,8 +172,7 @@ def fetch_tiingo_news() -> list:
         'APCA-API-SECRET-KEY': api_secret,
     }
 
-    from shared.watchlist import get_watchlist
-    tickers = get_watchlist()
+    tickers = _get_feed_tickers(feed_name)
 
     start_dt = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime('%Y-%m-%dT%H:%M:%SZ')
     batch_size = 50
@@ -178,6 +220,10 @@ def fetch_tiingo_news() -> list:
 
     all_items.sort(key=_sort_key, reverse=True)
     return all_items
+
+
+def fetch_tiingo_news() -> list:
+    return fetch_alpaca_news('master')
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -383,10 +429,16 @@ def save_run_to_cache(
     alpaca_items: list,
     tavily_by_pattern: dict,
     dups_dropped: int,
+    feed_name: str = 'master',
+    include_tavily: bool = True,
 ):
     """Append current run's data to today's JSON sidecar."""
     now_ct = _now_ct()
+    feed_config = _get_feed_config(feed_name)
     run = {
+        'feed_name':    feed_name,
+        'feed_label':   feed_config['label'],
+        'include_tavily': include_tavily,
         'run_ts':       now_ct.isoformat(),
         'run_label':    now_ct.strftime('%I:%M %p CT').lstrip('0'),
         'alpaca_count': len(alpaca_items),
@@ -411,8 +463,11 @@ def write_markdown(
     tavily_raw_count: int,
     dups_dropped: int,
     output_path: Path,
+    feed_name: str = 'master',
+    include_tavily: bool = True,
 ):
     now_ct = _now_ct()
+    feed_config = _get_feed_config(feed_name)
     date_str  = now_ct.strftime(f'%A %B {now_ct.day}, %Y')
     time_str  = now_ct.strftime('%I:%M %p CT')
     total     = len(tiingo_items) + sum(len(v) for v in tavily_by_pattern.values())
@@ -420,13 +475,13 @@ def write_markdown(
     lines = []
     lines.append('')
     lines.append('---')
-    lines.append(f'## SCAN RUN — {date_str} {time_str}')
+    lines.append(f'## {feed_config["label"].upper()} SCAN RUN — {date_str} {time_str}')
     lines.append(f'Alpaca News: {len(tiingo_items)} items | Tavily: {sum(len(v) for v in tavily_by_pattern.values())} items | After dedup: {total} total')
     lines.append('---')
     lines.append('')
 
-    lines.append('### ALPACA NEWS — WATCHLIST TICKER NEWS')
-    lines.append('*Ticker-specific developments from your 240-name watchlist*')
+    lines.append(f'### {feed_config["alpaca_heading"]}')
+    lines.append(f'*{feed_config["alpaca_description"]}*')
     lines.append('')
 
     if tiingo_items:
@@ -440,30 +495,31 @@ def write_markdown(
     else:
         lines.append('*No Alpaca News results — check API keys in shared/config/keys/live.env*')
 
-    lines.append('')
-    lines.append('---')
-    lines.append('')
-    lines.append('### TAVILY — SECTOR CATALYST SWEEPS')
-    lines.append('')
+    if include_tavily:
+        lines.append('')
+        lines.append('---')
+        lines.append('')
+        lines.append('### TAVILY — SECTOR CATALYST SWEEPS')
+        lines.append('')
 
-    for pattern, label in SECTION_LABELS.items():
-        items = tavily_by_pattern.get(pattern, [])
-        lines.append(f'#### {label}')
-        if pattern == 'NON_EARNINGS_RECURRING':
-            lines.append('*(TSMC monthly, Samsung prelim, Korea semi exports, SEMI B2B)*')
-        if items:
-            for item in items:
-                ct_str = _to_ct(item['published_at']) if item.get('published_at') else 'N/A'
-                lines.append(f"**{item['source']}** | {ct_str}")
-                lines.append(item['headline'])
-                lines.append(f"🔗 {item['url']}")
+        for pattern, label in SECTION_LABELS.items():
+            items = tavily_by_pattern.get(pattern, [])
+            lines.append(f'#### {label}')
+            if pattern == 'NON_EARNINGS_RECURRING':
+                lines.append('*(TSMC monthly, Samsung prelim, Korea semi exports, SEMI B2B)*')
+            if items:
+                for item in items:
+                    ct_str = _to_ct(item['published_at']) if item.get('published_at') else 'N/A'
+                    lines.append(f"**{item['source']}** | {ct_str}")
+                    lines.append(item['headline'])
+                    lines.append(f"🔗 {item['url']}")
+                    lines.append('')
+            else:
+                lines.append('*No results for this section*')
                 lines.append('')
-        else:
-            lines.append('*No results for this section*')
-            lines.append('')
 
     lines.append('---')
-    lines.append(f'*Scan complete | {dups_dropped} duplicates dropped | Runs today: 6:30 AM / 7:30 AM / 8:06 AM CT*')
+    lines.append(f'*Scan complete | {dups_dropped} duplicates dropped | {feed_config["schedule_text"]}*')
     lines.append('')
 
     with open(output_path, 'a', encoding='utf-8') as f:
@@ -478,9 +534,10 @@ def _h(text: str) -> str:
     return html_module.escape(str(text or ''))
 
 
-def _build_alpaca_section(items: list) -> str:
+def _build_alpaca_section(items: list, feed_name: str) -> str:
+    feed_config = _get_feed_config(feed_name)
     if not items:
-        return '<p class="empty">No Alpaca News results this run — check API keys in shared/config/keys/live.env</p>'
+        return f'<p class="empty">No {feed_config["label"]} Alpaca results this run — check API keys in shared/config/keys/live.env</p>'
     rows = []
     for item in items:
         ct_str = _to_ct(item.get('published_at', ''))
@@ -524,6 +581,8 @@ def _build_tavily_section(pattern: str, items: list) -> str:
 
 def _build_run_card(run: dict, idx: int, total_runs: int) -> str:
     """Build one collapsible scan-run card. idx=0 is newest."""
+    feed_name  = run.get('feed_name', 'master')
+    feed_config = _get_feed_config(feed_name)
     label      = run.get('run_label', 'Unknown')
     ts         = run.get('run_ts', '')
     a_count    = run.get('alpaca_count', 0)
@@ -531,6 +590,7 @@ def _build_run_card(run: dict, idx: int, total_runs: int) -> str:
     dups       = run.get('dups_dropped', 0)
     alpaca     = run.get('alpaca_items', [])
     tavily     = run.get('tavily', {})
+    has_tavily = any(tavily.get(pattern, []) for pattern in TAVILY_QUERIES)
 
     is_latest  = (idx == total_runs - 1)
     open_attr  = 'open' if is_latest else ''
@@ -549,12 +609,42 @@ def _build_run_card(run: dict, idx: int, total_runs: int) -> str:
         <span class="run-stats">{a_count} ticker items &nbsp;·&nbsp; {t_count} sector items &nbsp;·&nbsp; {dups} dups dropped</span>
       </summary>
       <div class="run-body">
-        <div class="section-head">📌 ALPACA NEWS — WATCHLIST TICKER NEWS</div>
-        {_build_alpaca_section(alpaca)}
-        <div class="section-head" style="margin-top:28px;">🌐 TAVILY — SECTOR CATALYST SWEEPS</div>
-        {tavily_html}
+                <div class="section-head">📌 {_h(feed_config['alpaca_heading'])}</div>
+                {_build_alpaca_section(alpaca, feed_name)}
+                {f'<div class="section-head" style="margin-top:28px;">🌐 TAVILY — SECTOR CATALYST SWEEPS</div>{tavily_html}' if has_tavily else ''}
       </div>
     </details>'''
+
+
+def _build_feed_runs_section(feed_name: str, runs: list, now_ct: datetime) -> str:
+        feed_config = _get_feed_config(feed_name)
+        runs_reversed = list(reversed(runs))
+        total_runs = len(runs)
+        cards_html = ''
+
+        for i, run in enumerate(runs_reversed):
+                orig_idx = total_runs - 1 - i
+                cards_html += _build_run_card(run, orig_idx, total_runs)
+
+        if not runs:
+                cards_html = f'<p style="color:#8b949e;padding:20px;">No {feed_config["label"]} runs found for today.</p>'
+
+        run_word = 'runs' if total_runs != 1 else 'run'
+        return f'''
+        <section class="feed-section" id="{_h(feed_name)}-news">
+            <div class="feed-header">
+                <h2>{_h(feed_config['label'])} News</h2>
+                <div class="feed-sub">{_h(feed_config['alpaca_description'])}</div>
+                <div class="hero-meta">
+                    <span class="stamp">{total_runs} {run_word} today</span>
+                    <span class="stamp-refresh">{_h(feed_config['schedule_text'])}</span>
+                </div>
+            </div>
+
+            {_build_schedule_bar(runs, now_ct, feed_name)}
+
+            {cards_html}
+        </section>'''
 
 
 def write_html_dashboard(all_runs: list, output_path: Path):
@@ -568,17 +658,19 @@ def write_html_dashboard(all_runs: list, output_path: Path):
     gen_ts   = now_ct.strftime('%I:%M %p CT').lstrip('0')
     today    = now_ct.strftime('%Y-%m-%d')
 
-    # Render run cards newest-first (reverse the list for display)
-    runs_reversed = list(reversed(all_runs))
-    total_runs    = len(all_runs)
-    cards_html    = ''
-    for i, run in enumerate(runs_reversed):
-        # Pass original idx so we know which is latest (last in the original list)
-        orig_idx   = total_runs - 1 - i
-        cards_html += _build_run_card(run, orig_idx, total_runs)
+    grouped_runs = {feed_name: [] for feed_name in FEED_DISPLAY_ORDER}
+    for run in all_runs:
+        feed_name = run.get('feed_name', 'master')
+        if feed_name not in grouped_runs:
+            grouped_runs[feed_name] = []
+        grouped_runs[feed_name].append(run)
 
-    if not all_runs:
-        cards_html = '<p style="color:#8b949e;padding:20px;">No scan runs found for today.</p>'
+    cards_html = ''.join(
+        _build_feed_runs_section(feed_name, grouped_runs.get(feed_name, []), now_ct)
+        for feed_name in FEED_DISPLAY_ORDER
+    )
+
+    total_runs = len(all_runs)
 
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -648,6 +740,11 @@ def write_html_dashboard(all_runs: list, output_path: Path):
     }}
     .sched-pill.done {{ border-color: #26a69a; color: #26a69a; background: rgba(38,166,154,0.08); }}
     .sched-pill.next {{ border-color: #42a5f5; color: #42a5f5; background: rgba(66,165,245,0.08); }}
+
+    .feed-section {{ margin-bottom: 36px; }}
+    .feed-header {{ margin-bottom: 14px; }}
+    .feed-header h2 {{ font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }}
+    .feed-sub {{ margin-top: 4px; color: #8b949e; font-size: 13px; }}
 
     /* ── Run card ── */
     .run-card {{
@@ -733,12 +830,10 @@ def write_html_dashboard(all_runs: list, output_path: Path):
       </div>
     </div>
 
-    {_build_schedule_bar(all_runs, now_ct)}
-
     {cards_html}
 
     <div class="footer">
-      QuantLab Data Lab &nbsp;·&nbsp; Scans: 6:30 AM / 7:30 AM / 8:06 AM CT (Mon–Fri) &nbsp;·&nbsp; Page refreshes every 60 min (off Fri 3 PM – Sun 4:30 PM CT)
+            QuantLab Data Lab &nbsp;·&nbsp; Master: Mon-Fri 6:30 AM / 7:30 AM / 8:06 AM CT &nbsp;·&nbsp; Focus: Mon-Fri 7:15 AM / 10:30 AM / 3:30 PM CT + Sun 6:00 PM CT &nbsp;·&nbsp; Page refreshes every 60 min (off Fri 3 PM – Sun 4:30 PM CT)
     </div>
 
   </div>
@@ -748,30 +843,44 @@ def write_html_dashboard(all_runs: list, output_path: Path):
     output_path.write_text(html, encoding='utf-8')
 
 
-def _build_schedule_bar(all_runs: list, now_ct: datetime) -> str:
-    """Show the 3 scheduled runs with done/next/pending styling."""
-    run_labels = {r.get('run_label', '') for r in all_runs}
+def _build_schedule_bar(feed_runs: list, now_ct: datetime, feed_name: str) -> str:
+    """Show scheduled run windows with done/next/pending styling per feed."""
+    run_labels = {r.get('run_label', '') for r in feed_runs}
+    feed_config = _get_feed_config(feed_name)
 
-    def _classify(label: str) -> str:
-        if label in run_labels:
-            return 'done'
-        # Check if this slot is the next upcoming one
-        slot_map = {'6:30 AM CT': 6 * 60 + 30, '7:30 AM CT': 7 * 60 + 30, '8:06 AM CT': 8 * 60 + 6}
+    def _candidate_slots() -> list:
         current_mins = now_ct.hour * 60 + now_ct.minute
-        slot_mins = slot_map.get(label, 0)
-        if slot_mins > current_mins:
-            # Find if it's the earliest upcoming
-            pending_slots = [s for s, m in slot_map.items() if s not in run_labels and m > current_mins]
-            if pending_slots and label == min(pending_slots, key=lambda s: slot_map[s]):
-                return 'next'
+        is_weekday = now_ct.weekday() < 5
+        is_sunday = now_ct.weekday() == 6
+        candidates = []
+
+        for slot in feed_config['schedule_slots']:
+            if slot['label'] in run_labels:
+                continue
+            if slot['days'] == 'weekday' and is_weekday and slot['minutes'] > current_mins:
+                candidates.append(slot)
+            if slot['days'] == 'sun' and is_sunday and slot['minutes'] > current_mins:
+                candidates.append(slot)
+
+        return candidates
+
+    next_slot = None
+    candidates = _candidate_slots()
+    if candidates:
+        next_slot = min(candidates, key=lambda item: item['minutes'])['label']
+
+    def _classify(slot: dict) -> str:
+        if slot['label'] in run_labels:
+            return 'done'
+        if slot['label'] == next_slot:
+            return 'next'
         return ''
 
-    slots = ['6:30 AM CT', '7:30 AM CT', '8:06 AM CT']
     pills = ''
-    for slot in slots:
+    for slot in feed_config['schedule_slots']:
         cls = _classify(slot)
         icon = '✓ ' if cls == 'done' else ('→ ' if cls == 'next' else '')
-        pills += f'<span class="sched-pill {cls}">{icon}{_h(slot)}</span>'
+        pills += f'<span class="sched-pill {cls}">{icon}{_h(slot["display_label"])}</span>'
 
     return f'<div class="schedule-bar">{pills}</div>'
 
@@ -779,22 +888,33 @@ def _build_schedule_bar(all_runs: list, now_ct: datetime) -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 # STEP 5 — TERMINAL CONFIRMATION
 # ─────────────────────────────────────────────────────────────────────────────
-def print_summary(tiingo_count, tavily_count, dups_dropped, total, output_path):
+def print_summary(feed_name, tiingo_count, tavily_count, dups_dropped, total, output_path, include_tavily=True):
     today_str = _now_ct().strftime('%Y-%m-%d')
+    feed_config = _get_feed_config(feed_name)
     print(f'\nNews_flow updated → News_flow/{today_str}.md + .html')
+    print(f'   Feed: {feed_config["label"]}')
     print(f'   Alpaca: {tiingo_count} | Tavily: {tavily_count} | Deduped: {dups_dropped} | Total: {total}')
     print(f'   File: {output_path}')
 
     if tiingo_count == 0:
         print('\nWARNING: Alpaca News returned 0 results — check keys in shared/config/keys/live.env')
-    if tavily_count == 0:
+    if include_tavily and tavily_count == 0:
         print('\nWARNING: Tavily returned 0 results — check API key')
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ORCHESTRATOR
 # ─────────────────────────────────────────────────────────────────────────────
+def parse_args():
+    parser = argparse.ArgumentParser(description='QuantLab watchlist news scanner')
+    parser.add_argument('--feed', choices=sorted(FEED_CONFIGS), default='master', help='Ticker universe to scan')
+    parser.add_argument('--skip-tavily', action='store_true', help='Skip Tavily sector sweeps for this run')
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
+    feed_config = _get_feed_config(args.feed)
     today_str    = _now_ct().strftime('%Y-%m-%d')
     output_md    = NEWS_FLOW / f'{today_str}.md'
     output_html  = NEWS_FLOW / f'{today_str}.html'
@@ -802,18 +922,25 @@ def main():
 
     print(f'\n-- QuantLab News Scanner ----------------------------------')
     print(f'   Date: {today_str} | Output: {output_md}')
+    print(f'   Feed: {feed_config["label"]}')
     print(f'-----------------------------------------------------------\n')
 
     # Step 1: Alpaca ticker news
-    print('[1/5] Pulling Alpaca watchlist news...')
-    tiingo_raw = fetch_tiingo_news()
+    print(f'[1/5] Pulling Alpaca {feed_config["label"].lower()} news...')
+    tiingo_raw = fetch_alpaca_news(args.feed)
     print(f'      Raw: {len(tiingo_raw)} items')
 
     # Step 2: Tavily
-    print('[2/5] Running Tavily sector sweeps...')
-    tavily_raw = fetch_tavily_news()
-    tavily_raw_count = sum(len(v) for v in tavily_raw.values())
-    print(f'      Raw: {tavily_raw_count} items across {len(TAVILY_QUERIES)} patterns')
+    if args.skip_tavily:
+        print('[2/5] Skipping Tavily sector sweeps...')
+        tavily_raw = {k: [] for k in TAVILY_QUERIES}
+        tavily_raw_count = 0
+        print('      Raw: 0 items across 0 patterns')
+    else:
+        print('[2/5] Running Tavily sector sweeps...')
+        tavily_raw = fetch_tavily_news()
+        tavily_raw_count = sum(len(v) for v in tavily_raw.values())
+        print(f'      Raw: {tavily_raw_count} items across {len(TAVILY_QUERIES)} patterns')
 
     # Step 3: Dedup
     print('[3/5] Deduplicating...')
@@ -831,6 +958,8 @@ def main():
         tavily_raw_count  = tavily_raw_count,
         dups_dropped      = total_dups,
         output_path       = output_md,
+        feed_name         = args.feed,
+        include_tavily    = not args.skip_tavily,
     )
 
     print('[5/5] Saving cache + generating HTML dashboard...')
@@ -839,17 +968,21 @@ def main():
         alpaca_items   = tiingo_deduped,
         tavily_by_pattern = tavily_deduped,
         dups_dropped   = total_dups,
+        feed_name      = args.feed,
+        include_tavily = not args.skip_tavily,
     )
     write_html_dashboard(all_runs, output_html)
     print(f'      Dashboard: {output_html}')
 
     total = len(tiingo_deduped) + sum(len(v) for v in tavily_deduped.values())
     print_summary(
+        feed_name    = args.feed,
         tiingo_count = len(tiingo_deduped),
         tavily_count = sum(len(v) for v in tavily_deduped.values()),
         dups_dropped = total_dups,
         total        = total,
         output_path  = output_md,
+        include_tavily = not args.skip_tavily,
     )
 
 
