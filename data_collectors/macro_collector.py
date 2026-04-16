@@ -47,12 +47,18 @@ FRED_SERIES = {
     'swaps':      'SWPT',           # Central bank liquidity swaps
     # Real economy
     'htruckssa':  'HTRUCKSSA',      # Heavy truck sales (thousands, SA)
+    'tlmfgcons':  'TLMFGCONS',      # Mfg construction spending (monthly, millions SA)
+    'ipman':      'IPMAN',          # Industrial production: manufacturing (index)
     # Inflation structure
     'corestickm': 'CORESTICKM159SFRBATL',  # Sticky price CPI less shelter (% YoY)
+    # Real yields
+    'dfii10':     'DFII10',         # 10Y TIPS real yield
+    # Commodity prices
+    'copper':     'PCOPPUSDM',      # Copper price USD/metric ton (monthly)
 }
 
 SECTOR_ETFS = ['XLK', 'XLF', 'XLE', 'XLV', 'XLC', 'XLI', 'XLB', 'XLRE', 'XLU', 'XLP', 'XLY']
-MARKET_TICKERS = ['^GSPC', '^VIX', '^VIX3M', '^RUT', 'DX-Y.NYB', 'SPY'] + SECTOR_ETFS
+MARKET_TICKERS = ['^GSPC', '^VIX', '^VIX3M', '^RUT', 'DX-Y.NYB', 'SPY', 'GC=F', 'HG=F'] + SECTOR_ETFS
 
 N_DAYS = 252  # 1 year of trading days
 
@@ -689,6 +695,47 @@ def _yield_curve_roc(series):
         return None
 
 
+# ── Computed ratio series ─────────────────────────────────────────────────────
+
+def _compute_onshoring_ratio(fred_raw):
+    """TLMFGCONS / IPMAN — capex vs output efficiency."""
+    cons = fred_raw.get('tlmfgcons')
+    prod = fred_raw.get('ipman')
+    if cons is None or prod is None:
+        return None
+    combined = pd.DataFrame({'cons': cons, 'prod': prod}).dropna()
+    if len(combined) < 6:
+        return None
+    ratio = combined['cons'] / combined['prod']
+    return ratio
+
+
+def _compute_copper_gold_ratio(market_raw):
+    """Copper futures / Gold futures — growth vs fear ratio (daily via yfinance)."""
+    copper = market_raw.get('HG=F')
+    gold   = market_raw.get('GC=F')
+    if copper is None or gold is None:
+        return None
+    combined = pd.DataFrame({'copper': copper, 'gold': gold}).dropna()
+    if len(combined) < 6:
+        return None
+    # HG=F is in USD/lb, GC=F is in USD/troy oz — ratio is unitless
+    return combined['copper'] / combined['gold']
+
+
+def _roc_4w(series):
+    """4-period ROC% on a series (works for weekly or monthly)."""
+    if series is None or len(series) < 5:
+        return None
+    try:
+        prev = float(series.iloc[-5])
+        if prev == 0:
+            return None
+        return round((float(series.iloc[-1]) / prev - 1) * 100, 2)
+    except Exception:
+        return None
+
+
 # ── Build Sector Heatmap (table data, kept for reference) ─────────────────────
 
 def _build_sector_heatmap(market_raw):
@@ -752,6 +799,8 @@ def collect():
     xly_xlp = _compute_xly_xlp(market_raw)
     sofr_iorb = _compute_sofr_iorb_spread(fred_raw)
     sector_rel = _compute_sector_relative(market_raw)
+    onshoring_ratio = _compute_onshoring_ratio(fred_raw)
+    copper_gold_ratio = _compute_copper_gold_ratio(market_raw)
 
     # Regime
     regime = _classify_regime(fred_raw, market_raw)
@@ -882,6 +931,34 @@ def collect():
         },
         # STLFSI4 current (already in stress.stlfsi4, add scalar here for signals)
         'stlfsi4_current': _latest(fred_raw.get('stlfsi4')),
+
+        # ── Shadow Liquidity: RRP standalone ────────────────────────────────
+        'rrp_shadow': {
+            'series':  _ts(fred_raw.get('rrp'), n=260),
+            'current': _latest(fred_raw.get('rrp')),
+            'roc_4w':  _roc_4w(fred_raw.get('rrp')),
+        },
+
+        # ── Onshoring Efficiency Ratio ───────────────────────────────────────
+        'onshoring': {
+            'series':       _ts(onshoring_ratio, n=60) if onshoring_ratio is not None else None,
+            'current':      round(float(onshoring_ratio.iloc[-1]), 4) if onshoring_ratio is not None and len(onshoring_ratio) >= 1 else None,
+            'prev':         round(float(onshoring_ratio.iloc[-2]), 4) if onshoring_ratio is not None and len(onshoring_ratio) >= 2 else None,
+            'roc_4w':       _roc_4w(onshoring_ratio),
+            'cons_current': _latest(fred_raw.get('tlmfgcons')),
+            'prod_current': _latest(fred_raw.get('ipman')),
+        },
+
+        # ── Copper/Gold Ratio + Real Yields ─────────────────────────────────
+        'copper_gold': {
+            'ratio_series':       _ts(copper_gold_ratio, n=252) if copper_gold_ratio is not None else None,
+            'ratio_current':      round(float(copper_gold_ratio.iloc[-1]), 6) if copper_gold_ratio is not None and len(copper_gold_ratio) >= 1 else None,
+            'ratio_roc_4w':       _roc_4w(copper_gold_ratio),
+            'real_yield_series':  _ts(fred_raw.get('dfii10'), n=252),
+            'real_yield_current': _latest(fred_raw.get('dfii10')),
+            'copper_current':     _latest(market_raw.get('HG=F')),
+            'gold_current':       _latest(market_raw.get('GC=F')),
+        },
     }
 
     return output

@@ -392,6 +392,104 @@
         </div>
         {% endif %}
 
+        <!-- ━━━ PANEL: RRP SHADOW LIQUIDITY ━━━ -->
+        {% if d.rrp_shadow and d.rrp_shadow.current is not none %}
+        {% set rrp = d.rrp_shadow %}
+        <div class="panel">
+            <h2>🚘 Shadow Liquidity — Overnight Reverse Repo (RRP)</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">The market's shock absorber. When RRP is high, a crash has a safety net — cash flows out of RRP and into assets. Near zero means the training wheels are off.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">RRP Balance: <span class="{{ 'negative' if rrp.current < 100 else 'positive' if rrp.current > 500 else '' }}"><strong>${{ "%.1f"|format(rrp.current) }}B</strong></span></div>
+                {% if rrp.roc_4w is not none %}
+                <div class="kpi">4wk ROC: <span class="{{ 'negative' if rrp.roc_4w < 0 else 'positive' }}">{{ "%+.1f"|format(rrp.roc_4w) }}%</span></div>
+                {% endif %}
+            </div>
+            <div class="signal-box signal-{% if rrp.current < 100 %}red{% elif rrp.current < 400 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if rrp.current < 100 %}NEAR ZERO — SHOCK ABSORBER GONE{% elif rrp.current < 400 %}DRAINING{% else %}AMPLE BUFFER{% endif %}</span>
+                {% if rrp.current < 100 %}
+                    RRP at ${{ "%.1f"|format(rrp.current) }}B — effectively zero. The liquidity training wheels are off. Any momentum from this point is fragile: there is no excess institutional cash left to "buy the dip." A 3-5% pullback that would have been absorbed by RRP outflows now has no cushion. Shorten timeframes, tighten stops, treat rallies as selling opportunities unless net liquidity is simultaneously expanding.
+                {% elif rrp.current < 400 %}
+                    RRP draining fast ({{ "%+.1f"|format(rrp.roc_4w) if rrp.roc_4w is not none else '?' }}% 4wk ROC). Still has some shock-absorbing capacity but buffer is shrinking. As this approaches zero, expect increasing fragility in momentum moves. Position size accordingly.
+                {% else %}
+                    Ample RRP buffer — ${{ "%.0f"|format(rrp.current) }}B of institutional dry powder parked. Market has a safety net. Dip-buyers have ammunition. Momentum trades have structural support from potential RRP outflows into risk assets.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="rrpChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: ONSHORING EFFICIENCY RATIO ━━━ -->
+        {% if d.onshoring and d.onshoring.current is not none %}
+        {% set ons = d.onshoring %}
+        <div class="panel">
+            <h2>🏭 Onshoring Efficiency — Mfg Capex vs Industrial Output</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">TLMFGCONS / IPMAN: Money spent on factories vs actual production. Rising ratio = capex supercycle in progress. The productivity boom hasn't hit earnings yet.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Ratio: <strong>{{ "%.1f"|format(ons.current) }}</strong></div>
+                {% if ons.roc_4w is not none %}
+                <div class="kpi">4wk ROC: <span class="{{ 'positive' if ons.roc_4w > 0 else 'negative' }}">{{ "%+.1f"|format(ons.roc_4w) }}%</span>
+                    <span class="badge {% if ons.roc_4w > 5 %}badge-green{% elif ons.roc_4w < -5 %}badge-red{% else %}badge-muted{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'CAPEX SURGE' if ons.roc_4w > 5 else 'PRODUCTIVITY CATCH-UP' if ons.roc_4w < -5 else 'STABLE' }}</span>
+                </div>
+                {% endif %}
+                {% if ons.cons_current is not none %}<div class="kpi">Mfg Construction: ${{ "%.0f"|format(ons.cons_current) }}M</div>{% endif %}
+                {% if ons.prod_current is not none %}<div class="kpi">Industrial Output Index: {{ "%.1f"|format(ons.prod_current) }}</div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if ons.roc_4w is not none and ons.roc_4w > 5 %}green{% elif ons.roc_4w is not none and ons.roc_4w < -5 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if ons.roc_4w is not none and ons.roc_4w > 5 %}CAPEX SUPERCYCLE{% elif ons.roc_4w is not none and ons.roc_4w < -5 %}PRODUCTIVITY CATCH-UP{% else %}CONSTRUCTION PHASE{% endif %}</span>
+                {% if ons.roc_4w is not none and ons.roc_4w > 5 %}
+                    Capex racing ahead of output — we are in the Construction Phase of the onshoring supercycle. Billions are being spent building factories but the production lines aren't running yet. This is the "Lag of Greatness." The productivity boom hasn't hit earnings reports yet — find it in industrial infrastructure and AI hardware before Wall Street sees the revenue. Long XLI, EME, PWR, STRL.
+                {% elif ons.roc_4w is not none and ons.roc_4w < -5 %}
+                    Production catching up to capex — the factories are coming online. This is the transition from Construction Phase to Production Phase. Industrial momentum is about to translate into earnings. Watch for margin expansion in manufacturing names as fixed costs get absorbed by rising output volumes.
+                {% else %}
+                    Ratio stable — capex and output moving in lockstep. No extreme signal. Monitor for divergence: ratio surging signals early-cycle capex opportunity; ratio falling signals productivity dividend arriving.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="onshoringChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: COPPER/GOLD RATIO + REAL YIELDS ━━━ -->
+        {% if d.copper_gold and d.copper_gold.ratio_current is not none %}
+        {% set cg = d.copper_gold %}
+        <div class="panel">
+            <h2>🥇 Growth/Fear Pulse — Copper÷Gold Ratio + Real Yields</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Copper = Dr. Economics (industrial demand). Gold = Fear/inflation hedge. The ratio tells you if momentum is real or paper. Overlay 10Y real yield to see the true cost of capital.</p>
+            <div class="chart-kpi-row">
+                {% if cg.copper_current is not none %}<div class="kpi">Copper: ${{ "%.2f"|format(cg.copper_current) }}/lb</div>{% endif %}
+                {% if cg.gold_current is not none %}<div class="kpi">Gold: ${{ "%.0f"|format(cg.gold_current) }}/oz</div>{% endif %}
+                <div class="kpi">Cu/Au: <strong>{{ "%.4f"|format(cg.ratio_current) }}</strong></div>
+                {% if cg.ratio_roc_4w is not none %}
+                <div class="kpi">4wk ROC: <span class="{{ 'positive' if cg.ratio_roc_4w > 0 else 'negative' }}">{{ "%+.1f"|format(cg.ratio_roc_4w) }}%</span>
+                    <span class="badge {% if cg.ratio_roc_4w > 3 %}badge-green{% elif cg.ratio_roc_4w < -3 %}badge-red{% else %}badge-muted{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'REAL MOMENTUM' if cg.ratio_roc_4w > 3 else 'FEAR RISING' if cg.ratio_roc_4w < -3 else 'NEUTRAL' }}</span>
+                </div>
+                {% endif %}
+                {% if cg.real_yield_current is not none %}
+                <div class="kpi">10Y Real Yield: <span class="{{ 'negative' if cg.real_yield_current > 2 else 'positive' if cg.real_yield_current < 0 else '' }}">{{ "%.2f"|format(cg.real_yield_current) }}%</span></div>
+                {% endif %}
+            </div>
+            {% set ratio_rising = cg.ratio_roc_4w is not none and cg.ratio_roc_4w > 0 %}
+            {% set real_yield_low = cg.real_yield_current is not none and cg.real_yield_current < 1.5 %}
+            <div class="signal-box signal-{% if ratio_rising and real_yield_low %}green{% elif not ratio_rising and not real_yield_low %}red{% else %}yellow{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">
+                    {% if ratio_rising %}REAL MOMENTUM{% else %}PAPER MOMENTUM{% endif %}
+                    {% if real_yield_low %} · LOW COST OF CAPITAL{% else %} · HIGH COST OF CAPITAL{% endif %}
+                </span>
+                {% if ratio_rising and real_yield_low %}
+                    GOLDEN ERA signal — Cu/Au rising while real yields are low. Industrial demand is real, borrowing is cheap, momentum has fundamental backing. This is the ideal environment for long momentum in cyclicals, AI infrastructure, and capex-heavy sectors. Full conviction.
+                {% elif ratio_rising and not real_yield_low %}
+                    Cu/Au rising (real demand present) but real yields elevated at {{ "%.2f"|format(cg.real_yield_current) }}%. "Good Momentum" but expensive capital is a headwind. Quality matters — favor companies with strong FCF over levered growth stories. Momentum works but duration of the move is compressed.
+                {% elif not ratio_rising and real_yield_low %}
+                    Cu/Au falling (fear/debasement driving markets) but real yields low (Fed still accommodative). "Paper Momentum" — rally driven by liquidity not growth. Defensives and gold outperform. Be selective: momentum in tech/growth can persist on liquidity alone but has no industrial confirmation. Treat as a late-cycle signal.
+                {% else %}
+                    DANGER ZONE — Cu/Au falling AND real yields high. Fear is rising and capital is expensive. This is not a momentum environment. Raise cash, tighten stops aggressively. Wait for either Cu/Au to reverse or real yields to fall before adding risk.
+                {% endif %}
+            </div>
+            <!-- Dual axis: Cu/Au ratio + Real Yield -->
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Orange = Cu/Au Ratio (left) · Blue = 10Y Real Yield % (right)</div>
+            <div class="chart-wrap medium"><canvas id="copperGoldChart"></canvas></div>
+        </div>
+        {% endif %}
+
         <!-- ━━━ PANEL 8: SECTOR ROTATION (LINES) ━━━ -->
         <div class="panel">
             <h2>🎯 Sector Rotation — Relative Performance vs SPY</h2>
@@ -994,6 +1092,70 @@ function alignTo(sparseDates, sparseVals, targetDates) {
             x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
             y: { grid: GRID }
         }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── RRP Shadow Liquidity ────────────────────────────────────────────── */
+{% if d.rrp_shadow and d.rrp_shadow.series %}
+(function() {
+    const d_ = {{ d.rrp_shadow.series.dates | tojson }};
+    const v_ = {{ d.rrp_shadow.series.y     | tojson }};
+    const colors = v_.map(v => v < 100 ? 'rgba(255,68,68,0.7)' : v < 400 ? 'rgba(255,170,0,0.65)' : 'rgba(0,210,106,0.65)');
+    new Chart(document.getElementById('rrpChart'), {
+        type: 'bar',
+        data: { labels: d_, datasets: [{ label: 'RRP Balance ($B)', data: v_, backgroundColor: colors, borderWidth: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Billions ($)', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Onshoring Efficiency Ratio ──────────────────────────────────────── */
+{% if d.onshoring and d.onshoring.series %}
+(function() {
+    const d_ = {{ d.onshoring.series.dates | tojson }};
+    const v_ = {{ d.onshoring.series.y     | tojson }};
+    const ma  = v_.map((_, i) => { const w = v_.slice(Math.max(0,i-5),i+1); return w.reduce((a,b)=>a+b,0)/w.length; });
+    new Chart(document.getElementById('onshoringChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'Capex/Output Ratio', data: v_, borderColor: '#ab47bc', backgroundColor: 'rgba(171,71,188,0.08)', fill: true, tension: 0.3, pointRadius: 3 },
+            { label: '6m MA', data: ma, borderColor: 'rgba(171,71,188,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.3 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'TLMFGCONS / IPMAN', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── Copper/Gold Ratio + Real Yields (dual axis) ─────────────────────── */
+{% if d.copper_gold and d.copper_gold.ratio_series %}
+(function() {
+    const d_  = {{ d.copper_gold.ratio_series.dates | tojson }};
+    const cgV = {{ d.copper_gold.ratio_series.y     | tojson }};
+    {% if d.copper_gold.real_yield_series %}
+    const ryD = {{ d.copper_gold.real_yield_series.dates | tojson }};
+    const ryV = {{ d.copper_gold.real_yield_series.y     | tojson }};
+    const ryAligned = alignTo(ryD, ryV, d_);
+    {% else %}
+    const ryAligned = [];
+    {% endif %}
+    new Chart(document.getElementById('copperGoldChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'Cu/Au Ratio', data: cgV, borderColor: '#ffa726', backgroundColor: 'rgba(255,167,38,0.08)', fill: true, tension: 0.2, pointRadius: 0, yAxisID: 'y' },
+            { label: '10Y Real Yield (%)', data: ryAligned, borderColor: '#42a5f5', tension: 0.2, pointRadius: 0, borderDash: [3,2], yAxisID: 'y2' },
+        ]},
+        options: { scales: {
+            x:  { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y:  { grid: GRID, position: 'left',  title: { display: true, text: 'Cu/Au', color: '#ffa726' } },
+            y2: { grid: { display: false }, position: 'right', title: { display: true, text: 'Real Yield %', color: '#42a5f5' } },
+        } }
     });
 })();
 {% endif %}
