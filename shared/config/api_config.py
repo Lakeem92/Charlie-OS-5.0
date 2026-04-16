@@ -49,6 +49,14 @@ class APIConfig:
     TIINGO_API_KEY = os.getenv('TIINGO_API_KEY')
     TIINGO_BASE_URL = 'https://api.tiingo.com/tiingo'
     
+    # USDA FoodData Central
+    USDA_API_KEY = os.getenv('USDA_API_KEY')
+    USDA_BASE_URL = 'https://api.nal.usda.gov/fdc/v1'
+    
+    # Anthropic (Claude API)
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    ANTHROPIC_BASE_URL = 'https://api.anthropic.com/v1'
+    
     @classmethod
     def get_api_key(cls, api_name: str) -> Optional[str]:
         """
@@ -69,6 +77,8 @@ class APIConfig:
             'fred': cls.FRED_API_KEY,
             'schwab': cls.SCHWAB_API_KEY,
             'tiingo': cls.TIINGO_API_KEY,
+            'usda': cls.USDA_API_KEY,
+            'anthropic': cls.ANTHROPIC_API_KEY,
         }
         return key_mapping.get(api_name.lower())
     
@@ -119,6 +129,14 @@ class APIConfig:
                 'api_key': cls.TIINGO_API_KEY,
                 'base_url': cls.TIINGO_BASE_URL
             },
+            'usda': {
+                'api_key': cls.USDA_API_KEY,
+                'base_url': cls.USDA_BASE_URL
+            },
+            'anthropic': {
+                'api_key': cls.ANTHROPIC_API_KEY,
+                'base_url': cls.ANTHROPIC_BASE_URL
+            },
         }
         return config_mapping.get(api_name.lower(), {})
     
@@ -139,6 +157,8 @@ class APIConfig:
             'FRED': bool(cls.FRED_API_KEY),
             'Charles Schwab': bool(cls.SCHWAB_API_KEY and cls.SCHWAB_API_SECRET),
             'Tiingo': bool(cls.TIINGO_API_KEY),
+            'USDA': bool(cls.USDA_API_KEY),
+            'Anthropic': bool(cls.ANTHROPIC_API_KEY),
         }
     
     @classmethod

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — News Flow</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-title"><span class="header-brand">Diet Bloomberg Terminal &#127957;&#128202;</span><span class="header-subtitle">Pre-Market Intelligence System | QuantLab v2.0</span><span class="header-ts" id="live-ts">{{ timestamp }}</span></div>
+        <nav class="header-nav">
+            <a href="/macro">Macro</a>
+            <a href="/ai">AI Cascade</a>
+            <a href="/etf">ETF</a>
+            <a href="/news" class="active">News</a>
+        </nav>
+        <div class="header-paths">
+            <span>&#128204; Dashboard: <a href="http://localhost:8766">http://localhost:8766</a></span>
+            <span>&#128194; Catalyst DB: C:\QuantLab\Data_Lab\catalyst_analysis_db\</span>
+            <span>&#128203; Focus List: C:\QuantLab\Data_Lab\watchlists\focus_list.csv</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ━━━ FOCUS LIST FEED (priority) ━━━ -->
+        <div class="panel">
+            <h2>&#127919; Focus List News (Priority) {% if d.counts %}<span class="muted" style="font-size: 0.7em;">({{ d.counts.focus }} articles)</span>{% endif %}</h2>
+            <div class="panel-body" id="focus-news">
+                {% if d.focus_news %}
+                {% for article in d.focus_news %}
+                <div class="news-item" style="margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-primary);">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <a href="{{ article.url }}" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">{{ article.title }}</a>
+                        <span class="muted" style="font-size: 0.75em; white-space: nowrap; margin-left: 1rem;">{{ article.source }}</span>
+                    </div>
+                    {% if article.tickers %}<div style="margin-top: 0.25rem;"><span class="muted">Tickers: </span>{% for t in article.tickers %}<span style="color: var(--accent-green); margin-right: 0.5rem;">{{ t }}</span>{% endfor %}</div>{% endif %}
+                    {% if article.description %}<div class="muted" style="font-size: 0.8em; margin-top: 0.25rem;">{{ article.description }}</div>{% endif %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="muted">No focus list news — run news_collector.py to populate</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ━━━ MASTER WATCHLIST FEED ━━━ -->
+        <div class="panel">
+            <h2>&#128240; Master Watchlist Feed {% if d.counts %}<span class="muted" style="font-size: 0.7em;">({{ d.counts.watchlist }} articles)</span>{% endif %}</h2>
+            <div class="panel-body" id="watchlist-news">
+                {% if d.watchlist_news %}
+                {% for article in d.watchlist_news %}
+                <div class="news-item" style="margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-primary);">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <a href="{{ article.url }}" target="_blank" style="color: var(--accent-blue); text-decoration: none;">{{ article.title }}</a>
+                        <span class="muted" style="font-size: 0.75em; white-space: nowrap; margin-left: 1rem;">{{ article.source }}</span>
+                    </div>
+                    {% if article.tickers %}<div style="margin-top: 0.25rem;">{% for t in article.tickers %}<span style="color: var(--accent-green); margin-right: 0.5rem;">{{ t }}</span>{% endfor %}</div>{% endif %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="muted">No watchlist news — run news_collector.py to populate</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ━━━ MARKET RSS ━━━ -->
+        <div class="panel">
+            <h2>&#128225; Market Wire (RSS)</h2>
+            <div class="panel-body">
+                {% if d.market_news %}
+                {% for article in d.market_news %}
+                <div style="margin-bottom: 0.5rem;">
+                    <a href="{{ article.url }}" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9em;">{{ article.title }}</a>
+                    <span class="muted" style="font-size: 0.7em;"> — {{ article.source }}</span>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="muted">No RSS news available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">QuantLab Terminal v2.0 | News Flow | Updated: {{ updated_at or '—' }} | All times CT</div>
+<script>
+(function(){
+  var n=new Date(), t=new Date(n);
+  t.setHours(6,0,0,0);
+  if(n>=t) t.setDate(t.getDate()+1);
+  setTimeout(()=>location.reload(), t-n);
+})();
+</script>  <!-- auto-refresh at 6am -->
+</body>
+</html>

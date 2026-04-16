@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — ETF Structural + Momentum</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-title"><span class="header-brand">Diet Bloomberg Terminal &#127957;&#128202;</span><span class="header-subtitle">Pre-Market Intelligence System | QuantLab v2.0</span><span class="header-ts" id="live-ts">{{ timestamp }}</span></div>
+        <nav class="header-nav">
+            <a href="/macro">Macro</a>
+            <a href="/ai">AI Cascade</a>
+            <a href="/etf" class="active">ETF</a>
+            <a href="/news">News</a>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- ━━━ SQUEEZE ALERT BANNER ━━━ -->
+        {% if d.squeeze_summary and d.squeeze_summary.watch_count > 0 %}
+        <div class="alert-banner squeeze-alert">
+            <span class="alert-icon">🔴</span>
+            <span>SQUEEZE WATCH ACTIVE — {{ d.squeeze_summary.watch_count }} ETF(s): <strong>{{ d.squeeze_summary.watch_tickers | join(', ') }}</strong></span>
+            <span class="badge badge-red" style="margin-left: auto;">STRUCTURAL SETUP</span>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ KORU SIGNAL ━━━ -->
+        {% if d.koru_signal and d.koru_signal.triggered %}
+        <div class="alert-banner {% if d.koru_signal.direction == 'up' %}opex{% else %}risk-off{% endif %}" style="background: rgba({% if d.koru_signal.direction == 'up' %}0,210,106{% else %}255,68,68{% endif %},0.08); border-color: {% if d.koru_signal.direction == 'up' %}var(--accent-green){% else %}var(--accent-red){% endif %};">
+            <span class="alert-icon">🇰🇷</span>
+            <span>KORU {{ "%+.1f"|format(d.koru_signal.ret_5d) }}% (5d) — Korea ETF signal activated</span>
+        </div>
+        {% if d.koru_signal.implication %}
+        <div class="signal-box signal-{{ 'green' if d.koru_signal.direction == 'up' else 'red' }}" style="margin-bottom: 0.75rem;">
+            <span class="signal-tag">KORU → SMH</span> {{ d.koru_signal.implication }}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- ━━━ TIER 2: MOMENTUM LEADERBOARD (first) ━━━ -->
+        <div class="panel">
+            <h2>📈 Tier 2 — Momentum Leaderboard <span class="count">({{ d.counts.leaderboard_total if d.counts and d.counts.leaderboard_total else d.counts.tier2_total if d.counts else '—' }} ETFs — leveraged excluded)</span></h2>
+            <div class="panel-body">
+                <table class="data-table" id="tier2-table">
+                    <thead>
+                        <tr>
+                            <th>ETF</th>
+                            <th>Price</th>
+                            <th>5d Return</th>
+                            <th>YTD</th>
+                            <th>5d ROC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set leaderboard = d.tier2_leaderboard if d.tier2_leaderboard is defined else d.tier2 %}
+                        {% if leaderboard %}
+                        {% for row in leaderboard %}
+                        <tr>
+                            <td><strong>{{ row.ticker }}</strong></td>
+                            <td>${{ "%.2f"|format(row.price) if row.price else '—' }}</td>
+                            <td class="heatmap-cell" style="background: rgba({% if row.ret_5d and row.ret_5d > 0 %}0, 210, 106{% else %}255, 68, 68{% endif %}, {{ [((row.ret_5d|abs if row.ret_5d else 0) / 6.0), 0.35]|min }});">{{ "%+.2f"|format(row.ret_5d) ~ '%' if row.ret_5d is not none else '—' }}</td>
+                            <td class="heatmap-cell" style="background: rgba({% if row.ytd and row.ytd > 0 %}0, 210, 106{% else %}255, 68, 68{% endif %}, {{ [((row.ytd|abs if row.ytd else 0) / 20.0), 0.35]|min }});">{{ "%+.2f"|format(row.ytd) ~ '%' if row.ytd is not none else '—' }}</td>
+                            <td class="heatmap-cell" style="background: rgba({% if row.roc_5d and row.roc_5d > 0 %}0, 210, 106{% else %}255, 68, 68{% endif %}, {{ [((row.roc_5d|abs if row.roc_5d else 0) / 6.0), 0.35]|min }});">{{ "%+.2f"|format(row.roc_5d) ~ '%' if row.roc_5d is not none else '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr><td colspan="5" class="muted">Awaiting data… Run: python data_collectors/etf_collector.py</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ━━━ TIER 1: STRUCTURAL SQUEEZE SCORES ━━━ -->
+        <div class="panel">
+            <h2>🔥 Tier 1 — Structural Squeeze Scores <span class="count">({{ d.counts.tier1_total if d.counts else '—' }} ETFs)</span></h2>
+            <p class="muted" style="padding: 0 1.5rem 0.75rem; font-size: 0.78rem;">
+                Score = SI (2pts) + GEX/MaxPain (2pts) + Dark Pool (2pts, if FINRA available) + Valuation (2pts) → max 8-10.
+                <strong>🔴 ≥6 SQUEEZE WATCH · 🟡 3-5 ELEVATED · 🟢 &lt;3 NORMAL</strong>
+            </p>
+
+            {% if d.tier1 %}
+
+            <!-- Squeeze cards (Tier 1 with scores) -->
+            <div class="squeeze-card-grid">
+                {% for row in d.tier1 %}
+                <div class="squeeze-card {{ row.squeeze_css or '' }} {% if row.squeeze_score and row.squeeze_score >= 6 %}glow-red{% elif row.squeeze_score and row.squeeze_score >= 3 %}glow-yellow{% endif %}">
+
+                    <!-- Header: ticker + score -->
+                    <div class="squeeze-header">
+                        <div class="sq-ticker">{{ row.ticker }}</div>
+                        <div class="sq-score-block">
+                            {% if row.squeeze_score is not none %}
+                            <div class="sq-score {{ row.squeeze_css or '' }}">{{ row.squeeze_score }}<span class="sq-max">/{{ row.squeeze_max or 8 }}</span></div>
+                            <div class="sq-label">{{ row.squeeze_label or '—' }}</div>
+                            {% else %}
+                            <div class="sq-score muted">—</div>
+                            <div class="sq-label muted">Pending</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Price + returns -->
+                    <div class="sq-price-row">
+                        <span class="sq-price">${{ "%.2f"|format(row.price) if row.price else '—' }}</span>
+                        {% if row.ret_5d is not none %}
+                        <span class="sq-ret {{ 'positive' if row.ret_5d > 0 else 'negative' }}">5d: {{ "%+.2f"|format(row.ret_5d) }}%</span>
+                        {% endif %}
+                        {% if row.ytd is not none %}
+                        <span class="sq-ret {{ 'positive' if row.ytd > 0 else 'negative' }}">YTD: {{ "%+.2f"|format(row.ytd) }}%</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Signal breakdown -->
+                    {% if row.squeeze_score is not none %}
+                    <div class="sq-signals">
+                        <div class="sq-sig-row">
+                            <span class="sq-sig-label">SI</span>
+                            <span class="sq-sig-pts {{ 'positive' if row.si_pts and row.si_pts > 0 else 'muted' }}">{{ row.si_pts or 0 }}/2</span>
+                            <span class="sq-sig-text">{{ row.si_signal or '—' }}</span>
+                        </div>
+                        <div class="sq-sig-row">
+                            <span class="sq-sig-label">GEX</span>
+                            <span class="sq-sig-pts {{ 'positive' if row.opts_pts and row.opts_pts > 0 else 'muted' }}">{{ row.opts_pts or 0 }}/2</span>
+                            <span class="sq-sig-text">{{ row.opts_signal or '—' }}</span>
+                        </div>
+                        <div class="sq-sig-row">
+                            <span class="sq-sig-label">VAL</span>
+                            <span class="sq-sig-pts {{ 'positive' if row.val_pts and row.val_pts > 0 else 'muted' }}">{{ row.val_pts or 0 }}/2</span>
+                            <span class="sq-sig-text">{{ row.val_signal or '—' }}</span>
+                        </div>
+                        {% if row.dp_available %}
+                        <div class="sq-sig-row">
+                            <span class="sq-sig-label">DP</span>
+                            <span class="sq-sig-pts {{ 'positive' if row.dp_pts and row.dp_pts > 0 else 'muted' }}">{{ row.dp_pts or 0 }}/2</span>
+                            <span class="sq-sig-text">{{ row.dp_signal or '—' }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Implication -->
+                    {% if row.implication %}
+                    <div class="sq-impl">
+                        <div class="impl-arrow">→ IMPLICATION:</div>
+                        <div class="impl-text">{{ row.implication }}</div>
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📊</div>
+                <div class="empty-text">Awaiting etf_collector.py data…<br>Run: <code>python data_collectors/etf_collector.py</code></div>
+            </div>
+            {% endif %}
+        </div>
+
+
+    </div>
+
+    <style>
+    /* ── Squeeze Card Grid ──────────────────────────────────────────────────── */
+    .squeeze-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 0.75rem;
+        padding: 0 1.5rem 1rem;
+    }
+    .squeeze-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .squeeze-card.squeeze-high { border-color: rgba(255,68,68,0.5); }
+    .squeeze-card.squeeze-mid  { border-color: rgba(255,170,0,0.4); }
+    .squeeze-card.squeeze-low  { border-color: var(--border); }
+
+    .squeeze-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .sq-ticker {
+        font-family: var(--font-data);
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    .sq-score-block { text-align: right; }
+    .sq-score {
+        font-family: var(--font-data);
+        font-size: 1.4rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+    .sq-score.squeeze-high { color: var(--accent-red); }
+    .sq-score.squeeze-mid  { color: var(--accent-yellow); }
+    .sq-score.squeeze-low  { color: var(--accent-green); }
+    .sq-max { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+    .sq-label { font-size: 0.68rem; color: var(--text-muted); text-align: right; margin-top: 1px; }
+
+    .sq-price-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .sq-price { font-family: var(--font-data); font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
+    .sq-ret { font-family: var(--font-data); font-size: 0.78rem; font-weight: 600; }
+
+    .sq-signals { display: flex; flex-direction: column; gap: 0.25rem; border-top: 1px solid var(--border); padding-top: 0.5rem; }
+    .sq-sig-row { display: flex; gap: 0.4rem; align-items: baseline; }
+    .sq-sig-label {
+        font-family: var(--font-data);
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        width: 28px;
+        flex-shrink: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .sq-sig-pts {
+        font-family: var(--font-data);
+        font-size: 0.72rem;
+        font-weight: 700;
+        width: 26px;
+        flex-shrink: 0;
+    }
+    .sq-sig-text {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        line-height: 1.3;
+    }
+
+    .sq-impl {
+        border-top: 1px solid var(--border);
+        padding-top: 0.5rem;
+        margin-top: 0.25rem;
+    }
+    .sq-impl .impl-text { font-size: 0.73rem; }
+
+    /* ── Alert Banners ──────────────────────────────────────────────────────── */
+    .alert-banner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.5rem;
+        border-left: 3px solid;
+        margin-bottom: 0.75rem;
+        font-size: 0.82rem;
+        font-weight: 500;
+    }
+    .alert-banner.squeeze-alert {
+        background: rgba(255,68,68,0.08);
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+    }
+    .alert-banner.risk-off {
+        background: rgba(255,68,68,0.06);
+        border-color: var(--accent-red);
+    }
+    .alert-icon { font-size: 1rem; }
+    </style>
+
+    <div class="footer">QuantLab Terminal v2.0 | ETF Structural + Momentum | Updated: {{ updated_at or '—' }} | All times CT</div>
+<script>
+(function(){
+  var n=new Date(), t=new Date(n);
+  t.setHours(6,0,0,0);
+  if(n>=t) t.setDate(t.getDate()+1);
+  setTimeout(()=>location.reload(), t-n);
+})();
+</script>  <!-- auto-refresh at 6am -->
+</body>
+</html>

@@ -1,0 +1,22 @@
+TSLA (as-of 2026-02-14T20:37:54Z, spot $417.75):
+FRONT WEEK (EXP 2026-02-18):
+  PUT WALL: $380.00 (OI 2,995) | CALL WALL: $447.50 (OI 3,759)
+  UPSIDE PATH: $417.75 -> $420.00 -> $425.00 -> $430.00 -> $435.00 -> $440.00
+  DOWNSIDE PATH: $417.75 -> $417.50 -> $415.00 -> $410.00 -> $400.00 -> $390.00
+MONTHLY (EXP 2026-02-20):
+  PUT WALL: $375.00 (OI 26,262) | CALL WALL: $450.00 (OI 19,310)
+  UPSIDE PATH: $417.75 -> $420.00 -> $425.00 -> $430.00 -> $435.00 -> $440.00
+  DOWNSIDE PATH: $417.75 -> $417.50 -> $410.00 -> $405.00 -> $400.00 -> $395.00
+ARB/CONTRACTUAL (VERIFIED):
+  - $1.13 (offering) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $14.75 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $14.92 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $8.53 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $11.34 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $3.79 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $3.30 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $7.50 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $2.82 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $176.00 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $2.86 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm
+  - $44.06 (cap_floor) | Filing: 10-K 2026-01-29 | Source: https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm

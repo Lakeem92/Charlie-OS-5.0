@@ -1,0 +1,17 @@
+RIVN (as-of 2026-02-14T21:06:49Z, spot $17.73):
+FRONT WEEK (EXP 2026-02-20):
+  PUT WALL: $14.00 (OI 29,784) | CALL WALL: $20.00 (OI 63,914)
+  UPSIDE PATH: $17.73 -> $18.00 -> $19.00 -> $20.00 -> $21.00 -> $22.00
+  DOWNSIDE PATH: $17.73 -> $17.50 -> $17.00 -> $15.00 -> $14.50 -> $14.00
+MONTHLY (MONTHLY PROXY):
+  PUT WALL: $14.00 (OI 861) | CALL WALL: $19.00 (OI 739)
+  UPSIDE PATH: $17.73 -> $18.00 -> $19.00 -> $20.00 -> $21.00 -> $22.00
+  DOWNSIDE PATH: $17.73 -> $17.50 -> $16.00 -> $15.00 -> $14.50 -> $14.00
+ARB/CONTRACTUAL (VERIFIED):
+  - $1.00 (conversion) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $750.00 (conversion) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $3.00 (cap_floor) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $1.30 (conversion) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $210.00 (conversion) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $5.00 (cap_floor) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm
+  - $4.00 (cap_floor) | Filing: 10-K 2026-02-12 | Source: https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm

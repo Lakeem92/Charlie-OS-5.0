@@ -17,7 +17,7 @@ You are the full pipeline operator for Lakeem's QuantLab. You handle BOTH the pr
 
 | Input | Pipeline |
 |---|---|
-| `"NVDA earnings"` or ticker alone | War Room full pipeline: MCP search + levels + pillars + dual scores |
+| `"NVDA earnings"` or `"prefetch NVDA"` | **Earnings Prefetch** → run `scripts/war_room_prefetch.py --ticker NVDA` → confirm file saved |
 | `"NVDA" + levels data provided` | War Room + §8M mechanical block |
 | `"NVDA, AAOI, CRWV"` (batch) | Compressed War Room × each + capital allocation verdict |
 | `"Does X work when"` / `"test if"` / `"gap study"` | QuantLab study pipeline |
@@ -31,6 +31,67 @@ You are the full pipeline operator for Lakeem's QuantLab. You handle BOTH the pr
 
 ---
 
+## Focus List Workflow — Non-Technical User Safe Mode
+
+Lakeem is a trader, not a coder. Focus-list operations must be handled in the safest, least technical way possible.
+
+### Canonical file
+- `watchlists/focus_list.csv` is the canonical focus list used by the dashboard and collectors.
+- The canonical schema is: `ticker,added_date,notes,sector`
+
+### When Lakeem says things like:
+- `"add ABNB to my focus list"`
+- `"remove NVDA from my focus list"`
+- `"replace the focus list with these names"`
+- `"what's on my focus list"`
+
+You should:
+1. Edit `watchlists/focus_list.csv` directly.
+2. Preserve the canonical schema and existing metadata when possible.
+3. Confirm the resulting list in plain English.
+4. Do **not** tell Lakeem to manually edit CSVs or source files.
+
+### Critical safety rules
+- Do **not** run the `Update Focus List` task after a simple add/remove request unless Lakeem explicitly asks to import or sync from another source.
+- Do **not** silently replace the curated focus list from Downloads or another external export.
+- Do **not** convert `focus_list.csv` into a one-column `Symbol` file.
+- If an import from Downloads is explicitly requested, state that it will replace the current curated list before doing it.
+
+### Task semantics
+- `Update Focus List` = import/sync workflow. Treat this as a source-driven overwrite operation, not a normal add/remove action.
+- `Paste Focus List Symbols` = deliberate replace/import workflow from pasted symbols.
+- Simple conversational requests to add/remove one or a few symbols should be handled by direct edit to `watchlists/focus_list.csv`, not by running an import task.
+
+### UX requirement
+- Always optimize for easy use by a non-technical trader.
+- Prefer direct action over asking Lakeem to manage files, schemas, or task behavior himself.
+
+---
+
+## Earnings Prefetch Protocol — HARD-CODED, NON-NEGOTIABLE
+
+**EARNINGS ONLY.** This does NOT trigger on non-earnings catalysts (upgrades, macro, news, etc.).
+
+**Trigger phrases:** `"[TICKER] earnings"`, `"prefetch [TICKER]"`, `"pull data on [TICKER]"`
+
+When Lakeem uses any trigger phrase:
+1. Run: `C:\QuantLab\Data_Lab\.venv\Scripts\python.exe scripts/war_room_prefetch.py --ticker [TICKER]`
+2. Output saves to: `My Data/prefetch/[TICKER]_YYYYMMDD.md`
+3. Confirm in chat: `"✅ Prefetch ready: [TICKER] — My Data/prefetch/[TICKER]_YYYYMMDD.md"`
+4. Display key snapshot numbers (market cap, price, last quarter revenue/margins) in chat
+
+This creates the data bridge for Claude Code. Claude Code reads the prefetch file
+from `My Data/prefetch/` when running the War Room v10.0 analysis (see CLAUDE.md).
+
+**What the prefetch covers:** Company profile, 5Q income/balance/cash flow,
+margin trajectories, op leverage signals (§11B), forward estimates, analyst
+consensus, float data, valuation ratios, earnings surprise history.
+
+**What the prefetch does NOT cover:** News, transcripts, sentiment, narrative
+context, options chain data. Those come from Claude's web search during analysis.
+
+---
+
 ## Sacred Architecture (Never Bypass)
 - `shared/data_router.py` — ALL equity price data. Single source of truth.
 - `shared/chart_builder.py` — ALL visualizations. Always .html output.
@@ -38,6 +99,34 @@ You are the full pipeline operator for Lakeem's QuantLab. You handle BOTH the pr
 - `studies/` — Completed research. Never delete or overwrite outputs.
 - `tools/levels_engine/` — Options levels, forced-action maps, SEC arb levels.
 - `tools/prediction_markets/` — 40GB Polymarket/Kalshi historical odds.
+- `scripts/catalyst_score_log/` — Catalyst score logging (earnings + non-earnings) + forward returns. CSV at `My Data/catalyst_log.csv` + `My Data/outcomes.csv`.
+- `My Data/prefetch/` — Earnings prefetch files (written by VS Code Copilot, read by Claude Code).
+
+## Automation / Scheduling (Critical Infrastructure)
+
+All QuantLab scheduled tasks are registered via `scripts/setup_all_schedulers.py`.
+This script runs **automatically every time VS Code opens** this workspace (via a `folderOpen` task in `.vscode/tasks.json`).
+It is idempotent — safe to run repeatedly. No admin required (user-level tasks).
+
+**Prerequisite:** `"task.allowAutomaticTasks": "on"` in `.vscode/settings.json` (already set).
+
+### Registered tasks (all times CT):
+| Task | Script | Schedule |
+|---|---|---|
+| `QuantLab_Dashboard_0615` | `run_all.py` | Mon-Fri 6:15 AM — Dashboard collectors |
+| `QuantLab_News_Flow_0630` | `scan_news.py` | Mon-Fri 6:30 AM — Master watchlist news |
+| `QuantLab_Focus_News_0715` | `scan_news.py --feed focus` | Mon-Fri 7:15 AM — Focus list news |
+| `QuantLab_News_Flow_0730` | `scan_news.py` | Mon-Fri 7:30 AM — Master watchlist news |
+| `QuantLab_News_Flow_0806` | `scan_news.py` | Mon-Fri 8:06 AM — Master watchlist news |
+| `QuantLab_Focus_News_1030` | `scan_news.py --feed focus` | Mon-Fri 10:30 AM — Focus list news |
+| `QuantLab_Focus_News_1530` | `scan_news.py --feed focus` | Mon-Fri 3:30 PM — Focus list news |
+| `QuantLab_Focus_News_SUN_1800` | `scan_news.py --feed focus` | Sun 6:00 PM — Focus list news |
+
+**Key rules:**
+- PC must be **awake** at scheduled times for Task Scheduler to fire. VS Code does NOT need to be open.
+- Opening VS Code just (re)registers the tasks. After that, Windows handles the rest.
+- `tools/watchlist_scanner/setup_scheduler.py` still works independently as a standalone fallback.
+- Neither `run_all.py` nor `scan_news.py` are modified — the scheduler just calls them.
 
 ## Data Routing (Enforces API_MAP.md)
 - **US equity price:** Alpaca (primary) → Tiingo (fallback). NEVER yfinance for equities.

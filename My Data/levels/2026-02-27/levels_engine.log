@@ -1,0 +1,70 @@
+2026-02-27T12:00:18 | INFO     | levels_engine.query_cli | Query Mode started for ['DELL'] → C:\QuantLab\Data_Lab\data\levels\2026-02-27
+2026-02-27T12:00:18 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-27T12:00:18 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:00:18 | INFO     | levels_engine.query_cli | QUERY MODE — DELL
+2026-02-27T12:00:18 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:00:19 | INFO     | levels_engine.alpaca_options | DELL spot = 147.12
+2026-02-27T12:00:19 | INFO     | levels_engine.query_cli | DELL spot = 147.12
+2026-02-27T12:00:20 | INFO     | levels_engine.alpaca_options | DELL snapshots (raw) = 1750
+2026-02-27T12:00:21 | INFO     | levels_engine.alpaca_options | DELL contracts (raw) = 920
+2026-02-27T12:00:21 | INFO     | levels_engine.alpaca_options | DELL contracts (filtered to 8 expirations) = 920
+2026-02-27T12:00:21 | INFO     | levels_engine.alpaca_options | DELL OI enrichment: 920 contracts with OI data
+2026-02-27T12:00:21 | INFO     | levels_engine.alpaca_options | DELL contracts (filtered to 8 expirations) = 920
+2026-02-27T12:00:21 | INFO     | levels_engine.alpaca_options | DELL → 920 option contracts with data
+2026-02-27T12:00:21 | INFO     | levels_engine.query_cli | DELL lenses: front_week=2026-02-27  monthly=2026-03-20 (proxy=False)
+2026-02-27T12:00:22 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\tools\levels_engine\.cache\company_tickers.json
+2026-02-27T12:00:24 | INFO     | levels_engine.edgar_fetch | CIK 0001571996: 1 filings in lookback window
+2026-02-27T12:00:25 | INFO     | levels_engine.edgar_fetch | DELL: fetched 1 filing documents (of 1 indexed)
+2026-02-27T12:00:25 | INFO     | levels_engine.arb_extract | DELL: 0 unique arb levels from 1 filings (0 raw matches)
+2026-02-27T12:00:25 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\QUERY_REPORT_DELL.md
+2026-02-27T12:00:25 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-27\query_output_DELL.json
+2026-02-27T12:00:25 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\DESK_SNIPPET_DELL.txt
+2026-02-27T12:00:25 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:00:25 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-27T12:00:25 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:15:27 | INFO     | levels_engine.query_cli | Query Mode started for ['CRWV'] → C:\QuantLab\Data_Lab\data\levels\2026-02-27
+2026-02-27T12:15:27 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-27T12:15:27 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:15:27 | INFO     | levels_engine.query_cli | QUERY MODE — CRWV
+2026-02-27T12:15:27 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:15:28 | INFO     | levels_engine.alpaca_options | CRWV spot = 78.47
+2026-02-27T12:15:28 | INFO     | levels_engine.query_cli | CRWV spot = 78.47
+2026-02-27T12:15:30 | INFO     | levels_engine.alpaca_options | CRWV snapshots (raw) = 2434
+2026-02-27T12:15:32 | INFO     | levels_engine.alpaca_options | CRWV contracts (raw) = 1204
+2026-02-27T12:15:32 | INFO     | levels_engine.alpaca_options | CRWV contracts (filtered to 8 expirations) = 1204
+2026-02-27T12:15:32 | INFO     | levels_engine.alpaca_options | CRWV OI enrichment: 1204 contracts with OI data
+2026-02-27T12:15:32 | INFO     | levels_engine.alpaca_options | CRWV contracts (filtered to 8 expirations) = 1204
+2026-02-27T12:15:32 | INFO     | levels_engine.alpaca_options | CRWV → 1204 option contracts with data
+2026-02-27T12:15:32 | INFO     | levels_engine.query_cli | CRWV lenses: front_week=2026-02-27  monthly=2026-03-20 (proxy=False)
+2026-02-27T12:15:34 | INFO     | levels_engine.edgar_fetch | CIK 0001769628: 2 filings in lookback window
+2026-02-27T12:15:36 | INFO     | levels_engine.edgar_fetch | CRWV: fetched 2 filing documents (of 2 indexed)
+2026-02-27T12:15:36 | INFO     | levels_engine.arb_extract | CRWV: 4 unique arb levels from 2 filings (4 raw matches)
+2026-02-27T12:15:36 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\QUERY_REPORT_CRWV.md
+2026-02-27T12:15:36 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-27\query_output_CRWV.json
+2026-02-27T12:15:36 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\DESK_SNIPPET_CRWV.txt
+2026-02-27T12:15:36 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:15:36 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-27T12:15:36 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:36:46 | INFO     | levels_engine.query_cli | Query Mode started for ['RUN'] → C:\QuantLab\Data_Lab\data\levels\2026-02-27
+2026-02-27T12:36:46 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-27T12:36:46 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:36:46 | INFO     | levels_engine.query_cli | QUERY MODE — RUN
+2026-02-27T12:36:46 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:36:47 | INFO     | levels_engine.alpaca_options | RUN spot = 12.68
+2026-02-27T12:36:47 | INFO     | levels_engine.query_cli | RUN spot = 12.68
+2026-02-27T12:36:48 | INFO     | levels_engine.alpaca_options | RUN snapshots (raw) = 828
+2026-02-27T12:36:49 | INFO     | levels_engine.alpaca_options | RUN contracts (raw) = 566
+2026-02-27T12:36:49 | INFO     | levels_engine.alpaca_options | RUN contracts (filtered to 8 expirations) = 566
+2026-02-27T12:36:49 | INFO     | levels_engine.alpaca_options | RUN OI enrichment: 566 contracts with OI data
+2026-02-27T12:36:49 | INFO     | levels_engine.alpaca_options | RUN contracts (filtered to 8 expirations) = 566
+2026-02-27T12:36:49 | INFO     | levels_engine.alpaca_options | RUN → 566 option contracts with data
+2026-02-27T12:36:49 | INFO     | levels_engine.query_cli | RUN lenses: front_week=2026-02-27  monthly=2026-03-20 (proxy=False)
+2026-02-27T12:36:50 | INFO     | levels_engine.edgar_fetch | CIK 0001469367: 2 filings in lookback window
+2026-02-27T12:36:52 | INFO     | levels_engine.edgar_fetch | RUN: fetched 2 filing documents (of 2 indexed)
+2026-02-27T12:36:52 | INFO     | levels_engine.arb_extract | RUN: 1 unique arb levels from 2 filings (3 raw matches)
+2026-02-27T12:36:52 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\QUERY_REPORT_RUN.md
+2026-02-27T12:36:52 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-27\query_output_RUN.json
+2026-02-27T12:36:52 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-27\DESK_SNIPPET_RUN.txt
+2026-02-27T12:36:52 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-27T12:36:52 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-27T12:36:52 | INFO     | levels_engine.query_cli | ============================================================

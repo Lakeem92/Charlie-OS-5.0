@@ -2,47 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Refresh Dashboard Hub",
+            "label": "Register All Schedulers",
             "type": "process",
             "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-            "args": ["${workspaceFolder}\\scratch\\dashboard_hub\\update_dashboard_hub.py"],
-            "group": "build",
+            "args": ["${workspaceFolder}\\scripts\\setup_all_schedulers.py"],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
             "presentation": {
                 "echo": true,
                 "reveal": "silent",
                 "focus": false,
                 "panel": "shared"
             },
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
-        },
-        {
-            "label": "Start News Flow Server",
-            "type": "process",
-            "command": "${workspaceFolder}\\.venv\\Scripts\\pythonw.exe",
-            "args": ["${workspaceFolder}\\News_flow\\serve.py"],
-            "group": "build",
-            "presentation": {
-                "reveal": "never",
-                "close": true
-            },
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
-        },
-        {
-            "label": "Launch QuantLab Dashboard",
-            "type": "process",
-            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-            "args": ["${workspaceFolder}\\scratch\\dashboard\\morning_dashboard.py"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared"
-            }
+            "problemMatcher": []
         },
         {
             "label": "Update Focus List",

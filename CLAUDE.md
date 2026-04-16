@@ -17,95 +17,43 @@ execution advice. He wants clean data, clean analysis, clean answers.
 
 ---
 
-## Catalyst Tracker -- AUTO-LOG PROTOCOL
+## War Room Prompt
 
-After EVERY War Room analysis (any time Lakeem asks for a score or
-catalyst analysis on a ticker), you MUST:
+The analysis framework lives at:
+  prompts/WAR_ROOM_v10.0.md
 
-1. Extract the structured data from the analysis output:
-   - ticker, analysis_date (today), sector, lifecycle_stage
-   - catalyst_type (1-14), catalyst_engine (F/M/N/combo)
-   - score_realness, score_freshness, score_thesis_impact,
-     score_magnitude, score_stacking (each 0-2)
-   - score_modifier (if any penalty applied), modifier_reason
-   - score_total (final 0-10)
-   - conviction_tag (HIGH/DEVELOPING/WEAK)
-   - macro_context (TAILWIND/HEADWIND/NEUTRAL)
-   - the_one_variable (from the verdict block)
-   - thesis_summary (1-2 sentence synthesis)
-   - catalyst_direction (LONG/SHORT -- direction of the catalyst)
-   - is_earnings (true/false)
-   - If Lakeem mentions the stock price, log it via log_outcome.py
-     as price_at_analysis
+All War Room analyses MUST follow this prompt. Scoring uses §7C
+dimensions (5 dimensions, each 0-2, max 10). Verdict tags from §11C.
+The One Variable is MANDATORY on every analysis. The formal score
+block (§3 format) closes every analysis. No exceptions.
 
-2. Run this command immediately after delivering the analysis:
-   python scripts/tracker/log_catalyst.py --json '<JSON_DATA>'
-
-3. Confirm the log with a single short line, e.g.:
-   "[Logged to tracker: ID #X]"
-
-This is non-negotiable. Every analysis gets logged. No exceptions.
-
----
-
-## Forward Returns -- FETCH PROTOCOL
-
-When Lakeem asks ANYTHING about forward returns, outcomes, or
-how a catalyst played out, in any natural phrasing such as:
-
-  "What are the forward returns for NVDA after earnings?"
-  "How did my TSLA catalyst play out?"
-  "Show me my 5-day returns from last week"
-  "What happened to [ticker] after I logged it?"
-  "Pull up the outcomes for Q1 earnings"
-  "Update my returns"
-  "What's the follow-through on [ticker]?"
-
-You MUST do the following IN THIS ORDER:
-
-  STEP 1 -- Run the fetcher to get latest prices from Tiingo:
-    For a specific ticker:
-      python scripts/tracker/fetch_returns.py --ticker NVDA
-    For everything pending:
-      python scripts/tracker/fetch_returns.py --all
-    For a specific ID:
-      python scripts/tracker/fetch_returns.py --id <N>
-
-  STEP 2 -- Query the database and report back:
-    python scripts/tracker/query_patterns.py --report ticker --ticker NVDA
-    (or whichever report fits the question)
-
-  STEP 3 -- Interpret the results for Lakeem in plain English.
-    Don't just dump numbers. Connect the return to the catalyst.
-    "Your TYPE 1 NVDA call scored 8.5, 5-day return was +6.2% in the
-    catalyst direction. The fundamental engine held up."
-
-Never report stale data without running the fetcher first.
-Never run the fetcher without being asked.
-
----
-
-## Database Location
-
-  data/catalyst_tracker.db   (local only, gitignored)
-
-Scripts:
-  scripts/tracker/init_db.py        -- one-time setup
-  scripts/tracker/log_catalyst.py   -- log a new analysis
-  scripts/tracker/log_outcome.py    -- manual outcome entry
-  scripts/tracker/fetch_returns.py  -- auto-fetch prices from Tiingo
-  scripts/tracker/query_patterns.py -- pattern reports
-
-Notebook:
-  notebooks/catalyst_review.ipynb   -- visual review, run any time
+Tunable scoring parameters: prompts/war_room_params.yaml
+Session state: prompts/WAR_ROOM_CONTEXT.md (read at session start)
 
 ---
 
 ## API Stack
 
 All API keys are in .env (gitignored). Clients in shared/config/api_clients.py.
-Primary price source for return fetching: Tiingo (get_daily_prices).
+Primary price source: Tiingo (get_daily_prices).
 Fallback: FMP (get_historical_prices if Tiingo fails).
+News: Benzinga (BENZINGA_API_KEY in .env) — nice-to-have, not yet wired.
+
+---
+
+## Dashboard — Diet Bloomberg Terminal
+
+Runs at localhost:8766 via `python "Diet Bloomberg/serve.py"`.
+Data is collected by scripts in data_collectors/ and written to
+catalyst_analysis_db/ (the main data store — confusingly named, ignore
+the "catalyst" part, it holds all dashboard data).
+
+Collectors:
+  data_collectors/macro_collector.py    -- macro regime, COT, rates
+  data_collectors/ai_cascade_collector.py -- AI supercycle flows
+  data_collectors/etf_collector.py      -- ETF structural + momentum
+  data_collectors/focus_list_collector.py -- focus list prices
+  data_collectors/news_collector.py     -- news feed
 
 ---
 

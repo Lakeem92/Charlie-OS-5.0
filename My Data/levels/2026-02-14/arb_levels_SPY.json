@@ -1,0 +1,11 @@
+{
+  "ticker": "SPY",
+  "asof_utc": "2026-02-14T20:39:18Z",
+  "lookback_days": 45,
+  "verified_levels": [],
+  "candidates": [],
+  "diagnostics": {
+    "filings_scanned": 0,
+    "matches_found": 0
+  }
+}

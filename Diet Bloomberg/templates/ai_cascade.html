@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — AI Supercycle Monitor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-title"><span class="header-brand">Diet Bloomberg Terminal &#127957;&#128202;</span><span class="header-subtitle">Pre-Market Intelligence System | QuantLab v2.0</span><span class="header-ts" id="live-ts">{{ timestamp }}</span></div>
+        <nav class="header-nav">
+            <a href="/macro">Macro</a>
+            <a href="/ai" class="active">AI Cascade</a>
+            <a href="/etf">ETF</a>
+            <a href="/news">News</a>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- ━━━ 4-FLOW CONVERGENCE METER ━━━ -->
+        <div class="panel">
+            <h2>⚡ 4-Flow Convergence Meter</h2>
+            <div class="convergence-gauge">
+                <!-- Chart.js doughnut gauge -->
+                <div class="convergence-chart-wrap">
+                    <canvas id="convergenceGauge" width="140" height="140"></canvas>
+                    <div class="convergence-center-label">
+                        <span class="gauge-number">{{ d.convergence if d.convergence is defined else '—' }}</span>
+                        <span class="gauge-sub">/ 4</span>
+                    </div>
+                </div>
+                <div class="gauge-context">
+                    <div class="gauge-label">
+                        {% if d.convergence is defined and d.convergence == 4 %}🔥 ALL FLOWS GREEN — Maximum AI Conviction
+                        {% elif d.convergence is defined and d.convergence == 3 %}⚡ 3/4 FLOWS ACTIVE — Strong Momentum
+                        {% elif d.convergence is defined and d.convergence == 2 %}🟡 MIXED — 2/4 Flows Confirming
+                        {% elif d.convergence is defined and d.convergence == 1 %}⚠️ SINGLE FLOW — Rotation, Not Conviction
+                        {% else %}🔴 DEFENSIVE — No Flows Active{% endif %}
+                    </div>
+                    <div class="gauge-desc">
+                        {% if d.convergence is defined and d.convergence == 4 %}Maximum AI cycle momentum — all four supply chain layers firing. Full conviction on AI infrastructure names. Size up.
+                        {% elif d.convergence is defined and d.convergence == 3 %}Three layers confirming. Monitor the lagging flow for rotation clues. Strong but not maximum conviction.
+                        {% elif d.convergence is defined and d.convergence == 2 %}Selective opportunity only — pick the strongest flow, avoid the weakest.
+                        {% elif d.convergence is defined and d.convergence == 1 %}Only one flow active — this is rotation, not broad AI trade. Trade the active flow, hedge the rest.
+                        {% else %}No flows active. Wait for re-ignition signal (NVDA volume spike, hyperscaler capex guide).{% endif %}
+                    </div>
+                    {% if d.flow_implication %}
+                    <div class="signal-box signal-{{ 'green' if d.convergence and d.convergence >= 3 else 'yellow' if d.convergence and d.convergence >= 2 else 'red' }}" style="margin-top: 0.75rem;">
+                        <span class="signal-tag">AI</span> {{ d.flow_implication }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Flow progress bars -->
+            <div class="flow-progress">
+                {% if d.flows %}
+                {% for key in ['silicon', 'optical', 'power', 'demand'] %}
+                {% set f = d.flows.get(key, {}) %}
+                <div class="flow-row">
+                    <div class="flow-label">
+                        <span class="status-dot {{ f.status or 'muted' }}"></span>
+                        {{ f.emoji or '⚪' }} {{ f.label or key|upper }}
+                    </div>
+                    <div class="flow-bar-track">
+                        <div class="flow-bar-fill {{ f.status or 'neutral' }}" style="width: {{ f.score or 0 }}%;"></div>
+                    </div>
+                    <div class="flow-score {% if f.avg_ret_5d and f.avg_ret_5d > 0 %}positive{% elif f.avg_ret_5d and f.avg_ret_5d < 0 %}negative{% endif %}">
+                        {{ "%+.1f"|format(f.avg_ret_5d) ~ '%' if f.avg_ret_5d is not none else '—' }}
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">🧠</div>
+                    <div class="empty-text">Run ai_cascade_collector.py to populate</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ━━━ FLOW DETAIL CARDS — with implications ━━━ -->
+        {% if d.flows %}
+        <div class="grid-2">
+            {% for key in ['silicon', 'optical', 'power', 'demand'] %}
+            {% set f = d.flows.get(key, {}) %}
+            <div class="panel">
+                <h2>{{ f.emoji or '⚪' }} {{ f.label or key|upper }}
+                    <span class="badge {% if f.status == 'active' %}badge-green{% elif f.status == 'friction' %}badge-yellow{% else %}badge-red{% endif %}">{{ (f.status or 'unknown')|upper }}</span>
+                    <span class="count">{{ f.description or '' }}</span>
+                </h2>
+
+                <!-- Implication block -->
+                {% if f.implication %}
+                <div class="signal-box signal-{{ 'green' if f.status == 'active' else 'yellow' if f.status == 'friction' else 'red' }}" style="margin: 0 1.5rem 0.75rem;">
+                    <span class="signal-tag">IMPLICATION</span> {{ f.implication }}
+                </div>
+                {% endif %}
+
+                <!-- Mini ROC bar chart for flow tickers -->
+                {% if f.tickers %}
+                <div style="padding: 0 1.5rem 0.5rem; height: 120px;">
+                    <canvas id="flowChart_{{ key }}"></canvas>
+                </div>
+                {% endif %}
+
+                <div class="panel-body">
+                    {% if f.tickers %}
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Ticker</th><th>Price</th><th>1d</th><th>5d</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for t in f.tickers %}
+                            <tr>
+                                <td><strong>{{ t.ticker }}</strong></td>
+                                <td>${{ "%.2f"|format(t.price) }}</td>
+                                <td class="heatmap-cell" style="background: rgba({% if t.ret_1d and t.ret_1d > 0 %}0, 210, 106{% else %}255, 68, 68{% endif %}, {{ [((t.ret_1d|abs if t.ret_1d else 0) / 8.0), 0.35]|min }});">{{ "%+.2f"|format(t.ret_1d) ~ '%' if t.ret_1d is not none else '—' }}</td>
+                                <td class="heatmap-cell" style="background: rgba({% if t.ret_5d and t.ret_5d > 0 %}0, 210, 106{% else %}255, 68, 68{% endif %}, {{ [((t.ret_5d|abs if t.ret_5d else 0) / 8.0), 0.35]|min }});">{{ "%+.2f"|format(t.ret_5d) ~ '%' if t.ret_5d is not none else '—' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="muted">No data available</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- ━━━ GOOGLE TRENDS — SEARCH INTEREST CASCADE ━━━ -->
+        <div class="panel">
+            <h2>📈 Google Trends — AI Supply Chain Search Interest</h2>
+
+            {% if d.pytrends_cached %}
+            <div class="signal-box signal-yellow" style="margin: 0 1.5rem 0.75rem;">
+                <span class="signal-tag">CACHED</span> Using cached Google Trends data — live fetch skipped or rate limited.
+                Run with <code>--no-trends</code> flag removed to refresh.
+            </div>
+            {% endif %}
+
+            {% if d.pytrends_summary %}
+            <!-- Per-flow trend summary -->
+            <div class="trends-flow-grid">
+                {% for flow_name, summary in d.pytrends_summary.items() %}
+                <div class="trends-flow-card">
+                    <div class="trends-flow-header">
+                        <span class="trends-flow-label">{{ flow_name }}</span>
+                        <span class="badge {{ 'badge-green' if summary.flow_trend == 'RISING' else 'badge-red' if summary.flow_trend == 'FALLING' else 'badge-yellow' }}">
+                            {{ summary.flow_trend }}
+                        </span>
+                        {% if summary.avg_roc_4w is not none %}
+                        <span class="trends-roc {{ 'positive' if summary.avg_roc_4w > 0 else 'negative' }}">
+                            4wk ROC: {{ "%+.0f"|format(summary.avg_roc_4w) }}%
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="trends-term-list">
+                        {% for term in summary.terms %}
+                        <div class="trends-term-row">
+                            <span class="trends-term-name">{{ term.layer or term.term[:30] }}</span>
+                            <div class="trends-term-bars">
+                                <span class="trends-roc-pill {{ 'positive' if term.roc_4w and term.roc_4w > 0 else 'negative' if term.roc_4w and term.roc_4w < 0 else 'muted' }}">
+                                    4w: {{ "%+.0f"|format(term.roc_4w) ~ '%' if term.roc_4w is not none else '—' }}
+                                </span>
+                                <span class="trends-roc-pill {{ 'positive' if term.roc_12w and term.roc_12w > 0 else 'negative' if term.roc_12w and term.roc_12w < 0 else 'muted' }} muted">
+                                    12w: {{ "%+.0f"|format(term.roc_12w) ~ '%' if term.roc_12w is not none else '—' }}
+                                </span>
+                                <span class="badge {{ 'badge-green' if term.trend == 'RISING' else 'badge-red' if term.trend == 'FALLING' else '' }}" style="font-size: 0.62rem; padding: 1px 5px;">{{ term.trend }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% elif d.pytrends %}
+            <!-- Flat table fallback -->
+            <table class="data-table">
+                <thead>
+                    <tr><th>Search Term</th><th>Flow</th><th>Layer</th><th>4wk ROC</th><th>12wk ROC</th><th>Trend</th><th>Lead Time</th><th>Tickers</th></tr>
+                </thead>
+                <tbody>
+                {% for term, tdata in d.pytrends.items() %}
+                <tr>
+                    <td style="font-size: 0.78rem;">{{ term[:45] }}</td>
+                    <td><span class="muted">{{ tdata.flow or '—' }}</span></td>
+                    <td><span class="muted" style="font-size: 0.72rem;">{{ tdata.layer or '—' }}</span></td>
+                    <td class="{{ 'positive' if tdata.roc_4w and tdata.roc_4w > 0 else 'negative' if tdata.roc_4w and tdata.roc_4w < 0 else '' }}">{{ "%+.0f"|format(tdata.roc_4w) ~ '%' if tdata.roc_4w is not none else '—' }}</td>
+                    <td class="{{ 'positive' if tdata.roc_12w and tdata.roc_12w > 0 else 'negative' if tdata.roc_12w and tdata.roc_12w < 0 else '' }}">{{ "%+.0f"|format(tdata.roc_12w) ~ '%' if tdata.roc_12w is not none else '—' }}</td>
+                    <td><span class="badge {{ 'badge-green' if tdata.trend == 'RISING' else 'badge-red' if tdata.trend == 'FALLING' else 'badge-yellow' }}">{{ tdata.trend or '—' }}</span></td>
+                    <td style="font-size: 0.72rem; color: var(--text-muted);">{{ tdata.lead_time or '—' }}</td>
+                    <td style="font-size: 0.72rem; font-family: var(--font-data);">{{ tdata.tickers | join(', ') if tdata.tickers else '—' }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📈</div>
+                <div class="empty-text">Google Trends data unavailable<br>Run <code>python data_collectors/ai_cascade_collector.py</code></div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- ━━━ INSTITUTIONAL PICKS ━━━ -->
+        <div class="panel">
+            <h2>💡 Institutional Picks — Obscure Supply Chain</h2>
+            {% if d.picks %}
+            <div class="card-row">
+                {% for p in d.picks %}
+                <div class="card {% if p.ret_5d and p.ret_5d > 3 %}glow-green{% elif p.ret_5d and p.ret_5d < -3 %}glow-red{% endif %}">
+                    <div class="card-label">{{ p.ticker }}</div>
+                    <div class="card-sublabel muted" style="font-size: 0.7rem;">{{ p.name }}</div>
+                    <div class="card-value {% if p.ret_5d and p.ret_5d > 0 %}positive{% elif p.ret_5d and p.ret_5d < 0 %}negative{% endif %}">${{ "%.2f"|format(p.price) if p.price else '—' }}</div>
+                    {% if p.ret_5d is not none %}
+                    <div class="card-sublabel {% if p.ret_5d > 0 %}positive{% else %}negative{% endif %}">
+                        5d: {{ "%+.2f"|format(p.ret_5d) }}%
+                        {% if p.ret_5d > 5 %}🔥{% elif p.ret_5d > 2 %}📈{% elif p.ret_5d < -5 %}💀{% elif p.ret_5d < -2 %}📉{% endif %}
+                    </div>
+                    {% endif %}
+                    {% if p.ret_1d is defined and p.ret_1d is not none %}
+                    <div class="card-sublabel muted">1d: {{ "%+.2f"|format(p.ret_1d) }}%</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">💡</div>
+                <div class="empty-text">Run ai_cascade_collector.py to populate</div>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <style>
+    /* ── Google Trends Flow Grid ─────────────────────────────────────────────── */
+    .trends-flow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 0.75rem;
+        padding: 0 1.5rem 1rem;
+    }
+    .trends-flow-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.875rem 1rem;
+    }
+    .trends-flow-header {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-bottom: 0.625rem;
+        flex-wrap: wrap;
+    }
+    .trends-flow-label {
+        font-family: var(--font-data);
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        flex: 1;
+    }
+    .trends-roc {
+        font-family: var(--font-data);
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+    .trends-term-list { display: flex; flex-direction: column; gap: 0.25rem; }
+    .trends-term-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.2rem 0;
+        border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .trends-term-name {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .trends-term-bars { display: flex; gap: 0.25rem; align-items: center; flex-shrink: 0; }
+    .trends-roc-pill {
+        font-family: var(--font-data);
+        font-size: 0.65rem;
+        font-weight: 600;
+        background: rgba(255,255,255,0.05);
+        padding: 1px 5px;
+        border-radius: 3px;
+    }
+    /* Convergence gauge */
+    .convergence-chart-wrap { position: relative; width: 140px; height: 140px; flex-shrink: 0; }
+    .convergence-center-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+    .convergence-center-label .gauge-number { font-family: var(--font-data); font-size: 2rem; font-weight: 700; color: var(--text-primary); display: block; }
+    .convergence-center-label .gauge-sub { font-family: var(--font-data); font-size: 0.75rem; color: var(--text-muted); }
+    </style>
+
+<script>
+Chart.defaults.color = '#8e8ea0';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.responsive = true;
+Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.elements.point.radius = 0;
+const GRID = { color: 'rgba(255,255,255,0.06)' };
+
+/* Convergence doughnut gauge */
+{% if d.convergence is defined %}
+(function() {
+    const score = {{ d.convergence or 0 }};
+    const colors = ['#00d26a', '#42a5f5', '#f5a623', '#ef5350'];
+    const activeColor = score >= 4 ? '#00d26a' : score >= 3 ? '#42a5f5' : score >= 2 ? '#f5a623' : '#ef5350';
+    new Chart(document.getElementById('convergenceGauge'), {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [score, 4 - score],
+                backgroundColor: [activeColor, 'rgba(255,255,255,0.06)'],
+                borderWidth: 0,
+                circumference: 270,
+                rotation: -135,
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            cutout: '72%',
+        }
+    });
+})();
+{% endif %}
+
+/* Flow ROC bar charts */
+{% if d.flows %}
+{% for key in ['silicon', 'optical', 'power', 'demand'] %}
+{% set f = d.flows.get(key, {}) %}
+{% if f.tickers %}
+(function() {
+    const tickers = {{ f.tickers | map(attribute='ticker') | list | tojson }};
+    const vals5d  = {{ f.tickers | map(attribute='ret_5d') | list | tojson }};
+    const vals1d  = {{ f.tickers | map(attribute='ret_1d') | list | tojson }};
+    const colors5d = vals5d.map(v => v !== null && v >= 0 ? 'rgba(0,210,106,0.7)' : 'rgba(255,68,68,0.7)');
+    new Chart(document.getElementById('flowChart_{{ key }}'), {
+        type: 'bar',
+        data: {
+            labels: tickers,
+            datasets: [
+                { label: '5d %', data: vals5d, backgroundColor: colors5d, borderWidth: 0 },
+                { label: '1d %', data: vals1d, backgroundColor: 'rgba(66,165,245,0.5)', borderWidth: 0 },
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { font: { size: 9 } } },
+                y: { grid: GRID, ticks: { font: { size: 9 } } }
+            },
+            plugins: { legend: { labels: { font: { size: 10 } } } }
+        }
+    });
+})();
+{% endif %}
+{% endfor %}
+{% endif %}
+</script>
+
+    <div class="footer">QuantLab Terminal v2.0 | AI Supercycle Monitor | Updated: {{ updated_at or '—' }} | All times CT</div>
+<script>
+(function(){
+  var n=new Date(), t=new Date(n);
+  t.setHours(6,0,0,0);
+  if(n>=t) t.setDate(t.getDate()+1);
+  setTimeout(()=>location.reload(), t-n);
+})();
+</script>  <!-- auto-refresh at 6am -->
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+  {"term": "AI chip demand",              "flow": "silicon", "layer": "GPU/Chip Demand",        "tickers": ["NVDA", "AMD", "AVGO"],    "lead_time": "2-4 weeks"},
+  {"term": "NVIDIA Blackwell",            "flow": "silicon", "layer": "GPU Architecture",        "tickers": ["NVDA"],                   "lead_time": "1-3 weeks"},
+  {"term": "CoWoS advanced packaging",   "flow": "silicon", "layer": "Advanced Packaging",      "tickers": ["TSM", "AMKR", "ASX"],     "lead_time": "4-8 weeks"},
+  {"term": "HBM memory",                 "flow": "silicon", "layer": "HBM Memory",              "tickers": ["MU", "LRCX", "AMAT"],    "lead_time": "2-4 weeks"},
+  {"term": "silicon photonics",          "flow": "optical", "layer": "Optical Interconnects",   "tickers": ["MRVL", "COHR", "LITE"],   "lead_time": "3-6 weeks"},
+  {"term": "800G optical transceiver",   "flow": "optical", "layer": "High-Speed Optics",       "tickers": ["COHR", "LITE", "CRDO"],   "lead_time": "2-4 weeks"},
+  {"term": "data center power consumption", "flow": "power", "layer": "DC Power Draw",          "tickers": ["VST", "CEG", "ETR"],      "lead_time": "4-6 weeks"},
+  {"term": "AI data center cooling",     "flow": "power",   "layer": "Thermal Management",      "tickers": ["VRT", "GNRC", "HUBB"],   "lead_time": "2-4 weeks"},
+  {"term": "hyperscaler capex",          "flow": "demand",  "layer": "Hyperscaler Spend",       "tickers": ["MSFT", "AMZN", "GOOGL"], "lead_time": "4-8 weeks"},
+  {"term": "AI inference cost",          "flow": "demand",  "layer": "Inference Deployment",    "tickers": ["NVDA", "AMD", "AVGO"],   "lead_time": "2-4 weeks"},
+  {"term": "GPU cloud utilization",      "flow": "demand",  "layer": "Cloud GPU Demand",        "tickers": ["CRWV", "NVDA", "AMZN"],  "lead_time": "1-3 weeks"},
+  {"term": "custom AI chip ASIC",        "flow": "silicon", "layer": "Custom ASIC",             "tickers": ["AVGO", "MRVL", "INTC"],  "lead_time": "4-8 weeks"},
+  {"term": "data center construction",   "flow": "power",   "layer": "DC Build-Out",            "tickers": ["STRL", "PWR", "EME"],    "lead_time": "8-12 weeks"},
+  {"term": "liquid cooling server",      "flow": "power",   "layer": "Liquid Cooling",          "tickers": ["VRT", "AAON", "CARR"],   "lead_time": "3-5 weeks"},
+  {"term": "AI agent enterprise",        "flow": "demand",  "layer": "AI Deployment",           "tickers": ["CRM", "NOW", "MSFT"],    "lead_time": "2-4 weeks"}
+]

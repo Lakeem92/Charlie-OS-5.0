@@ -20,8 +20,9 @@ shared/config/keys/
 # Levels engine outputs
 data/levels/**
 
-# Catalyst tracker database (data, not code — stays local)
-data/catalyst_tracker.db
+# Catalyst tracker CSVs (data, not code — stays local)
+My Data/catalyst_log.csv
+My Data/outcomes.csv
 
 # Nested git repos (manage separately)
 prediction-market-analysis/

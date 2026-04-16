@@ -1,0 +1,34 @@
+Doctor run: 2026-02-14T20:47:12.004557+00:00
+
+============================================================
+  LEVELS ENGINE — DOCTOR
+============================================================
+
+1) Environment files
+  [OK]  tools/levels_engine/.env exists
+  [--]  root .env not found
+  [OK]  shared/config/keys/paper.env exists
+  [OK]  shared/config/keys/live.env exists
+  [OK]  Loaded env from: tools/levels_engine/.env, shared/config/keys/paper.env, shared/config/keys/live.env
+
+2) Auth mode configuration
+  [--]  ALPACA_OPTIONS_AUTH = live  ← used for options chain data
+  [--]  ALPACA_TRADING_AUTH = paper  ← used for trading
+  [--]  ALPACA_DATA_FEED   = indicative
+  [OK]  SEC_USER_AGENT = QuantLabLevelsEngine your-email@example.com
+
+3) Alpaca key pairs
+  [OK]  Options key  (live) = AKC4…NO3S  (len=26)
+  [OK]  Options secret (live) = DwK4…8gkU  (len=44)
+  [OK]  Trading key  (paper) = PKC6…OKEB  (len=26)
+
+4) Alpaca data endpoint checks (using live keys)
+  [OK]  Stocks data (SPY quote): HTTP 200 — access confirmed
+  [OK]  Options snapshots (SPY): HTTP 200 — access confirmed
+  [OK]  Options contracts (SPY): HTTP 200 — access confirmed
+
+5) Diagnosis
+  [OK]  All checks passed. Alpaca access is working.
+  Run the pipeline:
+    python tools\levels_engine\run_levels.py SPY TSLA NVDA
+

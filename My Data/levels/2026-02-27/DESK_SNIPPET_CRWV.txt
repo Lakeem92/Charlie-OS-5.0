@@ -1,0 +1,14 @@
+CRWV (as-of 2026-02-27T18:15:27Z, spot $78.47):
+FRONT WEEK (EXP 2026-02-27):
+  PUT WALL: $70.00 (OI 14,484) | CALL WALL: $100.00 (OI 6,794)
+  UPSIDE PATH: $78.47 -> $79.00 -> $80.00 -> $82.00 -> $85.00 -> $87.20
+  DOWNSIDE PATH: $78.47 -> $78.00 -> $77.00 -> $75.00 -> $73.00 -> $70.00
+MONTHLY (EXP 2026-03-20):
+  PUT WALL: $70.00 (OI 15,012) | CALL WALL: $100.00 (OI 109,382)
+  UPSIDE PATH: $78.47 -> $79.00 -> $80.00 -> $82.50 -> $84.00 -> $85.00
+  DOWNSIDE PATH: $78.47 -> $78.00 -> $77.50 -> $75.00 -> $72.50 -> $70.00
+ARB/CONTRACTUAL (VERIFIED):
+  - $87.20 (purchase) | Filing: 8-K 2026-01-26 | Source: https://www.sec.gov/Archives/edgar/data/1769628/000176962826000044/crwv-20260123.htm
+  - $2.00 (purchase) | Filing: 8-K 2026-01-26 | Source: https://www.sec.gov/Archives/edgar/data/1769628/000176962826000044/crwv-20260123.htm
+  - $87.20 (offering) | Filing: 8-K 2026-01-26 | Source: https://www.sec.gov/Archives/edgar/data/1769628/000176962826000044/crwv-20260123.htm
+  - $2.00 (offering) | Filing: 8-K 2026-01-26 | Source: https://www.sec.gov/Archives/edgar/data/1769628/000176962826000044/crwv-20260123.htm

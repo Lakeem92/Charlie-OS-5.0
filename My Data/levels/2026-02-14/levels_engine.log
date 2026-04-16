@@ -1,0 +1,271 @@
+2026-02-14T13:21:13 | INFO     | levels_engine.cli | Levels Engine started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T13:21:13 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:21:13 | INFO     | levels_engine.cli | Processing SPY
+2026-02-14T13:21:13 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:21:21 | ERROR    | levels_engine.alpaca_options | Request failed after 3 retries: 401 Client Error: Unauthorized for url: https://data.alpaca.markets/v2/stocks/SPY/snapshot?feed=iex
+2026-02-14T13:21:21 | ERROR    | levels_engine.cli | Options fetch/compute failed for SPY: 401 Client Error: Unauthorized for url: https://data.alpaca.markets/v2/stocks/SPY/snapshot?feed=iex
+2026-02-14T13:21:22 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\tools\levels_engine\.cache\company_tickers.json
+2026-02-14T13:21:24 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T13:21:24 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T13:21:24 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T13:21:24 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T13:21:24 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T13:21:24 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:21:24 | INFO     | levels_engine.cli | DONE — 1/1 tickers processed
+2026-02-14T13:21:24 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T13:21:24 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T13:21:24 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:43:04 | INFO     | levels_engine.cli | Levels Engine started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T13:43:04 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:43:04 | INFO     | levels_engine.cli | Processing SPY
+2026-02-14T13:43:04 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:43:05 | INFO     | levels_engine.alpaca_options | SPY spot = 681.61
+2026-02-14T13:43:17 | INFO     | levels_engine.alpaca_options | SPY snapshots (raw) = 12174
+2026-02-14T13:43:17 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2442
+2026-02-14T13:43:17 | INFO     | levels_engine.alpaca_options | SPY → 2442 option contracts with data
+2026-02-14T13:43:17 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T13:43:17 | INFO     | levels_engine.io | Wrote CSV  → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv (240 rows)
+2026-02-14T13:43:18 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T13:43:18 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T13:43:18 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T13:43:18 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T13:43:18 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T13:43:18 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T13:43:18 | INFO     | levels_engine.cli | DONE — 1/1 tickers processed
+2026-02-14T13:43:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T13:43:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv
+2026-02-14T13:43:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T13:43:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T13:43:18 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:05:59 | INFO     | levels_engine.cli | Levels Engine started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:05:59 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:05:59 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:05:59 | INFO     | levels_engine.cli | Processing SPY
+2026-02-14T14:05:59 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:05:59 | INFO     | levels_engine.alpaca_options | SPY spot = 681.61
+2026-02-14T14:06:11 | INFO     | levels_engine.alpaca_options | SPY snapshots (raw) = 12174
+2026-02-14T14:06:11 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2442
+2026-02-14T14:06:11 | INFO     | levels_engine.alpaca_options | SPY → 2442 option contracts with data
+2026-02-14T14:06:11 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:06:11 | INFO     | levels_engine.io | Wrote CSV  → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv (240 rows)
+2026-02-14T14:06:12 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T14:06:12 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T14:06:12 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T14:06:12 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:06:12 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:06:12 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:06:12 | INFO     | levels_engine.cli | DONE — 1/1 tickers processed
+2026-02-14T14:06:12 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:06:12 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv
+2026-02-14T14:06:12 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:06:12 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:06:12 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:17:11 | INFO     | levels_engine.query_cli | Query Mode started for ['TSLA'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:17:11 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:17:11 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:17:11 | INFO     | levels_engine.query_cli | QUERY MODE — TSLA
+2026-02-14T14:17:11 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:17:12 | INFO     | levels_engine.alpaca_options | TSLA spot = 417.75
+2026-02-14T14:17:12 | INFO     | levels_engine.query_cli | TSLA spot = 417.75
+2026-02-14T14:17:18 | INFO     | levels_engine.alpaca_options | TSLA snapshots (raw) = 5990
+2026-02-14T14:17:18 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1832
+2026-02-14T14:17:18 | INFO     | levels_engine.alpaca_options | TSLA → 1832 option contracts with data
+2026-02-14T14:17:18 | INFO     | levels_engine.query_cli | TSLA lenses: front_week=2026-02-18  monthly=2026-02-20 (proxy=False)
+2026-02-14T14:17:19 | INFO     | levels_engine.edgar_fetch | CIK 0001318605: 3 filings in lookback window
+2026-02-14T14:17:22 | INFO     | levels_engine.edgar_fetch | TSLA: fetched 3 filing documents (of 3 indexed)
+2026-02-14T14:17:22 | INFO     | levels_engine.arb_extract | TSLA: 12 unique arb levels from 3 filings (12 raw matches)
+2026-02-14T14:17:22 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_TSLA.md
+2026-02-14T14:17:22 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_TSLA.json
+2026-02-14T14:17:22 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:17:22 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T14:17:22 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:23:54 | INFO     | levels_engine.query_cli | Query Mode started for ['TSLA'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:23:54 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:23:54 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:23:54 | INFO     | levels_engine.query_cli | QUERY MODE — TSLA
+2026-02-14T14:23:54 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:23:55 | INFO     | levels_engine.alpaca_options | TSLA spot = 417.75
+2026-02-14T14:23:55 | INFO     | levels_engine.query_cli | TSLA spot = 417.75
+2026-02-14T14:24:02 | INFO     | levels_engine.alpaca_options | TSLA snapshots (raw) = 5990
+2026-02-14T14:24:04 | INFO     | levels_engine.alpaca_options | TSLA contracts (raw) = 2426
+2026-02-14T14:24:04 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1404
+2026-02-14T14:24:04 | INFO     | levels_engine.alpaca_options | TSLA OI enrichment: 1404 contracts with OI data
+2026-02-14T14:24:04 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1832
+2026-02-14T14:24:04 | INFO     | levels_engine.alpaca_options | TSLA → 1832 option contracts with data
+2026-02-14T14:24:04 | INFO     | levels_engine.query_cli | TSLA lenses: front_week=2026-02-18  monthly=2026-02-20 (proxy=False)
+2026-02-14T14:24:06 | INFO     | levels_engine.edgar_fetch | CIK 0001318605: 3 filings in lookback window
+2026-02-14T14:24:10 | INFO     | levels_engine.edgar_fetch | TSLA: fetched 3 filing documents (of 3 indexed)
+2026-02-14T14:24:10 | INFO     | levels_engine.arb_extract | TSLA: 12 unique arb levels from 3 filings (12 raw matches)
+2026-02-14T14:24:10 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_TSLA.md
+2026-02-14T14:24:10 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_TSLA.json
+2026-02-14T14:24:10 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:24:10 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T14:24:10 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:26:23 | INFO     | levels_engine.cli | Levels Engine started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:26:23 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:26:23 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:26:23 | INFO     | levels_engine.cli | Processing SPY
+2026-02-14T14:26:23 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:26:24 | INFO     | levels_engine.alpaca_options | SPY spot = 681.61
+2026-02-14T14:26:38 | INFO     | levels_engine.alpaca_options | SPY snapshots (raw) = 12174
+2026-02-14T14:26:43 | INFO     | levels_engine.alpaca_options | SPY contracts (raw) = 5708
+2026-02-14T14:26:43 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2610
+2026-02-14T14:26:43 | INFO     | levels_engine.alpaca_options | SPY OI enrichment: 2610 contracts with OI data
+2026-02-14T14:26:43 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2442
+2026-02-14T14:26:43 | INFO     | levels_engine.alpaca_options | SPY → 2442 option contracts with data
+2026-02-14T14:26:43 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:26:43 | INFO     | levels_engine.io | Wrote CSV  → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv (240 rows)
+2026-02-14T14:26:44 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T14:26:44 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T14:26:44 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T14:26:44 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:26:44 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:26:44 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:26:44 | INFO     | levels_engine.cli | DONE — 1/1 tickers processed
+2026-02-14T14:26:44 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:26:44 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv
+2026-02-14T14:26:44 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:26:44 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:26:44 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:36:08 | INFO     | levels_engine.query_cli | Query Mode started for ['TSLA'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:36:08 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:36:08 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:36:08 | INFO     | levels_engine.query_cli | QUERY MODE — TSLA
+2026-02-14T14:36:08 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:36:09 | INFO     | levels_engine.alpaca_options | TSLA spot = 417.75
+2026-02-14T14:36:09 | INFO     | levels_engine.query_cli | TSLA spot = 417.75
+2026-02-14T14:36:17 | INFO     | levels_engine.alpaca_options | TSLA snapshots (raw) = 5990
+2026-02-14T14:36:20 | INFO     | levels_engine.alpaca_options | TSLA contracts (raw) = 2426
+2026-02-14T14:36:20 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1404
+2026-02-14T14:36:20 | INFO     | levels_engine.alpaca_options | TSLA OI enrichment: 1404 contracts with OI data
+2026-02-14T14:36:20 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1832
+2026-02-14T14:36:20 | INFO     | levels_engine.alpaca_options | TSLA → 1832 option contracts with data
+2026-02-14T14:36:20 | INFO     | levels_engine.query_cli | TSLA lenses: front_week=2026-02-18  monthly=2026-02-20 (proxy=False)
+2026-02-14T14:36:22 | INFO     | levels_engine.edgar_fetch | CIK 0001318605: 3 filings in lookback window
+2026-02-14T14:36:26 | INFO     | levels_engine.edgar_fetch | TSLA: fetched 3 filing documents (of 3 indexed)
+2026-02-14T14:36:26 | INFO     | levels_engine.arb_extract | TSLA: 12 unique arb levels from 3 filings (12 raw matches)
+2026-02-14T14:36:26 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_TSLA.md
+2026-02-14T14:36:26 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_TSLA.json
+2026-02-14T14:36:26 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\DESK_SNIPPET_TSLA.txt
+2026-02-14T14:36:26 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:36:26 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T14:36:26 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:37:54 | INFO     | levels_engine.query_cli | Query Mode started for ['TSLA'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:37:54 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:37:54 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:37:54 | INFO     | levels_engine.query_cli | QUERY MODE — TSLA
+2026-02-14T14:37:54 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:37:55 | INFO     | levels_engine.alpaca_options | TSLA spot = 417.75
+2026-02-14T14:37:55 | INFO     | levels_engine.query_cli | TSLA spot = 417.75
+2026-02-14T14:38:06 | INFO     | levels_engine.alpaca_options | TSLA snapshots (raw) = 5990
+2026-02-14T14:38:09 | INFO     | levels_engine.alpaca_options | TSLA contracts (raw) = 2426
+2026-02-14T14:38:09 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1404
+2026-02-14T14:38:09 | INFO     | levels_engine.alpaca_options | TSLA OI enrichment: 1404 contracts with OI data
+2026-02-14T14:38:10 | INFO     | levels_engine.alpaca_options | TSLA contracts (filtered to 8 expirations) = 1832
+2026-02-14T14:38:10 | INFO     | levels_engine.alpaca_options | TSLA → 1832 option contracts with data
+2026-02-14T14:38:10 | INFO     | levels_engine.query_cli | TSLA lenses: front_week=2026-02-18  monthly=2026-02-20 (proxy=False)
+2026-02-14T14:38:11 | INFO     | levels_engine.edgar_fetch | CIK 0001318605: 3 filings in lookback window
+2026-02-14T14:38:16 | INFO     | levels_engine.edgar_fetch | TSLA: fetched 3 filing documents (of 3 indexed)
+2026-02-14T14:38:16 | INFO     | levels_engine.arb_extract | TSLA: 12 unique arb levels from 3 filings (12 raw matches)
+2026-02-14T14:38:16 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_TSLA.md
+2026-02-14T14:38:16 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_TSLA.json
+2026-02-14T14:38:16 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\DESK_SNIPPET_TSLA.txt
+2026-02-14T14:38:16 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:38:16 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T14:38:16 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:38:48 | INFO     | levels_engine.cli | Levels Engine started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:38:48 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:38:48 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:38:48 | INFO     | levels_engine.cli | Processing SPY
+2026-02-14T14:38:48 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:38:50 | INFO     | levels_engine.alpaca_options | SPY spot = 681.61
+2026-02-14T14:39:08 | INFO     | levels_engine.alpaca_options | SPY snapshots (raw) = 12174
+2026-02-14T14:39:16 | INFO     | levels_engine.alpaca_options | SPY contracts (raw) = 5708
+2026-02-14T14:39:16 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2610
+2026-02-14T14:39:16 | INFO     | levels_engine.alpaca_options | SPY OI enrichment: 2610 contracts with OI data
+2026-02-14T14:39:17 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2442
+2026-02-14T14:39:17 | INFO     | levels_engine.alpaca_options | SPY → 2442 option contracts with data
+2026-02-14T14:39:17 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:39:17 | INFO     | levels_engine.io | Wrote CSV  → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv (240 rows)
+2026-02-14T14:39:18 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T14:39:18 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T14:39:18 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T14:39:18 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:39:18 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:39:18 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:39:18 | INFO     | levels_engine.cli | DONE — 1/1 tickers processed
+2026-02-14T14:39:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.json
+2026-02-14T14:39:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\options_levels_SPY.csv
+2026-02-14T14:39:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\arb_levels_SPY.json
+2026-02-14T14:39:18 | INFO     | levels_engine.cli |   → C:\QuantLab\Data_Lab\data\levels\2026-02-14\LEVELS_REPORT_SPY.md
+2026-02-14T14:39:18 | INFO     | levels_engine.cli | ============================================================
+2026-02-14T14:47:53 | INFO     | levels_engine.query_cli | Query Mode started for ['SPY'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T14:47:53 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T14:47:53 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:47:53 | INFO     | levels_engine.query_cli | QUERY MODE — SPY
+2026-02-14T14:47:53 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:47:54 | INFO     | levels_engine.alpaca_options | SPY spot = 681.61
+2026-02-14T14:47:54 | INFO     | levels_engine.query_cli | SPY spot = 681.61
+2026-02-14T14:48:11 | INFO     | levels_engine.alpaca_options | SPY snapshots (raw) = 12174
+2026-02-14T14:48:19 | INFO     | levels_engine.alpaca_options | SPY contracts (raw) = 5708
+2026-02-14T14:48:19 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2610
+2026-02-14T14:48:19 | INFO     | levels_engine.alpaca_options | SPY OI enrichment: 2610 contracts with OI data
+2026-02-14T14:48:19 | INFO     | levels_engine.alpaca_options | SPY contracts (filtered to 8 expirations) = 2442
+2026-02-14T14:48:19 | INFO     | levels_engine.alpaca_options | SPY → 2442 option contracts with data
+2026-02-14T14:48:19 | INFO     | levels_engine.query_cli | SPY lenses: front_week=2026-02-17  monthly=2026-02-20 (proxy=False)
+2026-02-14T14:48:21 | INFO     | levels_engine.edgar_fetch | CIK 0000884394: 0 filings in lookback window
+2026-02-14T14:48:21 | INFO     | levels_engine.edgar_fetch | SPY: no filings in lookback window
+2026-02-14T14:48:21 | INFO     | levels_engine.arb_extract | SPY: 0 unique arb levels from 0 filings (0 raw matches)
+2026-02-14T14:48:21 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_SPY.md
+2026-02-14T14:48:21 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_SPY.json
+2026-02-14T14:48:21 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\DESK_SNIPPET_SPY.txt
+2026-02-14T14:48:21 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T14:48:21 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T14:48:21 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:06:49 | INFO     | levels_engine.query_cli | Query Mode started for ['RIVN'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T15:06:49 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T15:06:49 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:06:49 | INFO     | levels_engine.query_cli | QUERY MODE — RIVN
+2026-02-14T15:06:49 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:06:51 | INFO     | levels_engine.alpaca_options | RIVN spot = 17.73
+2026-02-14T15:06:51 | INFO     | levels_engine.query_cli | RIVN spot = 17.73
+2026-02-14T15:06:53 | INFO     | levels_engine.alpaca_options | RIVN snapshots (raw) = 1036
+2026-02-14T15:06:54 | INFO     | levels_engine.alpaca_options | RIVN contracts (raw) = 602
+2026-02-14T15:06:54 | INFO     | levels_engine.alpaca_options | RIVN contracts (filtered to 7 expirations) = 602
+2026-02-14T15:06:54 | INFO     | levels_engine.alpaca_options | RIVN OI enrichment: 602 contracts with OI data
+2026-02-14T15:06:54 | INFO     | levels_engine.alpaca_options | RIVN contracts (filtered to 7 expirations) = 506
+2026-02-14T15:06:54 | INFO     | levels_engine.alpaca_options | RIVN → 506 option contracts with data
+2026-02-14T15:06:54 | INFO     | levels_engine.query_cli | RIVN lenses: front_week=2026-02-20  monthly=2026-02-27 (proxy=True)
+2026-02-14T15:06:56 | INFO     | levels_engine.edgar_fetch | CIK 0001874178: 3 filings in lookback window
+2026-02-14T15:07:00 | INFO     | levels_engine.edgar_fetch | RIVN: fetched 3 filing documents (of 3 indexed)
+2026-02-14T15:07:00 | INFO     | levels_engine.arb_extract | RIVN: 7 unique arb levels from 3 filings (17 raw matches)
+2026-02-14T15:07:00 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_RIVN.md
+2026-02-14T15:07:00 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_RIVN.json
+2026-02-14T15:07:00 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\DESK_SNIPPET_RIVN.txt
+2026-02-14T15:07:00 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:07:00 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T15:07:00 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:34:06 | INFO     | levels_engine.query_cli | Query Mode started for ['LYFT'] → C:\QuantLab\Data_Lab\data\levels\2026-02-14
+2026-02-14T15:34:06 | INFO     | levels_engine.alpaca_options | AlpacaOptionsProvider using auth_mode=live  data_feed=indicative
+2026-02-14T15:34:06 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:34:06 | INFO     | levels_engine.query_cli | QUERY MODE — LYFT
+2026-02-14T15:34:06 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:34:07 | INFO     | levels_engine.alpaca_options | LYFT spot = 13.26
+2026-02-14T15:34:07 | INFO     | levels_engine.query_cli | LYFT spot = 13.26
+2026-02-14T15:34:08 | INFO     | levels_engine.alpaca_options | LYFT snapshots (raw) = 888
+2026-02-14T15:34:10 | INFO     | levels_engine.alpaca_options | LYFT contracts (raw) = 536
+2026-02-14T15:34:10 | INFO     | levels_engine.alpaca_options | LYFT contracts (filtered to 7 expirations) = 536
+2026-02-14T15:34:10 | INFO     | levels_engine.alpaca_options | LYFT OI enrichment: 536 contracts with OI data
+2026-02-14T15:34:10 | INFO     | levels_engine.alpaca_options | LYFT contracts (filtered to 7 expirations) = 530
+2026-02-14T15:34:10 | INFO     | levels_engine.alpaca_options | LYFT → 530 option contracts with data
+2026-02-14T15:34:10 | INFO     | levels_engine.query_cli | LYFT lenses: front_week=2026-02-20  monthly=2026-02-27 (proxy=True)
+2026-02-14T15:34:11 | INFO     | levels_engine.edgar_fetch | CIK 0001759509: 3 filings in lookback window
+2026-02-14T15:34:47 | WARNING  | levels_engine.edgar_fetch | Failed to fetch https://www.sec.gov/Archives/edgar/data/1759509/000162828026006960/lyft-20251231.htm: HTTPSConnectionPool(host='www.sec.gov', port=443): Read timed out.
+2026-02-14T15:34:47 | INFO     | levels_engine.edgar_fetch | LYFT: fetched 2 filing documents (of 3 indexed)
+2026-02-14T15:34:47 | INFO     | levels_engine.arb_extract | LYFT: 0 unique arb levels from 2 filings (0 raw matches)
+2026-02-14T15:34:47 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\QUERY_REPORT_LYFT.md
+2026-02-14T15:34:47 | INFO     | levels_engine.io | Wrote JSON → C:\QuantLab\Data_Lab\data\levels\2026-02-14\query_output_LYFT.json
+2026-02-14T15:34:47 | INFO     | levels_engine.io | Wrote text → C:\QuantLab\Data_Lab\data\levels\2026-02-14\DESK_SNIPPET_LYFT.txt
+2026-02-14T15:34:47 | INFO     | levels_engine.query_cli | ============================================================
+2026-02-14T15:34:47 | INFO     | levels_engine.query_cli | DONE — 1/1 tickers
+2026-02-14T15:34:47 | INFO     | levels_engine.query_cli | ============================================================

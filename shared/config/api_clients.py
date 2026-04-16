@@ -207,6 +207,27 @@ class LabAlpacaClient:
         response = requests.get(url, headers=self.headers)
         return response.json()
 
+    def get_news(self, symbols: Optional[List[str]] = None, limit: int = 10,
+                 start: Optional[str] = None, end: Optional[str] = None) -> List[Dict]:
+        """Get news articles from Alpaca News API.
+
+        Args:
+            symbols: List of ticker symbols to filter news for.
+            limit: Max number of articles (1-50).
+            start: ISO-8601 start datetime.
+            end: ISO-8601 end datetime.
+        """
+        url = f"{self.data_url}/v1beta1/news"
+        params: Dict = {'limit': min(limit, 50)}
+        if symbols:
+            params['symbols'] = ','.join(symbols)
+        if start:
+            params['start'] = start
+        if end:
+            params['end'] = end
+        response = requests.get(url, headers=self.headers, params=params)
+        return response.json()
+
 
 class SECEdgarClient:
     """SEC EDGAR Data API Client"""
@@ -303,6 +324,80 @@ class FMPClient:
         """Get company profile"""
         url = f"{self.base_url}/profile/{symbol}"
         params = {'apikey': self.api_key}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_analyst_estimates(self, symbol: str, period: str = 'quarter', limit: int = 4) -> List:
+        """Get forward analyst estimates (EPS, revenue) by quarter"""
+        url = f"{self.base_url}/analyst-estimates/{symbol}"
+        params = {'apikey': self.api_key, 'period': period, 'limit': limit}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_price_target_consensus(self, symbol: str) -> Dict:
+        """Get analyst price target consensus (mean, median, high, low, # analysts)"""
+        url = f"{self.base_url}/price-target-consensus/{symbol}"
+        params = {'apikey': self.api_key}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_grades_consensus(self, symbol: str, limit: int = 20) -> List:
+        """Get recent analyst upgrades/downgrades with firm names"""
+        url = f"{self.base_url}/grade/{symbol}"
+        params = {'apikey': self.api_key, 'limit': limit}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_shares_float(self, symbol: str) -> List:
+        """Get float, shares outstanding, insider %, institutional %"""
+        url = f"{self.base_url}/shares_float"
+        params = {'apikey': self.api_key, 'symbol': symbol}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_key_metrics(self, symbol: str, period: str = 'quarter', limit: int = 5) -> List:
+        """Get key metrics (PE, PB, EV/EBITDA, FCF yield, ROE, ROIC)"""
+        url = f"{self.base_url}/key-metrics/{symbol}"
+        params = {'apikey': self.api_key, 'period': period, 'limit': limit}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_earnings_calendar(self, from_date: str = None, to_date: str = None) -> List:
+        """Get earnings calendar. Dates as YYYY-MM-DD strings."""
+        url = f"{self.base_url}/earning_calendar"
+        params = {'apikey': self.api_key}
+        if from_date:
+            params['from'] = from_date
+        if to_date:
+            params['to'] = to_date
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_earnings_surprises(self, symbol: str) -> List:
+        """Get historical earnings surprises (actual vs estimate)"""
+        url = f"{self.base_url}/earnings-surprises/{symbol}"
+        params = {'apikey': self.api_key}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_ratios_ttm(self, symbol: str) -> List:
+        """Get trailing-twelve-month financial ratios"""
+        url = f"{self.base_url}/ratios-ttm/{symbol}"
+        params = {'apikey': self.api_key}
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def get_stock_news(self, tickers: Optional[str] = None, limit: int = 20) -> List:
+        """Get stock news from FMP.
+
+        Args:
+            tickers: Comma-separated ticker symbols (e.g. 'AAPL,NVDA').
+            limit: Max articles to return.
+        """
+        url = f"{self.base_url}/stock_news"
+        params: Dict = {'apikey': self.api_key, 'limit': limit}
+        if tickers:
+            params['tickers'] = tickers
         response = requests.get(url, params=params)
         return response.json()
 

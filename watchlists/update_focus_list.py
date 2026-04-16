@@ -9,6 +9,7 @@ import csv
 import io
 import re
 from pathlib import Path
+from datetime import datetime
 
 
 ROOT = Path(r'C:\QuantLab\Data_Lab')
@@ -16,6 +17,7 @@ WATCHLISTS_DIR = ROOT / 'watchlists'
 OUTPUT_PATH = WATCHLISTS_DIR / 'focus_list.csv'
 DOWNLOADS_DIR = Path.home() / 'Downloads'
 DEFAULT_PATTERNS = ('Lakeem-Focus_list*.csv', '*Focus_list*.csv')
+CANONICAL_COLUMNS = ['ticker', 'added_date', 'notes', 'sector']
 
 
 def parse_args() -> argparse.Namespace:
@@ -125,6 +127,14 @@ def normalize_symbol_text(raw_text: str) -> tuple[list[str], list[str]]:
     return symbols, dropped
 
 
+def load_existing_symbols(output_path: Path) -> tuple[list[str], list[str]]:
+    metadata = load_existing_metadata(output_path)
+    symbols = list(metadata.keys())
+    if not symbols:
+        raise ValueError(f'No supported symbols were found in existing focus list: {output_path}')
+    return symbols, []
+
+
 def resolve_symbols(args: argparse.Namespace) -> tuple[list[str], list[str], str]:
     if args.symbols:
         symbols, dropped = normalize_symbol_text(args.symbols)
@@ -135,17 +145,62 @@ def resolve_symbols(args: argparse.Namespace) -> tuple[list[str], list[str], str
         symbols, dropped = normalize_symbol_text(raw_text)
         return symbols, dropped, 'stdin'
 
-    input_path = args.input or find_latest_download()
+    if args.input:
+        raw_text = read_text(args.input)
+        raw_csv = extract_csv_block(raw_text)
+        symbols, dropped = normalize_symbols(raw_csv)
+        return symbols, dropped, str(args.input)
+
+    if args.output.exists():
+        symbols, dropped = load_existing_symbols(args.output)
+        return symbols, dropped, f'existing {args.output}'
+
+    input_path = find_latest_download()
     raw_text = read_text(input_path)
     raw_csv = extract_csv_block(raw_text)
     symbols, dropped = normalize_symbols(raw_csv)
     return symbols, dropped, str(input_path)
 
 
+def load_existing_metadata(output_path: Path) -> dict[str, dict[str, str]]:
+    if not output_path.exists():
+        return {}
+
+    try:
+        rows = list(csv.DictReader(io.StringIO(read_text(output_path))))
+    except Exception:
+        return {}
+
+    metadata = {}
+    for row in rows:
+        symbol = (row.get('ticker') or row.get('Symbol') or '').strip().upper()
+        if not symbol:
+            continue
+        metadata[symbol] = {
+            'ticker': symbol,
+            'added_date': (row.get('added_date') or '').strip(),
+            'notes': (row.get('notes') or '').strip(),
+            'sector': (row.get('sector') or '').strip(),
+        }
+    return metadata
+
+
 def write_output(symbols: list[str], output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    lines = ['Symbol', *symbols]
-    output_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    existing = load_existing_metadata(output_path)
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    with output_path.open('w', encoding='utf-8', newline='') as handle:
+        writer = csv.DictWriter(handle, fieldnames=CANONICAL_COLUMNS)
+        writer.writeheader()
+        for symbol in symbols:
+            row = existing.get(symbol, {})
+            writer.writerow({
+                'ticker': symbol,
+                'added_date': row.get('added_date') or today,
+                'notes': row.get('notes', ''),
+                'sector': row.get('sector', ''),
+            })
 
 
 def main() -> None:

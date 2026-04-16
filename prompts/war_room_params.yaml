@@ -83,6 +83,18 @@ modifiers:
   float_toxic:         -2.0
 
 # ─────────────────────────────────────────────────────────────
+# § 6D / Rule 27 — REGULATORY OVERHANG MODIFIERS
+# Applied after base score. Any market cap.
+# ─────────────────────────────────────────────────────────────
+regulatory_overhang_modifiers:
+  no_active_overhang:                    0.0
+  known_timeline_partially_priced:      -0.5   # Market aware, resolution date known, some discount applied
+  known_timeline_not_priced:            -1.0   # Resolution date known but market ignoring the risk
+  open_ended_unit_level:                -1.0   # One segment/product at risk, no resolution date
+  open_ended_company_threatening:       -2.0   # Breakup/ban risk, no resolution date (range -1.5 to -2.0)
+  binary_imminent_not_priced:           -3.0   # Resolution imminent, market not pricing bad outcome (range -2.0 to -3.0)
+
+# ─────────────────────────────────────────────────────────────
 # § 6D / Rule 37 — ATM MODIFIERS
 # Applied after base score. Any float size.
 # ─────────────────────────────────────────────────────────────

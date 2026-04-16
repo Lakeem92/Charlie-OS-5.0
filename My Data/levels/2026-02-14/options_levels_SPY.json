@@ -1,0 +1,270 @@
+{
+  "ticker": "SPY",
+  "spot": 681.61,
+  "asof_utc": "2026-02-14T20:39:17Z",
+  "window_days": 60,
+  "expirations_considered": 8,
+  "call_wall": {
+    "strike": 700.0,
+    "call_oi": 54867,
+    "put_oi": 21637,
+    "total_oi": 76504
+  },
+  "put_wall": {
+    "strike": 525.0,
+    "call_oi": 10,
+    "put_oi": 155867,
+    "total_oi": 155877
+  },
+  "top_call_clusters": [
+    {
+      "strike": 700.0,
+      "call_oi": 54867,
+      "put_oi": 21637,
+      "total_oi": 76504
+    },
+    {
+      "strike": 695.0,
+      "call_oi": 44543,
+      "put_oi": 41297,
+      "total_oi": 85840
+    },
+    {
+      "strike": 710.0,
+      "call_oi": 41792,
+      "put_oi": 175,
+      "total_oi": 41967
+    },
+    {
+      "strike": 715.0,
+      "call_oi": 39676,
+      "put_oi": 2,
+      "total_oi": 39678
+    },
+    {
+      "strike": 705.0,
+      "call_oi": 29454,
+      "put_oi": 235,
+      "total_oi": 29689
+    },
+    {
+      "strike": 725.0,
+      "call_oi": 29143,
+      "put_oi": 8,
+      "total_oi": 29151
+    },
+    {
+      "strike": 690.0,
+      "call_oi": 27725,
+      "put_oi": 30995,
+      "total_oi": 58720
+    },
+    {
+      "strike": 697.0,
+      "call_oi": 23938,
+      "put_oi": 2354,
+      "total_oi": 26292
+    },
+    {
+      "strike": 685.0,
+      "call_oi": 20692,
+      "put_oi": 38995,
+      "total_oi": 59687
+    },
+    {
+      "strike": 720.0,
+      "call_oi": 18992,
+      "put_oi": 20,
+      "total_oi": 19012
+    }
+  ],
+  "top_put_clusters": [
+    {
+      "strike": 525.0,
+      "call_oi": 10,
+      "put_oi": 155867,
+      "total_oi": 155877
+    },
+    {
+      "strike": 530.0,
+      "call_oi": 29,
+      "put_oi": 155081,
+      "total_oi": 155110
+    },
+    {
+      "strike": 655.0,
+      "call_oi": 2275,
+      "put_oi": 123825,
+      "total_oi": 126100
+    },
+    {
+      "strike": 580.0,
+      "call_oi": 153,
+      "put_oi": 96354,
+      "total_oi": 96507
+    },
+    {
+      "strike": 675.0,
+      "call_oi": 8485,
+      "put_oi": 94756,
+      "total_oi": 103241
+    },
+    {
+      "strike": 670.0,
+      "call_oi": 10599,
+      "put_oi": 88733,
+      "total_oi": 99332
+    },
+    {
+      "strike": 650.0,
+      "call_oi": 15991,
+      "put_oi": 87734,
+      "total_oi": 103725
+    },
+    {
+      "strike": 660.0,
+      "call_oi": 4088,
+      "put_oi": 85827,
+      "total_oi": 89915
+    },
+    {
+      "strike": 575.0,
+      "call_oi": 138,
+      "put_oi": 82074,
+      "total_oi": 82212
+    },
+    {
+      "strike": 475.0,
+      "call_oi": 46,
+      "put_oi": 79345,
+      "total_oi": 79391
+    }
+  ],
+  "pin_candidates": [
+    {
+      "strike": 695.0,
+      "total_oi": 85840,
+      "balance": 0.0378
+    },
+    {
+      "strike": 690.0,
+      "total_oi": 58720,
+      "balance": 0.0557
+    },
+    {
+      "strike": 688.0,
+      "total_oi": 25282,
+      "balance": 0.1678
+    },
+    {
+      "strike": 687.0,
+      "total_oi": 24940,
+      "balance": 0.0393
+    },
+    {
+      "strike": 693.0,
+      "total_oi": 23325,
+      "balance": 0.1275
+    }
+  ],
+  "vacuum_windows": [
+    {
+      "low_strike": 721.0,
+      "high_strike": 724.0,
+      "avg_oi": 1186.7,
+      "distance_from_spot": 40.89
+    },
+    {
+      "low_strike": 726.0,
+      "high_strike": 729.0,
+      "avg_oi": 193.7,
+      "distance_from_spot": 45.89
+    },
+    {
+      "low_strike": 631.0,
+      "high_strike": 632.0,
+      "avg_oi": 1402.0,
+      "distance_from_spot": 50.11
+    },
+    {
+      "low_strike": 626.0,
+      "high_strike": 629.0,
+      "avg_oi": 509.3,
+      "distance_from_spot": 54.11
+    },
+    {
+      "low_strike": 621.0,
+      "high_strike": 624.0,
+      "avg_oi": 269.7,
+      "distance_from_spot": 59.11
+    }
+  ],
+  "near_spot_levels": [
+    {
+      "strike": 655.0,
+      "call_oi": 2275,
+      "put_oi": 123825,
+      "total_oi": 126100
+    },
+    {
+      "strike": 650.0,
+      "call_oi": 15991,
+      "put_oi": 87734,
+      "total_oi": 103725
+    },
+    {
+      "strike": 675.0,
+      "call_oi": 8485,
+      "put_oi": 94756,
+      "total_oi": 103241
+    },
+    {
+      "strike": 670.0,
+      "call_oi": 10599,
+      "put_oi": 88733,
+      "total_oi": 99332
+    },
+    {
+      "strike": 660.0,
+      "call_oi": 4088,
+      "put_oi": 85827,
+      "total_oi": 89915
+    },
+    {
+      "strike": 695.0,
+      "call_oi": 44543,
+      "put_oi": 41297,
+      "total_oi": 85840
+    },
+    {
+      "strike": 700.0,
+      "call_oi": 54867,
+      "put_oi": 21637,
+      "total_oi": 76504
+    },
+    {
+      "strike": 680.0,
+      "call_oi": 17666,
+      "put_oi": 56242,
+      "total_oi": 73908
+    },
+    {
+      "strike": 685.0,
+      "call_oi": 20692,
+      "put_oi": 38995,
+      "total_oi": 59687
+    },
+    {
+      "strike": 690.0,
+      "call_oi": 27725,
+      "put_oi": 30995,
+      "total_oi": 58720
+    }
+  ],
+  "diagnostics": {
+    "contracts_count": 2442,
+    "expirations_count": 8,
+    "missing_oi_count": 1204
+  },
+  "raw_csv_path": null
+}

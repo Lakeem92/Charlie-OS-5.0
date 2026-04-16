@@ -1,10 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python scripts/tracker/log_outcome.py --id 2 --json \"{\\\\\"price_at_analysis\\\\\": 100.00, \\\\\"price_1d\\\\\": 103.50, \\\\\"price_3d\\\\\": 106.20, \\\\\"price_5d\\\\\": 108.00, \\\\\"price_10d\\\\\": 111.50, \\\\\"catalyst_resolved\\\\\": \\\\\"YES\\\\\", \\\\\"resolution_notes\\\\\": \\\\\"Smoke test - delete me\\\\\"}\")",
-      "Bash(python scripts/tracker/query_patterns.py --report recent --n 5)",
+      "Bash(python scripts/catalyst_score_log/log_outcome.py --id 2 --json \"{\\\\\"price_at_analysis\\\\\": 100.00, \\\\\"price_1d\\\\\": 103.50, \\\\\"price_3d\\\\\": 106.20, \\\\\"price_5d\\\\\": 108.00, \\\\\"price_10d\\\\\": 111.50, \\\\\"catalyst_resolved\\\\\": \\\\\"YES\\\\\", \\\\\"resolution_notes\\\\\": \\\\\"Smoke test - delete me\\\\\"}\")",
+      "Bash(python scripts/catalyst_score_log/query_patterns.py --report recent --n 5)",
       "Bash(set PYTHONIOENCODING=utf-8)",
-      "Bash(python tools/watchlist_scanner/scan_news.py)"
+      "Bash(python tools/watchlist_scanner/scan_news.py)",
+      "Bash(.venv/Scripts/python.exe -c \"import json; d=json.load\\(open\\('catalyst_analysis_db/macro_regime/latest.json'\\)\\); nl=d.get\\('net_liquidity',{}\\); print\\('roc_4w:', nl.get\\('roc_4w'\\)\\); print\\('current_T:', nl.get\\('current_T'\\)\\); print\\('walcl_T:', nl.get\\('walcl_T'\\)\\); print\\('regime:', nl.get\\('regime'\\)\\); print\\('has roc_series:', bool\\(nl.get\\('roc_series'\\)\\)\\)\")"
     ]
   }
 }

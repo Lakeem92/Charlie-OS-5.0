@@ -1,0 +1,11 @@
+RUN (as-of 2026-02-27T18:36:46Z, spot $12.68):
+FRONT WEEK (EXP 2026-02-27):
+  PUT WALL: $12.00 (OI 8) | CALL WALL: $20.00 (OI 3,468)
+  UPSIDE PATH: $12.68 -> $13.00 -> $13.50 -> $14.00 -> $14.50 -> $15.00
+  DOWNSIDE PATH: $12.68 -> $12.50 -> $12.00 -> $11.00 -> $5.00
+MONTHLY (EXP 2026-03-20):
+  PUT WALL: $3.00 (OI 2,819) | CALL WALL: $20.00 (OI 14,551)
+  UPSIDE PATH: $12.68 -> $13.00 -> $14.00 -> $15.00 -> $16.00 -> $17.00
+  DOWNSIDE PATH: $12.68 -> $12.00 -> $11.00 -> $9.00 -> $8.00 -> $5.00
+ARB/CONTRACTUAL (VERIFIED):
+  - $21.10 (cap_floor) | Filing: 10-K 2026-02-26 | Source: https://www.sec.gov/Archives/edgar/data/1469367/000162828026012289/run-20251231.htm

@@ -11,7 +11,7 @@ I am Lakeem. Full-time proprietary momentum and trend-following trader. I trade 
 Pre-market window: 6:30–8:25 AM Central. I use an 8-pillar War Room framework to score catalysts before the market opens.
 
 **My AI setup:**
-- **VS Code Copilot (you)** → Full pipeline operator. War Room v8.0 catalyst scoring, fundamental forensics, margin analysis, transcript deep-dives, options levels interpretation, quantitative studies, chart generation, data pulls, pattern validation. Everything.
+- **VS Code Copilot (you)** → Full pipeline operator. War Room v10.0 catalyst scoring, fundamental forensics, margin analysis, transcript deep-dives, options levels interpretation, quantitative studies, chart generation, data pulls, pattern validation. Everything.
 - **Me** → Price action, execution, final decisions. Never tell me what to trade.
 
 **Session startup:** Read `prompts/WAR_ROOM_CONTEXT.md` for current macro regime, active names, and confirmed edges. Then confirm lab is ready.

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — Macro Intelligence</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-title"><span class="header-brand">Diet Bloomberg Terminal &#127957;&#128202;</span><span class="header-subtitle">Pre-Market Intelligence System | QuantLab v2.0</span><span class="header-ts" id="live-ts">{{ timestamp }}</span></div>
+        <nav class="header-nav">
+            <a href="/macro" class="active">Macro</a>
+            <a href="/ai">AI Cascade</a>
+            <a href="/etf">ETF</a>
+            <a href="/news">News</a>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- ━━━ REGIME BANNER ━━━ -->
+        {% if d.regime %}
+        <div class="regime-banner regime-{{ d.regime.css_class }}">
+            <span class="regime-icon">{{ d.regime.icon }}</span>
+            <span class="regime-label">REGIME: {{ d.regime.regime }}</span>
+            <span class="regime-detail">Score: {{ d.regime.score }} | {{ updated_at or '—' }}</span>
+        </div>
+        {% if d.regime.details %}
+        <div class="regime-details">
+            {% for det in d.regime.details %}<span class="regime-chip">{{ det }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- ━━━ PANEL 1: NET LIQUIDITY + SPX OVERLAY ━━━ -->
+        <div class="panel">
+            <h2>💰 Fed Net Liquidity vs S&P 500
+                {% if d.net_liquidity and d.net_liquidity.regime | default(none) %}
+                <span class="badge {% if (d.net_liquidity.regime_color | default('')) == 'green' %}badge-green{% else %}badge-red{% endif %}" style="font-size:0.75rem;">
+                    {% if (d.net_liquidity.regime_color | default('')) == 'green' %}🟢{% else %}🔴{% endif %} {{ d.net_liquidity.regime }}
+                </span>
+                {% endif %}
+            </h2>
+            {% if d.signals and d.signals.net_liquidity %}
+            <div class="signal-box signal-{{ d.signals.net_liquidity.color }}">
+                <span class="signal-tag">{{ d.signals.net_liquidity.direction }}</span> {{ d.signals.net_liquidity.text }}
+            </div>
+            {% endif %}
+
+            <!-- KPI row -->
+            {% if d.net_liquidity %}
+            <div class="chart-kpi-row">
+                {% if d.net_liquidity.current_T | default(none) is not none %}<div class="kpi">Net Liq: <strong>${{ d.net_liquidity.current_T }}T</strong></div>{% elif d.net_liquidity.current %}<div class="kpi">Net Liq: <strong>${{ "%.0f"|format(d.net_liquidity.current) }}B</strong></div>{% endif %}
+                {% if d.net_liquidity.roc_4w | default(none) is not none %}<div class="kpi">4wk ROC: <span class="{{ 'positive' if (d.net_liquidity.roc_4w | default(0)) > 0 else 'negative' }}">{{ "%+.1f"|format(d.net_liquidity.roc_4w | default(0)) }}%</span></div>{% endif %}
+                {% if d.net_liquidity.walcl_T | default(none) %}<div class="kpi">WALCL: ${{ d.net_liquidity.walcl_T }}T</div>{% endif %}
+                {% if d.net_liquidity.tga_B | default(none) %}<div class="kpi">TGA: ${{ d.net_liquidity.tga_B }}B</div>{% endif %}
+                {% if d.net_liquidity.rrp_B | default(none) %}<div class="kpi">RRP: ${{ d.net_liquidity.rrp_B }}B</div>{% endif %}
+            </div>
+            {% endif %}
+
+            <div class="chart-wrap tall"><canvas id="netLiqChart"></canvas></div>
+            <div class="chart-wrap short"><canvas id="netLiqRocChart"></canvas></div>
+            <div class="chart-sublabel">4-Week Rate of Change (%) — Green = expanding, Red = contracting</div>
+        </div>
+
+        <!-- ━━━ PANEL 2: XLY/XLP RISK APPETITE ━━━ -->
+        <div class="panel">
+            <h2>⚡ XLY/XLP — Tactical Risk Appetite (252d)</h2>
+            {% if d.signals and d.signals.xly_xlp %}
+            <div class="signal-box signal-{{ d.signals.xly_xlp.color }}">
+                <span class="signal-tag">{{ d.signals.xly_xlp.direction }}</span> {{ d.signals.xly_xlp.text }}
+            </div>
+            {% endif %}
+            {% if d.xly_xlp %}
+            <div class="chart-kpi-row">
+                <div class="kpi">Ratio: <strong>{{ "%.4f"|format(d.xly_xlp.current_ratio) }}</strong></div>
+                {% if d.xly_xlp.current_ma %}<div class="kpi">20d MA: {{ "%.4f"|format(d.xly_xlp.current_ma) }}</div>{% endif %}
+                {% if d.xly_xlp.current_roc is not none %}<div class="kpi">5d ROC: <span class="{% if d.xly_xlp.current_roc > 0 %}positive{% else %}negative{% endif %}">{{ "%+.2f"|format(d.xly_xlp.current_roc) }}%</span></div>{% endif %}
+            </div>
+            {% endif %}
+            <div class="chart-wrap tall"><canvas id="xlyXlpChart"></canvas></div>
+            <div class="chart-wrap short"><canvas id="xlyXlpRocChart"></canvas></div>
+            <div class="chart-sublabel">5-Day Rate of Change (%)</div>
+        </div>
+
+        <!-- ━━━ PANEL 3: VIX STRUCTURE ━━━ -->
+        <div class="panel">
+            <h2>😱 VIX Term Structure</h2>
+            {% if d.signals and d.signals.vix %}
+            <div class="signal-box signal-{{ d.signals.vix.color }}">
+                <span class="signal-tag">{{ d.signals.vix.direction }}</span> {{ d.signals.vix.text }}
+            </div>
+            {% endif %}
+            <div class="chart-kpi-row">
+                {% if d.vix and d.vix.current %}<div class="kpi">VIX: <strong>{{ "%.1f"|format(d.vix.current) }}</strong></div>{% endif %}
+                {% if d.vix and d.vix.vix3m %}<div class="kpi">VIX3M: {{ "%.1f"|format(d.vix.vix3m) }}</div>{% endif %}
+                {% if d.vix and d.vix.current and d.vix.vix3m %}<div class="kpi">Ratio: {{ "%.3f"|format(d.vix.current / d.vix.vix3m) }}</div>{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="vixChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 3b: FED RATE CUT ODDS ━━━ -->
+        {% if d.rate_cut_odds and d.rate_cut_odds.meeting %}
+        {% set rco = d.rate_cut_odds %}
+        <div class="panel">
+            <h2>🎯 Fed Rate Cut Odds — {{ rco.meeting }} <span class="badge badge-muted" style="font-size:0.65rem;">{{ rco.source or 'Polymarket' }}</span></h2>
+            <div class="signal-box signal-{{ rco.regime_color | default('yellow') }}">
+                <span class="signal-tag">{{ rco.total_cut_pct | default(0) }}% CUT PROB</span>
+                {{ rco.regime_implication }}
+            </div>
+
+            <div class="rco-gauge-row">
+                <!-- Probability bars -->
+                <div class="rco-bars">
+                    <div class="rco-bar-item">
+                        <div class="rco-bar-label">Cut ≥50bps</div>
+                        <div class="rco-bar-track">
+                            <div class="rco-bar-fill rco-green" style="width: {{ [rco.cut_50_pct | default(0), 100] | min }}%"></div>
+                        </div>
+                        <div class="rco-bar-pct positive">{{ rco.cut_50_pct | default(0) }}%</div>
+                    </div>
+                    <div class="rco-bar-item">
+                        <div class="rco-bar-label">Cut 25bps</div>
+                        <div class="rco-bar-track">
+                            <div class="rco-bar-fill rco-green" style="width: {{ [rco.cut_25_pct | default(0), 100] | min }}%"></div>
+                        </div>
+                        <div class="rco-bar-pct positive">{{ rco.cut_25_pct | default(0) }}%</div>
+                    </div>
+                    <div class="rco-bar-item">
+                        <div class="rco-bar-label">Hold</div>
+                        <div class="rco-bar-track">
+                            <div class="rco-bar-fill rco-yellow" style="width: {{ [rco.hold_pct | default(0), 100] | min }}%"></div>
+                        </div>
+                        <div class="rco-bar-pct">{{ rco.hold_pct | default(0) }}%</div>
+                    </div>
+                    {% if rco.hike_pct %}
+                    <div class="rco-bar-item">
+                        <div class="rco-bar-label">Hike ≥25bps</div>
+                        <div class="rco-bar-track">
+                            <div class="rco-bar-fill rco-red" style="width: {{ [rco.hike_pct, 100] | min }}%"></div>
+                        </div>
+                        <div class="rco-bar-pct negative">{{ rco.hike_pct }}%</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Big probability display -->
+                <div class="rco-big-num">
+                    <div class="rco-big-label">Total Cut Prob</div>
+                    <div class="rco-big-val {{ 'positive' if rco.total_cut_pct and rco.total_cut_pct >= 50 else '' }}">{{ rco.total_cut_pct | default(0) }}%</div>
+                    <div class="rco-big-sub">{{ rco.n_markets | default(0) }} markets tracked</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="grid-2">
+        <!-- ━━━ PANEL 4: RATES & PLUMBING ━━━ -->
+        <div class="panel">
+            <h2>🏦 Rates & Repo Plumbing</h2>
+            {% if d.signals and d.signals.rates %}
+            <div class="signal-box signal-{{ d.signals.rates.color }}">
+                <span class="signal-tag">{{ d.signals.rates.direction }}</span> {{ d.signals.rates.text }}
+            </div>
+            {% endif %}
+            <div class="chart-kpi-row">
+                {% if d.fred_current and d.fred_current.sofr is not none %}<div class="kpi">SOFR: {{ "%.2f"|format(d.fred_current.sofr) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.effr is not none %}<div class="kpi">EFFR: {{ "%.2f"|format(d.fred_current.effr) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.iorb is not none %}<div class="kpi">IORB: {{ "%.2f"|format(d.fred_current.iorb) }}%</div>{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="ratesChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 5: YIELD CURVE ━━━ -->
+        <div class="panel">
+            <h2>📐 Yield Curve (10Y-2Y Spread)</h2>
+            <div class="chart-kpi-row">
+                {% if d.fred_current and d.fred_current.dgs10 is not none %}<div class="kpi">10Y: {{ "%.2f"|format(d.fred_current.dgs10) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.dgs2 is not none %}<div class="kpi">2Y: {{ "%.2f"|format(d.fred_current.dgs2) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.t10y2y is not none %}
+                <div class="kpi">Spread: <span class="{% if d.fred_current.t10y2y > 0 %}positive{% else %}negative{% endif %}">{{ "%+.2f"|format(d.fred_current.t10y2y) }}%</span></div>
+                {% endif %}
+                {% if d.rates and d.rates.t10y2y_roc_4w is not none %}
+                {% set roc = d.rates.t10y2y_roc_4w %}
+                <div class="kpi">4wk Δ: <span class="{{ 'positive' if roc > 0 else 'negative' }}">{{ "%+.2f"|format(roc) }}pp</span>
+                    <span class="badge {% if roc > 0.1 %}badge-green{% elif roc < -0.1 %}badge-red{% else %}badge-muted{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'STEEPENING' if roc > 0.1 else 'FLATTENING' if roc < -0.1 else 'FLAT' }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% if d.fred_current and d.fred_current.t10y2y is not none %}
+            {% set spread = d.fred_current.t10y2y %}
+            {% set roc4 = d.rates.t10y2y_roc_4w | default(none) %}
+            <div class="signal-box signal-{% if spread > 0.5 %}green{% elif spread > 0 %}yellow{% elif spread > -0.5 %}yellow{% else %}red{% endif %}" style="margin: 0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if spread > 0.5 %}STEEP{% elif spread > 0 %}FLAT+{% elif spread > -0.5 %}FLAT-{% else %}INVERTED{% endif %}{% if roc4 is not none %} · {{ 'STEEPENING' if roc4 > 0.1 else 'FLATTENING' if roc4 < -0.1 else 'FLAT' }}{% endif %}</span>
+                {% if spread > 0.5 and roc4 is not none and roc4 > 0.1 %}Curve steepening from positive territory — growth expectations rising. Bond market pricing in stronger economic activity. Bullish for banks (NIM expansion) and cyclicals. Risk-on posture confirmed.
+                {% elif spread > 0.5 and roc4 is not none and roc4 < -0.1 %}Curve positive but flattening — growth optimism fading. Supportive for risk but momentum deteriorating. Watch for continuation toward flat/inversion.
+                {% elif spread > 0 and roc4 is not none and roc4 > 0.1 %}Curve re-steepening from flat — early recovery signal. Fed pivot expectations building or long-end selling. First positive sign for cyclicals; banks begin to benefit.
+                {% elif spread > 0 %}Curve flat positive — neutral. Neither recessionary nor expansionary conviction. Wait for directional break before positioning on curve thesis.
+                {% elif spread > -0.5 and roc4 is not none and roc4 > 0.1 %}Curve un-inverting — DANGER ZONE. History shows recession hits 6-18mo AFTER inversion ends, not during. Equity rally typical on this signal but the fade is coming. Reduce duration, rotate defensively.
+                {% elif spread > -0.5 %}Curve mildly inverted — recession warning elevated. Short-end anchored by Fed; long-end rallying on growth concerns. Defensives (XLP, XLU, XLV) outperform. Avoid deep cyclicals.
+                {% else %}Curve deeply inverted — maximum recessionary signal. Historical hit rate near 100% with 12-18mo lag. Soft-landing narrative requires significant re-steepening to validate. High conviction: short cyclicals, long defensives.{% if roc4 is not none and roc4 > 0.1 %} STEEPENING NOW — un-inversion in progress, recession clock may be starting.{% endif %}
+                {% endif %}
+            </div>
+            {% endif %}
+            <div class="chart-wrap medium"><canvas id="yieldCurveChart"></canvas></div>
+        </div>
+        </div>
+
+        <!-- ━━━ PANEL 7: M2 MONEY SUPPLY ━━━ -->
+        <div class="panel">
+            <h2>💵 M2 Money Supply</h2>
+            {% if d.signals and d.signals.m2 %}
+            <div class="signal-box signal-{{ d.signals.m2.color }}">
+                <span class="signal-tag">{{ d.signals.m2.direction }}</span> {{ d.signals.m2.text }}
+            </div>
+            {% endif %}
+            <div class="chart-wrap medium"><canvas id="m2Chart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 7b: CFTC COT ━━━ -->
+        {% if d.cot %}
+        <div class="panel">
+            <h2>📋 CFTC COT — Speculator Positioning (Longs vs Shorts)</h2>
+
+            {% if d.cot.ES %}
+            {% set es = d.cot.ES %}
+            <div class="cot-headline">
+                <div class="cot-hl-label">ES (S&P 500 E-mini)</div>
+                <div class="cot-hl-val positive">L: {{ "{:,.0f}".format(es.current_l) if es.current_l is not none else '—' }}</div>
+                <div class="cot-hl-val negative">S: {{ "{:,.0f}".format(es.current_s) if es.current_s is not none else '—' }}</div>
+                <div class="cot-hl-val {{ 'positive' if es.current and es.current > 0 else 'negative' }}">Net: {{ "{:+,.0f}".format(es.current) if es.current is not none else '—' }}</div>
+                {% if es.chg_l is not none %}<div class="cot-hl-chg {{ 'positive' if es.chg_l > 0 else 'negative' }}">L WoW: {{ "{:+,.0f}".format(es.chg_l) }}</div>{% endif %}
+                {% if es.chg_s is not none %}<div class="cot-hl-chg {{ 'positive' if es.chg_s < 0 else 'negative' }}">S WoW: {{ "{:+,.0f}".format(es.chg_s) }}</div>{% endif %}
+                {% if es.roc_4w is not none %}<div class="cot-hl-chg {{ 'positive' if es.roc_4w > 0 else 'negative' }}">Net 4wk ROC: {{ "%+.1f"|format(es.roc_4w) }}%</div>{% endif %}
+                {% if es.cot_index is not none %}
+                <div class="cot-hl-chg" style="color:{% if es.cot_index > 80 %}var(--accent-green){% elif es.cot_index < 20 %}var(--accent-red){% else %}var(--text-secondary){% endif %};">
+                    COT Index: {{ "%.0f"|format(es.cot_index) }}/100 {% if es.cot_index > 80 %}(EXTREME LONG){% elif es.cot_index < 20 %}(EXTREME SHORT){% else %}(NEUTRAL){% endif %}
+                </div>
+                {% endif %}
+                {% if es.trajectory %}
+                <div class="cot-hl-signal">
+                    {% if es.trajectory == 'SHORT SQUEEZE POSSIBLE' %}🔥 <strong>SHORT SQUEEZE POSSIBLE</strong> — heavy spec short but shorts declining. Covering underway. Explosive upside if catalyst hits.
+                    {% elif es.trajectory == 'SHORT BUILDING' %}🔴 SHORT BUILDING — heavy spec short AND growing. Bears adding conviction. Rally attempts likely sold.
+                    {% elif es.trajectory == 'LONG UNWIND RISK' %}⚠️ <strong>LONG UNWIND RISK</strong> — heavy spec long but longs fading. Distribution underway. Reversal risk if support breaks.
+                    {% elif es.trajectory == 'LONG BUILDING' %}🟢 LONG BUILDING — heavy spec long AND growing. Bulls in control. Dip-buy bias intact.
+                    {% elif es.trajectory == 'LONGS FADING' %}🟡 LONGS FADING — net long but declining. Profit-taking underway. Cautious; wait for stabilization.
+                    {% elif es.trajectory == 'SHORTS COVERING' %}🟡 SHORTS COVERING — net short but improving. Bears losing conviction. Squeeze setup forming.
+                    {% elif es.trajectory == 'NET LONG' %}🟢 NET LONG — specs moderately long. Momentum supportive.
+                    {% else %}🟡 NET SHORT — specs hedging. Contrarian watch zone.
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <!-- Longs vs Shorts line chart -->
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Green = Longs · Red = Shorts · Dashed = 20wk MA</div>
+            <div class="chart-wrap medium"><canvas id="cotEsLSChart"></canvas></div>
+            <!-- COT Index oscillator -->
+            <div class="chart-sublabel" style="padding:0.5rem 1.5rem 0.25rem;">COT Index (0-100) — position relative to 52-week range. >80 Extreme Long · <20 Extreme Short</div>
+            <div class="chart-wrap short"><canvas id="cotEsIndexChart"></canvas></div>
+            {% endif %}
+
+            <!-- Commodity COT mini-cards -->
+            {% set comm_keys = [('GC','Gold'),('SI','Silver'),('HG','Copper'),('CL','Crude Oil')] %}
+            <div class="cot-mini-grid">
+                {% for key, label in comm_keys %}
+                {% if d.cot[key] %}
+                {% set c = d.cot[key] %}
+                <div class="cot-mini-card">
+                    <div class="cot-mini-label">{{ label }}</div>
+                    <div class="cot-mini-val {{ 'positive' if c.current and c.current > 0 else 'negative' }}">Net: {{ "{:+,.0f}".format(c.current) if c.current is not none else '—' }}</div>
+                    <div style="font-size:0.7rem;display:flex;gap:0.4rem;margin-top:0.15rem;">
+                        {% if c.current_l is not none %}<span class="positive">L:{{ "{:,.0f}".format(c.current_l) }}</span>{% endif %}
+                        {% if c.current_s is not none %}<span class="negative">S:{{ "{:,.0f}".format(c.current_s) }}</span>{% endif %}
+                    </div>
+                    {% if c.chg is not none %}<div class="cot-mini-chg {{ 'positive' if c.chg > 0 else 'negative' }}">WoW: {{ "{:+,.0f}".format(c.chg) }}</div>{% endif %}
+                    {% if c.roc_4w is not none %}<div class="cot-mini-chg {{ 'positive' if c.roc_4w > 0 else 'negative' }}">4wk: {{ "%+.1f"|format(c.roc_4w) }}%</div>{% endif %}
+                    {% if c.trajectory %}<div style="font-size:0.62rem;margin-top:0.2rem;color:{% if c.trajectory == 'SHORT SQUEEZE POSSIBLE' %}var(--accent-yellow){% elif 'SHORT' in c.trajectory %}var(--accent-red){% elif 'LONG UNWIND' in c.trajectory %}var(--accent-yellow){% else %}var(--accent-green){% endif %};">{{ c.trajectory }}</div>{% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: SLOOS — Credit Spigot ━━━ -->
+        {% if d.sloos and d.sloos.current is not none %}
+        <div class="panel">
+            <h2>🏦 Credit Spigot — SLOOS (Senior Loan Officer Survey)</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Net % of banks tightening C&I lending standards. Banks can close the credit door even when rates are flat.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Tightening Net: <span class="{{ 'negative' if d.sloos.current > 0 else 'positive' }}">{{ "%+.1f"|format(d.sloos.current) }}%</span></div>
+            </div>
+            <div class="signal-box signal-{% if d.sloos.current > 20 %}red{% elif d.sloos.current > 0 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if d.sloos.current > 20 %}CREDIT CRUNCH{% elif d.sloos.current > 0 %}TIGHTENING{% else %}EASING{% endif %}</span>
+                {% if d.sloos.current > 20 %}Banks are slamming the credit door — over 20% net tightening. Equivalent to a Fed rate hike on the real economy. Even if rates hold, businesses can't get loans. Equity momentum will decouple from fundamentals. Reduce leverage exposure, short credit-sensitive sectors (XLF, XHB, small-caps).
+                {% elif d.sloos.current > 0 %}Banks cautiously tightening. Credit is available but terms are stricter. Watch for spillover into capex slowdown within 2-3 quarters. Not a crisis signal but momentum in credit-sensitive sectors is headwind.
+                {% else %}Banks are loosening — credit flowing freely. This is the fuel for the next momentum leg. Capex, buybacks, M&A all benefit. Historically bullish for cyclicals and small-caps. Green light for long momentum.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="sloosChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: HEAVY TRUCKS — Real Economy Pulse ━━━ -->
+        {% if d.heavy_trucks and d.heavy_trucks.current is not none %}
+        <div class="panel">
+            <h2>🚛 Real Economy Pulse — Heavy Truck Sales (Class 8)</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Everything you buy was once on a truck. Class 8 sales are the pulse of physical commerce — divergence from equities is a classic warning signal.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Current: <strong>{{ "%.1f"|format(d.heavy_trucks.current) }}K units</strong></div>
+                {% if d.heavy_trucks.prev is not none %}
+                {% set truck_chg = d.heavy_trucks.current - d.heavy_trucks.prev %}
+                <div class="kpi">MoM: <span class="{{ 'positive' if truck_chg > 0 else 'negative' }}">{{ "%+.1f"|format(truck_chg) }}K</span></div>
+                {% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.heavy_trucks.current > 40 %}green{% elif d.heavy_trucks.current > 30 %}yellow{% else %}red{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if d.heavy_trucks.current > 40 %}STRONG{% elif d.heavy_trucks.current > 30 %}MODERATE{% else %}WEAK{% endif %}</span>
+                {% if d.heavy_trucks.current > 40 %}Heavy truck sales are robust — physical economy backing the equity rally. Real industrial demand is present. Momentum has fundamental support. Watch transports (IYT, FDX, UPS) for confirmation.
+                {% elif d.heavy_trucks.current > 30 %}Moderate truck activity — physical economy holding but not accelerating. Market momentum is running ahead of industrial reality. Monitor for further deceleration as a leading divergence signal.
+                {% else %}Heavy truck sales weak — physical economy rolling over while equities may still be bid. Classic DIVERGENCE signal. S&P 500 momentum is disconnected from real commerce. Treat as a sell-the-rip condition in cyclicals (XLI, XLB).
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="truckChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: RETAIL MMF — Dry Powder ━━━ -->
+        {% if d.retail_mmf and d.retail_mmf.current is not none %}
+        <div class="panel">
+            <h2>💰 Dry Powder Gauge — Retail Money Market Funds</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Cash sitting on the sidelines. High MMF balances = latent FOMO buyers. When this peaks and rolls over, the chase is on.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Balance: <strong>${{ "%.0f"|format(d.retail_mmf.current) }}B</strong></div>
+            </div>
+            <div class="signal-box signal-green" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if d.retail_mmf.current > 2000 %}HIGH FUEL{% else %}MODERATE{% endif %}</span>
+                {% if d.retail_mmf.current > 2000 %}Massive dry powder on the sidelines (${{ "%.0f"|format(d.retail_mmf.current) }}B). These are "forced buyers" — retail investors earning 5% who will eventually crack and chase the trend. High MMF + rising market = acceleration risk (melt-up possible). Watch for the roll-over in this series as the exhaustion signal.
+                {% else %}Moderate cash on sidelines. Some fuel remains but the tank is not full. Momentum can continue but the easy "FOMO fuel" has partially deployed. Risk/reward for chasing momentum slightly less favorable.
+                {% endif %}
+                When this series hits a multi-year LOW, the fuel is spent — treat as a momentum exhaustion signal.
+            </div>
+            <div class="chart-wrap medium"><canvas id="mmfChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: STICKY CPI — Inflation Structure ━━━ -->
+        {% if d.sticky_cpi and d.sticky_cpi.current is not none %}
+        <div class="panel">
+            <h2>🌡️ Structural Inflation — Sticky Price CPI (Less Shelter)</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Prices that change infrequently — the structural bedrock of inflation. More reliable than headline CPI for gauging Fed behavior.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Sticky CPI YoY: <span class="{{ 'negative' if d.sticky_cpi.current > 3 else 'positive' if d.sticky_cpi.current < 2 else '' }}"><strong>{{ "%.2f"|format(d.sticky_cpi.current) }}%</strong></span></div>
+                {% if d.sticky_cpi.prev is not none %}
+                {% set cpi_delta = d.sticky_cpi.current - d.sticky_cpi.prev %}
+                <div class="kpi">MoM Δ: <span class="{{ 'negative' if cpi_delta > 0 else 'positive' }}">{{ "%+.2f"|format(cpi_delta) }}pp</span>
+                    <span class="badge {% if cpi_delta > 0 %}badge-red{% else %}badge-green{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'ACCELERATING' if cpi_delta > 0 else 'DECELERATING' }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.sticky_cpi.current > 3.5 %}red{% elif d.sticky_cpi.current > 2.5 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if d.sticky_cpi.current > 3.5 %}STRUCTURALLY HOT{% elif d.sticky_cpi.current > 2.5 %}ELEVATED{% else %}CONTAINED{% endif %}</span>
+                {% if d.sticky_cpi.current > 3.5 %}Sticky inflation structurally above target — the Fed's "higher for longer" is not a threat, it's the reality. Any equity momentum running on "pivot hopes" is on borrowed time. When Vol Shock hits (and it will), the unwind will be sharp. Tighten stops on momentum longs, add VIX hedges.
+                {% elif d.sticky_cpi.current > 2.5 %}Sticky inflation elevated. Fed unlikely to cut aggressively. Market momentum can continue but the Fed put is further out of the money. Rate-sensitive sectors (XRE, utilities) face structural headwind. Growth/momentum still works but requires earnings support.
+                {% else %}Sticky inflation contained near target. Fed has room to ease. This is the ideal backdrop for momentum — risk assets bid, credit flowing, Fed accommodative. Full green light for long momentum strategies.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="stickyCpiChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: STLFSI4 — Regime Filter ━━━ -->
+        {% if d.stlfsi4_current is not none %}
+        <div class="panel">
+            <h2>🧊 Financial Stress Regime Filter (STLFSI4)</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Composite of 18 weekly data series. The momentum regime filter — below 0 = green light, above 0 = reduce size.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">STLFSI4: <span class="{{ 'negative' if d.stlfsi4_current > 0 else 'positive' }}"><strong>{{ "%.4f"|format(d.stlfsi4_current) }}</strong></span></div>
+            </div>
+            <div class="signal-box signal-{% if d.stlfsi4_current > 1 %}red{% elif d.stlfsi4_current > 0 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if d.stlfsi4_current > 1 %}STRESS{% elif d.stlfsi4_current > 0 %}ELEVATED{% else %}LOW STRESS{% endif %} REGIME</span>
+                {% if d.stlfsi4_current > 1 %}STRESS REGIME — correlations going to 1.0. Everything crashes together. Stop momentum strategies immediately. Hedge aggressively. This is not a "buy the dip" environment — it's a "reduce, hedge, survive" environment.
+                {% elif d.stlfsi4_current > 0 %}Stress elevated above neutral. Momentum strategies still workable but tighten stops, reduce position size. Correlations rising — diversification benefits shrinking. Watch for acceleration above 1.0.
+                {% else %}LOW STRESS REGIME — green light for momentum. Correlations normal, market functioning well, credit flowing. Full-size momentum positions appropriate. This is the ideal environment for trend-following.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="stressChart"></canvas></div>
+            <div class="chart-sublabel">Zero = average conditions. Positive = tightening/stress. Negative = accommodative.</div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL 8: SECTOR ROTATION (LINES) ━━━ -->
+        <div class="panel">
+            <h2>🎯 Sector Rotation — Relative Performance vs SPY</h2>
+            <div class="chart-sublabel">Each line = sector ETF return minus SPY return, rebased to 0 (pp).</div>
+            <div class="chart-wrap tall"><canvas id="sectorChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 9: QUICK REFERENCE CARDS — IMPLICATIONS DOCTRINE ━━━ -->
+        <div class="panel">
+            <h2>📋 Quick Reference — Signal Interpretation</h2>
+            <div class="impl-ref-grid">
+
+                <!-- S&P 500 -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">S&P 500</span>
+                        <span class="impl-ref-value">{% if d.market and d.market.spx %}{{ "%.0f"|format(d.market.spx) }}{% else %}—{% endif %}</span>
+                        {% if d.market and d.market.spy_5d is not none %}
+                        <span class="impl-ref-sub {{ 'positive' if d.market.spy_5d > 0 else 'negative' }}">{{ "%+.2f"|format(d.market.spy_5d) }}% (5d)</span>
+                        {% endif %}
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.market and d.market.spy_5d is not none %}
+                        {% if d.market.spy_5d > 3 %}→ Momentum intact. Trend-followers adding. Breadth expansion likely — watch IWM/small-cap confirmation for sustainability.
+                        {% elif d.market.spy_5d > 0 %}→ Grinding higher. Low-conviction tape. Watch for sector rotation leadership shift.
+                        {% elif d.market.spy_5d > -3 %}→ Mild consolidation. Normal after strong move. Oversold setups building in laggard sectors.
+                        {% else %}→ Pressure building. Check VIX/VIX3M structure and HY spreads for risk-off confirmation vs normal pullback.
+                        {% endif %}
+                        {% else %}→ 5d data unavailable. Check market data connection.
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- DXY -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">DXY (Dollar)</span>
+                        <span class="impl-ref-value">{% if d.market and d.market.dxy %}{{ "%.2f"|format(d.market.dxy) }}{% else %}—{% endif %}</span>
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.market and d.market.dxy %}
+                        {% if d.market.dxy > 105 %}→ STRONG DOLLAR. Headwind for gold, commodities, EM equities. Earnings drag for multinationals. Flight to USD assets.
+                        {% elif d.market.dxy > 100 %}→ Dollar elevated but not extreme. Mixed signal — watch for break of 100 as regime change.
+                        {% elif d.market.dxy > 95 %}→ Dollar neutral/mild weakness. Supportive for commodities + EM. Risk appetite positive.
+                        {% else %}→ WEAK DOLLAR. Commodity tailwind — gold, copper, silver benefit. EM and China names outperform. Watch inflation.
+                        {% endif %}
+                        {% else %}→ DXY unavailable.{% endif %}
+                    </div>
+                </div>
+
+                <!-- HY Spread -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">HY Spread</span>
+                        <span class="impl-ref-value {{ 'negative' if d.fred_current and d.fred_current.hy_spread and d.fred_current.hy_spread > 5.0 else 'positive' if d.fred_current and d.fred_current.hy_spread and d.fred_current.hy_spread < 3.5 else '' }}">{% if d.fred_current and d.fred_current.hy_spread is not none %}{{ "%.0f"|format(d.fred_current.hy_spread * 100) }}bp{% else %}—{% endif %}</span>
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.fred_current and d.fred_current.hy_spread is not none %}
+                        {% set hy = d.fred_current.hy_spread * 100 %}
+                        {% if hy < 350 %}→ TIGHT spreads — credit markets pricing in perfection. Risk-on regime. Momentum strategies work. Watch for complacency.
+                        {% elif hy < 500 %}→ Normal credit conditions. No distress signal. Equities can trend higher without credit headwind.
+                        {% elif hy < 650 %}→ WIDENING — credit markets stressed. Financing costs rising. Leveraged buyouts/M&A cooling. Defensive tilt.
+                        {% else %}→ STRESS — HY spreads at recessionary levels. Capital preservation priority. Avoid high-beta / leveraged names.
+                        {% endif %}
+                        {% else %}→ HY spread data unavailable. Check FRED connection.{% endif %}
+                    </div>
+                </div>
+
+                <!-- 10Y Yield -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">10Y Treasury</span>
+                        <span class="impl-ref-value">{% if d.fred_current and d.fred_current.dgs10 is not none %}{{ "%.2f"|format(d.fred_current.dgs10) }}%{% else %}—{% endif %}</span>
+                        {% if d.fred_current and d.fred_current.dgs2 is not none %}
+                        <span class="impl-ref-sub muted">2Y: {{ "%.2f"|format(d.fred_current.dgs2) }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.fred_current and d.fred_current.dgs10 is not none %}
+                        {% set y10 = d.fred_current.dgs10 %}
+                        {% if y10 > 5.0 %}→ Rates ELEVATED above 5%. Discount rate headwind on growth/tech valuations. Mortgage market stress. Watch duration-sensitive REITs/utilities.
+                        {% elif y10 > 4.5 %}→ High but stable rates — equities can coexist if earnings hold. Focus on companies with pricing power.
+                        {% elif y10 > 4.0 %}→ Moderate. Not a primary headwind. Watch for trend — rising hurts tech/growth, falling supports it.
+                        {% else %}→ Rates declining. Duration tailwind — growth/tech multiple expansion likely. Bond proxy sectors (REITS, Utilities) catch bid.
+                        {% endif %}
+                        {% else %}→ Yield data unavailable.{% endif %}
+                        {% if d.fred_current and d.fred_current.t10y2y is not none %}
+                        <br>→ Curve: <strong>{{ "%+.2f"|format(d.fred_current.t10y2y) }}%</strong> (10Y-2Y) — {{ 'STEEPENING: growth expectations returning' if d.fred_current.t10y2y > 0.5 else 'FLAT/INVERTED: recession signal, historically leads by 12-18mo' }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- ANFCI -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">ANFCI (Fin. Cond.)</span>
+                        <span class="impl-ref-value {{ 'positive' if d.fred_current and d.fred_current.anfci is not none and d.fred_current.anfci < -0.3 else 'negative' if d.fred_current and d.fred_current.anfci is not none and d.fred_current.anfci > 0.3 else '' }}">{% if d.fred_current and d.fred_current.anfci is not none %}{{ "%.2f"|format(d.fred_current.anfci) }}{% else %}—{% endif %}</span>
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.fred_current and d.fred_current.anfci is not none %}
+                        {% set anfci = d.fred_current.anfci %}
+                        {% if anfci < -0.5 %}→ VERY LOOSE conditions — credit flowing freely, spreads tight, volatility low. Risk-on environment strongly supported. Momentum strategies have structural wind.
+                        {% elif anfci < -0.2 %}→ Loose — accommodative. Risk assets generally perform. BTD setups work.
+                        {% elif anfci > 0.5 %}→ TIGHT — financing costs elevated, credit restricted. Defensive posture. Quality over growth.
+                        {% elif anfci > 0.2 %}→ Slightly tightening. Watch for deterioration. Reduce highest-beta exposure.
+                        {% else %}→ Near-neutral financial conditions. No strong directional signal from ANFCI alone.
+                        {% endif %}
+                        {% else %}→ ANFCI unavailable.{% endif %}
+                    </div>
+                </div>
+
+                <!-- Consumer Sentiment -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">Mich. Consumer Sent.</span>
+                        <span class="impl-ref-value">{% if d.fred_current and d.fred_current.umcsent is not none %}{{ "%.1f"|format(d.fred_current.umcsent) }}{% else %}—{% endif %}</span>
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if d.fred_current and d.fred_current.umcsent is not none %}
+                        {% set sent = d.fred_current.umcsent %}
+                        {% if sent > 80 %}→ HIGH sentiment (>80). Consumer confidence elevated — discretionary (XLY) outperforms. Retail spending strong. Watch for mean reversion from peaks.
+                        {% elif sent > 65 %}→ Moderate sentiment. Normal consumer behavior. No extreme signal.
+                        {% elif sent > 50 %}→ BELOW AVERAGE. Consumer caution building — defensive staples (XLP) and value catch bid vs growth. Watch retail sales data.
+                        {% else %}→ LOW sentiment — near recession-level pessimism. CONTRARIAN: historically, sub-55 readings lead SPX recovery by 3-6 months. Watch for stabilization as buy signal.
+                        {% endif %}
+                        {% else %}→ Sentiment data unavailable.{% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">QuantLab Terminal v2.0 | Macro Intelligence | All times CT</div>
+
+    <style>
+    /* ── Implications Doctrine — Quick Reference ─────────────────────────── */
+    .impl-ref-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 0.75rem;
+        padding: 0 1.5rem 1rem;
+    }
+    .impl-ref-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.875rem 1rem;
+    }
+    .impl-ref-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-bottom: 0.4rem;
+        flex-wrap: wrap;
+    }
+    .impl-ref-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+    .impl-ref-value {
+        font-family: var(--font-data);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    .impl-ref-sub {
+        font-family: var(--font-data);
+        font-size: 0.75rem;
+        margin-left: auto;
+    }
+    .impl-ref-body {
+        font-size: 0.76rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        border-top: 1px solid var(--border);
+        padding-top: 0.4rem;
+    }
+    .impl-ref-body strong { color: var(--text-primary); }
+
+    /* Rate Cut Odds Panel */
+    .rco-gauge-row { display: flex; gap: 1.5rem; align-items: flex-start; padding: 0.75rem 1.5rem 1rem; flex-wrap: wrap; }
+    .rco-bars { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 0.5rem; }
+    .rco-bar-item { display: grid; grid-template-columns: 90px 1fr 45px; align-items: center; gap: 0.5rem; }
+    .rco-bar-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+    .rco-bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .rco-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+    .rco-green { background: var(--accent-green); }
+    .rco-yellow { background: #f5a623; }
+    .rco-red { background: var(--accent-red); }
+    .rco-bar-pct { font-family: var(--font-data); font-size: 0.75rem; text-align: right; }
+    .rco-big-num { text-align: center; min-width: 110px; }
+    .rco-big-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+    .rco-big-val { font-family: var(--font-data); font-size: 2.4rem; font-weight: 700; color: var(--text-primary); line-height: 1; }
+    .rco-big-sub { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.3rem; }
+    .badge-muted { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+    /* COT Panel */
+    .cot-headline { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; padding: 0.75rem 1.5rem 0.5rem; }
+    .cot-hl-label { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .cot-hl-val { font-family: var(--font-data); font-size: 1.4rem; font-weight: 700; }
+    .cot-hl-chg { font-family: var(--font-data); font-size: 0.82rem; }
+    .cot-hl-signal { font-size: 0.76rem; color: var(--text-secondary); width: 100%; padding-top: 0.2rem; }
+    .cot-mini-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.5rem; padding: 0.5rem 1.5rem 1rem; }
+    .cot-mini-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.625rem 0.75rem; }
+    .cot-mini-label { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+    .cot-mini-val { font-family: var(--font-data); font-size: 1.05rem; font-weight: 700; }
+    .cot-mini-chg { font-family: var(--font-data); font-size: 0.72rem; margin-top: 0.1rem; }
+    </style>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   Chart.js — Dark Theme Defaults
+   ═══════════════════════════════════════════════════════════════ */
+Chart.defaults.color = '#8e8ea0';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.responsive = true;
+Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+Chart.defaults.plugins.legend.labels.font = { size: 11, family: 'Inter' };
+Chart.defaults.elements.line.borderWidth = 2;
+Chart.defaults.elements.line.tension = 0;
+Chart.defaults.elements.point.radius = 0;
+Chart.defaults.elements.point.hoverRadius = 4;
+const GRID = { color: 'rgba(255,255,255,0.06)' };
+
+/* Helper: align sparse series to a dense date axis */
+function alignTo(sparseDates, sparseVals, targetDates) {
+    const m = {};
+    sparseDates.forEach((d, i) => m[d] = sparseVals[i]);
+    return targetDates.map(d => m[d] !== undefined ? m[d] : null);
+}
+
+/* ── PANEL 1: Net Liquidity + SPX + 20d MA shading + ROC histogram ───── */
+{% if d.net_liquidity and d.net_liquidity.series %}
+(function() {
+    const nlDates = {{ d.net_liquidity.series.dates | tojson }};
+    const nlVals  = {{ d.net_liquidity.series.y | tojson }};
+    {% if d.spx_series %}
+    const spxDates = {{ d.spx_series.dates | tojson }};
+    const spxVals  = {{ d.spx_series.y | tojson }};
+    const spxAligned = alignTo(spxDates, spxVals, nlDates);
+    {% else %}
+    const spxAligned = nlDates.map(() => null);
+    {% endif %}
+    {% if d.net_liquidity.ma20_series %}
+    const ma20D = {{ d.net_liquidity.ma20_series.dates | tojson }};
+    const ma20V = {{ d.net_liquidity.ma20_series.y | tojson }};
+    const ma20Aligned = alignTo(ma20D, ma20V, nlDates);
+    {% else %}
+    const ma20Aligned = nlDates.map(() => null);
+    {% endif %}
+
+    /* Shaded fill: above MA = green, below = red */
+    const aboveMA = nlVals.map((v, i) => (v !== null && ma20Aligned[i] !== null && v >= ma20Aligned[i]) ? v : null);
+    const belowMA = nlVals.map((v, i) => (v !== null && ma20Aligned[i] !== null && v < ma20Aligned[i]) ? v : null);
+
+    new Chart(document.getElementById('netLiqChart'), {
+        type: 'line',
+        data: {
+            labels: nlDates,
+            datasets: [
+                { label: 'Net Liq (above MA)', data: aboveMA, borderColor: 'rgba(0,210,106,0)', backgroundColor: 'rgba(0,210,106,0.15)', fill: '+1', tension: 0, pointRadius: 0 },
+                { label: 'Net Liq (below MA)', data: belowMA, borderColor: 'rgba(255,68,68,0)', backgroundColor: 'rgba(255,68,68,0.15)', fill: '+1', tension: 0, pointRadius: 0 },
+                { label: 'Net Liquidity ($B)', data: nlVals, borderColor: '#42a5f5', borderWidth: 2, pointRadius: 0, yAxisID: 'y' },
+                { label: '20d MA', data: ma20Aligned, borderColor: 'rgba(255,255,255,0.5)', borderWidth: 1.5, borderDash: [5,3], pointRadius: 0, yAxisID: 'y' },
+                { label: 'S&P 500', data: spxAligned, borderColor: '#f5a623', borderWidth: 1.5, pointRadius: 0, yAxisID: 'y1' }
+            ]
+        },
+        options: {
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y:  { position: 'left',  grid: GRID, title: { display: true, text: 'Net Liq ($B)', color: '#42a5f5', font: { size: 10 } } },
+                y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'SPX', color: '#f5a623', font: { size: 10 } } }
+            },
+            plugins: { tooltip: { mode: 'index', intersect: false } }
+        }
+    });
+
+    /* ROC histogram */
+    {% if d.net_liquidity.roc_series %}
+    const rocD = {{ d.net_liquidity.roc_series.dates | tojson }};
+    const rocV = {{ d.net_liquidity.roc_series.y | tojson }};
+    const rocColors = rocV.map(v => v !== null && v >= 0 ? 'rgba(0,210,106,0.7)' : 'rgba(255,68,68,0.7)');
+    new Chart(document.getElementById('netLiqRocChart'), {
+        type: 'bar',
+        data: { labels: rocD, datasets: [{ label: '4wk ROC %', data: rocV, backgroundColor: rocColors, borderWidth: 0 }] },
+        options: {
+            scales: { x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } }, y: { grid: GRID } },
+            plugins: { legend: { display: false } }
+        }
+    });
+    {% endif %}
+})();
+{% endif %}
+
+/* ── PANEL 2: XLY/XLP Ratio + ROC ───────────────────────────────────── */
+{% if d.xly_xlp and d.xly_xlp.ratio_series %}
+(function() {
+    const dates     = {{ d.xly_xlp.ratio_series.dates | tojson }};
+    const ratioVals = {{ d.xly_xlp.ratio_series.y | tojson }};
+    const ma20D     = {{ d.xly_xlp.ma20_series.dates | tojson if d.xly_xlp.ma20_series else '[]' }};
+    const ma20V     = {{ d.xly_xlp.ma20_series.y | tojson if d.xly_xlp.ma20_series else '[]' }};
+    const maAligned = alignTo(ma20D, ma20V, dates);
+
+    new Chart(document.getElementById('xlyXlpChart'), {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                { label: 'XLY/XLP', data: ratioVals, borderColor: '#42a5f5', borderWidth: 2 },
+                { label: '20d MA', data: maAligned, borderColor: '#8e8ea0', borderWidth: 1.5, borderDash: [6,3] }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, title: { display: true, text: 'Ratio', color: '#8e8ea0' } }
+            }
+        }
+    });
+
+    /* 5d ROC bar chart */
+    {% if d.xly_xlp.roc_series %}
+    const rocDates  = {{ d.xly_xlp.roc_series.dates | tojson }};
+    const rocVals   = {{ d.xly_xlp.roc_series.y | tojson }};
+    const rocColors = rocVals.map(v => v >= 0 ? 'rgba(0,210,106,0.7)' : 'rgba(255,68,68,0.7)');
+
+    new Chart(document.getElementById('xlyXlpRocChart'), {
+        type: 'bar',
+        data: {
+            labels: rocDates,
+            datasets: [{ label: '5d ROC %', data: rocVals, backgroundColor: rocColors, borderWidth: 0 }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+                y: { grid: GRID }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+    {% endif %}
+})();
+{% endif %}
+
+/* ── PANEL 3: VIX + VIX3M ───────────────────────────────────────────── */
+{% if d.vix and d.vix.series %}
+(function() {
+    const vixDates = {{ d.vix.series.dates | tojson }};
+    const vixVals  = {{ d.vix.series.y | tojson }};
+    const v3D = {{ d.vix.vix3m_series.dates | tojson if d.vix.vix3m_series else '[]' }};
+    const v3V = {{ d.vix.vix3m_series.y | tojson if d.vix.vix3m_series else '[]' }};
+    const v3Aligned = alignTo(v3D, v3V, vixDates);
+
+    new Chart(document.getElementById('vixChart'), {
+        type: 'line',
+        data: {
+            labels: vixDates,
+            datasets: [
+                { label: 'VIX', data: vixVals, borderColor: '#ef5350', backgroundColor: 'rgba(239,83,80,0.08)', fill: true },
+                { label: 'VIX3M', data: v3Aligned, borderColor: '#ffa726', borderWidth: 1.5 }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, suggestedMin: 10 }
+            }
+        }
+    });
+})();
+{% endif %}
+
+/* ── PANEL 4: Rates (SOFR, EFFR, IORB) ──────────────────────────────── */
+{% if d.rates and d.rates.sofr %}
+(function() {
+    const sofrD = {{ d.rates.sofr.dates | tojson }};
+    const sofrV = {{ d.rates.sofr.y | tojson }};
+    const effrD = {{ d.rates.effr.dates | tojson if d.rates.effr else '[]' }};
+    const effrV = {{ d.rates.effr.y | tojson if d.rates.effr else '[]' }};
+    const iorbD = {{ d.rates.iorb.dates | tojson if d.rates.iorb else '[]' }};
+    const iorbV = {{ d.rates.iorb.y | tojson if d.rates.iorb else '[]' }};
+    const effrA = alignTo(effrD, effrV, sofrD);
+    const iorbA = alignTo(iorbD, iorbV, sofrD);
+
+    new Chart(document.getElementById('ratesChart'), {
+        type: 'line',
+        data: {
+            labels: sofrD,
+            datasets: [
+                { label: 'SOFR', data: sofrV, borderColor: '#42a5f5' },
+                { label: 'EFFR', data: effrA, borderColor: '#f5a623', borderWidth: 1.5 },
+                { label: 'IORB', data: iorbA, borderColor: '#ab47bc', borderWidth: 1.5, borderDash: [4,3] }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+                y: { grid: GRID, title: { display: true, text: 'Rate (%)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+/* ── PANEL 5: Yield Curve (10Y-2Y bar) ──────────────────────────────── */
+{% if d.rates and d.rates.t10y2y %}
+(function() {
+    const dates = {{ d.rates.t10y2y.dates | tojson }};
+    const vals  = {{ d.rates.t10y2y.y | tojson }};
+    const colors = vals.map(v => v >= 0 ? 'rgba(0,210,106,0.6)' : 'rgba(255,68,68,0.6)');
+
+    new Chart(document.getElementById('yieldCurveChart'), {
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [{ label: '10Y-2Y Spread', data: vals, backgroundColor: colors, borderWidth: 0 }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+                y: { grid: GRID, title: { display: true, text: 'Spread (%)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+/* ── PANEL 7: M2 Money Supply ────────────────────────────────────────── */
+{% if d.m2 and d.m2.series %}
+(function() {
+    const dates = {{ d.m2.series.dates | tojson }};
+    const vals  = {{ d.m2.series.y | tojson }};
+    const valsT = vals.map(v => (v / 1000).toFixed(2));
+
+    new Chart(document.getElementById('m2Chart'), {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'M2 ($T)',
+                data: valsT,
+                borderColor: '#26a69a',
+                backgroundColor: 'rgba(38,166,154,0.08)',
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, title: { display: true, text: 'Trillions ($)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+/* ── COT: ES Longs vs Shorts Line Chart ──────────────────────────────── */
+{% if d.cot and d.cot.ES and d.cot.ES.longs_series %}
+(function() {
+    const lD  = {{ d.cot.ES.longs_series.dates  | tojson }};
+    const lV  = {{ d.cot.ES.longs_series.y       | tojson }};
+    const sV  = {{ d.cot.ES.shorts_series.y      | tojson }};
+    const lMA = {{ d.cot.ES.longs_ma20.y  | default([]) | tojson }};
+    const sMA = {{ d.cot.ES.shorts_ma20.y | default([]) | tojson }};
+    new Chart(document.getElementById('cotEsLSChart'), {
+        type: 'line',
+        data: { labels: lD, datasets: [
+            { label: 'Longs',       data: lV,  borderColor: 'rgba(0,210,106,0.9)',  backgroundColor: 'rgba(0,210,106,0.06)', fill: true,  tension: 0.2, pointRadius: 0 },
+            { label: 'Longs MA20', data: lMA, borderColor: 'rgba(0,210,106,0.4)',  borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+            { label: 'Shorts',      data: sV,  borderColor: 'rgba(255,68,68,0.9)', backgroundColor: 'rgba(255,68,68,0.06)', fill: true,  tension: 0.2, pointRadius: 0 },
+            { label: 'Shorts MA20',data: sMA, borderColor: 'rgba(255,68,68,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Contracts', color: '#8e8ea0' } }
+        }}
+    });
+})();
+{% endif %}
+
+/* ── COT: ES Index Oscillator ────────────────────────────────────────── */
+{% if d.cot and d.cot.ES and d.cot.ES.net_series %}
+(function() {
+    const nd = {{ d.cot.ES.net_series.dates | tojson }};
+    const nv = {{ d.cot.ES.net_series.y     | tojson }};
+    // Build rolling COT index (52-week window) client-side
+    const W = 52;
+    const idx = nv.map((v, i) => {
+        const win = nv.slice(Math.max(0, i - W + 1), i + 1);
+        const mn = Math.min(...win), mx = Math.max(...win);
+        return mx > mn ? ((v - mn) / (mx - mn)) * 100 : 50;
+    });
+    const idxColors = idx.map(v => v > 80 ? 'rgba(0,210,106,0.8)' : v < 20 ? 'rgba(255,68,68,0.8)' : 'rgba(255,170,0,0.7)');
+    new Chart(document.getElementById('cotEsIndexChart'), {
+        type: 'line',
+        data: { labels: nd, datasets: [
+            { label: 'COT Index', data: idx, borderColor: 'rgba(255,170,0,0.8)', backgroundColor: idxColors, fill: false, tension: 0.2, pointRadius: 0 },
+            { label: 'Overbought (80)', data: nd.map(() => 80), borderColor: 'rgba(0,210,106,0.3)', borderDash: [4,4], pointRadius: 0 },
+            { label: 'Oversold (20)',   data: nd.map(() => 20), borderColor: 'rgba(255,68,68,0.3)',  borderDash: [4,4], pointRadius: 0 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, min: 0, max: 100, title: { display: true, text: 'COT Index', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── SLOOS Chart ─────────────────────────────────────────────────────── */
+{% if d.sloos and d.sloos.series %}
+(function() {
+    const d_ = {{ d.sloos.series.dates | tojson }};
+    const v_ = {{ d.sloos.series.y     | tojson }};
+    const colors = v_.map(v => v > 0 ? 'rgba(255,68,68,0.65)' : 'rgba(0,210,106,0.65)');
+    new Chart(document.getElementById('sloosChart'), {
+        type: 'bar',
+        data: { labels: d_, datasets: [{ label: '% Banks Tightening (net)', data: v_, backgroundColor: colors, borderWidth: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Net % Tightening', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Heavy Trucks Chart ──────────────────────────────────────────────── */
+{% if d.heavy_trucks and d.heavy_trucks.series %}
+(function() {
+    const d_ = {{ d.heavy_trucks.series.dates | tojson }};
+    const v_ = {{ d.heavy_trucks.series.y     | tojson }};
+    new Chart(document.getElementById('truckChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [{ label: 'Heavy Truck Sales (K units, SA)', data: v_, borderColor: '#ffa726', backgroundColor: 'rgba(255,167,38,0.08)', fill: true, tension: 0.2, pointRadius: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Thousands (SA)', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Retail MMF Chart ────────────────────────────────────────────────── */
+{% if d.retail_mmf and d.retail_mmf.series %}
+(function() {
+    const d_ = {{ d.retail_mmf.series.dates | tojson }};
+    const v_ = {{ d.retail_mmf.series.y     | tojson }};
+    new Chart(document.getElementById('mmfChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [{ label: 'Retail MMF ($B)', data: v_, borderColor: '#42a5f5', backgroundColor: 'rgba(66,165,245,0.08)', fill: true, tension: 0.2, pointRadius: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Billions ($)', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Sticky CPI Chart ────────────────────────────────────────────────── */
+{% if d.sticky_cpi and d.sticky_cpi.series %}
+(function() {
+    const d_ = {{ d.sticky_cpi.series.dates | tojson }};
+    const v_ = {{ d.sticky_cpi.series.y     | tojson }};
+    const colors = v_.map(v => v > 3.5 ? 'rgba(255,68,68,0.7)' : v > 2.5 ? 'rgba(255,170,0,0.7)' : 'rgba(0,210,106,0.7)');
+    new Chart(document.getElementById('stickyCpiChart'), {
+        type: 'bar',
+        data: { labels: d_, datasets: [
+            { label: 'Sticky CPI % YoY', data: v_, backgroundColor: colors, borderWidth: 0 },
+            { label: 'Target (2%)',       data: d_.map(() => 2), type: 'line', borderColor: 'rgba(255,255,255,0.2)', borderDash: [4,4], pointRadius: 0 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: '% YoY', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── STLFSI4 Financial Stress Chart ──────────────────────────────────── */
+{% if d.stress and d.stress.stlfsi4 %}
+(function() {
+    const d_ = {{ d.stress.stlfsi4.dates | tojson }};
+    const v_ = {{ d.stress.stlfsi4.y     | tojson }};
+    const colors = v_.map(v => v > 1 ? 'rgba(255,68,68,0.7)' : v > 0 ? 'rgba(255,170,0,0.6)' : 'rgba(0,210,106,0.6)');
+    new Chart(document.getElementById('stressChart'), {
+        type: 'bar',
+        data: { labels: d_, datasets: [
+            { label: 'STLFSI4', data: v_, backgroundColor: colors, borderWidth: 0 },
+            { label: 'Zero',    data: d_.map(() => 0), type: 'line', borderColor: 'rgba(255,255,255,0.15)', borderDash: [4,4], pointRadius: 0 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── PANEL 8: Sector Rotation Lines ──────────────────────────────────── */
+{% if d.sector_lines %}
+(function() {
+    const COLORS = {
+        'XLK': '#42a5f5', 'XLF': '#66bb6a', 'XLE': '#ef5350', 'XLV': '#ab47bc',
+        'XLC': '#ffa726', 'XLI': '#8d6e63', 'XLB': '#78909c', 'XLRE': '#26c6da',
+        'XLU': '#d4e157', 'XLP': '#ec407a', 'XLY': '#7e57c2'
+    };
+    const sectorData = {{ d.sector_lines | tojson }};
+    let maxDates = [];
+    const datasets = [];
+    for (const [ticker, series] of Object.entries(sectorData)) {
+        if (!series || !series.dates) continue;
+        if (series.dates.length > maxDates.length) maxDates = series.dates;
+    }
+    for (const [ticker, series] of Object.entries(sectorData)) {
+        if (!series || !series.dates) continue;
+        const aligned = alignTo(series.dates, series.y, maxDates);
+        datasets.push({
+            label: ticker,
+            data: aligned,
+            borderColor: COLORS[ticker] || '#8e8ea0',
+            borderWidth: 1.5
+        });
+    }
+    if (datasets.length) {
+        new Chart(document.getElementById('sectorChart'), {
+            type: 'line',
+            data: { labels: maxDates, datasets: datasets },
+            options: {
+                scales: {
+                    x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                    y: { grid: GRID, title: { display: true, text: 'Relative to SPY (pp)', color: '#8e8ea0' } }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8, boxWidth: 12 } }
+                }
+            }
+        });
+    }
+})();
+{% endif %}
+</script>
+<script>
+(function(){
+  var n=new Date(), t=new Date(n);
+  t.setHours(6,0,0,0);
+  if(n>=t) t.setDate(t.getDate()+1);
+  setTimeout(()=>location.reload(), t-n);
+})();
+</script>  <!-- auto-refresh at 6am -->
+</body>
+</html>

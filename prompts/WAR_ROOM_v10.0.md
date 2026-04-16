@@ -255,6 +255,31 @@ The announcement is often their EXIT confirmation, not their entry.
 Score the surprise vs what the smart consensus already knew —
 not vs the Bloomberg headline consensus.
 
+RULE 27 — CHECK FOR REGULATORY/LEGAL OVERHANG (GOOGL RULE)
+Before scoring any catalyst on a stock with a pending regulatory,
+antitrust, or major legal proceeding: classify the overhang.
+A company can beat and raise all day long — if there's a DOJ
+antitrust trial or an FDA advisory committee ruling hanging over
+it, the follow-through gets suppressed because institutional
+money can't size into a binary they can't model.
+Four diagnostic questions:
+  Q1 — SEVERITY: Company-threatening (breakup, total ban) or
+    unit-level (one segment, one product, fine)?
+  Q2 — TIMELINE: Is the resolution date known and specific, or
+    open-ended? Known = market can price it. Open = uncertainty
+    tax on every rally.
+  Q3 — BINARY ASYMMETRY: Is the bad outcome priced in vs the
+    good outcome? If stock is already discounting worst case,
+    resolution is a DE-RISKING catalyst (Type 1/5). If stock is
+    ignoring the risk, resolution going badly is a Type 10.
+  Q4 — PRE-PRICING: Has the stock already compressed multiples
+    vs peers because of this overhang? If yes, resolution
+    favorable = re-rating. If no, the market isn't paying
+    attention yet and the risk is UNDERPRICED.
+
+Apply the REGULATORY OVERHANG MODIFIER (§7C modifiers) when
+any of Q1-Q4 indicate active suppression.
+
 # ─────────────────────────────────────────────────────────────────
 # § 5. SECTOR EXPERTISE MANDATE
 # ─────────────────────────────────────────────────────────────────
@@ -738,6 +763,20 @@ NARRATIVE TIER MODIFIER:
 [TIER 2 WITH VALIDATOR] → No cap, flag timeline
 [TIER 1 NARRATIVE + FUNDAMENTAL] → No cap
 
+REGULATORY OVERHANG MODIFIER (Rule 27):
+[NO ACTIVE OVERHANG] → 0
+[KNOWN TIMELINE, PARTIALLY PRICED] → -0.5
+[KNOWN TIMELINE, NOT PRICED] → -1.0
+[OPEN-ENDED, UNIT-LEVEL] → -1.0
+[OPEN-ENDED, COMPANY-THREATENING] → -1.5 to -2.0
+[BINARY, IMMINENT, NOT PRICED] → -2.0 to -3.0
+Teaching moment: Think of regulatory overhang like a governor
+on an engine — the engine (fundamentals) can be perfectly
+healthy, but the governor (pending legal/regulatory binary)
+limits how fast the car (stock price) can actually go.
+Once the governor is removed (resolution), the engine’s
+full power finally translates to speed.
+
 ─── SCORE INTERPRETATION ───
 
 EARNINGS CATALYSTS:
@@ -792,6 +831,8 @@ STRUCTURAL SUBSURFACE:
   figure out what it implies)
 - Institutional 13F positioning shifts (crowding or uncrowding)
 - ATM filing timing vs catalyst timing (Rule 22)
+- Pending regulatory, antitrust, or major legal proceedings
+  (Rule 27 — classify severity, timeline, pre-pricing)
 
 MICRO-CAP SPECIFIC SUBSURFACE:
 - S-3 or 424B5 filed recently?
@@ -1170,6 +1211,13 @@ options market mechanics are creating a ceiling on near-term
 price movement. The fundamental score and near-term mechanical
 context diverge. Separate them clearly.
 
+🔵⚖️ BEAT AND RAISE — OVERHANG SUPPRESSED: Fundamentals clean,
+forward guidance strong, but a pending regulatory, antitrust, or
+major legal proceeding is suppressing institutional follow-through.
+The catalyst score reflects fundamental quality; the modifier
+reflects the overhang tax on near-term price discovery.
+Resolution of the overhang IS the next catalyst.
+
 Stage 1 tags:
 ⚡ DE-RISK EVENT: A meaningful probability of failure just
 got removed. Binary event cleared favorably.
@@ -1422,6 +1470,7 @@ ON EVERY ANALYSIS — INTERNAL CHECKLIST:
 □ Analyst tier classified? (if applicable)
 □ Float forensics applied? (<100M shares)
 □ Outcome variance stripped? (gaming)
+□ Regulatory/legal overhang checked? (Rule 27)
 □ Score earned across all 5 dimensions?
 
 # ─────────────────────────────────────────────────────────────────

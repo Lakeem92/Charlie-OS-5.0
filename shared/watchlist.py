@@ -22,8 +22,11 @@ def _read_list(path: Path, label: str) -> pd.DataFrame:
         )
 
     df = pd.read_csv(path)
-    if 'Symbol' not in df.columns:
-        raise ValueError(f"{label} must contain a 'Symbol' column: {path}")
+    if 'Symbol' not in df.columns and 'ticker' not in df.columns:
+        raise ValueError(f"{label} must contain a 'Symbol' or 'ticker' column: {path}")
+
+    if 'Symbol' not in df.columns and 'ticker' in df.columns:
+        df = df.rename(columns={'ticker': 'Symbol'})
 
     cleaned = df.copy()
     cleaned['Symbol'] = cleaned['Symbol'].astype(str).str.strip().str.upper()

@@ -1,0 +1,682 @@
+{
+  "ticker": "RIVN",
+  "spot": 17.73,
+  "asof_utc": "2026-02-14T21:06:49Z",
+  "session": "AFTER-HOURS",
+  "lens_front_week": {
+    "expiry": "2026-02-20",
+    "staleness_label": "OI DATE UNVERIFIED",
+    "iv_atm": 0.6966,
+    "iv_near_median": 0.7268,
+    "levels": [
+      {
+        "strike": 17.5,
+        "type": "NEAR-SPOT BRACKET",
+        "side": "below",
+        "oi": 867,
+        "volume": 17613,
+        "who_is_forced": "",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 18.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 11268,
+        "volume": 18951,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 17.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 22422,
+        "volume": 15884,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 19.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 25705,
+        "volume": 15811,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 20.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 63914,
+        "volume": 40072,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 15.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 21323,
+        "volume": 8956,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 14.5,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 8619,
+        "volume": 8136,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 21.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 17803,
+        "volume": 8720,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 14.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 29784,
+        "volume": 2909,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 22.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 15911,
+        "volume": 1754,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 13.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 8163,
+        "volume": 2791,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 23.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 10863,
+        "volume": 192,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 12.0,
+        "type": "STEP-CHANGE",
+        "side": "below",
+        "oi": 5730,
+        "volume": 990,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 11.0,
+        "type": "STEP-CHANGE",
+        "side": "below",
+        "oi": 7461,
+        "volume": 894,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 25.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 13408,
+        "volume": 456,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 8.0,
+        "type": "STEP-CHANGE",
+        "side": "below",
+        "oi": 689,
+        "volume": 23,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 28.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 693,
+        "volume": 223,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 30.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 9776,
+        "volume": 38,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 35.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 557,
+        "volume": 3,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 40.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 967,
+        "volume": 21,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 1.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 750.0,
+        "type": "ARB LEVEL",
+        "side": "above",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 3.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 1.3,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 210.0,
+        "type": "ARB LEVEL",
+        "side": "above",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 5.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 4.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      }
+    ]
+  },
+  "lens_monthly": {
+    "expiry": "2026-02-27",
+    "monthly_proxy_flag": true,
+    "staleness_label": "OI DATE UNVERIFIED",
+    "iv_atm": 0.7238,
+    "iv_near_median": 0.7247,
+    "levels": [
+      {
+        "strike": 17.5,
+        "type": "NEAR-SPOT BRACKET",
+        "side": "below",
+        "oi": 376,
+        "volume": 3607,
+        "who_is_forced": "",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 18.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 338,
+        "volume": 9192,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 19.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 739,
+        "volume": 6663,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 16.0,
+        "type": "STEP-CHANGE",
+        "side": "below",
+        "oi": 1877,
+        "volume": 2624,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 20.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 392,
+        "volume": 4044,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 15.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 661,
+        "volume": 712,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 14.5,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 410,
+        "volume": 114,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 21.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 181,
+        "volume": 651,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 14.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 861,
+        "volume": 617,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 22.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 129,
+        "volume": 494,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 13.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 563,
+        "volume": 92,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 23.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 102,
+        "volume": 258,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 12.0,
+        "type": "PUT WALL",
+        "side": "below",
+        "oi": 793,
+        "volume": 106,
+        "who_is_forced": "Dealers hedging put exposure; liquidation pressure can increase if support breaks.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 23.5,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 146,
+        "volume": 78,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 11.0,
+        "type": "STEP-CHANGE",
+        "side": "below",
+        "oi": 158,
+        "volume": 5,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging flows can add pressure and price can travel faster toward the next put concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 25.0,
+        "type": "CALL WALL",
+        "side": "above",
+        "oi": 182,
+        "volume": 34,
+        "who_is_forced": "Dealers hedging call exposure; momentum chasers may get pulled in on breach.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 26.0,
+        "type": "STEP-CHANGE",
+        "side": "above",
+        "oi": 104,
+        "volume": 23,
+        "who_is_forced": "A discrete positioning jump; hedging intensity can change quickly as spot enters this zone.",
+        "breach": "If breached, hedging demand can increase and price can travel faster toward the next call concentration.",
+        "rejection": "On rejection, price often snaps back toward the nearest high OI cluster closer to spot."
+      },
+      {
+        "strike": 1.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 750.0,
+        "type": "ARB LEVEL",
+        "side": "above",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 3.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 1.3,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 210.0,
+        "type": "ARB LEVEL",
+        "side": "above",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 5.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      },
+      {
+        "strike": 4.0,
+        "type": "ARB LEVEL",
+        "side": "below",
+        "oi": 0,
+        "volume": 0,
+        "who_is_forced": "Non-options mechanical level; event/structure participants may defend/press around this price.",
+        "breach": "If breached, structural participants may accelerate positioning around this price.",
+        "rejection": "On rejection, structural participants may defend this price, especially near catalyst dates."
+      }
+    ]
+  },
+  "arb_levels_verified": [
+    {
+      "level": 1.0,
+      "label": "conversion",
+      "context_snippet": "expenditures. In connection with this partnership, Volkswagen Group made an initial equity investment in the Company of $1.0 billion, consisting of an unsecured convertible promissory note due June 2026 (the \u201c2026 Convertible Note\u201d) that conver",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.3
+    },
+    {
+      "level": 750.0,
+      "label": "conversion",
+      "context_snippet": "hin the contemplated timeframe, or at all. In addition, the conversion of the 2026 Convertible Note and our issuance of $750 million shares of Class A common stock to Volkswagen Group on June 30, 2025 as a result of our satisfaction of the Fina",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.3
+    },
+    {
+      "level": 3.0,
+      "label": "cap_floor",
+      "context_snippet": "e have incurred net losses since our inception, including net losses of $5,432 million, $4,746 million, and $3,626 million for the years ended December 31, 2023, 2024 and 2025, respectively. We do not expect to be profitable for t",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.15
+    },
+    {
+      "level": 1.3,
+      "label": "conversion",
+      "context_snippet": "to shares of our Class A common stock in December 2024 in accordance with its terms. In November 2024, we also received $1.3 billion from Volkswagen Group for intellectual property licensed to Volkswagen Group. In addi",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.0
+    },
+    {
+      "level": 210.0,
+      "label": "conversion",
+      "context_snippet": "hich $210 million is being recognized as revenue over time for services provided by the Joint Venture. There can be no assurances",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.0
+    },
+    {
+      "level": 5.0,
+      "label": "cap_floor",
+      "context_snippet": "e have incurred net losses since our inception, including net losses of $5,432 million, $4,746 million, and $3,626 million for the years ended December 31, 2023, 2024 and 2025, respectively. We",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.0
+    },
+    {
+      "level": 4.0,
+      "label": "cap_floor",
+      "context_snippet": "e have incurred net losses since our inception, including net losses of $5,432 million, $4,746 million, and $3,626 million for the years ended December 31, 2023, 2024 and 2025, respectively. We do not expect to",
+      "filing_type": "10-K",
+      "filing_date": "2026-02-12",
+      "filing_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001874178&type=10-K&dateb=&owner=include&count=10",
+      "document_url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000008/rivn-20251231.htm",
+      "confidence": 0.0
+    }
+  ],
+  "paths_front_week": {
+    "upside": [
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      22.0,
+      23.0,
+      25.0,
+      28.0,
+      30.0,
+      35.0,
+      40.0,
+      210.0,
+      750.0
+    ],
+    "downside": [
+      17.5,
+      17.0,
+      15.0,
+      14.5,
+      14.0,
+      13.0,
+      12.0,
+      11.0,
+      8.0,
+      5.0,
+      4.0,
+      3.0,
+      1.3,
+      1.0
+    ]
+  },
+  "paths_monthly": {
+    "upside": [
+      18.0,
+      19.0,
+      20.0,
+      21.0,
+      22.0,
+      23.0,
+      23.5,
+      25.0,
+      26.0,
+      210.0,
+      750.0
+    ],
+    "downside": [
+      17.5,
+      16.0,
+      15.0,
+      14.5,
+      14.0,
+      13.0,
+      12.0,
+      11.0,
+      5.0,
+      4.0,
+      3.0,
+      1.3,
+      1.0
+    ]
+  },
+  "verdict": {
+    "regime": "MIXED",
+    "path_of_least_resistance": "UP toward $18.00",
+    "regime_flip": "Structure flips if $18.00 is breached because dealer hedging reverses direction at that OI concentration."
+  },
+  "diagnostics": {
+    "total_contracts_fetched": 506,
+    "front_week_contracts": 98,
+    "monthly_contracts": 86,
+    "front_week_levels": 27,
+    "monthly_levels": 24,
+    "arb_levels_count": 7,
+    "iv_available": true
+  }
+}
