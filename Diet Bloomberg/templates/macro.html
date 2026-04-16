@@ -622,6 +622,21 @@
             </div>
         </div>
 
+        <!-- ━━━ MACRO SUMMARY ━━━ -->
+        {% if d.macro_summary and d.macro_summary.text %}
+        <div class="panel" style="border-top: 2px solid var(--accent-yellow); margin-top: 1rem;">
+            <h2>🧠 War Room Macro Brief <span class="muted" style="font-size:0.72rem;font-weight:400;">Generated {{ d.macro_summary.generated_at }}</span></h2>
+            <div style="padding: 0.75rem 1.5rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                {% for sentence in d.macro_summary.sentences %}
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <span style="color: var(--accent-yellow); font-family: var(--font-data); font-size: 0.72rem; font-weight: 700; min-width: 18px; padding-top: 0.1rem;">{{ loop.index }}</span>
+                    <p style="margin:0; font-size: 0.84rem; line-height: 1.6; color: var(--text-primary);">{{ sentence }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 
     <div class="footer">QuantLab Terminal v2.0 | Macro Intelligence | All times CT</div>

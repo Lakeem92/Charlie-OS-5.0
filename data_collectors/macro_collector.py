@@ -961,7 +961,103 @@ def collect():
         },
     }
 
+    # ── AI-generated macro summary (runs last, uses full output) ─────────
+    output['macro_summary'] = _generate_macro_summary(output)
+
     return output
+
+
+def _generate_macro_summary(data: dict) -> dict:
+    """Call Claude Haiku to synthesize all dashboard signals into a War Room brief."""
+    try:
+        import os, anthropic
+        from dotenv import load_dotenv
+        load_dotenv(r'C:\QuantLab\Data_Lab\.env')
+        api_key = os.getenv('ANTHROPIC_API_KEY') or os.getenv('CLAUDE_API_KEY')
+        if not api_key:
+            raise ValueError("No API key")
+
+        # Collect key scalars for the prompt
+        regime     = data.get('regime', {})
+        nl         = data.get('net_liquidity', {})
+        rrp        = data.get('rrp_shadow', {})
+        yc         = data.get('fred_current', {})
+        rates      = data.get('rates', {})
+        cot_es     = data.get('cot', {}).get('ES', {})
+        sloos      = data.get('sloos', {})
+        mmf        = data.get('retail_mmf', {})
+        sticky     = data.get('sticky_cpi', {})
+        stlfsi4    = data.get('stlfsi4_current')
+        cg         = data.get('copper_gold', {})
+        trucks     = data.get('heavy_trucks', {})
+        rco        = data.get('rate_cut_odds', {})
+        market     = data.get('market', {})
+
+        metrics = f"""
+REGIME: {regime.get('regime','?')} (score {regime.get('score','?')}/10)
+SPY 5d: {market.get('spy_5d','?')}%
+Net Liquidity: ${nl.get('current_T','?')}T | 4wk ROC: {nl.get('roc_4w','?')}% | Regime: {nl.get('regime','?')}
+RRP: ${rrp.get('current','?')}B | 4wk ROC: {rrp.get('roc_4w','?')}%
+Yield Curve (10Y-2Y): {yc.get('t10y2y','?')}% | 4wk delta: {rates.get('t10y2y_roc_4w','?')}pp
+10Y Real Yield: {cg.get('real_yield_current','?')}%
+STLFSI4: {stlfsi4} (below 0 = green light for momentum)
+COT ES: Net {cot_es.get('current','?')} contracts | Trajectory: {cot_es.get('trajectory','?')} | COT Index: {cot_es.get('cot_index','?')}/100
+SLOOS (bank tightening): {sloos.get('current','?')}%
+Retail MMF dry powder: ${mmf.get('current','?')}B
+Sticky CPI: {sticky.get('current','?')}% YoY
+Copper/Gold ratio ROC 4wk: {cg.get('ratio_roc_4w','?')}%
+Heavy Trucks: {trucks.get('current','?')}K units
+Rate cut odds: {str(rco.get('meeting','?'))[:60]}
+"""
+
+        client = anthropic.Anthropic(api_key=api_key)
+        resp = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=300,
+            messages=[{
+                'role': 'user',
+                'content': (
+                    f"You are a macro analyst for a prop trader. Synthesize these dashboard readings "
+                    f"into a concise War Room brief. Write exactly 4 sentences: "
+                    f"(1) overall regime and liquidity posture, "
+                    f"(2) the biggest risk or tail risk right now, "
+                    f"(3) the biggest opportunity or tailwind, "
+                    f"(4) one concrete action bias for today. "
+                    f"Be direct, specific, use the numbers. No preamble.\n\n{metrics}"
+                )
+            }]
+        )
+        text = resp.content[0].text.strip()
+        # Split into sentences for display
+        import re
+        sentences = [s.strip() for s in re.split(r'(?<=[.!])\s+', text) if s.strip()]
+        return {
+            'text': text,
+            'sentences': sentences,
+            'generated_at': datetime.now().strftime('%H:%M CT'),
+        }
+
+    except Exception as e:
+        print(f"  ⚠ Macro summary generation failed: {e}")
+        return _rule_based_macro_summary(data)
+
+
+def _rule_based_macro_summary(data: dict) -> dict:
+    """Fallback rule-based summary when Claude API unavailable."""
+    regime   = data.get('regime', {}).get('regime', 'UNKNOWN')
+    nl       = data.get('net_liquidity', {})
+    rrp      = data.get('rrp_shadow', {})
+    cot_es   = data.get('cot', {}).get('ES', {})
+    stlfsi4  = data.get('stlfsi4_current', 0) or 0
+    cg       = data.get('copper_gold', {})
+
+    s1 = f"Regime is {regime} with net liquidity {nl.get('regime','unknown')} and {nl.get('roc_4w',0):+.1f}% 4-week ROC."
+    s2 = f"RRP shock absorber at ${rrp.get('current',0):.0f}B — {'critically low, fragile tape' if (rrp.get('current') or 999) < 100 else 'some buffer remains'}."
+    s3 = f"COT positioning: {cot_es.get('trajectory','unknown')} with COT Index {cot_es.get('cot_index','?')}/100. Copper/Gold {cg.get('ratio_roc_4w',0):+.1f}% 4wk."
+    s4 = f"Stress regime {'ELEVATED — tighten stops' if stlfsi4 > 0 else 'LOW — green light for momentum'} (STLFSI4: {stlfsi4:.4f})."
+
+    text = ' '.join([s1, s2, s3, s4])
+    return {'text': text, 'sentences': [s1, s2, s3, s4], 'generated_at': datetime.now().strftime('%H:%M CT')}
 
 
 def main():
