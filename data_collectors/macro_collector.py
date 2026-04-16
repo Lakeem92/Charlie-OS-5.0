@@ -53,12 +53,22 @@ FRED_SERIES = {
     'corestickm': 'CORESTICKM159SFRBATL',  # Sticky price CPI less shelter (% YoY)
     # Real yields
     'dfii10':     'DFII10',         # 10Y TIPS real yield
-    # Commodity prices
+    # Commodity prices (monthly)
     'copper':     'PCOPPUSDM',      # Copper price USD/metric ton (monthly)
+    # Core capex — future earnings engine
+    'neworder':   'NEWORDER',       # Mfg new orders: nondefense capex ex-aircraft (monthly)
+    # Bitcoin (monthly from Coinbase via FRED)
+    'btc':        'CBBTCUSD',       # Bitcoin USD (monthly avg)
+    # Global liquidity vortex
+    'wsefintl':   'WSEFINTL1',      # Foreign custody assets at Fed (weekly, billions)
+    # Shadow labor cycle
+    'temphelps':  'TEMPHELPS',      # Temp help services employment (thousands)
+    'payems':     'PAYEMS',         # Total nonfarm payrolls (thousands)
+    # (Term premium fetched separately via _pull_term_premium — not FRED)
 }
 
 SECTOR_ETFS = ['XLK', 'XLF', 'XLE', 'XLV', 'XLC', 'XLI', 'XLB', 'XLRE', 'XLU', 'XLP', 'XLY']
-MARKET_TICKERS = ['^GSPC', '^VIX', '^VIX3M', '^RUT', 'DX-Y.NYB', 'SPY', 'GC=F', 'HG=F'] + SECTOR_ETFS
+MARKET_TICKERS = ['^GSPC', '^VIX', '^VIX3M', '^RUT', 'DX-Y.NYB', 'SPY', 'GC=F', 'HG=F', 'BTC-USD'] + SECTOR_ETFS
 
 N_DAYS = 252  # 1 year of trading days
 
@@ -278,9 +288,10 @@ def _pull_cot():
         'ES': ('13874+', 'Lev_Money_Positions_Long_All', 'Lev_Money_Positions_Short_All'),
     }
     DISAGG_TARGETS = {
-        'GC': ('088691', 'M_Money_Positions_Long_ALL', 'M_Money_Positions_Short_ALL'),
-        'SI': ('084691', 'M_Money_Positions_Long_ALL', 'M_Money_Positions_Short_ALL'),
-        'HG': ('085692', 'M_Money_Positions_Long_ALL', 'M_Money_Positions_Short_ALL'),
+        'GC':      ('088691', 'M_Money_Positions_Long_ALL',        'M_Money_Positions_Short_ALL'),
+        'GC_COMM': ('088691', 'Prod_Merc_Positions_Long_ALL',       'Prod_Merc_Positions_Short_ALL'),  # Gold commercials (miners/refiners)
+        'SI':      ('084691', 'M_Money_Positions_Long_ALL',        'M_Money_Positions_Short_ALL'),
+        'HG':      ('085692', 'M_Money_Positions_Long_ALL',        'M_Money_Positions_Short_ALL'),
         'CL': ('067651', 'M_Money_Positions_Long_ALL', 'M_Money_Positions_Short_ALL'),
     }
 
@@ -695,7 +706,168 @@ def _yield_curve_roc(series):
         return None
 
 
+# ── NY Fed Term Premium (ACM model) ──────────────────────────────────────────
+
+def _pull_term_premium():
+    """Download ACM 10Y term premium directly from NY Fed Excel file."""
+    import io, requests
+    url = 'https://www.newyorkfed.org/medialibrary/media/research/data_indicators/ACMTermPremium.xls'
+    try:
+        r = requests.get(url, timeout=20)
+        if r.status_code != 200:
+            return None
+        df = pd.read_excel(io.BytesIO(r.content), engine='xlrd')
+        # Date column is first, ACMTP10 is the 10Y term premium column
+        date_col = df.columns[0]
+        df[date_col] = pd.to_datetime(df[date_col], errors='coerce')
+        df = df.dropna(subset=[date_col]).set_index(date_col).sort_index()
+        col = 'ACMTP10' if 'ACMTP10' in df.columns else df.columns[1]
+        series = df[col].astype(float).dropna()
+        cutoff = pd.Timestamp.now() - pd.Timedelta(days=365 * 10)
+        return series[series.index >= cutoff]
+    except Exception as e:
+        print(f"  ⚠ Term premium fetch failed: {e}")
+        return None
+
+
 # ── Computed ratio series ─────────────────────────────────────────────────────
+
+def _fetch_spx_eps_estimates():
+    """Build Yardeni-style S&P 500 EPS growth chart.
+    Uses yfinance quarterly earnings for bellwethers; groups by Q1/Q2/Q3/Q4.
+    Returns per-quarter YoY EPS growth series so Chart.js can draw one line per quarter.
+    Benzinga (if key available) supplements with forward estimates.
+    """
+    import yfinance as yf
+    import os, requests
+    from dotenv import load_dotenv
+    from collections import defaultdict
+
+    # Bellwether basket — mega-cap S&P 500 constituents with consistent reporting
+    BASKET = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'JPM', 'V', 'UNH', 'XOM']
+
+    # Map quarter-end month → Q label
+    def _qlabel(dt):
+        m = dt.month
+        y = dt.year
+        q = {3: 'Q1', 6: 'Q2', 9: 'Q3', 12: 'Q4'}.get(m)
+        return f"{q}-{y}" if q else None
+
+    # Collect (quarter_label, year, qnum) → [eps_yoy_growth, ...]
+    quarterly_by_ticker = {}
+    for ticker in BASKET:
+        try:
+            t = yf.Ticker(ticker)
+            df = t.quarterly_income_stmt
+            if df is None or df.empty:
+                continue
+            # Find EPS rows — try multiple label variants
+            eps_row = None
+            for label in ['Basic EPS', 'Diluted EPS', 'Basic Earnings Per Share', 'Diluted Earnings Per Share']:
+                if label in df.index:
+                    eps_row = df.loc[label]
+                    break
+            if eps_row is None:
+                continue
+            eps_row = eps_row.dropna().sort_index()
+            quarterly_by_ticker[ticker] = eps_row
+        except Exception:
+            continue
+
+    if not quarterly_by_ticker:
+        return None
+
+    # Build YoY growth per quarter across basket
+    # For each ticker, compute YoY EPS growth for each quarter, then average across basket
+    # Structure: {quarter_label: [(date, yoy_growth), ...]}
+    quarter_growth = defaultdict(list)   # 'Q1' → [(date, avg_yoy), ...]
+
+    for ticker, eps_series in quarterly_by_ticker.items():
+        dates = list(eps_series.index)
+        vals  = list(eps_series.values)
+        for i, (d, v) in enumerate(zip(dates, vals)):
+            # Find same quarter 1 year ago
+            yr_ago = None
+            for j, d2 in enumerate(dates):
+                if d2.month == d.month and abs((d - d2).days - 365) < 50:
+                    yr_ago = vals[j]
+                    break
+            if yr_ago is None or yr_ago == 0 or v is None:
+                continue
+            try:
+                yoy = float((float(v) / float(yr_ago) - 1) * 100)
+                if abs(yoy) > 200:  # filter outliers
+                    continue
+                ql = _qlabel(d)
+                if ql:
+                    quarter_growth[ql].append((d, yoy))
+            except (TypeError, ValueError, ZeroDivisionError):
+                continue
+
+    if not quarter_growth:
+        return None
+
+    # For each Q label, compute the average YoY growth across basket tickers
+    # Build per-Qtype lines: 'Q1', 'Q2', 'Q3', 'Q4' each as time series
+    q_lines = {}
+    for ql, pairs in sorted(quarter_growth.items(), key=lambda x: x[0]):
+        pairs.sort(key=lambda x: x[0])
+        # Use latest date for this quarter
+        latest_date, latest_growth = pairs[-1]
+        qtype = ql[:2]  # 'Q1', 'Q2', 'Q3', 'Q4'
+        year  = int(ql[3:])
+        if qtype not in q_lines:
+            q_lines[qtype] = []
+        q_lines[qtype].append({'label': ql, 'year': year, 'yoy': round(latest_growth, 2)})
+
+    # Sort each line's data by year
+    for qtype in q_lines:
+        q_lines[qtype].sort(key=lambda x: x['year'])
+
+    # ── Benzinga: forward estimates for this + next quarter ─────────────────
+    fwd_by_quarter = {}
+    load_dotenv(r'C:\QuantLab\Data_Lab\.env')
+    token = os.getenv('BENZINGA_API_KEY')
+    if token:
+        today  = datetime.now().strftime('%Y-%m-%d')
+        future = (datetime.now() + timedelta(days=120)).strftime('%Y-%m-%d')
+        url    = 'https://api.benzinga.com/api/v2.1/calendar/earnings'
+        params = {'token': token, 'importance': '4', 'date_from': today, 'date_to': future, 'pagesize': '100'}
+        try:
+            r = requests.get(url, params=params, timeout=15)
+            if r.status_code == 200:
+                for e in r.json().get('earnings', []):
+                    date_str = e.get('date', '')
+                    eps_est  = e.get('eps_est')
+                    if not date_str or eps_est in (None, '', 'N/A'):
+                        continue
+                    try:
+                        dt = pd.Timestamp(date_str)
+                        ql = _qlabel(dt)
+                        if ql:
+                            fwd_by_quarter.setdefault(ql, []).append(float(eps_est))
+                    except (TypeError, ValueError):
+                        continue
+        except Exception:
+            pass
+
+    # Build flat chronological series for bar chart
+    q_order = {'Q1': 1, 'Q2': 2, 'Q3': 3, 'Q4': 4}
+    series = []
+    for qtype, items in q_lines.items():
+        for item in items:
+            series.append({**item, 'qtype': qtype})
+    series.sort(key=lambda x: (x['year'], q_order.get(x['qtype'], 0)))
+
+    return {
+        'q_lines': q_lines,
+        'series':  series,      # flat chronological list [{label, year, qtype, yoy}, ...]
+        'fwd_bz':  fwd_by_quarter,
+        'basket':  BASKET,
+        'latest':  series[-1] if series else None,
+        'prior':   series[-2] if len(series) >= 2 else None,
+    }
+
 
 def _compute_onshoring_ratio(fred_raw):
     """TLMFGCONS / IPMAN — capex vs output efficiency."""
@@ -708,6 +880,18 @@ def _compute_onshoring_ratio(fred_raw):
         return None
     ratio = combined['cons'] / combined['prod']
     return ratio
+
+
+def _compute_temp_help_ratio(fred_raw):
+    """TEMPHELPS / PAYEMS — temp workers as share of total payrolls."""
+    t = fred_raw.get('temphelps')
+    p = fred_raw.get('payems')
+    if t is None or p is None:
+        return None
+    df = pd.DataFrame({'t': t, 'p': p}).dropna()
+    if len(df) < 6:
+        return None
+    return (df['t'] / df['p']) * 100   # express as % of total payrolls
 
 
 def _compute_copper_gold_ratio(market_raw):
@@ -734,6 +918,176 @@ def _roc_4w(series):
         return round((float(series.iloc[-1]) / prev - 1) * 100, 2)
     except Exception:
         return None
+
+
+def _roc_12m(series):
+    """12-period (year-over-year) ROC% — for monthly series."""
+    if series is None or len(series) < 13:
+        return None
+    try:
+        prev = float(series.iloc[-13])
+        if prev == 0:
+            return None
+        return round((float(series.iloc[-1]) / prev - 1) * 100, 2)
+    except Exception:
+        return None
+
+
+# ── RSI Computation ───────────────────────────────────────────────────────────
+
+def _compute_rsi(series, period=14):
+    """Standard 14-period RSI on a pandas Series. Returns Series."""
+    if series is None or len(series) < period + 1:
+        return None
+    delta = series.diff()
+    gain  = delta.clip(lower=0).rolling(period).mean()
+    loss  = (-delta.clip(upper=0)).rolling(period).mean()
+    rs    = gain / loss.replace(0, float('nan'))
+    return (100 - 100 / (1 + rs)).dropna()
+
+
+# ── CBOE Put/Call Ratio ────────────────────────────────────────────────────────
+
+def _pull_pcr():
+    """Pull CBOE total put/call ratio history. Returns pd.Series indexed by date."""
+    import requests, io
+    url = 'https://cdn.cboe.com/api/global/us_indices/daily_prices/PCALL_History.csv'
+    try:
+        r = requests.get(url, timeout=15, headers={'User-Agent': 'Mozilla/5.0'})
+        if r.status_code == 200:
+            df = pd.read_csv(io.StringIO(r.text))
+            # Columns: 'DATE' or first col, 'P/C Ratio' or similar
+            df.columns = [c.strip() for c in df.columns]
+            date_col = df.columns[0]
+            pc_col   = df.columns[1]  # total P/C is first ratio column
+            df[date_col] = pd.to_datetime(df[date_col], errors='coerce')
+            df = df.dropna(subset=[date_col]).set_index(date_col).sort_index()
+            series = pd.to_numeric(df[pc_col], errors='coerce').dropna()
+            if len(series) > 20:
+                return series
+    except Exception as e:
+        print(f"  ⚠ CBOE P/C ratio: {e}")
+    return None
+
+
+# ── SPX Options Regime (VIX term structure + SPY chain) ───────────────────────
+
+def _pull_spx_options_regime(market_raw):
+    """Compute options regime from VIX term structure and SPY options chain."""
+    import yfinance as yf
+
+    vix   = _latest(market_raw.get('^VIX'))
+    vix3m = _latest(market_raw.get('^VIX3M'))
+    result = {'vix': vix, 'vix3m': vix3m}
+
+    # Term structure ratio: VIX3M/VIX
+    if vix and vix3m and vix > 0:
+        ts_ratio = round(vix3m / vix, 3)
+        result['ts_ratio'] = ts_ratio
+        if ts_ratio < 0.90:
+            result['ts_regime']      = 'BACKWARDATION'
+            result['ts_label']       = 'FEAR'
+            result['ts_implication'] = 'Near-term fear > long-term — acute stress, expect violent moves. Reduce size, widen stops, bias to short or flat.'
+        elif ts_ratio < 1.0:
+            result['ts_regime']      = 'MILD BACKWARDATION'
+            result['ts_label']       = 'CAUTION'
+            result['ts_implication'] = 'Market pricing near-term risk above average. Not panic but not clean — stay selective, use tighter entries.'
+        elif ts_ratio < 1.10:
+            result['ts_regime']      = 'FLAT CONTANGO'
+            result['ts_label']       = 'NEUTRAL'
+            result['ts_implication'] = 'Vol term structure normal. Options not flagging extreme fear or complacency. Standard momentum conditions.'
+        else:
+            result['ts_regime']      = 'STEEP CONTANGO'
+            result['ts_label']       = 'COMPLACENCY'
+            result['ts_implication'] = 'Long-term vol priced well above spot — market very calm short-term. Classic low-vol momentum environment. But watch for VIX spikes from complacency lows.'
+
+    # VIX regime
+    if vix:
+        if vix < 13:
+            result['vix_regime'] = 'SUPPRESSED'; result['vix_color'] = 'green'
+        elif vix < 20:
+            result['vix_regime'] = 'LOW'; result['vix_color'] = 'green'
+        elif vix < 25:
+            result['vix_regime'] = 'ELEVATED'; result['vix_color'] = 'yellow'
+        elif vix < 30:
+            result['vix_regime'] = 'HIGH'; result['vix_color'] = 'red'
+        else:
+            result['vix_regime'] = 'EXTREME'; result['vix_color'] = 'red'
+
+    # SPY options chain — max pain + gamma regime
+    try:
+        spy     = yf.Ticker('SPY')
+        exps    = spy.options
+        if exps:
+            chain   = spy.option_chain(exps[0])
+            calls   = chain.calls[['strike', 'openInterest']].dropna()
+            puts    = chain.puts[['strike', 'openInterest']].dropna()
+            spot    = _latest(market_raw.get('SPY'))
+
+            # Max pain: minimize total ITM payout at each strike
+            all_strikes = sorted(set(calls['strike']) | set(puts['strike']))
+            min_pain, max_pain_strike = float('inf'), None
+            for s in all_strikes:
+                cp = float((calls[calls['strike'] < s]['openInterest'] * (s - calls[calls['strike'] < s]['strike'])).sum())
+                pp = float((puts[puts['strike'] > s]['openInterest'] * (puts[puts['strike'] > s]['strike'] - s)).sum())
+                total = cp + pp
+                if total < min_pain:
+                    min_pain = total; max_pain_strike = s
+
+            total_put_oi  = int(puts['openInterest'].sum())
+            total_call_oi = int(calls['openInterest'].sum())
+            pc_oi_ratio   = round(total_put_oi / total_call_oi, 3) if total_call_oi > 0 else None
+
+            result['max_pain']    = max_pain_strike
+            result['spot']        = spot
+            result['pc_oi']       = pc_oi_ratio
+            result['put_oi']      = total_put_oi
+            result['call_oi']     = total_call_oi
+            result['expiry']      = exps[0]
+
+            if spot and max_pain_strike:
+                gap_pct = round((spot - max_pain_strike) / max_pain_strike * 100, 2)
+                result['mp_gap_pct'] = gap_pct
+                if gap_pct > 3:
+                    result['gamma_regime']      = 'NEGATIVE GAMMA'
+                    result['gamma_label']       = 'DEALERS SHORT GAMMA'
+                    result['gamma_implication'] = f'SPY {gap_pct:+.1f}% above max pain (${max_pain_strike:.0f}). Dealers short gamma — they AMPLIFY moves in both directions. Volatility is structurally elevated. Breakouts go further, drops go deeper. Tighten stops.'
+                elif gap_pct < -3:
+                    result['gamma_regime']      = 'POSITIVE GAMMA'
+                    result['gamma_label']       = 'DEALERS LONG GAMMA'
+                    result['gamma_implication'] = f'SPY {gap_pct:+.1f}% below max pain (${max_pain_strike:.0f}). Dealers long gamma — they DAMPEN moves, selling rallies and buying dips. Range-bound conditions likely. Fade extremes, mean-reversion bias.'
+                else:
+                    result['gamma_regime']      = 'AT MAX PAIN'
+                    result['gamma_label']       = 'PINNED'
+                    result['gamma_implication'] = f'SPY within 3% of max pain (${max_pain_strike:.0f}). Gravitational pull toward this level is strong. Expect compression and potential pinning into expiry.'
+    except Exception as e:
+        print(f"  ⚠ SPY options regime: {e}")
+
+    return result
+
+
+# ── BTC/Gold and BTC/HY computed series ───────────────────────────────────────
+
+def _compute_btc_gold_ratio(market_raw, fred_raw=None):
+    """BTC (yfinance daily) / Gold futures (yfinance GC=F daily), resampled to monthly."""
+    btc  = market_raw.get('BTC-USD')
+    gold = market_raw.get('GC=F')  # Gold futures from yfinance (already pulled)
+    if btc is None or gold is None:
+        return None
+    # Resample both to month-end
+    btc_m  = btc.resample('ME').last().dropna()
+    gold_m = gold.resample('ME').last().dropna()
+    df = pd.DataFrame({'btc': btc_m, 'gold': gold_m}).dropna()
+    if len(df) < 3:
+        return None
+    return df['btc'] / df['gold']
+
+
+def _compute_ma(series, window=200):
+    """Rolling MA on a series. Returns latest value."""
+    if series is None or len(series) < window // 2:
+        return None
+    return series.rolling(min(window, len(series)), min_periods=max(1, window // 4)).mean()
 
 
 # ── Build Sector Heatmap (table data, kept for reference) ─────────────────────
@@ -791,7 +1145,13 @@ def collect():
 
     print("  Pulling CFTC COT data...")
     cot_raw = safe_api_call(_pull_cot, default={}, label='CFTC COT')
+
+    print("  Pulling NY Fed term premium...")
+    term_premium_series = safe_api_call(_pull_term_premium, default=None, label='ACM term premium')
     print(f"    Got COT for: {list(cot_raw.keys()) if cot_raw else 'none'}")
+
+    print("  Pulling S&P 500 EPS estimates (yfinance bellwethers + Benzinga)...")
+    spx_eps = safe_api_call(_fetch_spx_eps_estimates, default=None, label='SPX EPS estimates')
 
     # Derived
     print("  Computing derived series...")
@@ -799,8 +1159,16 @@ def collect():
     xly_xlp = _compute_xly_xlp(market_raw)
     sofr_iorb = _compute_sofr_iorb_spread(fred_raw)
     sector_rel = _compute_sector_relative(market_raw)
-    onshoring_ratio = _compute_onshoring_ratio(fred_raw)
+    onshoring_ratio   = _compute_onshoring_ratio(fred_raw)
     copper_gold_ratio = _compute_copper_gold_ratio(market_raw)
+    temp_help_ratio   = _compute_temp_help_ratio(fred_raw)
+    btc_gold_ratio    = _compute_btc_gold_ratio(market_raw, fred_raw)
+
+    print("  Pulling CBOE P/C ratio...")
+    pcr_series = safe_api_call(_pull_pcr, default=None, label='CBOE P/C ratio')
+
+    print("  Pulling SPX options regime...")
+    spx_options = safe_api_call(_pull_spx_options_regime, market_raw, default={}, label='SPX options regime')
 
     # Regime
     regime = _classify_regime(fred_raw, market_raw)
@@ -959,6 +1327,86 @@ def collect():
             'copper_current':     _latest(market_raw.get('HG=F')),
             'gold_current':       _latest(market_raw.get('GC=F')),
         },
+
+        # ── Foreign Custody Assets — Global Liquidity Vortex ────────────────
+        'foreign_custody': {
+            'series':  _ts(fred_raw.get('wsefintl'), n=260),
+            'current': _latest(fred_raw.get('wsefintl')),
+            'roc_4w':  _roc_4w(fred_raw.get('wsefintl')),
+        },
+
+        # ── Temp Help Ratio — Shadow Labor Cycle ─────────────────────────────
+        'temp_help': {
+            'series':        _ts(temp_help_ratio, n=120),
+            'current':       round(float(temp_help_ratio.iloc[-1]), 4) if temp_help_ratio is not None and len(temp_help_ratio) >= 1 else None,
+            'prev':          round(float(temp_help_ratio.iloc[-2]), 4) if temp_help_ratio is not None and len(temp_help_ratio) >= 2 else None,
+            'roc_12m':       _roc_12m(temp_help_ratio),
+        },
+
+        # ── Term Premium — Bond Vigilante Signal ─────────────────────────────
+        'term_premium': {
+            'series':  _ts(term_premium_series, n=520),
+            'current': _latest(term_premium_series),
+            'prev':    round(float(term_premium_series.iloc[-2]), 4) if term_premium_series is not None and len(term_premium_series) >= 2 else None,
+            'roc_4w':  _roc_4w(term_premium_series),
+        },
+
+        # ── S&P 500 EPS Growth by Quarter (Yardeni-style) ────────────────────
+        'spx_eps': spx_eps,
+
+        # ── Credit Heartbeat — HY Spread dedicated panel ─────────────────
+        'hy_spread': {
+            'series':  _ts(fred_raw.get('hy_spread'), n=260),
+            'current': _latest(fred_raw.get('hy_spread')),
+            'prev':    round(float(fred_raw['hy_spread'].iloc[-2]), 4) if fred_raw.get('hy_spread') is not None and len(fred_raw['hy_spread']) >= 2 else None,
+            'roc_4w':  _roc_4w(fred_raw.get('hy_spread')),
+        },
+
+        # ── Core Capex — Future Earnings Engine (NEWORDER) ───────────────
+        'core_capex': {
+            'series':  _ts(fred_raw.get('neworder'), n=120),
+            'current': _latest(fred_raw.get('neworder')),
+            'prev':    round(float(fred_raw['neworder'].iloc[-2]), 2) if fred_raw.get('neworder') is not None and len(fred_raw['neworder']) >= 2 else None,
+            'roc_4w':  _roc_4w(fred_raw.get('neworder')),
+            'roc_12m': _roc_12m(fred_raw.get('neworder')),
+        },
+
+        # ── BTC/Gold Ratio — Digital vs Physical ─────────────────────────
+        'btc_gold': {
+            'series':  _ts(btc_gold_ratio, n=60) if btc_gold_ratio is not None else None,
+            'current': round(float(btc_gold_ratio.iloc[-1]), 4) if btc_gold_ratio is not None and len(btc_gold_ratio) >= 1 else None,
+            'prev':    round(float(btc_gold_ratio.iloc[-2]), 4) if btc_gold_ratio is not None and len(btc_gold_ratio) >= 2 else None,
+            'roc_4w':  _roc_4w(btc_gold_ratio),
+            'ma12_series': _ts(_compute_ma(btc_gold_ratio, window=12)) if btc_gold_ratio is not None else None,
+        },
+
+        # ── BTC vs HY Spreads — Cost of Leverage Gap ─────────────────────
+        'btc_vs_hy': (lambda btc=market_raw.get('BTC-USD'), hy=fred_raw.get('hy_spread'): {
+            'btc_series': _ts(btc.resample('ME').last().dropna(), n=36) if btc is not None else None,
+            'hy_series':  _ts(hy.resample('ME').last().dropna(), n=36) if hy is not None else None,
+            'btc_current': _latest(btc) if btc is not None else None,
+            'hy_current':  _latest(hy) if hy is not None else None,
+        })(),
+
+        # ── Real Yield Trap — DFII10 + 200d MA ───────────────────────────
+        'real_yield_trap': (lambda ry=fred_raw.get('dfii10'): {
+            'series':     _ts(ry, n=520) if ry is not None else None,
+            'ma200_series': _ts(_compute_ma(ry, window=200)) if ry is not None else None,
+            'current':    _latest(ry),
+            'ma200':      _latest(_compute_ma(ry, window=200)) if ry is not None else None,
+            'roc_4w':     _roc_4w(ry),
+        })(),
+
+        # ── Put/Call Ratio + RSI Oscillator ──────────────────────────────
+        'pcr': (lambda s=pcr_series: {
+            'series':     _ts(s, n=252) if s is not None else None,
+            'rsi_series': _ts(_compute_rsi(s), n=252) if s is not None else None,
+            'current':    _latest(s),
+            'rsi_current': _latest(_compute_rsi(s)) if s is not None else None,
+        })(),
+
+        # ── SPX Options Regime ────────────────────────────────────────────
+        'spx_options': spx_options,
     }
 
     # ── AI-generated macro summary (runs last, uses full output) ─────────

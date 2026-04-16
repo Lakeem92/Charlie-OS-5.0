@@ -16,7 +16,6 @@
             <a href="/macro" class="active">Macro</a>
             <a href="/ai">AI Cascade</a>
             <a href="/etf">ETF</a>
-            <a href="/news">News</a>
         </nav>
     </div>
 
@@ -255,12 +254,16 @@
                 </div>
                 {% endif %}
             </div>
-            <!-- Longs vs Shorts line chart -->
-            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Green = Longs · Red = Shorts · Dashed = 20wk MA</div>
-            <div class="chart-wrap medium"><canvas id="cotEsLSChart"></canvas></div>
-            <!-- COT Index oscillator -->
-            <div class="chart-sublabel" style="padding:0.5rem 1.5rem 0.25rem;">COT Index (0-100) — position relative to 52-week range. >80 Extreme Long · <20 Extreme Short</div>
-            <div class="chart-wrap short"><canvas id="cotEsIndexChart"></canvas></div>
+            <!-- LONGS chart + index -->
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">🟢 LONGS — Green = Speculator Longs · Dashed = 20wk MA</div>
+            <div class="chart-wrap medium"><canvas id="cotLongsChart"></canvas></div>
+            <div class="chart-sublabel" style="padding:0.5rem 1.5rem 0.25rem;">Longs COT Index (0-100) — longs vs 52-week range · >80 Extreme Accumulation · <20 Longs Drained</div>
+            <div class="chart-wrap short"><canvas id="cotLongsIndexChart"></canvas></div>
+            <!-- SHORTS chart + index -->
+            <div class="chart-sublabel" style="padding:0.5rem 1.5rem 0.25rem;">🔴 SHORTS — Red = Speculator Shorts · Dashed = 20wk MA</div>
+            <div class="chart-wrap medium"><canvas id="cotShortsChart"></canvas></div>
+            <div class="chart-sublabel" style="padding:0.5rem 1.5rem 0.25rem;">Shorts COT Index (0-100) — shorts vs 52-week range · >80 Extreme Short Buildup · <20 Shorts Covered</div>
+            <div class="chart-wrap short"><canvas id="cotShortsIndexChart"></canvas></div>
             {% endif %}
 
             <!-- Commodity COT mini-cards -->
@@ -487,6 +490,423 @@
             <!-- Dual axis: Cu/Au ratio + Real Yield -->
             <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Orange = Cu/Au Ratio (left) · Blue = 10Y Real Yield % (right)</div>
             <div class="chart-wrap medium"><canvas id="copperGoldChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: GLOBAL LIQUIDITY VORTEX — Foreign Custody Assets ━━━ -->
+        {% if d.foreign_custody and d.foreign_custody.current is not none %}
+        {% set fc = d.foreign_custody %}
+        <div class="panel">
+            <h2>🌍 Global Liquidity Vortex — Foreign Custody Assets at Fed</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Foreign central banks' U.S. Treasury holdings custodied at the Fed (WSEFINTL1, weekly, $M). Falling = global margin call. Rising = world restocking on dollars.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Current: <strong>${{ "{:,.0f}".format(fc.current / 1000) }}B</strong></div>
+                {% if fc.roc_4w is not none %}
+                <div class="kpi">4wk ROC: <span class="{{ 'positive' if fc.roc_4w > 0 else 'negative' }}">{{ "%+.2f"|format(fc.roc_4w) }}%</span>
+                    <span class="badge {% if fc.roc_4w > 1 %}badge-green{% elif fc.roc_4w < -1 %}badge-red{% else %}badge-muted{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'INFLOW' if fc.roc_4w > 1 else 'OUTFLOW' if fc.roc_4w < -1 else 'STABLE' }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="signal-box signal-{% if fc.roc_4w is not none and fc.roc_4w < -2 %}red{% elif fc.roc_4w is not none and fc.roc_4w < 0 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if fc.roc_4w is not none and fc.roc_4w < -2 %}GLOBAL MARGIN CALL{% elif fc.roc_4w is not none and fc.roc_4w < 0 %}OUTFLOW PRESSURE{% else %}DOLLAR RESTOCKING{% endif %}</span>
+                {% if fc.roc_4w is not none and fc.roc_4w < -2 %}
+                    VORTEX ALERT — Foreign central banks are liquidating U.S. Treasury holdings at the Fed at {{ "%.1f"|format(fc.roc_4w) }}% (4wk). This is a global margin call signal. Petrodollar recycling is breaking down, reserve managers are selling. Watch for USD strengthening, EM stress, and a headwind for ALL risk assets. Momentum stalls when the world is selling the denominator.
+                {% elif fc.roc_4w is not none and fc.roc_4w < 0 %}
+                    Mild outflow pressure — foreign CBs trimming Treasury custody positions. Not a crisis yet, but sustained outflows signal declining global demand for dollar-denominated assets. This is a slow drain on the dollar's bid. Monitor for acceleration. USD momentum plays are at risk if this trend deepens.
+                {% else %}
+                    INFLOW — Foreign central banks are adding to or maintaining their U.S. Treasury holdings at the Fed. This is constructive for the dollar and U.S. fixed income. Petrodollar recycling intact. Global liquidity is flowing into the U.S. dollar system — a tailwind for both bonds and risk assets priced in dollars. Momentum has global institutional sponsorship.
+                {% endif %}
+            </div>
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Foreign Custody Assets at Fed ($M) — 5-year weekly</div>
+            <div class="chart-wrap medium"><canvas id="foreignCustodyChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: SHADOW LABOR CYCLE — Temp Help Ratio ━━━ -->
+        {% if d.temp_help and d.temp_help.current is not none %}
+        {% set th = d.temp_help %}
+        <div class="panel">
+            <h2>👷 Shadow Labor Cycle — Temp Help Ratio</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">Temp Help Services Employment as % of Total Nonfarm Payrolls (TEMPHELPS / PAYEMS). Temp workers hired first in expansions, fired first in contractions — the labor market's leading indicator.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Ratio: <strong>{{ "%.3f"|format(th.current) }}%</strong></div>
+                {% if th.prev is not none %}
+                <div class="kpi">Prior: {{ "%.3f"|format(th.prev) }}%
+                    <span class="badge {% if th.current > th.prev %}badge-green{% else %}badge-red{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'EXPANDING' if th.current > th.prev else 'CONTRACTING' }}</span>
+                </div>
+                {% endif %}
+                {% if th.roc_12m is not none %}
+                <div class="kpi">YoY ROC: <span class="{{ 'positive' if th.roc_12m > 0 else 'negative' }}">{{ "%+.1f"|format(th.roc_12m) }}%</span></div>
+                {% endif %}
+            </div>
+            <div class="signal-box signal-{% if th.roc_12m is not none and th.roc_12m < -5 %}red{% elif th.roc_12m is not none and th.roc_12m < 0 %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if th.roc_12m is not none and th.roc_12m < -5 %}GHOST MOMENTUM — LABOR WARNING{% elif th.roc_12m is not none and th.roc_12m < 0 %}LABOR SOFTENING{% else %}LABOR EXPANDING{% endif %}</span>
+                {% if th.roc_12m is not none and th.roc_12m < -5 %}
+                    GHOST MOMENTUM signal — Temp help employment is declining {{ "%.1f"|format(th.roc_12m) }}% YoY while headline nonfarm payrolls may still look healthy. This is the classic divergence signal. Business cycle is rolling over — companies shed flexible labor 3-6 months before cutting permanent staff. Momentum driven by lagging headlines is on borrowed time. Tighten stops on late-cycle longs (retail, housing, consumer discretionary). Go early on recession-resistant setups.
+                {% elif th.roc_12m is not none and th.roc_12m < 0 %}
+                    Temp help softening {{ "%.1f"|format(th.roc_12m) }}% YoY — early warning. Not a crisis but the leading edge is weakening. Watch whether permanent payrolls start to soften next (3-6 month lag). If confirmed, the soft landing narrative becomes fragile. Avoid adding to late-cycle consumer/discretionary longs.
+                {% else %}
+                    Temp help expanding — businesses are adding flexible labor first, a leading positive for the business cycle. Early-to-mid expansion regime signal. Momentum trades have labor market tailwinds.
+                {% endif %}
+            </div>
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">Temp Help as % of Total Payrolls — 10-year monthly</div>
+            <div class="chart-wrap medium"><canvas id="tempHelpChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: BOND VIGILANTE — ACM Term Premium ━━━ -->
+        {% if d.term_premium and d.term_premium.current is not none %}
+        {% set tp = d.term_premium %}
+        <div class="panel">
+            <h2>⚔️ Bond Vigilante — ACM 10Y Term Premium</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">NY Fed ACM model 10-year term premium. Extra yield bond investors demand to hold long duration. Rising from negative → positive = Value Rotation trigger: tech/growth momentum dies, banks/energy/value momentum explodes.</p>
+            <div class="chart-kpi-row">
+                <div class="kpi">Term Premium: <strong class="{{ 'positive' if tp.current > 0 else 'negative' }}">{{ "%+.4f"|format(tp.current) }}%</strong></div>
+                {% if tp.prev is not none %}
+                <div class="kpi">Prev: {{ "%+.4f"|format(tp.prev) }}%
+                    <span class="badge {% if tp.current > tp.prev %}badge-red{% else %}badge-green{% endif %}" style="margin-left:4px;font-size:0.65rem;">{{ 'RISING' if tp.current > tp.prev else 'FALLING' }}</span>
+                </div>
+                {% endif %}
+                {% if tp.roc_4w is not none %}
+                <div class="kpi">4wk ROC: <span class="{{ 'negative' if tp.roc_4w > 0 else 'positive' }}">{{ "%+.1f"|format(tp.roc_4w) }}%</span></div>
+                {% endif %}
+            </div>
+            {% set tp_rising = tp.roc_4w is not none and tp.roc_4w > 0 %}
+            {% set tp_positive = tp.current > 0 %}
+            <div class="signal-box signal-{% if tp_rising and tp_positive %}red{% elif tp_rising %}yellow{% else %}green{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">{% if tp_rising and tp_positive %}BOND VIGILANTES ACTIVE{% elif tp_rising %}TERM PREMIUM RISING{% else %}BOND MARKET TAME{% endif %}</span>
+                {% if tp_rising and tp_positive %}
+                    BOND VIGILANTE MODE — Term premium is positive AND rising at {{ "%.1f"|format(tp.roc_4w) }}% (4wk). Bond investors are demanding MORE compensation to hold long duration — they do NOT trust the fiscal path. This is the Value Rotation kill switch for growth momentum: (1) Long-duration tech/growth repriced lower via discount rate expansion. (2) Banks benefit — steeper curve = NIM expansion. (3) Energy/materials outperform as inflation premium is being priced in. (4) The Fed pivot trade is dead until term premium rolls over. Rotate out of QQQ momentum into XLF/XLE/value.
+                {% elif tp_rising %}
+                    Term premium rising from negative territory at {{ "%.4f"|format(tp.current) }}%. Approaching the critical zero line — the threshold where bond psychology shifts from trust-the-Fed to price-the-risk. Begin reducing duration sensitivity in your longs. Favor companies with near-term FCF over speculative growth.
+                {% else %}
+                    Term premium declining/stable at {{ "%.4f"|format(tp.current) }}%. Bond market is tame — investors are NOT demanding extra duration risk premium. This is supportive for growth/tech momentum. Lower term premium = lower discount rates = longer time horizons rewarded.
+                {% endif %}
+            </div>
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">NY Fed ACM 10Y Term Premium (%) — 10-year daily · Zero line = neutral</div>
+            <div class="chart-wrap medium"><canvas id="termPremiumChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: S&P 500 EPS GROWTH — Quarterly Bar Chart ━━━ -->
+        {% if d.spx_eps and d.spx_eps.series %}
+        {% set eps = d.spx_eps %}
+        {% set lat = eps.latest %}
+        {% set pri = eps.prior %}
+        {% set accelerating = lat and pri and lat.yoy > pri.yoy %}
+        <div class="panel">
+            <h2>📈 S&P 500 Bellwether EPS Growth — Quarterly YoY</h2>
+            <p class="muted" style="padding:0 1.5rem 0.5rem;font-size:0.78rem;">YoY EPS growth rate per calendar quarter, mega-cap bellwether basket ({{ eps.basket | join(', ') }}). Green bars = growth. Red bars = contraction. Chart fills in quarter-by-quarter as companies report.</p>
+            <div class="chart-kpi-row">
+                {% if lat %}
+                <div class="kpi">Latest — {{ lat.label }}: <strong class="{{ 'positive' if lat.yoy > 0 else 'negative' }}">{{ "%+.1f"|format(lat.yoy) }}% YoY</strong></div>
+                {% endif %}
+                {% if pri %}
+                <div class="kpi">Prior — {{ pri.label }}: <span class="{{ 'positive' if pri.yoy > 0 else 'negative' }}">{{ "%+.1f"|format(pri.yoy) }}% YoY</span></div>
+                {% endif %}
+                {% if lat and pri %}
+                <div class="kpi">Trend:
+                    <span class="badge {% if accelerating %}badge-green{% else %}badge-red{% endif %}" style="font-size:0.7rem;">
+                        {{ '▲ ACCELERATING' if accelerating else '▼ DECELERATING' }}
+                    </span>
+                    <span style="font-size:0.75rem;margin-left:4px;color:var(--text-secondary);">({{ "%+.1f"|format(lat.yoy - pri.yoy) }}pp vs prior qtr)</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if lat %}
+            {% set lv = lat.yoy %}
+            <div class="signal-box signal-{% if lv > 10 and accelerating %}green{% elif lv > 0 and accelerating %}green{% elif lv > 10 %}yellow{% elif lv > 0 %}yellow{% else %}red{% endif %}" style="margin:0 1.5rem 0.5rem;">
+                <span class="signal-tag">
+                    {% if lv > 10 and accelerating %}EARNINGS ACCELERATION
+                    {% elif lv > 10 %}STRONG GROWTH — WATCH TREND
+                    {% elif lv > 0 and accelerating %}RECOVERY IN PROGRESS
+                    {% elif lv > 0 %}POSITIVE BUT DECELERATING
+                    {% elif accelerating %}CONTRACTION — IMPROVING
+                    {% else %}EARNINGS CONTRACTION
+                    {% endif %}
+                </span>
+                {% if lv > 10 and accelerating %}
+                    {{ lat.label }} bellwether EPS grew {{ "%+.1f"|format(lv) }}% YoY — double-digit growth AND accelerating vs {{ pri.label }} ({{ "%+.1f"|format(pri.yoy) }}%). This is fundamental fuel for momentum. Multiple expansion is justified when earnings power is growing this fast. The S&P is not just running on narrative — it has the earnings to back it. Dip-buy bias fully intact. Favor high-earnings-leverage names (semis, software, financials).
+                {% elif lv > 10 %}
+                    {{ lat.label }} EPS {{ "%+.1f"|format(lv) }}% YoY — strong growth but decelerating from {{ pri.label }} ({{ "%+.1f"|format(pri.yoy) }}%). High absolute growth means fundamentals are still supportive, but the rate-of-change is the warning flag. Market often reprices when EPS growth peaks. Stay long but watch for estimate cuts — any disappointment vs. the elevated bar causes outsized downside. Tighten stops on high-multiple names.
+                {% elif lv > 0 and accelerating %}
+                    {{ lat.label }} EPS growing {{ "%+.1f"|format(lv) }}% YoY, up from {{ "%+.1f"|format(pri.yoy) }}% in {{ pri.label }}. The earnings cycle is RECOVERING. This is the inflection point that justifies buying dips — the fundamental trend is turning up. Analysts will begin revising estimates higher as the acceleration is confirmed. Add exposure on pullbacks. Cyclicals and early-cycle names outperform at this inflection.
+                {% elif lv > 0 %}
+                    {{ lat.label }} EPS grew only {{ "%+.1f"|format(lv) }}% YoY, decelerating from {{ "%+.1f"|format(pri.yoy) }}% in {{ pri.label }}. Positive but slowing. This is the most dangerous zone for momentum — the market can still grind higher on multiple expansion but it has no EPS cushion. Any rate shock, macro data miss, or geopolitical surprise gets amplified because there is no earnings growth to fall back on. Reduce concentration in high-multiple growth names. Favor quality (strong FCF, low debt, stable margins).
+                {% elif accelerating %}
+                    {{ lat.label }} EPS contracted {{ "%+.1f"|format(lv) }}% YoY but improved from {{ "%+.1f"|format(pri.yoy) }}% in {{ pri.label }}. Contraction is shrinking — this is a tentative bottoming signal. The worst may be behind us, but don't get ahead of it. Wait for at least one more quarter of improvement before turning constructively long on earnings momentum. For now: stay defensive, keep stops tight, watch Q2 guidance for confirmation.
+                {% else %}
+                    EARNINGS CONTRACTION — {{ lat.label }} EPS {{ "%+.1f"|format(lv) }}% YoY, worsening from {{ "%+.1f"|format(pri.yoy) }}% in {{ pri.label }}. This is a fundamental bear signal. The market is either going down or being held up by multiple expansion alone — both scenarios are fragile. Short earnings-sensitive sectors (XLY, XLI, XLB). Long defensives (XLU, XLV, XLP). Do NOT chase momentum longs without a major catalyst or Fed capitulation.
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="chart-sublabel" style="padding:0 1.5rem 0.25rem;">YoY EPS Growth % per Quarter · Green = positive · Red = negative · Basket: {{ eps.basket | join(', ') }}</div>
+            <div class="chart-wrap medium"><canvas id="spxEpsChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: HY SPREAD — Credit Heartbeat ━━━ -->
+        {% if d.hy_spread and d.hy_spread.series %}
+        <div class="panel">
+            <h2>💳 Credit Heartbeat — HY Option-Adjusted Spread
+                {% set hy_bps = (d.hy_spread.current * 100) | round | int if d.hy_spread.current else none %}
+                {% if hy_bps is not none %}
+                <span class="badge {% if hy_bps < 350 %}badge-green{% elif hy_bps < 500 %}badge-yellow{% else %}badge-red{% endif %}">
+                    {{ hy_bps }}bp {% if hy_bps < 350 %}TIGHT{% elif hy_bps < 500 %}NORMAL{% else %}WIDE{% endif %}
+                </span>
+                {% endif %}
+            </h2>
+            <div class="chart-kpi-row">
+                {% if d.hy_spread.current %}
+                <div class="kpi">OAS: <strong class="{% if d.hy_spread.current * 100 > 500 %}negative{% elif d.hy_spread.current * 100 < 350 %}positive{% endif %}">{{ "%.0f"|format(d.hy_spread.current * 100) }}bp</strong></div>
+                {% endif %}
+                {% if d.hy_spread.prev %}<div class="kpi">Prev: {{ "%.0f"|format(d.hy_spread.prev * 100) }}bp</div>{% endif %}
+                {% if d.hy_spread.roc_4w is not none %}<div class="kpi">4wk ROC: <span class="{% if d.hy_spread.roc_4w < 0 %}positive{% else %}negative{% endif %}">{{ "%+.1f"|format(d.hy_spread.roc_4w) }}%</span></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.hy_spread.current and d.hy_spread.current * 100 < 350 %}green{% elif d.hy_spread.current and d.hy_spread.current * 100 < 500 %}yellow{% else %}red{% endif %}">
+                {% set bps = (d.hy_spread.current * 100) | round | int if d.hy_spread.current else 0 %}
+                {% set roc = d.hy_spread.roc_4w | default(0) %}
+                <span class="signal-tag">{% if bps < 350 %}TIGHT{% elif bps < 500 %}NORMAL{% else %}WIDE{% endif %}</span>
+                {% if bps < 350 and roc < 0 %}HY spreads tight AND compressing — credit markets pricing perfection. Risk-on regime fully intact. Leveraged longs protected. Watch for complacency reversal if vol spikes.
+                {% elif bps < 350 and roc > 0 %}Spreads tight but widening 4wk — early credit stress signal. Still healthy but directional turn deserves attention. Monitor for acceleration above 400bp.
+                {% elif bps < 500 and roc < 0 %}Normal spread level, compressing — credit improving. Incremental tailwind for risk assets. HY and IG demand solid.
+                {% elif bps < 500 and roc > 0 %}Normal level, widening — moderate caution. Credit markets absorbing some stress. Not a crisis signal but reduce leverage in weakest-balance-sheet names.
+                {% elif bps < 650 %}WIDENING CREDIT — financing conditions tightening. Leveraged buyouts/M&A at risk. High-beta equities historically underperform 4–6 weeks after HY widening above 500bp. Defensive tilt.
+                {% else %}CREDIT STRESS — HY spreads at recessionary levels. Capital preservation priority. Avoid high-beta, avoid leveraged names. Long defensives (XLU, XLV, XLP). This is a systemic warning, not noise.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="hySpreadChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: CORE CAPEX — Future Earnings Engine ━━━ -->
+        {% if d.core_capex and d.core_capex.series %}
+        <div class="panel">
+            <h2>🏗️ Core Capex — Future Earnings Engine (NEWORDER)
+                {% if d.core_capex.roc_12m is not none %}
+                <span class="badge {% if d.core_capex.roc_12m > 0 %}badge-green{% else %}badge-red{% endif %}">YoY {{ "%+.1f"|format(d.core_capex.roc_12m) }}%</span>
+                {% endif %}
+            </h2>
+            <div class="chart-kpi-row">
+                {% if d.core_capex.current %}<div class="kpi">Orders: <strong>${{ "%.1f"|format(d.core_capex.current / 1000) }}B</strong></div>{% endif %}
+                {% if d.core_capex.roc_4w is not none %}<div class="kpi">4wk ROC: <span class="{% if d.core_capex.roc_4w > 0 %}positive{% else %}negative{% endif %}">{{ "%+.1f"|format(d.core_capex.roc_4w) }}%</span></div>{% endif %}
+                {% if d.core_capex.roc_12m is not none %}<div class="kpi">YoY: <span class="{% if d.core_capex.roc_12m > 0 %}positive{% else %}negative{% endif %}">{{ "%+.1f"|format(d.core_capex.roc_12m) }}%</span></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.core_capex.roc_12m is not none and d.core_capex.roc_12m > 3 %}green{% elif d.core_capex.roc_12m is not none and d.core_capex.roc_12m > 0 %}yellow{% else %}red{% endif %}">
+                {% set yoy = d.core_capex.roc_12m | default(0) %}
+                {% set m = d.core_capex.roc_4w | default(0) %}
+                <span class="signal-tag">{% if yoy > 3 %}EXPANDING{% elif yoy > 0 %}STABLE{% else %}CONTRACTING{% endif %}</span>
+                {% if yoy > 5 %}Core capex orders surging {{ "%+.1f"|format(yoy) }}% YoY — corporations investing aggressively. Earnings growth pipeline is strong 6–12 months forward. Industrials (XLI), tech capex plays (NVDA, AVGO), and construction (STRL, PWR) all benefit.
+                {% elif yoy > 0 %}Core capex growing modestly {{ "%+.1f"|format(yoy) }}% YoY — stable investment cycle. No major acceleration or contraction. Capex-sensitive sectors in sideways mode.
+                {% elif yoy > -5 %}Core capex flat/marginally negative — CFOs pulling back. Cautious corporate behavior. Watch for deceleration to confirm; below -3% historically precedes earnings misses 2–3 quarters forward.
+                {% else %}CAPEX CONTRACTION {{ "%+.1f"|format(yoy) }}% YoY — corporate investment in retreat. Earnings growth likely to disappoint 2–3Q out. Historically precedes layoffs and margin compression. Avoid cyclicals, overweight defensives.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="coreCapexChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: BTC/GOLD RATIO — Digital vs Physical ━━━ -->
+        {% if d.btc_gold and d.btc_gold.series %}
+        <div class="panel">
+            <h2>₿ BTC/Gold Ratio — Risk Appetite Barometer
+                {% if d.btc_gold.roc_4w is not none %}
+                <span class="badge {% if d.btc_gold.roc_4w > 0 %}badge-green{% else %}badge-red{% endif %}">4wk {{ "%+.1f"|format(d.btc_gold.roc_4w) }}%</span>
+                {% endif %}
+            </h2>
+            <div class="chart-kpi-row">
+                {% if d.btc_gold.current %}<div class="kpi">Ratio: <strong>{{ "%.2f"|format(d.btc_gold.current) }}x</strong></div>{% endif %}
+                {% if d.btc_gold.prev %}<div class="kpi">Prior mo: {{ "%.2f"|format(d.btc_gold.prev) }}x</div>{% endif %}
+                {% if d.btc_gold.roc_4w is not none %}<div class="kpi">4wk ROC: <span class="{% if d.btc_gold.roc_4w > 0 %}positive{% else %}negative{% endif %}">{{ "%+.1f"|format(d.btc_gold.roc_4w) }}%</span></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.btc_gold.roc_4w is not none and d.btc_gold.roc_4w > 5 %}green{% elif d.btc_gold.roc_4w is not none and d.btc_gold.roc_4w > -5 %}yellow{% else %}red{% endif %}">
+                {% set roc = d.btc_gold.roc_4w | default(0) %}
+                <span class="signal-tag">{% if roc > 5 %}RISK-ON{% elif roc > -5 %}NEUTRAL{% else %}RISK-OFF{% endif %}</span>
+                {% if roc > 10 %}BTC strongly outperforming gold — classic risk-on rotation. Liquidity flowing into speculative assets. High-beta, growth, and crypto-adjacent names (MARA, RIOT, COIN, MSTR) likely in momentum. Leverage appetite is elevated.
+                {% elif roc > 0 %}BTC modestly outperforming gold — mild risk appetite. Not a full risk-on signal but speculative money not fleeing. Watch for acceleration above 10% for full conviction.
+                {% elif roc > -10 %}BTC/Gold ratio declining — flight to physical safety. Gold gaining ground vs digital. Typical in rate-fear or liquidity-stress environments. Reduce leverage, consider GLD/gold miners as hedge.
+                {% else %}BTC severely underperforming gold — de-risking signal. Flight from speculative to store-of-value assets. Historically correlated with VIX spikes and HY spread widening. Risk-off regime confirmed.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="btcGoldChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: BTC vs HY SPREADS — Cost of Leverage Gap ━━━ -->
+        {% if d.btc_vs_hy and d.btc_vs_hy.btc_series %}
+        <div class="panel">
+            <h2>⚡ BTC vs HY Spreads — Leverage Exhaustion Signal</h2>
+            <div class="chart-kpi-row">
+                {% if d.btc_vs_hy.btc_current %}<div class="kpi">BTC: <strong>${{ "%.0f"|format(d.btc_vs_hy.btc_current) }}</strong></div>{% endif %}
+                {% if d.btc_vs_hy.hy_current %}<div class="kpi">HY OAS: {{ "%.0f"|format(d.btc_vs_hy.hy_current * 100) }}bp</div>{% endif %}
+            </div>
+            <div class="signal-box signal-yellow">
+                <span class="signal-tag">DIVERGENCE MONITOR</span>
+                BTC rising while HY spreads also rising = cost-of-leverage gap — risk assets pricing in liquidity that credit markets are NOT confirming. Historically resolves with BTC mean-reverting lower. When BTC rises AND HY compresses simultaneously, that's genuine risk-on confirmation. Watch this pair for divergence.
+            </div>
+            <div class="chart-wrap medium"><canvas id="btcVsHyChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: REAL YIELD TRAP — DFII10 + 200d MA ━━━ -->
+        {% if d.real_yield_trap and d.real_yield_trap.series %}
+        <div class="panel">
+            <h2>🪤 Real Yield Trap — 10Y TIPS Real Yield (DFII10)
+                {% if d.real_yield_trap.current is not none %}
+                <span class="badge {% if d.real_yield_trap.current > 2 %}badge-red{% elif d.real_yield_trap.current > 0 %}badge-yellow{% else %}badge-green{% endif %}">
+                    {{ "%+.2f"|format(d.real_yield_trap.current) }}%
+                </span>
+                {% endif %}
+            </h2>
+            <div class="chart-kpi-row">
+                {% if d.real_yield_trap.current is not none %}<div class="kpi">Real Yield: <strong>{{ "%+.2f"|format(d.real_yield_trap.current) }}%</strong></div>{% endif %}
+                {% if d.real_yield_trap.ma200 is not none %}<div class="kpi">200d MA: {{ "%+.2f"|format(d.real_yield_trap.ma200) }}%</div>{% endif %}
+                {% if d.real_yield_trap.roc_4w is not none %}<div class="kpi">4wk chg: <span class="{% if d.real_yield_trap.roc_4w < 0 %}positive{% else %}negative{% endif %}">{{ "%+.2f"|format(d.real_yield_trap.roc_4w) }}pp</span></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.real_yield_trap.current is not none and d.real_yield_trap.current > 2 %}red{% elif d.real_yield_trap.current is not none and d.real_yield_trap.current > 0 %}yellow{% else %}green{% endif %}">
+                {% set ry = d.real_yield_trap.current | default(0) %}
+                {% set ma = d.real_yield_trap.ma200 | default(0) %}
+                <span class="signal-tag">{% if ry > 2 %}TRAP ACTIVE{% elif ry > 0 %}ELEVATED{% else %}SUPPRESSED{% endif %}</span>
+                {% if ry > 2 %}REAL YIELD TRAP — {{ "%+.2f"|format(ry) }}% real yield is aggressively positive. Equities, crypto, and gold all face severe valuation headwind. Every incremental basis point rise here competes directly with risk asset earnings yields. Long duration bonds extremely unattractive. SHORT: high-multiple growth stocks, REITs, utilities. The Fed is effectively tightening via real yields even without explicit hikes.
+                {% elif ry > 1 %}Elevated real yields ({{ "%+.2f"|format(ry) }}%) — moderate growth/valuation headwind. Expensive names vulnerable to de-rating. Quality over growth tilt. Cap rates for real estate under pressure. This level has historically been the threshold where P/E multiples begin contracting.
+                {% elif ry > 0 %}Real yields positive but below 1% — manageable for equities. Mild competition with risk assets but not a structural headwind. Watch direction: rising toward 1% = warning, falling = growth tailwind.
+                {% else %}Real yields negative/near-zero — ZIRP-adjacent environment even with positive nominal rates. Massive tailwind for gold, growth equities, and assets with long duration cash flows. This is the Goldilocks zone for risk assets historically.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="realYieldTrapChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: GOLD COMMERCIALS COT ━━━ -->
+        {% if d.cot and d.cot.GC_COMM %}
+        {% set gc = d.cot.GC_COMM %}
+        <div class="panel">
+            <h2>🪙 Gold Commercials COT — Miners &amp; Refiners Positioning
+                {% if gc.trajectory %}<span class="badge badge-muted">{{ gc.trajectory }}</span>{% endif %}
+            </h2>
+            <div class="cot-headline">
+                {% if gc.current_l is not none %}<div><div class="cot-hl-label">Net Long</div><div class="cot-hl-val positive">{{ "%.0f"|format(gc.current_l / 1000) }}K</div>{% if gc.chg_l is not none %}<div class="cot-hl-chg {% if gc.chg_l > 0 %}positive{% else %}negative{% endif %}">{{ "%+.0f"|format(gc.chg_l / 1000) }}K wk</div>{% endif %}</div>{% endif %}
+                {% if gc.current_s is not none %}<div><div class="cot-hl-label">Net Short</div><div class="cot-hl-val negative">{{ "%.0f"|format(gc.current_s / 1000) }}K</div>{% if gc.chg_s is not none %}<div class="cot-hl-chg {% if gc.chg_s < 0 %}positive{% else %}negative{% endif %}">{{ "%+.0f"|format(gc.chg_s / 1000) }}K wk</div>{% endif %}</div>{% endif %}
+                {% if gc.cot_index is not none %}<div><div class="cot-hl-label">COT Index</div><div class="cot-hl-val">{{ gc.cot_index }}/100</div></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if gc.cot_index is not none and gc.cot_index < 30 %}green{% elif gc.cot_index is not none and gc.cot_index > 70 %}red{% else %}yellow{% endif %}">
+                {% set ci = gc.cot_index | default(50) %}
+                <span class="signal-tag">{% if ci < 20 %}STEP ASIDE{% elif ci < 40 %}LIGHT HEDGE{% elif ci < 60 %}NEUTRAL{% elif ci < 80 %}HEAVY HEDGE{% else %}MAX HEDGE{% endif %}</span>
+                {% if ci < 20 %}COMMERCIAL HEDGERS STEPPING ASIDE — gold miners and refiners at their LOWEST net hedge ratio in 52 weeks. Commercials only hedge aggressively when they expect prices to FALL. Low hedging from the smart-money suppliers = they expect gold HIGHER. This is a BULLISH contrarian signal for gold and gold miners (GLD, GDX, GDXJ).
+                {% elif ci < 40 %}Commercials below-average hedged — modest bullish lean from producers. Not a screaming signal but suggests forward gold price expectations are constructive. Swing longs in GLD/GDX favored.
+                {% elif ci < 60 %}Commercials neutrally hedged — no strong directional signal from producers. Gold in equilibrium from supply side. Follow demand (ETF flows, central bank) for direction.
+                {% elif ci < 80 %}Commercials heavily hedged — producers locking in current prices aggressively. Smart-money suppliers expect prices LOWER or are protecting against downside. Be cautious with long gold exposure. Consider taking partial profits in gold miners.
+                {% else %}COMMERCIALS AT MAX HEDGE — miners/refiners most aggressively short in 52 weeks. Historically bearish for gold 4–8 weeks forward. This is one of the most reliable contrarian signals in commodities markets — when producers are this hedged, a top is typically near. Reduce gold long exposure.
+                {% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="gcCommChart"></canvas></div>
+            <div class="chart-wrap short"><canvas id="gcCommIndexChart"></canvas></div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: PUT/CALL RATIO + RSI OSCILLATOR ━━━ -->
+        {% if d.pcr and d.pcr.series %}
+        <div class="panel">
+            <h2>📊 Put/Call Ratio — Sentiment Oscillator
+                {% if d.pcr.current is not none %}
+                <span class="badge {% if d.pcr.current > 1.2 %}badge-green{% elif d.pcr.current > 0.7 %}badge-yellow{% else %}badge-red{% endif %}">
+                    PCR {{ "%.2f"|format(d.pcr.current) }}
+                </span>
+                {% endif %}
+            </h2>
+            <div class="chart-kpi-row">
+                {% if d.pcr.current is not none %}<div class="kpi">P/C Ratio: <strong>{{ "%.2f"|format(d.pcr.current) }}</strong></div>{% endif %}
+                {% if d.pcr.rsi_current is not none %}<div class="kpi">PCR RSI(14): <span class="{% if d.pcr.rsi_current > 70 %}negative{% elif d.pcr.rsi_current < 30 %}positive{% else %}muted{% endif %}">{{ "%.1f"|format(d.pcr.rsi_current) }}</span></div>{% endif %}
+            </div>
+            <div class="signal-box signal-{% if d.pcr.current is not none and d.pcr.current > 1.2 %}green{% elif d.pcr.current is not none and d.pcr.current > 0.7 %}yellow{% else %}red{% endif %}">
+                {% set pcr = d.pcr.current | default(1.0) %}
+                {% set rsi = d.pcr.rsi_current | default(50) %}
+                <span class="signal-tag">{% if pcr > 1.2 %}FEAR{% elif pcr > 0.7 %}NEUTRAL{% else %}COMPLACENCY{% endif %}</span>
+                {% if pcr > 1.5 %}EXTREME FEAR — PCR {{ "%.2f"|format(pcr) }}. Market aggressively buying puts. Contrarian BULLISH — historically this level marks near-term bottoms and short-squeeze setups. Oversold momentum entries favored. Watch for vol crush on any positive surprise.
+                {% elif pcr > 1.2 %}ELEVATED FEAR — PCR {{ "%.2f"|format(pcr) }}. More protection being bought than calls. Short-term mean reversion bias toward longs. Market is defensive; potential for upside surprise if macro data cooperates.
+                {% elif pcr > 0.9 %}MILDLY ELEVATED — modest hedging activity. No extreme signal. Follow trend.
+                {% elif pcr > 0.7 %}NEUTRAL — balanced call/put activity. No directional sentiment edge. Rely on price structure and macro regime for bias.
+                {% elif pcr > 0.5 %}LOW PCR — more calls than puts. Complacency creeping in. Options market leaning bullish — contrarian caution warranted. Watch for reversal if vol picks up.
+                {% else %}EXTREME COMPLACENCY — PCR {{ "%.2f"|format(pcr) }}. Calls overwhelming puts. Classic topping zone in sentiment. Not a timing tool but elevated risk for tactical longs. Use tight stops. VIX spikes from these levels.
+                {% endif %}
+                {% if rsi > 70 %} PCR RSI {{ "%.0f"|format(rsi) }} — PCR itself overbought (too much fear); bounce likely.{% elif rsi < 30 %} PCR RSI {{ "%.0f"|format(rsi) }} — PCR oversold (complacency peak); watch for reversal.{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="pcrChart"></canvas></div>
+            <div class="chart-wrap short"><canvas id="pcrRsiChart"></canvas></div>
+            <div class="chart-sublabel">Top: Total P/C Ratio (>1 = fear, <0.7 = complacency) · Bottom: 14-period RSI of P/C ratio</div>
+        </div>
+        {% endif %}
+
+        <!-- ━━━ PANEL: SPX OPTIONS REGIME ━━━ -->
+        {% if d.spx_options %}
+        {% set opt = d.spx_options %}
+        <div class="panel">
+            <h2>🎰 SPX Options Regime — Vol Structure &amp; Gamma Environment</h2>
+            <div class="impl-ref-grid" style="padding: 0.75rem 1.5rem 1rem;">
+
+                <!-- VIX Term Structure -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">VIX Term Structure</span>
+                        {% if opt.ts_regime %}<span class="impl-ref-value {% if opt.ts_regime == 'BACKWARDATION' %}negative{% elif opt.ts_regime == 'STEEP CONTANGO' %}positive{% endif %}">{{ opt.ts_regime }}</span>{% endif %}
+                        {% if opt.ts_ratio %}<span class="impl-ref-sub muted">VIX3M/VIX {{ "%.3f"|format(opt.ts_ratio) }}</span>{% endif %}
+                    </div>
+                    <div class="impl-ref-body">{{ opt.ts_implication | default('—') }}</div>
+                </div>
+
+                <!-- VIX Level -->
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">VIX Level</span>
+                        {% if opt.vix %}<span class="impl-ref-value {% if opt.vix > 25 %}negative{% elif opt.vix < 15 %}positive{% endif %}">{{ "%.1f"|format(opt.vix) }}</span>{% endif %}
+                        {% if opt.vix_regime %}<span class="impl-ref-sub {% if opt.vix_color == 'green' %}positive{% else %}negative{% endif %}">{{ opt.vix_regime }}</span>{% endif %}
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if opt.vix %}
+                        {% if opt.vix < 13 %}Vol suppressed — carry strategies thriving, momentum reliable. VIX spikes from these levels are violent. Stay alert.
+                        {% elif opt.vix < 20 %}Low vol — normal trending conditions. Full size appropriate. Breakouts follow through.
+                        {% elif opt.vix < 25 %}Elevated vol — reduce size 25–30%. Wider stops required. Choppier price action, harder to hold trades.
+                        {% elif opt.vix < 30 %}High vol — reduce size 40–50%. Whipsaw risk extreme. News-driven, not technical. Shorter time horizons.
+                        {% else %}EXTREME vol — minimal size. Mean-reversion bias only. Trend-following fails. Protect capital above all.
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Gamma Regime -->
+                {% if opt.gamma_regime %}
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">Gamma Regime</span>
+                        <span class="impl-ref-value {% if opt.gamma_regime == 'NEGATIVE GAMMA' %}negative{% elif opt.gamma_regime == 'POSITIVE GAMMA' %}positive{% endif %}">{{ opt.gamma_regime }}</span>
+                        {% if opt.mp_gap_pct is not none %}<span class="impl-ref-sub muted">{{ "%+.1f"|format(opt.mp_gap_pct) }}% vs max pain</span>{% endif %}
+                    </div>
+                    <div class="impl-ref-body">{{ opt.gamma_implication | default('—') }}</div>
+                </div>
+                {% endif %}
+
+                <!-- Max Pain / OI -->
+                {% if opt.max_pain %}
+                <div class="impl-ref-card">
+                    <div class="impl-ref-header">
+                        <span class="impl-ref-label">Max Pain / OI</span>
+                        <span class="impl-ref-value">${{ "%.0f"|format(opt.max_pain) }}</span>
+                        {% if opt.expiry %}<span class="impl-ref-sub muted">exp {{ opt.expiry }}</span>{% endif %}
+                    </div>
+                    <div class="impl-ref-body">
+                        {% if opt.spot and opt.max_pain %}
+                        {% set gap = ((opt.spot - opt.max_pain) / opt.max_pain * 100) | round(1) %}
+                        SPY spot ${{ "%.0f"|format(opt.spot) }} vs max pain ${{ "%.0f"|format(opt.max_pain) }} ({{ "%+.1f"|format(gap) }}%).
+                        {% endif %}
+                        {% if opt.pc_oi %}P/C OI ratio: {{ "%.2f"|format(opt.pc_oi) }}.{% endif %}
+                        {% if opt.put_oi and opt.call_oi %} {{ "%.0f"|format(opt.put_oi / 1000) }}K puts vs {{ "%.0f"|format(opt.call_oi / 1000) }}K calls.{% endif %}
+                        Gravity toward max pain strongest in final week before expiry.
+                    </div>
+                </div>
+                {% endif %}
+            </div>
         </div>
         {% endif %}
 
@@ -970,54 +1390,241 @@ function alignTo(sparseDates, sparseVals, targetDates) {
 })();
 {% endif %}
 
-/* ── COT: ES Longs vs Shorts Line Chart ──────────────────────────────── */
+/* ── COT: ES LONGS Chart ─────────────────────────────────────────────── */
 {% if d.cot and d.cot.ES and d.cot.ES.longs_series %}
 (function() {
-    const lD  = {{ d.cot.ES.longs_series.dates  | tojson }};
-    const lV  = {{ d.cot.ES.longs_series.y       | tojson }};
-    const sV  = {{ d.cot.ES.shorts_series.y      | tojson }};
-    const lMA = {{ d.cot.ES.longs_ma20.y  | default([]) | tojson }};
-    const sMA = {{ d.cot.ES.shorts_ma20.y | default([]) | tojson }};
-    new Chart(document.getElementById('cotEsLSChart'), {
+    const lD  = {{ d.cot.ES.longs_series.dates | tojson }};
+    const lV  = {{ d.cot.ES.longs_series.y     | tojson }};
+    const lMA = {{ d.cot.ES.longs_ma20.y | default([]) | tojson }};
+    new Chart(document.getElementById('cotLongsChart'), {
         type: 'line',
         data: { labels: lD, datasets: [
-            { label: 'Longs',       data: lV,  borderColor: 'rgba(0,210,106,0.9)',  backgroundColor: 'rgba(0,210,106,0.06)', fill: true,  tension: 0.2, pointRadius: 0 },
-            { label: 'Longs MA20', data: lMA, borderColor: 'rgba(0,210,106,0.4)',  borderDash: [4,3], pointRadius: 0, tension: 0.2 },
-            { label: 'Shorts',      data: sV,  borderColor: 'rgba(255,68,68,0.9)', backgroundColor: 'rgba(255,68,68,0.06)', fill: true,  tension: 0.2, pointRadius: 0 },
-            { label: 'Shorts MA20',data: sMA, borderColor: 'rgba(255,68,68,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+            { label: 'Longs',     data: lV,  borderColor: 'rgba(0,210,106,0.9)',  backgroundColor: 'rgba(0,210,106,0.07)', fill: true,  tension: 0.2, pointRadius: 0 },
+            { label: 'Longs MA20', data: lMA, borderColor: 'rgba(0,210,106,0.45)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
         ]},
         options: { scales: {
             x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
             y: { grid: GRID, title: { display: true, text: 'Contracts', color: '#8e8ea0' } }
-        }}
+        }, plugins: { legend: { display: true, labels: { color: '#8e8ea0', font: { size: 9 } } } } }
     });
 })();
 {% endif %}
 
-/* ── COT: ES Index Oscillator ────────────────────────────────────────── */
-{% if d.cot and d.cot.ES and d.cot.ES.net_series %}
+/* ── COT: ES LONGS Index Oscillator ─────────────────────────────────── */
+{% if d.cot and d.cot.ES and d.cot.ES.longs_series %}
 (function() {
-    const nd = {{ d.cot.ES.net_series.dates | tojson }};
-    const nv = {{ d.cot.ES.net_series.y     | tojson }};
-    // Build rolling COT index (52-week window) client-side
-    const W = 52;
-    const idx = nv.map((v, i) => {
-        const win = nv.slice(Math.max(0, i - W + 1), i + 1);
+    const ld = {{ d.cot.ES.longs_series.dates | tojson }};
+    const lv = {{ d.cot.ES.longs_series.y     | tojson }};
+    const W  = 52;
+    const idx = lv.map((v, i) => {
+        const win = lv.slice(Math.max(0, i - W + 1), i + 1);
         const mn = Math.min(...win), mx = Math.max(...win);
         return mx > mn ? ((v - mn) / (mx - mn)) * 100 : 50;
     });
-    const idxColors = idx.map(v => v > 80 ? 'rgba(0,210,106,0.8)' : v < 20 ? 'rgba(255,68,68,0.8)' : 'rgba(255,170,0,0.7)');
-    new Chart(document.getElementById('cotEsIndexChart'), {
+    new Chart(document.getElementById('cotLongsIndexChart'), {
         type: 'line',
-        data: { labels: nd, datasets: [
-            { label: 'COT Index', data: idx, borderColor: 'rgba(255,170,0,0.8)', backgroundColor: idxColors, fill: false, tension: 0.2, pointRadius: 0 },
-            { label: 'Overbought (80)', data: nd.map(() => 80), borderColor: 'rgba(0,210,106,0.3)', borderDash: [4,4], pointRadius: 0 },
-            { label: 'Oversold (20)',   data: nd.map(() => 20), borderColor: 'rgba(255,68,68,0.3)',  borderDash: [4,4], pointRadius: 0 },
+        data: { labels: ld, datasets: [
+            { label: 'Longs Index', data: idx, borderColor: 'rgba(0,210,106,0.85)', fill: false, tension: 0.2, pointRadius: 0, borderWidth: 1.5 },
+            { label: '>80 Extreme', data: ld.map(() => 80), borderColor: 'rgba(0,210,106,0.25)', borderDash: [4,4], pointRadius: 0 },
+            { label: '<20 Drained', data: ld.map(() => 20), borderColor: 'rgba(255,68,68,0.25)',  borderDash: [4,4], pointRadius: 0 },
+        ]},
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+                y: { grid: GRID, min: 0, max: 100, title: { display: true, text: 'Longs Index', color: '#8e8ea0' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+})();
+{% endif %}
+
+/* ── COT: ES SHORTS Chart ────────────────────────────────────────────── */
+{% if d.cot and d.cot.ES and d.cot.ES.shorts_series %}
+(function() {
+    const sD  = {{ d.cot.ES.shorts_series.dates | tojson }};
+    const sV  = {{ d.cot.ES.shorts_series.y     | tojson }};
+    const sMA = {{ d.cot.ES.shorts_ma20.y | default([]) | tojson }};
+    new Chart(document.getElementById('cotShortsChart'), {
+        type: 'line',
+        data: { labels: sD, datasets: [
+            { label: 'Shorts',      data: sV,  borderColor: 'rgba(255,68,68,0.9)',  backgroundColor: 'rgba(255,68,68,0.07)', fill: true,  tension: 0.2, pointRadius: 0 },
+            { label: 'Shorts MA20', data: sMA, borderColor: 'rgba(255,68,68,0.45)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
         ]},
         options: { scales: {
             x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
-            y: { grid: GRID, min: 0, max: 100, title: { display: true, text: 'COT Index', color: '#8e8ea0' } }
+            y: { grid: GRID, title: { display: true, text: 'Contracts', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: true, labels: { color: '#8e8ea0', font: { size: 9 } } } } }
+    });
+})();
+{% endif %}
+
+/* ── COT: ES SHORTS Index Oscillator ────────────────────────────────── */
+{% if d.cot and d.cot.ES and d.cot.ES.shorts_series %}
+(function() {
+    const sd = {{ d.cot.ES.shorts_series.dates | tojson }};
+    const sv = {{ d.cot.ES.shorts_series.y     | tojson }};
+    const W  = 52;
+    const idx = sv.map((v, i) => {
+        const win = sv.slice(Math.max(0, i - W + 1), i + 1);
+        const mn = Math.min(...win), mx = Math.max(...win);
+        return mx > mn ? ((v - mn) / (mx - mn)) * 100 : 50;
+    });
+    {% if d.spx_series %}
+    const spxAligned = alignTo(
+        {{ d.spx_series.dates | tojson }},
+        {{ d.spx_series.y     | tojson }},
+        sd
+    );
+    {% endif %}
+    const datasets = [
+        { label: 'Shorts Index', data: idx, borderColor: 'rgba(255,68,68,0.85)', fill: false, tension: 0.2, pointRadius: 0, borderWidth: 1.5, yAxisID: 'y' },
+        { label: '>80 Heavy',   data: sd.map(() => 80), borderColor: 'rgba(255,68,68,0.25)',   borderDash: [4,4], pointRadius: 0, yAxisID: 'y' },
+        { label: '<20 Covered', data: sd.map(() => 20), borderColor: 'rgba(0,210,106,0.25)',   borderDash: [4,4], pointRadius: 0, yAxisID: 'y' },
+        {% if d.spx_series %}
+        { label: 'SPX', data: spxAligned, borderColor: 'rgba(200,200,255,0.55)', borderDash: [3,3], tension: 0.2, pointRadius: 0, borderWidth: 1.5, yAxisID: 'y2' },
+        {% endif %}
+    ];
+    new Chart(document.getElementById('cotShortsIndexChart'), {
+        type: 'line',
+        data: { labels: sd, datasets },
+        options: {
+            scales: {
+                x:  { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+                y:  { grid: GRID, min: 0, max: 100, title: { display: true, text: 'Shorts Index', color: '#8e8ea0' } },
+                y2: { grid: { display: false }, position: 'right', title: { display: true, text: 'SPX', color: 'rgba(200,200,255,0.5)' }, ticks: { color: 'rgba(200,200,255,0.5)', font: { size: 9 } } },
+            },
+            plugins: { legend: { display: true, labels: { filter: i => i.text === 'Shorts Index' || i.text === 'SPX', color: '#8e8ea0', font: { size: 9 } } } }
+        }
+    });
+})();
+{% endif %}
+
+/* ── Foreign Custody Assets Chart ───────────────────────────────────── */
+{% if d.foreign_custody and d.foreign_custody.series %}
+(function() {
+    const d_ = {{ d.foreign_custody.series.dates | tojson }};
+    const v_ = {{ d.foreign_custody.series.y     | tojson }};
+    const ma = v_.map((_, i) => { const w = v_.slice(Math.max(0,i-12),i+1); return w.reduce((a,b)=>a+b,0)/w.length; });
+    new Chart(document.getElementById('foreignCustodyChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'Foreign Custody ($M)', data: v_, borderColor: '#42a5f5', backgroundColor: 'rgba(66,165,245,0.07)', fill: true, tension: 0.2, pointRadius: 0 },
+            { label: '12wk MA', data: ma, borderColor: 'rgba(66,165,245,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Millions ($)', color: '#8e8ea0' } }
         }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Temp Help Ratio Chart ────────────────────────────────────────────── */
+{% if d.temp_help and d.temp_help.series %}
+(function() {
+    const d_ = {{ d.temp_help.series.dates | tojson }};
+    const v_ = {{ d.temp_help.series.y     | tojson }};
+    const ma = v_.map((_, i) => { const w = v_.slice(Math.max(0,i-12),i+1); return w.reduce((a,b)=>a+b,0)/w.length; });
+    new Chart(document.getElementById('tempHelpChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'Temp Help Ratio (%)', data: v_, borderColor: '#ffa726', backgroundColor: 'rgba(255,167,38,0.07)', fill: true, tension: 0.2, pointRadius: 0 },
+            { label: '12m MA', data: ma, borderColor: 'rgba(255,167,38,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: '% of Total Payrolls', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── Term Premium Chart ───────────────────────────────────────────────── */
+{% if d.term_premium and d.term_premium.series %}
+(function() {
+    const d_ = {{ d.term_premium.series.dates | tojson }};
+    const v_ = {{ d.term_premium.series.y     | tojson }};
+    const colors = v_.map(v => v > 1 ? 'rgba(255,68,68,0.75)' : v > 0 ? 'rgba(255,170,0,0.6)' : 'rgba(0,210,106,0.6)');
+    new Chart(document.getElementById('termPremiumChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'ACM Term Premium (%)', data: v_, borderColor: '#ab47bc', backgroundColor: 'rgba(171,71,188,0.07)', fill: true, tension: 0.2, pointRadius: 0, borderWidth: 1.5 },
+            { label: 'Zero', data: d_.map(() => 0), borderColor: 'rgba(255,255,255,0.2)', borderDash: [5,5], pointRadius: 0, borderWidth: 1 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Term Premium (%)', color: '#8e8ea0' } }
+        }, plugins: { legend: { display: false } } }
+    });
+})();
+{% endif %}
+
+/* ── S&P 500 EPS Growth Bar Chart ────────────────────────────────────── */
+{% if d.spx_eps and d.spx_eps.series %}
+(function() {
+    const series = {{ d.spx_eps.series | tojson }};
+    const QCOLORS = { Q1: '#42a5f5', Q2: '#ef5350', Q3: '#66bb6a', Q4: '#ab47bc' };
+    const labels  = series.map(p => p.label);
+    const values  = series.map(p => p.yoy);
+    const bgColors = series.map(p => p.yoy >= 0
+        ? 'rgba(0,210,106,0.75)'
+        : 'rgba(255,68,68,0.75)'
+    );
+    const borderColors = series.map(p => p.yoy >= 0
+        ? 'rgba(0,210,106,1)'
+        : 'rgba(255,68,68,1)'
+    );
+    // Q-type accent stripe on top of bar
+    const qtColors = series.map(p => QCOLORS[p.qtype] || '#8e8ea0');
+
+    new Chart(document.getElementById('spxEpsChart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'YoY EPS Growth (%)',
+                    data: values,
+                    backgroundColor: bgColors,
+                    borderColor: borderColors,
+                    borderWidth: 1.5,
+                    borderRadius: 4,
+                    borderSkipped: false,
+                },
+                {
+                    label: 'Zero',
+                    type: 'line',
+                    data: labels.map(() => 0),
+                    borderColor: 'rgba(255,255,255,0.18)',
+                    borderDash: [4,4],
+                    pointRadius: 0,
+                    borderWidth: 1,
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 20, font: { size: 9 } } },
+                y: {
+                    grid: GRID,
+                    title: { display: true, text: 'YoY EPS Growth (%)', color: '#8e8ea0' },
+                    ticks: { callback: v => v + '%' }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => {
+                            if (ctx.dataset.label === 'Zero') return null;
+                            const pt = series[ctx.dataIndex];
+                            return `${pt.label} (${pt.qtype}): ${ctx.parsed.y >= 0 ? '+' : ''}${ctx.parsed.y.toFixed(1)}% YoY`;
+                        }
+                    }
+                }
+            }
+        }
     });
 })();
 {% endif %}
@@ -1172,6 +1779,200 @@ function alignTo(sparseDates, sparseVals, targetDates) {
             y2: { grid: { display: false }, position: 'right', title: { display: true, text: 'Real Yield %', color: '#42a5f5' } },
         } }
     });
+})();
+{% endif %}
+
+/* ── HY Spread ────────────────────────────────────────────────────────── */
+{% if d.hy_spread and d.hy_spread.series %}
+(function() {
+    const d_ = {{ d.hy_spread.series.dates | tojson }};
+    const v_ = {{ d.hy_spread.series.y | tojson }};
+    const bps = v_.map(x => x * 100);
+    const ma20 = bps.map((_, i) => { const w = bps.slice(Math.max(0,i-19),i+1).filter(x=>x!==null); return w.length ? w.reduce((a,b)=>a+b,0)/w.length : null; });
+    new Chart(document.getElementById('hySpreadChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'HY OAS (bp)', data: bps, borderColor: '#ef5350', backgroundColor: 'rgba(239,83,80,0.08)', fill: true, tension: 0.2, pointRadius: 0 },
+            { label: '20d MA', data: ma20, borderColor: 'rgba(239,83,80,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.2 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Basis Points (OAS)', color: '#8e8ea0' } }
+        }, plugins: { annotation: { annotations: {
+            l350: { type: 'line', yMin: 350, yMax: 350, borderColor: 'rgba(102,187,106,0.4)', borderDash: [4,3], label: { content: '350bp tight', display: true, color: '#66bb6a', font: { size: 9 } } },
+            l500: { type: 'line', yMin: 500, yMax: 500, borderColor: 'rgba(245,166,35,0.4)', borderDash: [4,3], label: { content: '500bp stress', display: true, color: '#f5a623', font: { size: 9 } } },
+        } } } }
+    });
+})();
+{% endif %}
+
+/* ── Core Capex (NEWORDER) ────────────────────────────────────────────── */
+{% if d.core_capex and d.core_capex.series %}
+(function() {
+    const d_ = {{ d.core_capex.series.dates | tojson }};
+    const v_ = {{ d.core_capex.series.y | tojson }};
+    const ma6 = v_.map((_, i) => { const w = v_.slice(Math.max(0,i-5),i+1).filter(x=>x!==null); return w.length ? w.reduce((a,b)=>a+b,0)/w.length : null; });
+    new Chart(document.getElementById('coreCapexChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'Core Capex Orders ($M)', data: v_, borderColor: '#26c6da', backgroundColor: 'rgba(38,198,218,0.08)', fill: true, tension: 0.3, pointRadius: 2 },
+            { label: '6m MA', data: ma6, borderColor: 'rgba(38,198,218,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.3 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Mfg New Orders ($M, SA)', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── BTC/Gold Ratio ───────────────────────────────────────────────────── */
+{% if d.btc_gold and d.btc_gold.series %}
+(function() {
+    const d_ = {{ d.btc_gold.series.dates | tojson }};
+    const v_ = {{ d.btc_gold.series.y | tojson }};
+    const ds = [{ label: 'BTC/Gold Ratio', data: v_, borderColor: '#f7931a', backgroundColor: 'rgba(247,147,26,0.08)', fill: true, tension: 0.3, pointRadius: 3 }];
+    {% if d.btc_gold.ma12_series %}
+    const maD = {{ d.btc_gold.ma12_series.dates | tojson }};
+    const maV = {{ d.btc_gold.ma12_series.y | tojson }};
+    ds.push({ label: '12m MA', data: alignTo(maD, maV, d_), borderColor: 'rgba(247,147,26,0.4)', borderDash: [4,3], pointRadius: 0, tension: 0.3 });
+    {% endif %}
+    new Chart(document.getElementById('btcGoldChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: ds },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'BTC price / Gold price', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── BTC vs HY Spreads (dual axis) ───────────────────────────────────── */
+{% if d.btc_vs_hy and d.btc_vs_hy.btc_series %}
+(function() {
+    const btcD = {{ d.btc_vs_hy.btc_series.dates | tojson }};
+    const btcV = {{ d.btc_vs_hy.btc_series.y | tojson }};
+    {% if d.btc_vs_hy.hy_series %}
+    const hyD  = {{ d.btc_vs_hy.hy_series.dates | tojson }};
+    const hyV  = {{ d.btc_vs_hy.hy_series.y | tojson }};
+    // merge all dates
+    const allD = [...new Set([...btcD,...hyD])].sort();
+    const btcA = alignTo(btcD, btcV, allD);
+    const hyA  = alignTo(hyD, hyV.map(x=>x*100), allD);
+    {% else %}
+    const allD = btcD; const btcA = btcV; const hyA = [];
+    {% endif %}
+    new Chart(document.getElementById('btcVsHyChart'), {
+        type: 'line',
+        data: { labels: allD, datasets: [
+            { label: 'BTC (USD)', data: btcA, borderColor: '#f7931a', pointRadius: 3, tension: 0.3, yAxisID: 'y' },
+            { label: 'HY OAS (bp)', data: hyA, borderColor: '#ef5350', borderDash: [4,3], pointRadius: 3, tension: 0.3, yAxisID: 'y2' },
+        ]},
+        options: { scales: {
+            x:  { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+            y:  { grid: GRID, position: 'left',  title: { display: true, text: 'BTC USD', color: '#f7931a' } },
+            y2: { grid: { display: false }, position: 'right', title: { display: true, text: 'HY Spread (bp)', color: '#ef5350' } },
+        } }
+    });
+})();
+{% endif %}
+
+/* ── Real Yield Trap (DFII10 + 200d MA) ──────────────────────────────── */
+{% if d.real_yield_trap and d.real_yield_trap.series %}
+(function() {
+    const d_ = {{ d.real_yield_trap.series.dates | tojson }};
+    const v_ = {{ d.real_yield_trap.series.y | tojson }};
+    const ds = [{ label: '10Y Real Yield (%)', data: v_, borderColor: '#42a5f5', backgroundColor: 'rgba(66,165,245,0.08)', fill: true, tension: 0.2, pointRadius: 0 }];
+    {% if d.real_yield_trap.ma200_series %}
+    const maD = {{ d.real_yield_trap.ma200_series.dates | tojson }};
+    const maV = {{ d.real_yield_trap.ma200_series.y | tojson }};
+    ds.push({ label: '200d MA', data: alignTo(maD, maV, d_), borderColor: 'rgba(66,165,245,0.45)', borderDash: [5,3], pointRadius: 0, tension: 0.2 });
+    {% endif %}
+    new Chart(document.getElementById('realYieldTrapChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: ds },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'Real Yield (%)', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── Gold Commercials COT ─────────────────────────────────────────────── */
+{% if d.cot and d.cot.GC_COMM and d.cot.GC_COMM.longs_series %}
+(function() {
+    const gc = {{ d.cot.GC_COMM | tojson }};
+    const lD = gc.longs_series.dates, lV = gc.longs_series.y;
+    const sD = gc.shorts_series.dates, sV = gc.shorts_series.y;
+    const allD = [...new Set([...lD,...sD])].sort();
+    new Chart(document.getElementById('gcCommChart'), {
+        type: 'line',
+        data: { labels: allD, datasets: [
+            { label: 'Comm Longs', data: alignTo(lD, lV, allD), borderColor: '#66bb6a', pointRadius: 2, tension: 0.3 },
+            { label: 'Comm Shorts', data: alignTo(sD, sV, allD), borderColor: '#ef5350', pointRadius: 2, tension: 0.3 },
+            { label: 'Long MA20', data: alignTo(gc.longs_ma20.dates, gc.longs_ma20.y, allD), borderColor: 'rgba(102,187,106,0.4)', borderDash: [4,3], pointRadius: 0 },
+            { label: 'Short MA20', data: alignTo(gc.shorts_ma20.dates, gc.shorts_ma20.y, allD), borderColor: 'rgba(239,83,80,0.4)', borderDash: [4,3], pointRadius: 0 },
+        ]},
+        options: { scales: { x: { grid: GRID, ticks: { maxTicksLimit: 8, font: { size: 9 } } }, y: { grid: GRID, title: { display: true, text: 'Contracts', color: '#8e8ea0' } } } }
+    });
+    // COT Index oscillator — client-side computed
+    const netVals = allD.map(d => {
+        const l = lV[lD.indexOf(d)]; const s = sV[sD.indexOf(d)];
+        return (l !== undefined && s !== undefined) ? l - s : null;
+    }).filter(x => x !== null);
+    const window52 = 52;
+    const cotIdxVals = netVals.map((v, i) => {
+        const w = netVals.slice(Math.max(0, i - window52 + 1), i + 1);
+        const mn = Math.min(...w), mx = Math.max(...w);
+        return mx > mn ? Math.round((v - mn) / (mx - mn) * 100) : 50;
+    });
+    const netDates = allD.slice(allD.length - cotIdxVals.length);
+    new Chart(document.getElementById('gcCommIndexChart'), {
+        type: 'line',
+        data: { labels: netDates, datasets: [{ label: 'Gold Comm COT Index (0-100)', data: cotIdxVals, borderColor: '#ffd54f', backgroundColor: 'rgba(255,213,79,0.08)', fill: true, pointRadius: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 8, font: { size: 9 } } },
+            y: { grid: GRID, min: 0, max: 100, title: { display: true, text: 'COT Index', color: '#8e8ea0' } }
+        } }
+    });
+})();
+{% endif %}
+
+/* ── Put/Call Ratio + RSI ─────────────────────────────────────────────── */
+{% if d.pcr and d.pcr.series %}
+(function() {
+    const d_ = {{ d.pcr.series.dates | tojson }};
+    const v_ = {{ d.pcr.series.y | tojson }};
+    new Chart(document.getElementById('pcrChart'), {
+        type: 'line',
+        data: { labels: d_, datasets: [
+            { label: 'P/C Ratio', data: v_, borderColor: '#ab47bc', backgroundColor: 'rgba(171,71,188,0.08)', fill: true, tension: 0.2, pointRadius: 0 },
+        ]},
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, title: { display: true, text: 'P/C Ratio', color: '#8e8ea0' } }
+        }, plugins: { annotation: { annotations: {
+            hi: { type: 'line', yMin: 1.2, yMax: 1.2, borderColor: 'rgba(102,187,106,0.4)', borderDash: [4,3] },
+            lo: { type: 'line', yMin: 0.7, yMax: 0.7, borderColor: 'rgba(239,83,80,0.4)', borderDash: [4,3] },
+        } } } }
+    });
+    {% if d.pcr.rsi_series %}
+    const rD = {{ d.pcr.rsi_series.dates | tojson }};
+    const rV = {{ d.pcr.rsi_series.y | tojson }};
+    new Chart(document.getElementById('pcrRsiChart'), {
+        type: 'line',
+        data: { labels: rD, datasets: [{ label: 'PCR RSI(14)', data: rV, borderColor: '#7e57c2', backgroundColor: 'rgba(126,87,194,0.08)', fill: true, pointRadius: 0 }] },
+        options: { scales: {
+            x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+            y: { grid: GRID, min: 0, max: 100, title: { display: true, text: 'RSI', color: '#8e8ea0' } }
+        }, plugins: { annotation: { annotations: {
+            ob: { type: 'line', yMin: 70, yMax: 70, borderColor: 'rgba(102,187,106,0.4)', borderDash: [4,3] },
+            os: { type: 'line', yMin: 30, yMax: 30, borderColor: 'rgba(239,83,80,0.4)', borderDash: [4,3] },
+        } } } }
+    });
+    {% endif %}
 })();
 {% endif %}
 

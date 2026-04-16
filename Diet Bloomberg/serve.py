@@ -97,8 +97,8 @@ ROUTE_CONFIG = {
     '/macro':     {'template': 'macro.html',       'data': [('macro_regime', 'latest.json')]},
     '/ai':        {'template': 'ai_cascade.html',  'data': [('daily_briefing', 'ai_cascade.json')]},
     '/etf':       {'template': 'etf_monitor.html', 'data': [('etf_structural', 'latest.json')]},
-    '/news':      {'template': 'news.html',        'data': [('daily_briefing', 'news.json')]},
 }
+
 
 
 def _build_page_context(route: str) -> dict:
