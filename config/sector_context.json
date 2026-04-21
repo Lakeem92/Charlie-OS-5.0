@@ -1,0 +1,42 @@
+{
+  "Technology": {
+    "signals": ["XLK vs SPY 5d", "AI cascade flow status"],
+    "sources": ["yfinance XLK", "cascade collector"]
+  },
+  "Cybersecurity": {
+    "signals": ["HACK ETF 5d performance", "CISA advisory volume"],
+    "sources": ["yfinance HACK", "Tavily CISA advisories"]
+  },
+  "Pharmaceuticals": {
+    "signals": ["XBI 5d performance", "FDA PDUFA calendar", "GLP-1 trends"],
+    "sources": ["yfinance XBI", "Tavily FDA PDUFA", "pytrends GLP-1"]
+  },
+  "Energy": {
+    "signals": ["WTI price + 5d change", "Baker Hughes rig count", "OPEC calendar"],
+    "sources": ["yfinance CL=F", "Tavily Baker Hughes rig count", "Tavily OPEC"]
+  },
+  "Financials": {
+    "signals": ["yield curve T10Y2Y", "credit spreads", "KRE 5d"],
+    "sources": ["FRED T10Y2Y", "FRED BAMLH0A0HYM2", "yfinance KRE"]
+  },
+  "Solar/Clean Energy": {
+    "signals": ["TAN 5d", "IRA subsidy status", "polysilicon pricing"],
+    "sources": ["yfinance TAN", "Tavily IRA solar", "Tavily polysilicon"]
+  },
+  "Defense": {
+    "signals": ["ITA ETF 5d", "DoD budget", "contract awards"],
+    "sources": ["yfinance ITA", "Tavily DoD budget", "Tavily defense contract"]
+  },
+  "Consumer/Retail": {
+    "signals": ["XLY 5d", "consumer confidence", "credit card data"],
+    "sources": ["yfinance XLY", "FRED UMCSENT", "Tavily credit card spending"]
+  },
+  "Semiconductors": {
+    "signals": ["SMH 5d", "AI cascade Silicon flow", "TSM monthly"],
+    "sources": ["yfinance SMH", "cascade collector", "Tavily TSMC monthly"]
+  },
+  "China/EM": {
+    "signals": ["FXI 5d", "KWEB 5d", "CNY trend", "soybean exports"],
+    "sources": ["yfinance FXI", "yfinance KWEB", "yfinance CNY=X", "USDA collector"]
+  }
+}

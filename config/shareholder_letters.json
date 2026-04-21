@@ -1,0 +1,7 @@
+{
+  "AMZN": {"ceo": "Jassy", "month": "April", "type": "annual", "avg_5d_move": "+6.2%"},
+  "JPM":  {"ceo": "Dimon", "month": "April", "type": "annual", "avg_5d_move": "+3.1%"},
+  "BRK.B": {"ceo": "Buffett/Abel", "month": "February", "type": "annual", "avg_5d_move": "+2.8%"},
+  "META": {"ceo": "Zuckerberg", "month": "varies", "type": "strategic", "avg_5d_move": "+8.4%"},
+  "MSFT": {"ceo": "Nadella", "month": "October", "type": "annual", "avg_5d_move": "+2.1%"}
+}

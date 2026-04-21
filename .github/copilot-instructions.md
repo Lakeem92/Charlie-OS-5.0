@@ -108,6 +108,9 @@ All QuantLab scheduled tasks are registered via `scripts/setup_all_schedulers.py
 This script runs **automatically every time VS Code opens** this workspace (via a `folderOpen` task in `.vscode/tasks.json`).
 It is idempotent — safe to run repeatedly. No admin required (user-level tasks).
 
+Diet Bloomberg startup is also handled on workspace open via `scripts/startup_diet_bloomberg.py`.
+That startup script does three things in order: runs `run_all.py` once to refresh dashboard collector outputs, runs `tools/watchlist_scanner/scan_news.py --feed focus --skip-tavily` once to refresh focus news used on the dashboard news page, and starts `Diet Bloomberg/serve.py` only if port `8766` is not already in use.
+
 **Prerequisite:** `"task.allowAutomaticTasks": "on"` in `.vscode/settings.json` (already set).
 
 ### Registered tasks (all times CT):
@@ -124,7 +127,7 @@ It is idempotent — safe to run repeatedly. No admin required (user-level tasks
 
 **Key rules:**
 - PC must be **awake** at scheduled times for Task Scheduler to fire. VS Code does NOT need to be open.
-- Opening VS Code just (re)registers the tasks. After that, Windows handles the rest.
+- Opening VS Code (re)registers the scheduled tasks, refreshes dashboard data once immediately, refreshes focus news once immediately, and starts the Diet Bloomberg server if it is not already running.
 - `tools/watchlist_scanner/setup_scheduler.py` still works independently as a standalone fallback.
 - Neither `run_all.py` nor `scan_news.py` are modified — the scheduler just calls them.
 

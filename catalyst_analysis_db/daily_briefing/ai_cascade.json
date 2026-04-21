@@ -1,0 +1,877 @@
+{
+  "updated_at": "2026-04-21T17:23:53",
+  "collector": "ai_cascade_collector_v2",
+  "status": "ok",
+  "data": {
+    "flows": {
+      "silicon": {
+        "label": "SILICON",
+        "emoji": "\ud83d\udd2c",
+        "description": "GPU / chip demand & supply",
+        "status": "active",
+        "score": 100,
+        "avg_ret_5d": 5.44,
+        "tickers": [
+          {
+            "ticker": "NVDA",
+            "price": 199.88,
+            "ret_5d": 1.71,
+            "ret_1d": -1.08
+          },
+          {
+            "ticker": "AMD",
+            "price": 284.49,
+            "ret_5d": 11.53,
+            "ret_1d": 3.47
+          },
+          {
+            "ticker": "AVGO",
+            "price": 402.17,
+            "ret_5d": 5.62,
+            "ret_1d": 0.64
+          },
+          {
+            "ticker": "TSM",
+            "price": 368.08,
+            "ret_5d": -3.11,
+            "ret_1d": 0.5
+          },
+          {
+            "ticker": "INTC",
+            "price": 66.26,
+            "ret_5d": 3.84,
+            "ret_1d": 0.85
+          },
+          {
+            "ticker": "MRVL",
+            "price": 151.31,
+            "ret_5d": 13.06,
+            "ret_1d": 2.35
+          }
+        ],
+        "implication": "SILICON FLOW HOT (+5.4% avg 5d). GPU demand accelerating \u2014 NVDA/AVGO lead. Fab orders building. \u2192 TRICKLE DOWN: Optical interconnect (ALAB, LITE) follows 1-3 weeks. CDU/cooling demand (VRT, FLS) next wave. Memory (MU) repricing."
+      },
+      "optical": {
+        "label": "OPTICAL",
+        "emoji": "\ud83d\udd0c",
+        "description": "Optical networking / interconnect",
+        "status": "active",
+        "score": 100,
+        "avg_ret_5d": 8.71,
+        "tickers": [
+          {
+            "ticker": "ALAB",
+            "price": 191.97,
+            "ret_5d": 12.53,
+            "ret_1d": 9.2
+          },
+          {
+            "ticker": "COHR",
+            "price": 343.79,
+            "ret_5d": 9.69,
+            "ret_1d": -1.07
+          },
+          {
+            "ticker": "LITE",
+            "price": 836.92,
+            "ret_5d": -1.86,
+            "ret_1d": -6.5
+          },
+          {
+            "ticker": "CIEN",
+            "price": 505.93,
+            "ret_5d": 8.29,
+            "ret_1d": 0.53
+          },
+          {
+            "ticker": "CRDO",
+            "price": 183.32,
+            "ret_5d": 14.92,
+            "ret_1d": 5.04
+          }
+        ],
+        "implication": "OPTICAL FLOW ACTIVE (+8.7% avg 5d). Hyperscaler scale-out driving 400G/800G interconnect orders. ALAB/COHR/LITE bid. \u2192 TRICKLE DOWN: Spine switches (ANET, CSCO) next. Data center real estate (EQIX, DLR) demand confirmed."
+      },
+      "power": {
+        "label": "POWER",
+        "emoji": "\u26a1",
+        "description": "Data center power & infrastructure",
+        "status": "inactive",
+        "score": 10,
+        "avg_ret_5d": -3.59,
+        "tickers": [
+          {
+            "ticker": "VST",
+            "price": 154.91,
+            "ret_5d": -5.53,
+            "ret_1d": -2.94
+          },
+          {
+            "ticker": "CEG",
+            "price": 277.7,
+            "ret_5d": -6.38,
+            "ret_1d": -3.43
+          },
+          {
+            "ticker": "NRG",
+            "price": 149.86,
+            "ret_5d": -12.34,
+            "ret_1d": -4.66
+          },
+          {
+            "ticker": "EQIX",
+            "price": 1094.34,
+            "ret_5d": 3.5,
+            "ret_1d": -0.87
+          },
+          {
+            "ticker": "DLR",
+            "price": 201.27,
+            "ret_5d": 2.8,
+            "ret_1d": -1.29
+          }
+        ],
+        "implication": "POWER flow INACTIVE (-3.6% avg 5d). AI trade cooling in this layer. Defensive posture. Wait for re-ignition \u2014 watch for institutional flow returning via 13F or block prints."
+      },
+      "demand": {
+        "label": "DEMAND",
+        "emoji": "\ud83e\udde0",
+        "description": "Hyperscaler capex & AI adoption",
+        "status": "active",
+        "score": 100,
+        "avg_ret_5d": 3.65,
+        "tickers": [
+          {
+            "ticker": "MSFT",
+            "price": 424.16,
+            "ret_5d": 7.9,
+            "ret_1d": 1.46
+          },
+          {
+            "ticker": "GOOGL",
+            "price": 332.29,
+            "ret_5d": -0.19,
+            "ret_1d": -1.52
+          },
+          {
+            "ticker": "AMZN",
+            "price": 249.91,
+            "ret_5d": 0.36,
+            "ret_1d": 0.66
+          },
+          {
+            "ticker": "META",
+            "price": 668.84,
+            "ret_5d": 0.96,
+            "ret_1d": -0.31
+          },
+          {
+            "ticker": "CRM",
+            "price": 187.11,
+            "ret_5d": 9.22,
+            "ret_1d": 0.45
+          }
+        ],
+        "implication": "DEMAND FLOW ACTIVE (+3.6% avg 5d). Hyperscalers buying \u2014 MSFT/GOOGL/AMZN/META capex guidance elevated. \u2192 TRICKLE DOWN: GPU orders accelerate \u2192 Silicon flow leads next. Enterprise AI adoption driving CRM, SNOW, DATA outperformance."
+      }
+    },
+    "convergence": 3,
+    "flow_implication": "Three flows active \u2014 strong momentum, rotate into the strongest performers",
+    "picks": [
+      {
+        "ticker": "ECG",
+        "name": "DC substation wiring",
+        "price": 129.08,
+        "ret_5d": -4.93,
+        "ret_1d": -0.2
+      },
+      {
+        "ticker": "STRL",
+        "name": "DC site prep",
+        "price": 472.84,
+        "ret_5d": 1.79,
+        "ret_1d": -0.01
+      },
+      {
+        "ticker": "FLS",
+        "name": "CDU pumps/valves",
+        "price": 82.04,
+        "ret_5d": 0.49,
+        "ret_1d": -1.64
+      },
+      {
+        "ticker": "HUT",
+        "name": "AI power arbitrage",
+        "price": 76.58,
+        "ret_5d": 6.75,
+        "ret_1d": -3.05
+      },
+      {
+        "ticker": "SYM",
+        "name": "AI robotics",
+        "price": 62.96,
+        "ret_5d": 11.32,
+        "ret_1d": -3.33
+      }
+    ],
+    "pytrends": {
+      "AI chip demand": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          28,
+          38,
+          23,
+          23,
+          30,
+          28,
+          42,
+          66,
+          45,
+          28,
+          26,
+          26,
+          28
+        ],
+        "roc_4w": -40.3,
+        "roc_12w": -84.3,
+        "latest": 28,
+        "trend": "FALLING",
+        "flow": "silicon",
+        "layer": "GPU/Chip Demand",
+        "tickers": [
+          "NVDA",
+          "AMD",
+          "AVGO"
+        ],
+        "lead_time": "2-4 weeks",
+        "fetched_at": "2026-04-21T16:40:54.588447"
+      },
+      "NVIDIA Blackwell": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          27,
+          24,
+          20,
+          20,
+          25,
+          25,
+          27,
+          31,
+          35,
+          25,
+          24,
+          31,
+          28
+        ],
+        "roc_4w": -8.5,
+        "roc_12w": -82.0,
+        "latest": 28,
+        "trend": "FLAT",
+        "flow": "silicon",
+        "layer": "GPU Architecture",
+        "tickers": [
+          "NVDA"
+        ],
+        "lead_time": "1-3 weeks",
+        "fetched_at": "2026-04-21T16:41:05.149188"
+      },
+      "CoWoS advanced packaging": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          33,
+          27,
+          27,
+          25,
+          30,
+          26,
+          35,
+          48,
+          44,
+          32,
+          28,
+          29,
+          26
+        ],
+        "roc_4w": -24.8,
+        "roc_12w": -82.5,
+        "latest": 26,
+        "trend": "FALLING",
+        "flow": "silicon",
+        "layer": "Advanced Packaging",
+        "tickers": [
+          "TSM",
+          "AMKR",
+          "ASX"
+        ],
+        "lead_time": "4-8 weeks",
+        "fetched_at": "2026-04-21T16:41:20.345874"
+      },
+      "HBM memory": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          22,
+          22,
+          15,
+          15,
+          18,
+          21,
+          21,
+          23,
+          25,
+          16,
+          17,
+          19,
+          18
+        ],
+        "roc_4w": -22.2,
+        "roc_12w": -88.8,
+        "latest": 18,
+        "trend": "FALLING",
+        "flow": "silicon",
+        "layer": "HBM Memory",
+        "tickers": [
+          "MU",
+          "LRCX",
+          "AMAT"
+        ],
+        "lead_time": "2-4 weeks",
+        "fetched_at": "2026-04-21T16:41:31.042299"
+      },
+      "silicon photonics": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          31,
+          33,
+          24,
+          23,
+          38,
+          36,
+          35,
+          38,
+          49,
+          31,
+          26,
+          32,
+          30
+        ],
+        "roc_4w": -24.7,
+        "roc_12w": -85.3,
+        "latest": 30,
+        "trend": "FALLING",
+        "flow": "optical",
+        "layer": "Optical Interconnects",
+        "tickers": [
+          "MRVL",
+          "COHR",
+          "LITE"
+        ],
+        "lead_time": "3-6 weeks",
+        "fetched_at": "2026-04-21T16:41:44.183113"
+      },
+      "800G optical transceiver": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          23,
+          19,
+          14,
+          14,
+          22,
+          19,
+          22,
+          28,
+          32,
+          21,
+          21,
+          31,
+          21
+        ],
+        "roc_4w": -6.9,
+        "roc_12w": -23.6,
+        "latest": 21,
+        "trend": "FLAT",
+        "flow": "optical",
+        "layer": "High-Speed Optics",
+        "tickers": [
+          "COHR",
+          "LITE",
+          "CRDO"
+        ],
+        "lead_time": "2-4 weeks",
+        "fetched_at": "2026-04-21T16:41:59.001773"
+      },
+      "data center power consumption": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          11,
+          10,
+          7,
+          9,
+          10,
+          11,
+          14,
+          13,
+          19,
+          10,
+          12,
+          10,
+          14
+        ],
+        "roc_4w": -19.3,
+        "roc_12w": -85.7,
+        "latest": 14,
+        "trend": "FLAT",
+        "flow": "power",
+        "layer": "DC Power Draw",
+        "tickers": [
+          "VST",
+          "CEG",
+          "ETR"
+        ],
+        "lead_time": "4-6 weeks",
+        "fetched_at": "2026-04-21T16:42:13.730251"
+      },
+      "AI data center cooling": {
+        "dates": [
+          "2026-04-09",
+          "2026-04-10",
+          "2026-04-11",
+          "2026-04-12",
+          "2026-04-13",
+          "2026-04-14",
+          "2026-04-15",
+          "2026-04-16",
+          "2026-04-17",
+          "2026-04-18",
+          "2026-04-19",
+          "2026-04-20",
+          "2026-04-21"
+        ],
+        "values": [
+          28,
+          29,
+          22,
+          20,
+          26,
+          32,
+          30,
+          38,
+          43,
+          27,
+          25,
+          26,
+          27
+        ],
+        "roc_4w": -26.6,
+        "roc_12w": -84.4,
+        "latest": 27,
+        "trend": "FALLING",
+        "flow": "power",
+        "layer": "Thermal Management",
+        "tickers": [
+          "VRT",
+          "GNRC",
+          "HUBB"
+        ],
+        "lead_time": "2-4 weeks",
+        "fetched_at": "2026-04-21T16:42:30.053359"
+      }
+    },
+    "pytrends_summary": {
+      "Silicon": {
+        "terms": [
+          {
+            "term": "AI chip demand",
+            "layer": "GPU/Chip Demand",
+            "roc_4w": -40.3,
+            "roc_12w": -84.3,
+            "trend": "FALLING",
+            "tickers": [
+              "NVDA",
+              "AMD",
+              "AVGO"
+            ],
+            "lead_time": "2-4 weeks"
+          },
+          {
+            "term": "NVIDIA Blackwell",
+            "layer": "GPU Architecture",
+            "roc_4w": -8.5,
+            "roc_12w": -82.0,
+            "trend": "FLAT",
+            "tickers": [
+              "NVDA"
+            ],
+            "lead_time": "1-3 weeks"
+          },
+          {
+            "term": "CoWoS advanced packaging",
+            "layer": "Advanced Packaging",
+            "roc_4w": -24.8,
+            "roc_12w": -82.5,
+            "trend": "FALLING",
+            "tickers": [
+              "TSM",
+              "AMKR",
+              "ASX"
+            ],
+            "lead_time": "4-8 weeks"
+          },
+          {
+            "term": "HBM memory",
+            "layer": "HBM Memory",
+            "roc_4w": -22.2,
+            "roc_12w": -88.8,
+            "trend": "FALLING",
+            "tickers": [
+              "MU",
+              "LRCX",
+              "AMAT"
+            ],
+            "lead_time": "2-4 weeks"
+          }
+        ],
+        "rising_count": 0,
+        "falling_count": 3,
+        "avg_roc_4w": -23.9,
+        "flow_trend": "FALLING"
+      },
+      "Optical": {
+        "terms": [
+          {
+            "term": "silicon photonics",
+            "layer": "Optical Interconnects",
+            "roc_4w": -24.7,
+            "roc_12w": -85.3,
+            "trend": "FALLING",
+            "tickers": [
+              "MRVL",
+              "COHR",
+              "LITE"
+            ],
+            "lead_time": "3-6 weeks"
+          },
+          {
+            "term": "800G optical transceiver",
+            "layer": "High-Speed Optics",
+            "roc_4w": -6.9,
+            "roc_12w": -23.6,
+            "trend": "FLAT",
+            "tickers": [
+              "COHR",
+              "LITE",
+              "CRDO"
+            ],
+            "lead_time": "2-4 weeks"
+          }
+        ],
+        "rising_count": 0,
+        "falling_count": 1,
+        "avg_roc_4w": -15.8,
+        "flow_trend": "FALLING"
+      },
+      "Power": {
+        "terms": [
+          {
+            "term": "data center power consumption",
+            "layer": "DC Power Draw",
+            "roc_4w": -19.3,
+            "roc_12w": -85.7,
+            "trend": "FLAT",
+            "tickers": [
+              "VST",
+              "CEG",
+              "ETR"
+            ],
+            "lead_time": "4-6 weeks"
+          },
+          {
+            "term": "AI data center cooling",
+            "layer": "Thermal Management",
+            "roc_4w": -26.6,
+            "roc_12w": -84.4,
+            "trend": "FALLING",
+            "tickers": [
+              "VRT",
+              "GNRC",
+              "HUBB"
+            ],
+            "lead_time": "2-4 weeks"
+          }
+        ],
+        "rising_count": 0,
+        "falling_count": 1,
+        "avg_roc_4w": -23.0,
+        "flow_trend": "FALLING"
+      }
+    },
+    "pytrends_queries": [
+      {
+        "term": "AI chip demand",
+        "flow": "silicon",
+        "layer": "GPU/Chip Demand",
+        "tickers": [
+          "NVDA",
+          "AMD",
+          "AVGO"
+        ],
+        "lead_time": "2-4 weeks"
+      },
+      {
+        "term": "NVIDIA Blackwell",
+        "flow": "silicon",
+        "layer": "GPU Architecture",
+        "tickers": [
+          "NVDA"
+        ],
+        "lead_time": "1-3 weeks"
+      },
+      {
+        "term": "CoWoS advanced packaging",
+        "flow": "silicon",
+        "layer": "Advanced Packaging",
+        "tickers": [
+          "TSM",
+          "AMKR",
+          "ASX"
+        ],
+        "lead_time": "4-8 weeks"
+      },
+      {
+        "term": "HBM memory",
+        "flow": "silicon",
+        "layer": "HBM Memory",
+        "tickers": [
+          "MU",
+          "LRCX",
+          "AMAT"
+        ],
+        "lead_time": "2-4 weeks"
+      },
+      {
+        "term": "silicon photonics",
+        "flow": "optical",
+        "layer": "Optical Interconnects",
+        "tickers": [
+          "MRVL",
+          "COHR",
+          "LITE"
+        ],
+        "lead_time": "3-6 weeks"
+      },
+      {
+        "term": "800G optical transceiver",
+        "flow": "optical",
+        "layer": "High-Speed Optics",
+        "tickers": [
+          "COHR",
+          "LITE",
+          "CRDO"
+        ],
+        "lead_time": "2-4 weeks"
+      },
+      {
+        "term": "data center power consumption",
+        "flow": "power",
+        "layer": "DC Power Draw",
+        "tickers": [
+          "VST",
+          "CEG",
+          "ETR"
+        ],
+        "lead_time": "4-6 weeks"
+      },
+      {
+        "term": "AI data center cooling",
+        "flow": "power",
+        "layer": "Thermal Management",
+        "tickers": [
+          "VRT",
+          "GNRC",
+          "HUBB"
+        ],
+        "lead_time": "2-4 weeks"
+      },
+      {
+        "term": "hyperscaler capex",
+        "flow": "demand",
+        "layer": "Hyperscaler Spend",
+        "tickers": [
+          "MSFT",
+          "AMZN",
+          "GOOGL"
+        ],
+        "lead_time": "4-8 weeks"
+      },
+      {
+        "term": "AI inference cost",
+        "flow": "demand",
+        "layer": "Inference Deployment",
+        "tickers": [
+          "NVDA",
+          "AMD",
+          "AVGO"
+        ],
+        "lead_time": "2-4 weeks"
+      },
+      {
+        "term": "GPU cloud utilization",
+        "flow": "demand",
+        "layer": "Cloud GPU Demand",
+        "tickers": [
+          "CRWV",
+          "NVDA",
+          "AMZN"
+        ],
+        "lead_time": "1-3 weeks"
+      },
+      {
+        "term": "custom AI chip ASIC",
+        "flow": "silicon",
+        "layer": "Custom ASIC",
+        "tickers": [
+          "AVGO",
+          "MRVL",
+          "INTC"
+        ],
+        "lead_time": "4-8 weeks"
+      },
+      {
+        "term": "data center construction",
+        "flow": "power",
+        "layer": "DC Build-Out",
+        "tickers": [
+          "STRL",
+          "PWR",
+          "EME"
+        ],
+        "lead_time": "8-12 weeks"
+      },
+      {
+        "term": "liquid cooling server",
+        "flow": "power",
+        "layer": "Liquid Cooling",
+        "tickers": [
+          "VRT",
+          "AAON",
+          "CARR"
+        ],
+        "lead_time": "3-5 weeks"
+      },
+      {
+        "term": "AI agent enterprise",
+        "flow": "demand",
+        "layer": "AI Deployment",
+        "tickers": [
+          "CRM",
+          "NOW",
+          "MSFT"
+        ],
+        "lead_time": "2-4 weeks"
+      }
+    ],
+    "pytrends_cached": false,
+    "counts": {
+      "flows": 4,
+      "picks": 5,
+      "trends": 8
+    }
+  }
+}

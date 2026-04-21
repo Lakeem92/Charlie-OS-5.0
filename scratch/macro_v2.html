@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — Macro Intelligence</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="header-bar">
+        <div class="header-title">QUANTLAB TERMINAL v2.0 | Last Updated: {{ timestamp }}</div>
+        <nav class="header-nav">
+            <a href="/macro" class="active">Macro</a>
+            <a href="/ai">AI Cascade</a>
+            <a href="/etf">ETF</a>
+            <a href="/catalysts">Catalysts</a>
+            <a href="/focus">Focus List</a>
+            <a href="/commodities">Commodities</a>
+            <a href="/news">News</a>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- ━━━ REGIME BANNER ━━━ -->
+        {% if d.regime %}
+        <div class="regime-banner regime-{{ d.regime.css_class }}">
+            <span class="regime-icon">{{ d.regime.icon }}</span>
+            <span class="regime-label">REGIME: {{ d.regime.regime }}</span>
+            <span class="regime-detail">Score: {{ d.regime.score }} | {{ updated_at or '—' }}</span>
+        </div>
+        {% if d.regime.details %}
+        <div class="regime-details">
+            {% for det in d.regime.details %}<span class="regime-chip">{{ det }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- ━━━ PANEL 1: NET LIQUIDITY + SPX OVERLAY ━━━ -->
+        <div class="panel">
+            <h2>💰 Net Liquidity vs S&P 500</h2>
+            {% if d.signals and d.signals.net_liquidity %}
+            <div class="signal-box signal-{{ d.signals.net_liquidity.color }}">
+                <span class="signal-tag">{{ d.signals.net_liquidity.direction }}</span> {{ d.signals.net_liquidity.text }}
+            </div>
+            {% endif %}
+            {% if d.net_liquidity and d.net_liquidity.current %}
+            <div class="chart-kpi-row">
+                <div class="kpi">Net Liq: <strong>${{ "%.0f"|format(d.net_liquidity.current) }}B</strong></div>
+                {% if d.net_liquidity.walcl %}<div class="kpi">WALCL: ${{ d.net_liquidity.walcl.values[-1]|round(0)|int }}B</div>{% endif %}
+                {% if d.net_liquidity.tga %}<div class="kpi">TGA: ${{ d.net_liquidity.tga.values[-1]|round(0)|int }}B</div>{% endif %}
+                {% if d.net_liquidity.rrp %}<div class="kpi">RRP: ${{ "%.1f"|format(d.net_liquidity.rrp.values[-1]) }}B</div>{% endif %}
+            </div>
+            {% endif %}
+            <div class="chart-wrap tall"><canvas id="netLiqChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 2: XLY/XLP RISK APPETITE ━━━ -->
+        <div class="panel">
+            <h2>⚡ XLY/XLP — Tactical Risk Appetite Signal (252 Days)</h2>
+            {% if d.signals and d.signals.xly_xlp %}
+            <div class="signal-box signal-{{ d.signals.xly_xlp.color }}">
+                <span class="signal-tag">{{ d.signals.xly_xlp.direction }}</span> {{ d.signals.xly_xlp.text }}
+            </div>
+            {% endif %}
+            {% if d.xly_xlp %}
+            <div class="chart-kpi-row">
+                <div class="kpi">Ratio: <strong>{{ "%.4f"|format(d.xly_xlp.current_ratio) }}</strong></div>
+                {% if d.xly_xlp.current_ma %}<div class="kpi">20d MA: {{ "%.4f"|format(d.xly_xlp.current_ma) }}</div>{% endif %}
+                {% if d.xly_xlp.current_roc is not none %}<div class="kpi">5d ROC: <span class="{% if d.xly_xlp.current_roc > 0 %}positive{% else %}negative{% endif %}">{{ "%+.2f"|format(d.xly_xlp.current_roc) }}%</span></div>{% endif %}
+            </div>
+            {% endif %}
+            <div class="chart-wrap tall"><canvas id="xlyXlpChart"></canvas></div>
+            <div class="chart-wrap short"><canvas id="xlyXlpRocChart"></canvas></div>
+            <div class="chart-sublabel">5-Day Momentum (ROC %)</div>
+        </div>
+
+        <!-- ━━━ PANEL 3: VIX STRUCTURE ━━━ -->
+        <div class="panel">
+            <h2>😱 VIX Term Structure</h2>
+            {% if d.signals and d.signals.vix %}
+            <div class="signal-box signal-{{ d.signals.vix.color }}">
+                <span class="signal-tag">{{ d.signals.vix.direction }}</span> {{ d.signals.vix.text }}
+            </div>
+            {% endif %}
+            <div class="chart-kpi-row">
+                {% if d.vix and d.vix.current %}<div class="kpi">VIX: <strong>{{ "%.1f"|format(d.vix.current) }}</strong></div>{% endif %}
+                {% if d.vix and d.vix.vix3m %}<div class="kpi">VIX3M: {{ "%.1f"|format(d.vix.vix3m) }}</div>{% endif %}
+                {% if d.vix and d.vix.current and d.vix.vix3m %}<div class="kpi">Ratio: {{ "%.3f"|format(d.vix.current / d.vix.vix3m) }}</div>{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="vixChart"></canvas></div>
+        </div>
+
+        <div class="grid-2">
+        <!-- ━━━ PANEL 4: RATES & PLUMBING ━━━ -->
+        <div class="panel">
+            <h2>🏦 Rates & Plumbing</h2>
+            {% if d.signals and d.signals.rates %}
+            <div class="signal-box signal-{{ d.signals.rates.color }}">
+                <span class="signal-tag">{{ d.signals.rates.direction }}</span> {{ d.signals.rates.text }}
+            </div>
+            {% endif %}
+            <div class="chart-kpi-row">
+                {% if d.fred_current and d.fred_current.sofr is not none %}<div class="kpi">SOFR: {{ "%.2f"|format(d.fred_current.sofr) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.effr is not none %}<div class="kpi">EFFR: {{ "%.2f"|format(d.fred_current.effr) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.iorb is not none %}<div class="kpi">IORB: {{ "%.2f"|format(d.fred_current.iorb) }}%</div>{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="ratesChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 5: YIELD CURVE ━━━ -->
+        <div class="panel">
+            <h2>📐 Yield Curve (10Y-2Y Spread)</h2>
+            <div class="chart-kpi-row">
+                {% if d.fred_current and d.fred_current.dgs10 is not none %}<div class="kpi">10Y: {{ "%.2f"|format(d.fred_current.dgs10) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.dgs2 is not none %}<div class="kpi">2Y: {{ "%.2f"|format(d.fred_current.dgs2) }}%</div>{% endif %}
+                {% if d.fred_current and d.fred_current.t10y2y is not none %}<div class="kpi">Spread: <span class="{% if d.fred_current.t10y2y > 0 %}positive{% else %}negative{% endif %}">{{ "%+.2f"|format(d.fred_current.t10y2y) }}%</span></div>{% endif %}
+            </div>
+            <div class="chart-wrap medium"><canvas id="yieldCurveChart"></canvas></div>
+        </div>
+        </div>
+
+        <!-- ━━━ PANEL 6: FINANCIAL STRESS ━━━ -->
+        <div class="panel">
+            <h2>🧊 Financial Stress Indices</h2>
+            {% if d.signals and d.signals.stress %}
+            <div class="signal-box signal-{{ d.signals.stress.color }}">
+                <span class="signal-tag">{{ d.signals.stress.direction }}</span> {{ d.signals.stress.text }}
+            </div>
+            {% endif %}
+            <div class="chart-wrap medium"><canvas id="stressChart"></canvas></div>
+            <div class="chart-sublabel">Zero = average. Positive = tight. Negative = loose.</div>
+        </div>
+
+        <!-- ━━━ PANEL 7: M2 MONEY SUPPLY ━━━ -->
+        <div class="panel">
+            <h2>💵 M2 Money Supply</h2>
+            {% if d.signals and d.signals.m2 %}
+            <div class="signal-box signal-{{ d.signals.m2.color }}">
+                <span class="signal-tag">{{ d.signals.m2.direction }}</span> {{ d.signals.m2.text }}
+            </div>
+            {% endif %}
+            <div class="chart-wrap medium"><canvas id="m2Chart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 8: SECTOR ROTATION (LINES) ━━━ -->
+        <div class="panel">
+            <h2>🎯 Sector Rotation — Relative Performance vs SPY</h2>
+            <div class="chart-sublabel">Each line = sector ETF return minus SPY return, rebased to 0.</div>
+            <div class="chart-wrap tall"><canvas id="sectorChart"></canvas></div>
+        </div>
+
+        <!-- ━━━ PANEL 9: MACRO CARDS (quick reference) ━━━ -->
+        <div class="panel">
+            <h2>📋 Quick Reference</h2>
+            <div class="card-row">
+                <div class="card"><div class="card-label">S&P 500</div><div class="card-value">{% if d.market and d.market.spx %}{{ "%.0f"|format(d.market.spx) }}{% else %}—{% endif %}</div>{% if d.market and d.market.spy_5d is not none %}<div class="card-sublabel {% if d.market.spy_5d > 0 %}positive{% else %}negative{% endif %}">5d: {{ "%+.2f"|format(d.market.spy_5d) }}%</div>{% endif %}</div>
+                <div class="card"><div class="card-label">DXY</div><div class="card-value">{% if d.market and d.market.dxy %}{{ "%.2f"|format(d.market.dxy) }}{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">HY Spread</div><div class="card-value{% if d.fred_current and d.fred_current.hy_spread and d.fred_current.hy_spread > 5.0 %} negative{% elif d.fred_current and d.fred_current.hy_spread and d.fred_current.hy_spread < 3.5 %} positive{% endif %}">{% if d.fred_current and d.fred_current.hy_spread is not none %}{{ "%.0f"|format(d.fred_current.hy_spread) }}bp{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">10Y Yield</div><div class="card-value">{% if d.fred_current and d.fred_current.dgs10 is not none %}{{ "%.2f"|format(d.fred_current.dgs10) }}%{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">Breakeven Infl.</div><div class="card-value">{% if d.fred_current and d.fred_current.t10yie is not none %}{{ "%.2f"|format(d.fred_current.t10yie) }}%{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">ANFCI</div><div class="card-value">{% if d.fred_current and d.fred_current.anfci is not none %}{{ "%.2f"|format(d.fred_current.anfci) }}{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">Consumer Sent.</div><div class="card-value">{% if d.fred_current and d.fred_current.umcsent is not none %}{{ "%.1f"|format(d.fred_current.umcsent) }}{% else %}—{% endif %}</div></div>
+                <div class="card"><div class="card-label">Russell 2000</div><div class="card-value">{% if d.market and d.market.rut %}{{ "%.0f"|format(d.market.rut) }}{% else %}—{% endif %}</div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">QuantLab Terminal v2.0 | Macro Intelligence | All times CT</div>
+
+<script>
+// ── Chart.js Dark Theme Defaults ──────────────────────────────────────────
+Chart.defaults.color = '#8e8ea0';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.responsive = true;
+Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+Chart.defaults.plugins.legend.labels.font = { size: 11, family: 'Inter' };
+Chart.defaults.elements.line.borderWidth = 2;
+Chart.defaults.elements.line.tension = 0;
+Chart.defaults.elements.point.radius = 0;
+Chart.defaults.elements.point.hoverRadius = 4;
+const GRID = { color: 'rgba(255,255,255,0.06)' };
+const ZERO_LINE = { value: 0, borderColor: 'rgba(255,255,255,0.25)', borderWidth: 1, borderDash: [4,4] };
+
+function trimLabels(dates) {
+    // Show ~12 labels evenly spaced
+    if (!dates || dates.length === 0) return { labels: [], ticks: {} };
+    const step = Math.max(1, Math.floor(dates.length / 12));
+    return {
+        labels: dates,
+        ticks: {
+            maxTicksLimit: 12,
+            callback: function(val, i) {
+                if (i % step === 0) return this.getLabelForValue(val);
+                return '';
+            },
+            font: { size: 10 }
+        }
+    };
+}
+
+// ── PANEL 1: Net Liquidity + SPX ──────────────────────────────────────────
+{% if d.net_liquidity and d.net_liquidity.series and d.spx_series %}
+(function() {
+    const nlDates = {{ d.net_liquidity.series.dates | tojson }};
+    const nlVals = {{ d.net_liquidity.series.values | tojson }};
+    const spxDates = {{ d.spx_series.dates | tojson }};
+    const spxVals = {{ d.spx_series.values | tojson }};
+    // Align to NL dates (sparser — weekly)
+    const labels = nlDates;
+    const spxMap = {};
+    spxDates.forEach((d,i) => spxMap[d] = spxVals[i]);
+    const spxAligned = labels.map(d => spxMap[d] || null);
+
+    new Chart(document.getElementById('netLiqChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                { label: 'Net Liquidity ($B)', data: nlVals, borderColor: '#42a5f5', backgroundColor: 'rgba(66,165,245,0.08)', fill: true, yAxisID: 'y' },
+                { label: 'S&P 500', data: spxAligned, borderColor: '#f5a623', borderWidth: 1.5, yAxisID: 'y1' }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { position: 'left', grid: GRID, title: { display: true, text: 'Net Liquidity ($B)', color: '#42a5f5' } },
+                y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'SPX', color: '#f5a623' } }
+            },
+            plugins: { annotation: { annotations: { zeroLine: ZERO_LINE } } }
+        }
+    });
+})();
+{% endif %}
+
+// ── PANEL 2: XLY/XLP Ratio + ROC ─────────────────────────────────────────
+{% if d.xly_xlp and d.xly_xlp.ratio_series %}
+(function() {
+    const dates = {{ d.xly_xlp.ratio_series.dates | tojson }};
+    const ratioVals = {{ d.xly_xlp.ratio_series.values | tojson }};
+    const ma20Vals = {{ d.xly_xlp.ma20_series.values | tojson if d.xly_xlp.ma20_series else '[]' }};
+    const ma20Dates = {{ d.xly_xlp.ma20_series.dates | tojson if d.xly_xlp.ma20_series else '[]' }};
+
+    // Align MA to ratio dates
+    const maMap = {};
+    if (ma20Dates.length) ma20Dates.forEach((d,i) => maMap[d] = ma20Vals[i]);
+    const maAligned = dates.map(d => maMap[d] || null);
+
+    // Color segments: green above MA, red below
+    const aboveMA = ratioVals.map((v,i) => (maAligned[i] !== null && v >= maAligned[i]) ? v : null);
+    const belowMA = ratioVals.map((v,i) => (maAligned[i] !== null && v < maAligned[i]) ? v : null);
+
+    new Chart(document.getElementById('xlyXlpChart'), {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                { label: 'XLY/XLP', data: ratioVals, borderColor: '#42a5f5', borderWidth: 2 },
+                { label: '20d MA', data: maAligned, borderColor: '#8e8ea0', borderWidth: 1.5, borderDash: [6,3] },
+                { label: 'Above MA', data: aboveMA, borderColor: 'transparent', backgroundColor: 'rgba(0,210,106,0.15)', fill: true, pointRadius: 0 },
+                { label: 'Below MA', data: belowMA, borderColor: 'transparent', backgroundColor: 'rgba(255,68,68,0.15)', fill: true, pointRadius: 0 }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, title: { display: true, text: 'Ratio', color: '#8e8ea0' } }
+            },
+            plugins: { legend: { labels: { filter: (item) => !['Above MA', 'Below MA'].includes(item.text) } } }
+        }
+    });
+
+    // ROC bar chart
+    {% if d.xly_xlp.roc_series %}
+    const rocDates = {{ d.xly_xlp.roc_series.dates | tojson }};
+    const rocVals = {{ d.xly_xlp.roc_series.values | tojson }};
+    const rocColors = rocVals.map(v => v >= 0 ? 'rgba(0,210,106,0.7)' : 'rgba(255,68,68,0.7)');
+
+    new Chart(document.getElementById('xlyXlpRocChart'), {
+        type: 'bar',
+        data: {
+            labels: rocDates,
+            datasets: [{ label: '5d ROC %', data: rocVals, backgroundColor: rocColors, borderWidth: 0 }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 9 } } },
+                y: { grid: GRID, title: { display: true, text: 'ROC %', color: '#8e8ea0' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+    {% endif %}
+})();
+{% endif %}
+
+// ── PANEL 3: VIX + VIX3M ─────────────────────────────────────────────────
+{% if d.vix and d.vix.series %}
+(function() {
+    const vixDates = {{ d.vix.series.dates | tojson }};
+    const vixVals = {{ d.vix.series.values | tojson }};
+    const vix3mDates = {{ d.vix.vix3m_series.dates | tojson if d.vix.vix3m_series else '[]' }};
+    const vix3mVals = {{ d.vix.vix3m_series.values | tojson if d.vix.vix3m_series else '[]' }};
+    const v3Map = {};
+    vix3mDates.forEach((d,i) => v3Map[d] = vix3mVals[i]);
+    const v3Aligned = vixDates.map(d => v3Map[d] || null);
+
+    new Chart(document.getElementById('vixChart'), {
+        type: 'line',
+        data: {
+            labels: vixDates,
+            datasets: [
+                { label: 'VIX', data: vixVals, borderColor: '#ef5350', backgroundColor: 'rgba(239,83,80,0.08)', fill: true },
+                { label: 'VIX3M', data: v3Aligned, borderColor: '#ffa726', borderWidth: 1.5 }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, suggestedMin: 10 }
+            }
+        }
+    });
+})();
+{% endif %}
+
+// ── PANEL 4: Rates (SOFR, EFFR, IORB) ────────────────────────────────────
+{% if d.rates and d.rates.sofr %}
+(function() {
+    const sofrDates = {{ d.rates.sofr.dates | tojson }};
+    const sofrVals = {{ d.rates.sofr.values | tojson }};
+    const effrDates = {{ d.rates.effr.dates | tojson if d.rates.effr else '[]' }};
+    const effrVals = {{ d.rates.effr.values | tojson if d.rates.effr else '[]' }};
+    const iorbDates = {{ d.rates.iorb.dates | tojson if d.rates.iorb else '[]' }};
+    const iorbVals = {{ d.rates.iorb.values | tojson if d.rates.iorb else '[]' }};
+
+    const effrMap = {}; effrDates.forEach((d,i) => effrMap[d] = effrVals[i]);
+    const iorbMap = {}; iorbDates.forEach((d,i) => iorbMap[d] = iorbVals[i]);
+    const effrA = sofrDates.map(d => effrMap[d] || null);
+    const iorbA = sofrDates.map(d => iorbMap[d] || null);
+
+    new Chart(document.getElementById('ratesChart'), {
+        type: 'line',
+        data: {
+            labels: sofrDates,
+            datasets: [
+                { label: 'SOFR', data: sofrVals, borderColor: '#42a5f5' },
+                { label: 'EFFR', data: effrA, borderColor: '#f5a623', borderWidth: 1.5 },
+                { label: 'IORB', data: iorbA, borderColor: '#ab47bc', borderWidth: 1.5, borderDash: [4,3] }
+            ]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+                y: { grid: GRID, title: { display: true, text: 'Rate (%)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+// ── PANEL 5: Yield Curve (10Y-2Y + components) ───────────────────────────
+{% if d.rates and d.rates.t10y2y %}
+(function() {
+    const dates = {{ d.rates.t10y2y.dates | tojson }};
+    const vals = {{ d.rates.t10y2y.values | tojson }};
+    const colors = vals.map(v => v >= 0 ? 'rgba(0,210,106,0.6)' : 'rgba(255,68,68,0.6)');
+
+    new Chart(document.getElementById('yieldCurveChart'), {
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [{ label: '10Y-2Y Spread', data: vals, backgroundColor: colors, borderWidth: 0 }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 10, font: { size: 9 } } },
+                y: { grid: GRID, title: { display: true, text: 'Spread (%)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+// ── PANEL 6: Financial Stress ─────────────────────────────────────────────
+{% if d.stress %}
+(function() {
+    const datasets = [];
+    const labels = [];
+    {% if d.stress.nfci %}
+    const nfciD = {{ d.stress.nfci.dates | tojson }};
+    const nfciV = {{ d.stress.nfci.values | tojson }};
+    if (nfciD.length > labels.length) { labels.length = 0; nfciD.forEach(d => labels.push(d)); }
+    datasets.push({ label: 'NFCI', data: nfciV, borderColor: '#42a5f5' });
+    {% endif %}
+    {% if d.stress.anfci %}
+    const anfciD = {{ d.stress.anfci.dates | tojson }};
+    const anfciV = {{ d.stress.anfci.values | tojson }};
+    if (anfciD.length > labels.length) { labels.length = 0; anfciD.forEach(d => labels.push(d)); }
+    const anfciMap = {}; anfciD.forEach((d,i) => anfciMap[d] = anfciV[i]);
+    datasets.push({ label: 'ANFCI', data: labels.map(d => anfciMap[d] || null), borderColor: '#ffa726' });
+    {% endif %}
+    {% if d.stress.stlfsi4 %}
+    const stlD = {{ d.stress.stlfsi4.dates | tojson }};
+    const stlV = {{ d.stress.stlfsi4.values | tojson }};
+    if (stlD.length > labels.length) { labels.length = 0; stlD.forEach(d => labels.push(d)); }
+    const stlMap = {}; stlD.forEach((d,i) => stlMap[d] = stlV[i]);
+    datasets.push({ label: 'STLFSI4', data: labels.map(d => stlMap[d] || null), borderColor: '#ef5350' });
+    {% endif %}
+
+    if (datasets.length) {
+        new Chart(document.getElementById('stressChart'), {
+            type: 'line',
+            data: { labels: labels, datasets: datasets },
+            options: {
+                scales: {
+                    x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                    y: { grid: GRID }
+                }
+            }
+        });
+    }
+})();
+{% endif %}
+
+// ── PANEL 7: M2 Money Supply ──────────────────────────────────────────────
+{% if d.m2 and d.m2.series %}
+(function() {
+    const dates = {{ d.m2.series.dates | tojson }};
+    const vals = {{ d.m2.series.values | tojson }};
+    // Convert to trillions for readability
+    const valsT = vals.map(v => (v / 1000).toFixed(2));
+
+    new Chart(document.getElementById('m2Chart'), {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'M2 ($T)',
+                data: valsT,
+                borderColor: '#26a69a',
+                backgroundColor: 'rgba(38,166,154,0.08)',
+                fill: true
+            }]
+        },
+        options: {
+            scales: {
+                x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                y: { grid: GRID, title: { display: true, text: 'Trillions ($)', color: '#8e8ea0' } }
+            }
+        }
+    });
+})();
+{% endif %}
+
+// ── PANEL 8: Sector Rotation Lines ────────────────────────────────────────
+{% if d.sector_lines %}
+(function() {
+    const SECTOR_COLORS = {
+        'XLK': '#42a5f5', 'XLF': '#66bb6a', 'XLE': '#ef5350', 'XLV': '#ab47bc',
+        'XLC': '#ffa726', 'XLI': '#8d6e63', 'XLB': '#78909c', 'XLRE': '#26c6da',
+        'XLU': '#d4e157', 'XLP': '#ec407a', 'XLY': '#7e57c2'
+    };
+    const sectorData = {{ d.sector_lines | tojson }};
+    let maxDates = [];
+    const datasets = [];
+    for (const [ticker, series] of Object.entries(sectorData)) {
+        if (!series || !series.dates) continue;
+        if (series.dates.length > maxDates.length) maxDates = series.dates;
+        const dMap = {};
+        series.dates.forEach((d,i) => dMap[d] = series.values[i]);
+        datasets.push({
+            label: ticker,
+            data: maxDates.map(d => dMap[d] !== undefined ? dMap[d] : null),
+            borderColor: SECTOR_COLORS[ticker] || '#8e8ea0',
+            borderWidth: 1.5
+        });
+    }
+
+    if (datasets.length) {
+        // Re-align all datasets to maxDates
+        datasets.forEach(ds => {
+            if (ds.data.length < maxDates.length) {
+                const padded = new Array(maxDates.length).fill(null);
+                ds.data.forEach((v,i) => padded[i] = v);
+                ds.data = padded;
+            }
+        });
+
+        new Chart(document.getElementById('sectorChart'), {
+            type: 'line',
+            data: { labels: maxDates, datasets: datasets },
+            options: {
+                scales: {
+                    x: { grid: GRID, ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+                    y: { grid: GRID, title: { display: true, text: 'Relative to SPY (pp)', color: '#8e8ea0' } }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8, boxWidth: 12 } }
+                }
+            }
+        });
+    }
+})();
+{% endif %}
+</script>
+</body>
+</html>

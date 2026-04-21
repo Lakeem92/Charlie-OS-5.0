@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    // Smart refresh: every 60 min, but OFF during weekend blackout
+    // Blackout: Friday 3:00 PM CT through Sunday 4:30 PM CT
+    (function() {
+      function inBlackout() {
+        var now  = new Date();
+        var day  = now.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+        var mins = now.getHours() * 60 + now.getMinutes();
+        if (day === 6) return true;                          // all Saturday
+        if (day === 5 && mins >= 15 * 60) return true;      // Fri >= 3:00 PM
+        if (day === 0 && mins < 16 * 60 + 30) return true;  // Sun < 4:30 PM
+        return false;
+      }
+      if (!inBlackout()) {
+        setTimeout(function() { location.reload(); }, 60 * 60 * 1000); // 60 min
+      }
+    })();
+  </script>
+  <title>War Room News Flow — 2026-04-17</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at top, #162236 0%, #0d1117 46%, #080b10 100%);
+      color: #e6edf3;
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+    }
+    a { color: #42a5f5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap { max-width: 1440px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ── Header ── */
+    .hero { margin-bottom: 28px; }
+    .hero h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; }
+    .hero-sub { margin-top: 6px; color: #8b949e; font-size: 14px; }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+    .stamp {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #42a5f5; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .stamp-refresh {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid #30363d; color: #8b949e; font-size: 11px;
+      letter-spacing: 0.8px; text-transform: uppercase;
+    }
+    .run-count {
+      display: inline-flex; padding: 6px 12px; border-radius: 999px;
+      background: rgba(66,165,245,0.1); border: 1px solid rgba(66,165,245,0.3);
+      color: #42a5f5; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    }
+
+    /* ── Schedule bar ── */
+    .schedule-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .sched-pill {
+      padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      border: 1px solid #30363d; color: #8b949e; letter-spacing: 0.4px;
+    }
+    .sched-pill.done { border-color: #26a69a; color: #26a69a; background: rgba(38,166,154,0.08); }
+    .sched-pill.next { border-color: #42a5f5; color: #42a5f5; background: rgba(66,165,245,0.08); }
+
+    .feed-section { margin-bottom: 36px; }
+    .feed-header { margin-bottom: 14px; }
+    .feed-header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
+    .feed-sub { margin-top: 4px; color: #8b949e; font-size: 13px; }
+
+    /* ── Run card ── */
+    .run-card {
+      background: linear-gradient(180deg, rgba(22,27,34,0.96) 0%, rgba(13,17,23,0.98) 100%);
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .run-card[open] { border-color: #42a5f5; }
+    .run-summary {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px; cursor: pointer; list-style: none; user-select: none;
+    }
+    .run-summary::-webkit-details-marker { display: none; }
+    .run-summary::before {
+      content: "▶"; font-size: 10px; color: #8b949e; transition: transform 0.15s;
+    }
+    .run-card[open] > .run-summary::before { transform: rotate(90deg); }
+    .run-time { font-size: 18px; font-weight: 700; color: #e6edf3; }
+    .badge-latest {
+      padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(66,165,245,0.15); border: 1px solid #42a5f5; color: #42a5f5;
+    }
+    .run-stats { color: #8b949e; font-size: 12px; margin-left: auto; }
+
+    .run-body { padding: 0 20px 24px; border-top: 1px solid #21262d; }
+
+    /* ── Section headers ── */
+    .section-head {
+      font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: #8b949e; margin: 20px 0 12px; padding-bottom: 6px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    /* ── Alpaca table ── */
+    .news-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .news-table thead tr { border-bottom: 1px solid #30363d; }
+    .news-table th {
+      text-align: left; padding: 8px 10px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; color: #8b949e;
+    }
+    .news-table td { padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+    .news-table tr:last-child td { border-bottom: none; }
+    .ticker-cell { font-weight: 700; color: #42a5f5; white-space: nowrap; font-size: 12px; }
+    .meta-cell { color: #8b949e; font-size: 11px; white-space: nowrap; }
+
+    /* ── Tavily categories ── */
+    .cat-block { margin-bottom: 20px; }
+    .cat-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .article-row {
+      display: flex; flex-direction: column; gap: 2px;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-headline { font-size: 13px; color: #e6edf3; line-height: 1.4; }
+    .article-headline:hover { color: #42a5f5; }
+    .article-meta { font-size: 11px; color: #8b949e; }
+
+    .empty { color: #8b949e; font-size: 12px; padding: 8px 0; font-style: italic; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px; padding-top: 16px; border-top: 1px solid #21262d;
+      color: #8b949e; font-size: 11px; letter-spacing: 0.4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>War Room News Flow</h1>
+      <div class="hero-sub">Friday April 17, 2026 &nbsp;·&nbsp; Pre-market catalyst feed</div>
+      <div class="hero-meta">
+        <span class="stamp">Generated 10:32 AM CT</span>
+        <span class="stamp-refresh">Auto-refresh: 60 min (off weekends)</span>
+        <span class="run-count">1 run today</span>
+      </div>
+    </div>
+
+    
+        <section class="feed-section" id="focus-news">
+            <div class="feed-header">
+                <h2>Focus List News</h2>
+                <div class="feed-sub">Ticker-specific developments from your Focus list</div>
+                <div class="hero-meta">
+                    <span class="stamp">1 run today</span>
+                    <span class="stamp-refresh">Mon-Fri: 7:15 AM / 10:30 AM / 3:30 PM CT | Sun: 6:00 PM CT</span>
+                </div>
+            </div>
+
+            <div class="schedule-bar"><span class="sched-pill ">7:15 AM CT</span><span class="sched-pill ">10:30 AM CT</span><span class="sched-pill next">→ 3:30 PM CT</span><span class="sched-pill ">Sun 6:00 PM CT</span></div>
+
+            
+    <details class="run-card" open>
+      <summary class="run-summary">
+        <span class="run-time">10:32 AM CT</span>
+        <span class="badge-latest">LATEST</span>
+        <span class="run-stats">49 ticker items &nbsp;·&nbsp; 63 official items &nbsp;·&nbsp; 0 sector items &nbsp;·&nbsp; 29 dups dropped</span>
+      </summary>
+      <div class="run-body">
+                <div class="section-head">📌 ALPACA NEWS — FOCUS LIST NEWS</div>
+                
+      <table class="news-table">
+        <thead><tr><th>Ticker</th><th>Headline</th><th>Source</th><th>Time (CT)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">AMD, NVDA</td>
+            <td><a href="https://www.benzinga.com/markets/prediction-markets/26/04/51888149/openais-20-billion-deal-sets-up-second-most-likely-ipo-after-spacex-what-do-prediction-markets-say" target="_blank" rel="noopener">OpenAI&#x27;s $20 Billion Deal Sets Up Second Most Likely IPO After SpaceX: What Do Prediction Markets Say?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 10:26 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NVDA</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51887324/nvidia-stock-is-climbing-higher-today-whats-happening" target="_blank" rel="noopener">NVIDIA Stock Is Climbing Higher Today: What&#x27;s Happening?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 10:06 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AVGO, SMH, SOXX, USD</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51884990/broadcoms-secret-weapon-the-massive-ai-chip-deal-set-to-explode-in-2027" target="_blank" rel="noopener">Broadcom&#x27;s Secret Weapon: The Massive AI Chip Deal Set To Explode In 2027</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 09:16 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/04/51884894/netflix-stock-falls-on-q1-results-q2-guidance-analyst-says-this-is-just-a-wobble-that-everyone-should-ignore" target="_blank" rel="noopener">Netflix Stock Falls On Q1 Results, Q2 Guidance: Analyst Says &#x27;This Is Just A Wobble That Everyone Should Ignore&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 09:15 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51884744/barclays-maintains-equal-weight-on-netflix-lowers-price-target-to-110" target="_blank" rel="noopener">Barclays Maintains Equal-Weight on Netflix, Lowers Price Target to $110</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 09:11 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAL, AFRM, ALK, APA, CCL, CF, CHRD, COP, DAL, DIA, DOW, DVN, EOG, FANG, FTAI, HAL, LUV, LYB, MPC, MTDR, NCLH, OXY, QQQ, RCL, SPY, UAL, USO, VLO, XOM</td>
+            <td><a href="https://www.benzinga.com/markets/large-cap/26/04/51883816/iran-strait-hormuz-open-araghchi-crude-oil-crash" target="_blank" rel="noopener">Iran Declares Strait Of Hormuz Open To All Vessels: Crude Plunges 14%, Airlines And Cruise Stocks Soar</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:56 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">EFOI, FCHL, ISPC, JLHL, NFLX, PBM, SKK</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51883517/dow-jumps-over-600-points-netflix-shares-tumble-after-q1-results" target="_blank" rel="noopener">Dow Jumps Over 600 Points; Netflix Shares Tumble After Q1 Results</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:52 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/technicals/26/04/51883197/netflix-stock-crashed-10-but-this-billionaire-loaded-up-1-billion-before-the-fall-whos-right" target="_blank" rel="noopener">Netflix Stock Crashed 10% — But This Billionaire Loaded Up $1 Billion Before The Fall: Who&#x27;s Right?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:46 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, MYSE</td>
+            <td><a href="https://www.benzinga.com/markets/small-cap/26/04/51883079/blockchain-company-myseum-join-amd-ai-developer-network" target="_blank" rel="noopener">Blockchain Company Myseum Join AMD AI Developer Network</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:44 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, ARKW, FEPI, META, SOXX</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/reiteration/26/04/51882233/amd-meta-openai-fuel-massive-2026-chip-surge" target="_blank" rel="noopener">AMD Eyes New Highs As Meta, OpenAI Fuel Massive 2026 Chip Surge</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:33 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51881732/citizens-reiterates-market-perform-on-netflixto-market-perform" target="_blank" rel="noopener">Citizens Reiterates Market Perform on Netflixto Market Perform</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:12 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51881666/keybanc-reiterates-overweight-on-netflix-maintains-115-price-target" target="_blank" rel="noopener">Keybanc Reiterates Overweight on Netflix, Maintains $115 Price Target</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:08 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51881514/wedbush-reiterates-outperform-on-netflix-maintains-118-price-target" target="_blank" rel="noopener">Wedbush Reiterates Outperform on Netflix, Maintains $118 Price Target</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:06 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, ATAI, BK, DOMO, JBHT, NFLX, PEP, PLD, SNDK, USB</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/price-target/26/04/51881324/amazon-to-rally-more-than-14-here-are-10-top-analyst-forecasts-for-friday" target="_blank" rel="noopener">Amazon To Rally More Than 14%? Here Are 10 Top Analyst Forecasts For Friday</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 08:00 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, BE, COHR, CRWV, GOOGL, INTC, META, MRVL, MU, NVDA, ORCL, SNDK, STX, WDC</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51881191/10-stocks-iran-ceasefire-12-sessions-amd-intel-bloom-sandisk" target="_blank" rel="noopener">These 10 Stocks Rose Over 40% Since Trump&#x27;s Ceasefire Claims: One Hasn&#x27;t Done This Since 2005</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:55 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51880755/rosenblatt-maintains-neutral-on-netflix-lowers-price-target-to-95" target="_blank" rel="noopener">Rosenblatt Maintains Neutral on Netflix, Lowers Price Target to $95</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:37 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ABT, AVGO, BTCUSD, FITB, MSFT, NFLX, PEP, QQQ, SCHW, SPY, STT, TFC</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51877674/stock-market-today-wall-street-set-to-extend-rally-as-trump-says-iran-war-should-end-pretty-soon-netflix-state-street-truist-financial-in-focus" target="_blank" rel="noopener">Stock Market Today: Wall Street Set To Extend Rally As Trump Says Iran War May End &#x27;Pretty Soon&#x27;— Netflix, State Street, Truist In Focus (UPDATED)</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:36 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51880431/guggenheim-maintains-buy-on-netflix-lowers-price-target-to-120" target="_blank" rel="noopener">Guggenheim Maintains Buy on Netflix, Lowers Price Target to $120</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:26 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AA, BMBL, FLNC, IMOS, MTC, NFLX, NVTS, TRVI, WB</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51880391/netflix-trevi-therapeutics-and-other-big-stocks-moving-lower-in-fridays-pre-market-session" target="_blank" rel="noopener">Netflix, Trevi Therapeutics And Other Big Stocks Moving Lower In Friday&#x27;s Pre-Market Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:23 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, NFLX, QCOM</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/04/51880301/qualcomm-amazon-netflix-on-cnbc-final-trades" target="_blank" rel="noopener">Qualcomm, Amazon, Netflix And A Tech Stock On CNBC&#x27;s &#x27;Final Trades&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 07:14 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IONQ, NVDA</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51879810/why-ionq-stock-is-sliding-on-friday" target="_blank" rel="noopener">Why IonQ Stock Is Sliding On Friday?</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 06:58 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">MRK</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51879789/merck-says-ec-approves-enflonsia-for-prevention-of-respiratory-syncytial-virus-lower-respiratory-tra" target="_blank" rel="noopener">Merck Says EC Approves ENFLONSIA For Prevention Of Respiratory Syncytial Virus Lower Respiratory Tract Disease In Newborns And Infants</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 06:54 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/04/51879698/is-netflix-still-a-buy-experts-dismiss-front-loaded-costs" target="_blank" rel="noopener">Is Netflix Still A Buy? Experts Dismiss &#x27;Front-Loaded&#x27; Costs, Predict A $10 Billion Ad Goldmine</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 06:44 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">CRML, NFLX, NI</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51879307/market-moving-news-for-april-17th" target="_blank" rel="noopener">Market-Moving News for April 17th</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 06:29 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMD, AVGO, NVDA, QCOM, TSM</td>
+            <td><a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/04/51877863/taiwan-semiconductor-dominates-ai-supply-chain-even-shortages-may-not-slow-it-down-analyst" target="_blank" rel="noopener">Taiwan Semiconductor Dominates AI Supply Chain, Even Shortages May Not Slow It Down: Analyst</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 05:03 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NVDA</td>
+            <td><a href="https://www.benzinga.com/insights/news/26/04/51877750/investigating-nvidias-standing-in-semiconductors-amp-semiconductor-equipment-industry-compared-to-c" target="_blank" rel="noopener">Investigating NVIDIA&#x27;s Standing In Semiconductors &amp;amp; Semiconductor Equipment Industry Compared To Competitors</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 04:58 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51877703/reed-hastings-reveals-his-all-time-favorite-memory-at-netflix-as-he-steps-down-when-we-enabled" target="_blank" rel="noopener">Reed Hastings Reveals His &#x27;All-Time Favorite Memory&#x27; At Netflix As He Steps Down— &#x27;When We Enabled...&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 04:50 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">FITB, NFLX, PEP, STT, TFC</td>
+            <td><a href="https://www.benzinga.com/markets/market-summary/26/04/51877506/sp-500-hits-new-record-high-amid-lebanon-ceasefire-investor-sentiment-improves-further-fear-greed-index-in-greed-zone" target="_blank" rel="noopener">S&amp;P 500 Hits New Record High Amid Lebanon Ceasefire: Investor Sentiment Improves Further, Fear &amp; Greed Index In &#x27;Greed&#x27; Zone</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 04:32 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ABLV, ADV, BZAI, ENVB, FLNC, HHS, HUBC, ISPC, JLHL, NFLX, NPT, ONFO, ORBS, PBM, PMNT, RPGL, SKK, TRVI, WSHP, YXT</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51877496/why-blaize-holdings-shares-are-trading-higher-by-24-here-are-20-stocks-moving-premarket" target="_blank" rel="noopener">Why Blaize Holdings Shares Are Trading Higher By 24%; Here Are 20 Stocks Moving Premarket</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 04:31 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AA, KNX, NFLX, STT, TFC</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/long-ideas/26/04/51877258/netflix-state-street-and-3-stocks-to-watch-heading-into-friday" target="_blank" rel="noopener">Netflix, State Street And 3 Stocks To Watch Heading Into Friday</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-17 03:50 AM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX, PSKY, WBD</td>
+            <td><a href="https://www.benzinga.com/markets/tech/26/04/51875900/netflix-subscribers-lowest-cost-per-hour-greg-peters-pricing-philosophy" target="_blank" rel="noopener">Netflix Subscribers Paying &#x27;Least Per Hour&#x27; Compared With Competition, Says Greg Peters: &#x27;Our Pricing Philosophy Is Consistent&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 10:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ABT, AMD, NFLX, NIO, NVTS</td>
+            <td><a href="https://www.benzinga.com/markets/equities/26/04/51875566/netflix-amd-navitas-abbott-nio-stocks-to-watch-today-trending-stocks" target="_blank" rel="noopener">Netflix, AMD, Navitas Semiconductor, Abbott Labs, And Nio: Why These 5 Stocks Are On Investors&#x27; Radars Today</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 08:27 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMZN, NKE, NVDA</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/long-ideas/26/04/51875003/cramer-highlights-nike-amazon-nvidia-stock-to-investors-why-would-you-sell-it" target="_blank" rel="noopener">Cramer Highlights Nike, Amazon, Nvidia Stock To Investors: &#x27;Why Would You Sell It?&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 06:14 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AEHL, AHMA, CHR, GDC, GXAI, MITQ, NFLX, OCG, ONFO, SNAL, SST, WSHP</td>
+            <td><a href="https://www.benzinga.com/insights/movers/26/04/51873965/12-communication-services-stocks-moving-in-thursdays-after-market-session" target="_blank" rel="noopener">12 Communication Services Stocks Moving In Thursday&#x27;s After-Market Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 04:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/markets/earnings/26/04/51873181/netflix-beats-q1-earnings-shares-slide-on-soft-guidance-co-founder-exit" target="_blank" rel="noopener">Netflix Beats Q1 Earnings, Shares Slide On Soft Guidance, Co-Founder Exit</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:31 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51872857/netflix-launching-updated-mobile-experience-at-april-end-that-includes-vertical-video-discovery-feed" target="_blank" rel="noopener">Netflix Launching Updated Mobile Experience At April-End That Includes Vertical Video Discovery Feed; Announced Price Adjustments In Spain Today; Now Sees 2026 FCF About $12.5B, Mainly Due To After-Tax Impact Of Warner Bros-Related Termination Fee</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:21 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">IONQ, IONZ, NVDA, QBTS, QBTZ, RGTI, RGTZ, XNDU</td>
+            <td><a href="https://www.benzinga.com/etfs/sector-etfs/26/04/51872542/these-quantum-etfs-flip-as-nvidias-ai-catalyst-triggers-rally" target="_blank" rel="noopener">These Quantum ETFs Flip As Nvidia&#x27;s AI Catalyst Triggers Rally</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:13 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51872122/netflix-says-reed-hastings-to-not-stand-for-board-re-election" target="_blank" rel="noopener">Netflix Says Reed Hastings To Not Stand For Board Re-Election</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:05 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51871951/netflix-affirms-fy2026-sales-guidance-of-50-700b-51-700b-vs-51-383b-est" target="_blank" rel="noopener">Netflix Affirms FY2026 Sales Guidance of $50.700B-$51.700B vs $51.383B Est</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:03 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/26/04/51871850/netflix-sees-q2-gaap-eps-0-78-vs-0-84-est-sees-sales-12-574b-vs-12-626b-est" target="_blank" rel="noopener">Netflix Sees Q2 GAAP EPS $0.78 vs $0.84 Est; Sees Sales $12.574B vs $12.626B Est</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:02 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">NFLX</td>
+            <td><a href="https://www.benzinga.com/news/earnings/26/04/51871823/netflix-q1-eps-1-23-beats-0-76-estimate-sales-12-250b-beat-12-179b-estimate" target="_blank" rel="noopener">Netflix Q1 EPS $1.23 Beats $0.76 Estimate, Sales $12.250B Beat $12.179B Estimate</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 03:01 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMZN, CRWD, CSCO, GOOG, JPM, MSFT, NVDA</td>
+            <td><a href="https://www.benzinga.com/markets/private-markets/26/04/51871737/anthropic-releases-claude-4-7-introducing-mythos-inspired-cybersecurity-protections" target="_blank" rel="noopener">Anthropic Releases Claude 4.7, Introducing Mythos-Inspired Cybersecurity Protections</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 02:59 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AMD, META, ORCL, TSM</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51869395/amd-rips-higher-as-tsmcs-blowout-guide-lights-up-the-stock" target="_blank" rel="noopener">AMD Rips Higher As TSMC&#x27;s Blowout Guide Lights Up The Stock</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 01:42 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, AMZN, BTCUSD, GLD, GOOG, META, MSFT, NFLX, NVDA, QQQ, SLV, SPY, TSLA, TSM, USO</td>
+            <td><a href="https://www.benzinga.com/Opinion/26/04/51869171/whats-ahead-as-massive-short-squeeze-drives-market-to-new-highs-semis-are-a-tell" target="_blank" rel="noopener">What&#x27;s Ahead As Massive Short Squeeze Drives Market to New Highs - Semis Are a Tell</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 01:35 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">INFQ, IONQ, NVDA, QBTS, QUBT, RGTI, XNDU</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/movers/26/04/51868551/quantum-stocks-are-booming-sp-global-says-2026-is-triggering-change" target="_blank" rel="noopener">Quantum Stocks Are Booming — S&amp;P Global Says 2026 &#x27;Is Triggering Change&#x27;</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 01:13 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AAPL, MSFT, NVDA</td>
+            <td><a href="https://www.benzinga.com/news/politics/26/04/51868544/senator-goes-stock-shopping-heres-his-two-magnificent-7-picks-for-2026" target="_blank" rel="noopener">Senator Goes Stock Shopping: Here&#x27;s His Two Magnificent 7 Picks For 2026</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 01:13 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">INFQ, NVDA, RGTI</td>
+            <td><a href="https://www.benzinga.com/trading-ideas/long-ideas/26/04/51868366/best-quantum-stock-citron-research-says-nvidia-ceo-just-told-investors-which-name-to-watch" target="_blank" rel="noopener">Best Quantum Stock? Citron Research Says Nvidia CEO Just Told Investors Which Name To Watch</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 01:06 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">AVGO, INTC, LRCX, MRVL, MRVU, NVDA, NVDL, NVDU, SMH, SOXQ, TSM</td>
+            <td><a href="https://www.benzinga.com/etfs/sector-etfs/26/04/51867746/semiconductor-etfs-surge-as-ai-boom-powers-nvidia-led-rally" target="_blank" rel="noopener">Semiconductor ETFs Surge As AI Boom Powers Nvidia-Led Rally</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 12:50 PM CT</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">ADBE, AMAT, CLS, ENPH, LRCX, NVDA, PLTR, QCOM, TEAM</td>
+            <td><a href="https://www.benzinga.com/insights/options/26/04/51867307/9-information-technology-stocks-whale-activity-in-todays-session" target="_blank" rel="noopener">9 Information Technology Stocks Whale Activity In Today&#x27;s Session</a></td>
+            <td class="meta-cell">benzinga</td>
+            <td class="meta-cell">2026-04-16 12:35 PM CT</td>
+          </tr></tbody>
+      </table>
+            <div class="section-head" style="margin-top:28px;">🏛️ OFFICIAL SOURCES — SEC FILINGS + COMPANY WEBSITES</div>
+            
+            <table class="news-table">
+                <thead><tr><th>Ticker</th><th>Official Headline / Filing</th><th>Source</th><th>Time (CT)</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td class="ticker-cell">AMD</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/2488/000119312525067902/d943962d8k.htm" target="_blank" rel="noopener">8-K</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AMD</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/2488/000119312508038588/d10k.htm" target="_blank" rel="noopener">Form 10-K</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AMD</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/2488/000101287002001071/d10k.txt" target="_blank" rel="noopener">be held on April 25, 2002, are incorporated into Part III hereof.</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://sec.gov/edgar/browse/?CIK=1737193" target="_blank" rel="noopener">EDGAR Entity Landing Page - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://sec.gov/edgar/browse/?CIK=1517375" target="_blank" rel="noopener">EDGAR Entity Landing Page</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AVGO</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1730168/000173016826000030/xslF345X06/wk-form4_1775861650.xml" target="_blank" rel="noopener">SEC FORM 4</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AVGO</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/880268/000114554923056495/0001145549-23-056495.txt" target="_blank" rel="noopener">0001145549-23-056495.txt - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NFLX</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1065280/000106528026000137/nflx-20260410.htm" target="_blank" rel="noopener">nflx-20260410</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AAL</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm" target="_blank" rel="noopener">aal-20251231</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AAL</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/4515/000000620121000054/aal-20210331.htm" target="_blank" rel="noopener">aal-20210331</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AAL</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/922612/000119312519257638/d795685d10ka.htm" target="_blank" rel="noopener">10-K/A</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">ALK</td>
+                        <td><a href="https://www.sec.gov/rules-regulations/no-action-interpretive-exemptive-letters/division-corporation-finance-no-action" target="_blank" rel="noopener">No-Action, Interpretive and Exemptive Letters - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">APA</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/83246/0001144204-16-092790.txt" target="_blank" rel="noopener">0001144204-16-092790.txt - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">APA</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/810893/000081089324003591/0000810893-24-003591.txt" target="_blank" rel="noopener">0000810893-24-003591.txt - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CCL</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1000697/000119312526062604/d778470d10k.htm" target="_blank" rel="noopener">10-K</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CCL</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1707925/000119312519061073/d711303dnt10k.htm" target="_blank" rel="noopener">NT 10-K</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1750704/000162828026024593/hawkeye360-sx1.htm" target="_blank" rel="noopener">Document</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1100663/000175272421144526/xslFormNPORT-P_X01/primary_doc.xml" target="_blank" rel="noopener">NPORT-P/A: Filer Information - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1934114/000110465926041905/tm2530822-6_s1.htm" target="_blank" rel="noopener">tm2530822-6_s1 - none - 41.0222593s - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.sec.gov/files/ctf-written-sec-companion-rwa-tokenization-02-25-2026.pdf" target="_blank" rel="noopener">[PDF] Sovereign Bills &amp; Private Credit Tokenization with Agentic ... - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DVN</td>
+                        <td><a href="https://www.sec.gov/Archives/edgar/data/1090012/000119312526151250/0001193125-26-151250-index.html" target="_blank" rel="noopener">EDGAR Filing Documents for 0001193125-26-151250 - SEC.gov</a></td>
+                        <td class="meta-cell">sec.gov</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AMD</td>
+                        <td><a href="https://ir.amd.com/" target="_blank" rel="noopener">Advanced Micro Devices, Inc. (AMD)</a></td>
+                        <td class="meta-cell">ir.amd.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AMD</td>
+                        <td><a href="https://norfolkdailynews.com/online_features/press_releases/amd-to-report-fiscal-first-quarter-2026-financial-results/article_c2e393f5-ad15-5ea4-926b-20b5186d1279.html" target="_blank" rel="noopener">AMD to Report Fiscal First Quarter 2026 Financial Results</a></td>
+                        <td class="meta-cell">norfolkdailynews.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://investor.nvidia.com/events-and-presentations/events-and-presentations/default.aspx" target="_blank" rel="noopener">Events &amp; Presentations - NVIDIA Investor Relations</a></td>
+                        <td class="meta-cell">investor.nvidia.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://investor.nvidia.com/financial-info/financial-reports/default.aspx" target="_blank" rel="noopener">Financial Reports - NVIDIA Investor Relations</a></td>
+                        <td class="meta-cell">investor.nvidia.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/" target="_blank" rel="noopener">NVIDIA Announces Financial Results for Fourth Quarter and Fiscal ...</a></td>
+                        <td class="meta-cell">investor.nvidia.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NVDA</td>
+                        <td><a href="https://investor.nvidia.com/news/press-release-details/" target="_blank" rel="noopener">Press Release Details - Nvidia Investor Relations</a></td>
+                        <td class="meta-cell">investor.nvidia.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AVGO</td>
+                        <td><a href="https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-first-quarter-fiscal-year-2026-financial" target="_blank" rel="noopener">Broadcom Inc. Announces First Quarter Fiscal Year 2026 Financial ...</a></td>
+                        <td class="meta-cell">investors.broadcom.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">SMH</td>
+                        <td><a href="https://research.investors.com/stock-quotes/nasdaq-vaneck-semiconductor-smh.htm" target="_blank" rel="noopener">VanEck Semiconductor Stock Quote: SMH Stock News ... - Research</a></td>
+                        <td class="meta-cell">research.investors.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NFLX</td>
+                        <td><a href="https://ir.netflix.net/investor-news-and-events/financial-releases/press-release-details/2026/Netflix-to-Announce-First-Quarter-2026-Financial-Results/default.aspx" target="_blank" rel="noopener">Netflix to Announce First Quarter 2026 Financial Results</a></td>
+                        <td class="meta-cell">ir.netflix.net</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">NFLX</td>
+                        <td><a href="https://www.investing.com/news/transcripts/earnings-call-transcript-netflix-beats-q1-2026-eps-estimates-stock-dips-93CH-4619468" target="_blank" rel="noopener">Earnings call transcript: Netflix beats Q1 2026 EPS estimates, stock ...</a></td>
+                        <td class="meta-cell">investing.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AAL</td>
+                        <td><a href="https://www.quiverquant.com/news/American+Airlines+Group+to+Host+First-Quarter+2026+Financial+Results+Conference+Call+on+April+23" target="_blank" rel="noopener">American Airlines Group to Host First-Quarter 2026 Financial Results Conference Call on April 23 | Quiver Quantitative</a></td>
+                        <td class="meta-cell">quiverquant.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AFRM</td>
+                        <td><a href="https://investors.affirm.com/" target="_blank" rel="noopener">Investor relations | Affirm Holdings, Inc.</a></td>
+                        <td class="meta-cell">investors.affirm.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AFRM</td>
+                        <td><a href="https://markets.financialcontent.com/talkmarkets/quote/news?Symbol=AFRM&amp;ChannelType=PRESSRELEASES" target="_blank" rel="noopener">Press Releases about Affirm Holdings, Inc. - Class A Common Stock</a></td>
+                        <td class="meta-cell">markets.financialcontent.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">AFRM</td>
+                        <td><a href="https://investors.affirm.com/news-events/newsroom" target="_blank" rel="noopener">Newsroom | Affirm Holdings, Inc.</a></td>
+                        <td class="meta-cell">investors.affirm.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">ALK</td>
+                        <td><a href="https://news.alaskaair.com/investor-relations/" target="_blank" rel="noopener">Investor Relations - Alaska Airlines, Hawaiian Airlines and Horizon Air</a></td>
+                        <td class="meta-cell">news.alaskaair.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">ALK</td>
+                        <td><a href="https://news.alaskaair.com/investor-relations-old/" target="_blank" rel="noopener">Investor Relations - Alaska Airlines, Hawaiian ...</a></td>
+                        <td class="meta-cell">news.alaskaair.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">ALK</td>
+                        <td><a href="https://www.barchart.com/story/news/1077403/alaska-air-group-announces-webcast-of-first-quarter-2026-financial-results" target="_blank" rel="noopener">Alaska Air Group announces webcast of first quarter 2026 financial results</a></td>
+                        <td class="meta-cell">barchart.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">APA</td>
+                        <td><a href="https://investor.apacorp.com/news-releases/news-release-details/apa-corporation-provides-first-quarter-2026-supplemental" target="_blank" rel="noopener">APA Corporation Provides First-Quarter 2026 Supplemental Information and Schedules Results Conference Call for May 7 at 10 a.m. Central Time | APA Corporation</a></td>
+                        <td class="meta-cell">investor.apacorp.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">APA</td>
+                        <td><a href="https://investor.apacorp.com/news" target="_blank" rel="noopener">News | APA Corporation</a></td>
+                        <td class="meta-cell">investor.apacorp.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">APA</td>
+                        <td><a href="https://www.quiverquant.com/news/APA+Corporation+Provides+Supplemental+Information+on+First-Quarter+2026+Financial+and+Operational+Results" target="_blank" rel="noopener">APA Corporation Provides Supplemental Information on First-Quarter 2026 Financial and Operational Results | Quiver Quantitative</a></td>
+                        <td class="meta-cell">quiverquant.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CCL</td>
+                        <td><a href="https://www.carnivalcorp.com/investors/" target="_blank" rel="noopener">Investors – Carnival Corporation &amp; plc</a></td>
+                        <td class="meta-cell">carnivalcorp.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CCL</td>
+                        <td><a href="https://www.proactiveinvestors.com/companies/news/1089665/carnival-posts-record-quarterly-revenue-boosts-outlook-and-unveils-long-term-targets-1089665.html" target="_blank" rel="noopener">Carnival posts record quarterly revenue, boosts outlook and unveils long-term targets | NYSE:CCL</a></td>
+                        <td class="meta-cell">proactiveinvestors.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CCL</td>
+                        <td><a href="https://www.carnivalcorp.com/investors/financial-information/latest-results/" target="_blank" rel="noopener">Latest Results – Carnival Corporation &amp; plc</a></td>
+                        <td class="meta-cell">carnivalcorp.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CF</td>
+                        <td><a href="https://ir.cfindustries.com/Investors/news/news-details/2026/CF-Industries-Holdings-Inc--Announces-Planned-Schedule-for-Quarterly-Financial-Results-to-be-Released-in-2026/default.aspx" target="_blank" rel="noopener">CF Industries - CF Industries Holdings, Inc. Announces Planned Schedule for Quarterly Financial Results to be Released in 2026</a></td>
+                        <td class="meta-cell">ir.cfindustries.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CF</td>
+                        <td><a href="https://ir.cfindustries.com/Investors/news/default.aspx" target="_blank" rel="noopener">CF Industries - Investors - News</a></td>
+                        <td class="meta-cell">ir.cfindustries.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CF</td>
+                        <td><a href="https://ir.cfindustries.com/overview/default.aspx" target="_blank" rel="noopener">CF Industries - Investor Relations</a></td>
+                        <td class="meta-cell">ir.cfindustries.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CF</td>
+                        <td><a href="https://ir.cfindustries.com/Investors/stock-info/default.aspx" target="_blank" rel="noopener">CF Industries - Investors - Stock Info</a></td>
+                        <td class="meta-cell">ir.cfindustries.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CHRD</td>
+                        <td><a href="https://ir.chordenergy.com/news-releases" target="_blank" rel="noopener">News Releases - Chord Energy Investor Relations</a></td>
+                        <td class="meta-cell">ir.chordenergy.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">CHRD</td>
+                        <td><a href="https://ir.chordenergy.com/" target="_blank" rel="noopener">Chord Energy - Investors</a></td>
+                        <td class="meta-cell">ir.chordenergy.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">COP</td>
+                        <td><a href="https://www.conocophillips.com/investor-relations/" target="_blank" rel="noopener">Investors | ConocoPhillips</a></td>
+                        <td class="meta-cell">conocophillips.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">COP</td>
+                        <td><a href="https://www.conocophillips.com/news-media/story/conocophillips-to-hold-first-quarter-earnings-conference-call-on-thursday-april-30-2/" target="_blank" rel="noopener">ConocoPhillips to hold first-quarter earnings conference call on Thursday, April 30 | ConocoPhillips</a></td>
+                        <td class="meta-cell">conocophillips.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">COP</td>
+                        <td><a href="https://www.conocophillips.com/investor-relations/investor-presentations/" target="_blank" rel="noopener">Investor presentations | ConocoPhillips</a></td>
+                        <td class="meta-cell">conocophillips.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DAL</td>
+                        <td><a href="https://ir.delta.com/news/default.aspx" target="_blank" rel="noopener">Delta Air Lines, Inc. - News</a></td>
+                        <td class="meta-cell">ir.delta.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DAL</td>
+                        <td><a href="https://ir.delta.com/financials/default.aspx" target="_blank" rel="noopener">Delta Air Lines, Inc. - Financials</a></td>
+                        <td class="meta-cell">ir.delta.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://investors.dow.com/en/news/news-details/2026/Dow-announces-results-from-2026-Annual-Stockholder-Meeting/default.aspx" target="_blank" rel="noopener">Dow announces results from 2026 Annual Stockholder Meeting | Dow Investor Relations</a></td>
+                        <td class="meta-cell">investors.dow.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://investors.dow.com/en/investors/default.aspx" target="_blank" rel="noopener">Home | Dow Investor Relations</a></td>
+                        <td class="meta-cell">investors.dow.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.marketscreener.com/quote/stock/DOW-INC-56727683/news-press-releases/" target="_blank" rel="noopener">Dow Inc.: Official Announcements - Stock Market News</a></td>
+                        <td class="meta-cell">marketscreener.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DOW</td>
+                        <td><a href="https://www.barchart.com/story/news/1229463/dow-announces-results-from-2026-annual-stockholder-meeting" target="_blank" rel="noopener">Dow announces results from 2026 Annual Stockholder Meeting</a></td>
+                        <td class="meta-cell">barchart.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DVN</td>
+                        <td><a href="https://investors.devonenergy.com/investors/events-presentations/default.aspx" target="_blank" rel="noopener">Devon Energy Corporation - Investors - Events &amp; Presentations</a></td>
+                        <td class="meta-cell">investors.devonenergy.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DVN</td>
+                        <td><a href="https://investors.devonenergy.com/investors/press-releases/press-release-details/" target="_blank" rel="noopener">Devon Energy Corporation - Investors - Press Releases - Press Release Details</a></td>
+                        <td class="meta-cell">investors.devonenergy.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">DVN</td>
+                        <td><a href="https://investors.devonenergy.com/investors/default.aspx" target="_blank" rel="noopener">Devon Energy Corporation - Investors</a></td>
+                        <td class="meta-cell">investors.devonenergy.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr>
+                    <tr>
+                        <td class="ticker-cell">EOG</td>
+                        <td><a href="https://investors.eogresources.com/" target="_blank" rel="noopener">Investors – EOG Resources, Inc.</a></td>
+                        <td class="meta-cell">investors.eogresources.com</td>
+                        <td class="meta-cell">N/A</td>
+                    </tr></tbody>
+            </table>
+                
+      </div>
+    </details>
+        </section>
+        <section class="feed-section" id="master-news">
+            <div class="feed-header">
+                <h2>Master Watchlist News</h2>
+                <div class="feed-sub">Ticker-specific developments from your master watchlist</div>
+                <div class="hero-meta">
+                    <span class="stamp">0 runs today</span>
+                    <span class="stamp-refresh">Mon-Fri: 6:30 AM / 7:30 AM / 8:06 AM CT</span>
+                </div>
+            </div>
+
+            <div class="schedule-bar"><span class="sched-pill ">6:30 AM CT</span><span class="sched-pill ">7:30 AM CT</span><span class="sched-pill ">8:06 AM CT</span></div>
+
+            <p style="color:#8b949e;padding:20px;">No Master Watchlist runs found for today.</p>
+        </section>
+
+    <div class="footer">
+            QuantLab Data Lab &nbsp;·&nbsp; Master: Mon-Fri 6:30 AM / 7:30 AM / 8:06 AM CT &nbsp;·&nbsp; Focus: Mon-Fri 7:15 AM / 10:30 AM / 3:30 PM CT + Sun 6:00 PM CT &nbsp;·&nbsp; Page refreshes every 60 min (off Fri 3 PM – Sun 4:30 PM CT)
+    </div>
+
+  </div>
+</body>
+</html>

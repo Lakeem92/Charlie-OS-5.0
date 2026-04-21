@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantLab Terminal — {{PAGE_TITLE}}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ━━━ HEADER BAR (every page) ━━━ -->
+    <div class="header-bar">
+        <div class="header-title">QUANTLAB TERMINAL v2.0 | Last Updated: {{TIMESTAMP}}</div>
+        <nav class="header-nav">
+            <a href="/macro" class="{{ACTIVE_MACRO}}">Macro</a>
+            <a href="/ai" class="{{ACTIVE_AI}}">AI Cascade</a>
+            <a href="/etf" class="{{ACTIVE_ETF}}">ETF</a>
+            <a href="/news" class="{{ACTIVE_NEWS}}">News</a>
+        </nav>
+        <div class="header-paths">
+            <span>&#128204; Dashboard: <a href="http://localhost:8766">http://localhost:8766</a></span>
+            <span>&#128194; Catalyst DB: C:\QuantLab\Data_Lab\catalyst_analysis_db\</span>
+            <span>&#128203; Focus List: C:\QuantLab\Data_Lab\watchlists\focus_list.csv</span>
+        </div>
+    </div>
+
+    <!-- ━━━ PAGE CONTENT ━━━ -->
+    <div class="container">
+        {{CONTENT}}
+    </div>
+
+    <!-- ━━━ FOOTER ━━━ -->
+    <div class="footer">
+        QuantLab Terminal v2.0 | Data Lab | All times CT
+    </div>
+</body>
+</html>

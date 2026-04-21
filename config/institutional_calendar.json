@@ -1,0 +1,45 @@
+{
+  "fomc_meetings_2026": [
+    {"date": "2026-01-28", "type": "FOMC Decision", "blackout_start": "2026-01-17"},
+    {"date": "2026-03-18", "type": "FOMC Decision + SEP", "blackout_start": "2026-03-07"},
+    {"date": "2026-05-06", "type": "FOMC Decision", "blackout_start": "2026-04-25"},
+    {"date": "2026-06-17", "type": "FOMC Decision + SEP", "blackout_start": "2026-06-06"},
+    {"date": "2026-07-29", "type": "FOMC Decision", "blackout_start": "2026-07-18"},
+    {"date": "2026-09-16", "type": "FOMC Decision + SEP", "blackout_start": "2026-09-05"},
+    {"date": "2026-11-04", "type": "FOMC Decision", "blackout_start": "2026-10-24"},
+    {"date": "2026-12-16", "type": "FOMC Decision + SEP", "blackout_start": "2026-12-05"}
+  ],
+  "monthly_opex_2026": [
+    "2026-01-16", "2026-02-20", "2026-03-20", "2026-04-17",
+    "2026-05-15", "2026-06-19", "2026-07-17", "2026-08-21",
+    "2026-09-18", "2026-10-16", "2026-11-20", "2026-12-18"
+  ],
+  "quarterly_opex_2026": [
+    "2026-03-20", "2026-06-19", "2026-09-18", "2026-12-18"
+  ],
+  "vix_expiration_2026": [
+    "2026-01-14", "2026-02-18", "2026-03-18", "2026-04-15",
+    "2026-05-13", "2026-06-17", "2026-07-15", "2026-08-19",
+    "2026-09-16", "2026-10-14", "2026-11-18", "2026-12-16"
+  ],
+  "wasde_dates_2026": [
+    "2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09",
+    "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12",
+    "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-09"
+  ],
+  "russell_reconstitution_2026": {
+    "preliminary_list": "2026-06-05",
+    "final_list": "2026-06-19",
+    "effective_date": "2026-06-26"
+  },
+  "sp500_rebalance_2026": [
+    "2026-03-20", "2026-06-19", "2026-09-18", "2026-12-18"
+  ],
+  "dynamic_sources": {
+    "fed_speakers": "Tavily: Federal Reserve speaker schedule this week",
+    "tsm_monthly": "Tavily: TSMC monthly revenue report date",
+    "semi_btb": "Tavily: SEMI book-to-bill ratio release date",
+    "ev_deliveries": "1st-3rd business day each month: TSLA, XPEV, LI, NIO, RIVN",
+    "conferences": "Tavily sweep: CES, GTC, JPM Healthcare, Google I/O, WWDC, re:Invent, Dreamforce, RSA, MWC"
+  }
+}

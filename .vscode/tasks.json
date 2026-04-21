@@ -18,6 +18,22 @@
             "problemMatcher": []
         },
         {
+            "label": "Refresh And Start Diet Bloomberg",
+            "type": "process",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": ["${workspaceFolder}\\scripts\\startup_diet_bloomberg.py"],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Update Focus List",
             "type": "process",
             "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",

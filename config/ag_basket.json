@@ -1,0 +1,6 @@
+{
+  "upstream": ["CF", "MOS", "CTVA", "FMC"],
+  "midstream": ["DE", "AGCO", "ADM", "BG"],
+  "downstream": ["TSN", "PPC", "LW"],
+  "china_signal_tickers": ["BABA", "JD", "PDD", "FXI"]
+}
