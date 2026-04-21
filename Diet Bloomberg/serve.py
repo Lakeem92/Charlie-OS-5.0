@@ -90,6 +90,70 @@ def _load_news_flow() -> dict | None:
     }
 
 
+def _parse_updated_at(value: str) -> datetime | None:
+    if not value:
+        return None
+    for fmt in ('%Y-%m-%dT%H:%M:%S', '%Y-%m-%d %H:%M:%S'):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def _freshness_chip(label: str, updated_at: str | None, *, file_path: Path | None = None) -> dict:
+    now = datetime.now()
+    dt_value = _parse_updated_at(updated_at or '')
+    if dt_value is None and file_path and file_path.exists():
+        dt_value = datetime.fromtimestamp(file_path.stat().st_mtime)
+
+    if dt_value is None:
+        return {
+            'label': label,
+            'state': 'missing',
+            'age_text': 'missing',
+            'updated_text': 'No data',
+        }
+
+    minutes_old = max(int((now - dt_value).total_seconds() // 60), 0)
+    if minutes_old <= 90:
+        state = 'fresh'
+    elif minutes_old <= 240:
+        state = 'aging'
+    else:
+        state = 'stale'
+
+    if minutes_old < 60:
+        age_text = f'{minutes_old}m ago'
+    elif minutes_old < 1440:
+        age_text = f'{minutes_old // 60}h ago'
+    else:
+        age_text = f'{minutes_old // 1440}d ago'
+
+    return {
+        'label': label,
+        'state': state,
+        'age_text': age_text,
+        'updated_text': dt_value.strftime('%m/%d %I:%M %p'),
+    }
+
+
+def _build_freshness_status() -> list[dict]:
+    macro = _load_json('macro_regime', 'latest.json')
+    etf = _load_json('etf_structural', 'latest.json')
+    ai = _load_json('daily_briefing', 'ai_cascade.json')
+    news = _load_json('daily_briefing', 'news.json')
+    news_flow_file = NEWS_FLOW / f'{datetime.now().strftime("%Y-%m-%d")}.json'
+
+    return [
+        _freshness_chip('Macro', macro.get('updated_at')), 
+        _freshness_chip('AI', ai.get('updated_at')),
+        _freshness_chip('ETF', etf.get('updated_at')),
+        _freshness_chip('News', news.get('updated_at')),
+        _freshness_chip('Focus News', None, file_path=news_flow_file),
+    ]
+
+
 # ── Route → template + data source mapping ───────────────────────────────────
 ROUTE_CONFIG = {
     '':           {'template': 'macro.html',       'data': [('macro_regime', 'latest.json')]},
@@ -107,6 +171,7 @@ def _build_page_context(route: str) -> dict:
     cfg = ROUTE_CONFIG.get(route, {})
     ctx = {
         'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M CT'),
+        'freshness_status': _build_freshness_status(),
     }
     sources = cfg.get('data', [])
     # Load each data source — merge into context

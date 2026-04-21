@@ -24,6 +24,13 @@ data/levels/**
 My Data/catalyst_log.csv
 My Data/outcomes.csv
 
+# Diet Bloomberg generated outputs and caches
+News_flow/*.html
+News_flow/*.json
+News_flow/*.md
+catalyst_analysis_db/**/*.json
+logs/*.log
+
 # Nested git repos (manage separately)
 prediction-market-analysis/
 tools/prediction_markets/

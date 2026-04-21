@@ -16,7 +16,13 @@
             <a href="/macro" class="active">Macro</a>
             <a href="/ai">AI Cascade</a>
             <a href="/etf">ETF</a>
+            <a href="/news">News</a>
         </nav>
+        <div class="header-paths" style="gap:0.45rem; flex-wrap:wrap;">
+            {% for item in freshness_status %}
+            <span style="padding:0.2rem 0.5rem; border-radius:999px; border:1px solid {% if item.state == 'fresh' %}rgba(38,166,154,0.55){% elif item.state == 'aging' %}rgba(255,193,7,0.55){% elif item.state == 'stale' %}rgba(239,83,80,0.55){% else %}rgba(120,144,156,0.55){% endif %}; background:{% if item.state == 'fresh' %}rgba(38,166,154,0.12){% elif item.state == 'aging' %}rgba(255,193,7,0.12){% elif item.state == 'stale' %}rgba(239,83,80,0.12){% else %}rgba(120,144,156,0.12){% endif %};">{{ item.label }}: {{ item.age_text }}</span>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="container">
