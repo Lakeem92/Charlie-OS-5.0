@@ -93,13 +93,13 @@ def main() -> int:
         raise FileNotFoundError(f'Python executable not found: {PYTHON_EXE}')
 
     ok = True
+    ok = _start_server(args.dry_run) and ok
     ok = _run_step('Dashboard data refresh', _python_cmd(RUN_ALL), args.dry_run) and ok
     ok = _run_step(
         'Focus news refresh',
         _python_cmd(SCAN_NEWS, '--feed', 'focus', '--skip-tavily'),
         args.dry_run,
     ) and ok
-    ok = _start_server(args.dry_run) and ok
 
     return 0 if ok else 1
 

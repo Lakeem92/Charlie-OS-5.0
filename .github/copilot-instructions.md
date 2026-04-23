@@ -109,7 +109,7 @@ This script runs **automatically every time VS Code opens** this workspace (via 
 It is idempotent — safe to run repeatedly. No admin required (user-level tasks).
 
 Diet Bloomberg startup is also handled on workspace open via `scripts/startup_diet_bloomberg.py`.
-That startup script does three things in order: runs `run_all.py` once to refresh dashboard collector outputs, runs `tools/watchlist_scanner/scan_news.py --feed focus --skip-tavily` once to refresh focus news used on the dashboard news page, and starts `Diet Bloomberg/serve.py` only if port `8766` is not already in use.
+That startup script does three things in order: starts `Diet Bloomberg/serve.py` immediately if port `8766` is not already in use, runs `run_all.py` once to refresh dashboard collector outputs in the background of the startup flow, and runs `tools/watchlist_scanner/scan_news.py --feed focus --skip-tavily` once to refresh focus news used on the dashboard news page.
 
 **Prerequisite:** `"task.allowAutomaticTasks": "on"` in `.vscode/settings.json` (already set).
 
