@@ -90,6 +90,70 @@ consensus, float data, valuation ratios, earnings surprise history.
 **What the prefetch does NOT cover:** News, transcripts, sentiment, narrative
 context, options chain data. Those come from Claude's web search during analysis.
 
+## Diet Bloomberg Weekly Summary Protocol
+
+When Lakeem asks for a Diet Bloomberg weekly summary, Monday-morning regime summary,
+or anything materially similar, use the live Diet Bloomberg dashboard as the source
+of truth and return the summary in the exact template below.
+
+Primary live pages:
+- `http://localhost:8766/` or `/macro`
+- `http://localhost:8766/ai`
+- `http://localhost:8766/etf`
+- `http://localhost:8766/news`
+
+Summary rules:
+1. Read the live dashboard pages first instead of relying on stale assumptions.
+2. Use Diet Bloomberg terminology where possible (`EXPANSION`, `CONTRACTING`, `CONTANGO`, etc.).
+3. Keep it concise, trader-facing, and decision-relevant.
+4. `Final Overlay` must use only one of these values: `+1`, `+0.5`, `+0.25`, `0`, `-0.25`, `-0.5`, `-1`.
+5. `Names Most Helped` and `Names Most Hurt` should reflect the live regime read and current AI / ETF / news state, not generic sector lists.
+6. If a field is unavailable on the dashboard, say `Unavailable in current dashboard feed` instead of inventing a value.
+
+Use this exact output format:
+
+```text
+DIET BLOOMBERG WEEKLY SUMMARY
+
+Date / Time:
+Overall Macro Regime:
+Macro Score:
+Fed Net Liquidity:
+XLY/XLP:
+VIX Term Structure:
+Fed Cut Odds:
+Rates / Repo Plumbing:
+Yield Curve:
+M2:
+COT / CTA / Systematic Positioning:
+SLOOS / Credit Spigot:
+HY Spreads:
+Real Yields:
+DXY / Global Liquidity:
+Put/Call + SPX Options Regime:
+Sector Rotation:
+AI Cascade Status:
+ETF Structural Squeeze Signals:
+Focus-List News Themes:
+Final Overlay:
++1 / +0.5 / +0.25 / 0 / -0.25 / -0.5 / -1
+
+Key Bullish Evidence:
+Key Bearish Evidence:
+What Would Flip the Regime:
+Names Most Helped:
+Names Most Hurt:
+```
+
+Interpretation guidance for `Final Overlay`:
+- `+1`: broad risk-on with confirming liquidity / credit / vol / breadth backdrop
+- `+0.5`: bullish but with one notable macro or positioning headwind
+- `+0.25`: modestly constructive, selective longs favored over broad aggression
+- `0`: balanced / mixed regime with no strong edge
+- `-0.25`: mildly defensive, upside selective and fragile
+- `-0.5`: bearish regime with multiple confirming headwinds
+- `-1`: acute risk-off / disorder / strong capital-preservation regime
+
 ---
 
 ## Sacred Architecture (Never Bypass)

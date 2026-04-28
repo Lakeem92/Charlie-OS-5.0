@@ -1,20 +1,22 @@
 # Terminal Module
 
-Flask/HTTP server serving the QuantLab Personal Intelligence Platform dashboard.
+Jinja2/HTTP server for the Diet Bloomberg dashboard.
 
-- **Port:** 8766
-- **Entry point:** `serve.py`
-- **Templates:** `templates/` (Jinja2 HTML)
-- **Static assets:** `static/` (CSS, JS)
+- **Port:** `8766`
+- **Entry point:** `Diet Bloomberg/serve.py`
+- **Startup wrapper:** `scripts/startup_diet_bloomberg.py`
+- **Templates:** `Diet Bloomberg/templates/`
+- **Static assets:** `Diet Bloomberg/static/`
+- **Main context doc:** `Diet Bloomberg/README.md`
 
-## Routes
+## Live Routes
 | Path | Page |
 |------|------|
-| `/` | Redirect to `/macro` |
+| `/` | Macro Intelligence |
 | `/macro` | Macro Intelligence |
 | `/ai` | AI Supercycle Monitor |
 | `/etf` | ETF Structural + Momentum |
-| `/catalysts` | Catalyst Intelligence |
-| `/focus` | Focus List Intelligence |
-| `/commodities` | Commodities + Crypto |
 | `/news` | News Flow |
+| `/health` | Render health check for all live pages |
+
+Collector outputs are refreshed by `run_all.py` and loaded from `catalyst_analysis_db/`.

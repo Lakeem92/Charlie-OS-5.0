@@ -486,7 +486,7 @@
                 {% if ratio_rising and real_yield_low %}
                     GOLDEN ERA signal — Cu/Au rising while real yields are low. Industrial demand is real, borrowing is cheap, momentum has fundamental backing. This is the ideal environment for long momentum in cyclicals, AI infrastructure, and capex-heavy sectors. Full conviction.
                 {% elif ratio_rising and not real_yield_low %}
-                    Cu/Au rising (real demand present) but real yields elevated at {{ "%.2f"|format(cg.real_yield_current) }}%. "Good Momentum" but expensive capital is a headwind. Quality matters — favor companies with strong FCF over levered growth stories. Momentum works but duration of the move is compressed.
+                        Cu/Au rising (real demand present) but real yields are {% if cg.real_yield_current is not none %}elevated at {{ "%.2f"|format(cg.real_yield_current) }}%{% else %}not available in the latest feed{% endif %}. "Good Momentum" but expensive capital is a headwind. Quality matters — favor companies with strong FCF over levered growth stories. Momentum works but duration of the move is compressed.
                 {% elif not ratio_rising and real_yield_low %}
                     Cu/Au falling (fear/debasement driving markets) but real yields low (Fed still accommodative). "Paper Momentum" — rally driven by liquidity not growth. Defensives and gold outperform. Be selective: momentum in tech/growth can persist on liquidity alone but has no industrial confirmation. Treat as a late-cycle signal.
                 {% else %}

@@ -8,6 +8,8 @@ import argparse
 import socket
 import subprocess
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 
@@ -18,6 +20,7 @@ SCAN_NEWS = ROOT / 'tools' / 'watchlist_scanner' / 'scan_news.py'
 SERVE = ROOT / 'Diet Bloomberg' / 'serve.py'
 LOG_PATH = ROOT / 'logs' / 'diet_bloomberg_server.log'
 PORT = 8766
+HEALTH_URL = f'http://127.0.0.1:{PORT}/health'
 
 
 def _python_cmd(script: Path, *args: str) -> list[str]:
@@ -30,6 +33,75 @@ def _is_port_open(port: int) -> bool:
             return True
     except OSError:
         return False
+
+
+def _server_health() -> tuple[bool, str]:
+    if not _is_port_open(PORT):
+        return False, 'port closed'
+
+    try:
+        with urllib.request.urlopen(HEALTH_URL, timeout=3) as response:
+            body = response.read().decode('utf-8', errors='replace').strip()
+            if response.status == 200 and body == 'ok':
+                return True, 'healthy'
+            return False, f'health check returned {response.status}: {body[:160]}'
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode('utf-8', errors='replace').strip()
+        return False, f'health check returned {exc.code}: {body[:160]}'
+    except OSError as exc:
+        return False, str(exc)
+
+
+def _find_listener_pid(port: int) -> int | None:
+    result = subprocess.run(
+        ['netstat', '-ano', '-p', 'tcp'],
+        capture_output=True,
+        text=True,
+        encoding='utf-8',
+        errors='replace',
+    )
+    if result.returncode != 0:
+        return None
+
+    for raw_line in result.stdout.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        parts = line.split()
+        if len(parts) < 5:
+            continue
+        local_address = parts[1]
+        state = parts[3]
+        if state != 'LISTENING' or not local_address.endswith(f':{port}'):
+            continue
+        try:
+            return int(parts[4])
+        except ValueError:
+            return None
+    return None
+
+
+def _stop_listener(port: int, dry_run: bool) -> bool:
+    pid = _find_listener_pid(port)
+    if pid is None:
+        return True
+
+    print(f'[Diet Bloomberg] Stop unhealthy listener on port {port} (PID {pid})')
+    if dry_run:
+        return True
+
+    result = subprocess.run(
+        ['taskkill', '/PID', str(pid), '/F'],
+        capture_output=True,
+        text=True,
+        encoding='utf-8',
+        errors='replace',
+    )
+    if result.stdout and result.stdout.strip():
+        print(result.stdout.strip())
+    if result.stderr and result.stderr.strip():
+        print(result.stderr.strip())
+    return result.returncode == 0
 
 
 def _run_step(label: str, cmd: list[str], dry_run: bool) -> bool:
@@ -55,9 +127,16 @@ def _run_step(label: str, cmd: list[str], dry_run: bool) -> bool:
 
 
 def _start_server(dry_run: bool) -> bool:
-    if _is_port_open(PORT):
-        print(f'[Diet Bloomberg] Already running on http://localhost:{PORT}')
+    healthy, detail = _server_health()
+    if healthy:
+        print(f'[Diet Bloomberg] Already healthy on http://localhost:{PORT}')
         return True
+
+    if _is_port_open(PORT):
+        print(f'[Diet Bloomberg] Listener is up but unhealthy: {detail}')
+        if not _stop_listener(PORT, dry_run):
+            print(f'  Failed to stop unhealthy listener on port {PORT}.')
+            return False
 
     cmd = _python_cmd(SERVE)
     print('[Diet Bloomberg] Launch server')
@@ -75,12 +154,14 @@ def _start_server(dry_run: bool) -> bool:
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.DETACHED_PROCESS,
         )
 
-    time.sleep(2)
-    if _is_port_open(PORT):
-        print(f'  Server running on http://localhost:{PORT}')
-        return True
+    for _ in range(10):
+        time.sleep(1)
+        healthy, detail = _server_health()
+        if healthy:
+            print(f'  Server healthy on http://localhost:{PORT}')
+            return True
 
-    print(f'  Failed to confirm server on port {PORT}. Check {LOG_PATH}.')
+    print(f'  Failed to confirm healthy server on port {PORT} ({detail}). Check {LOG_PATH}.')
     return False
 
 

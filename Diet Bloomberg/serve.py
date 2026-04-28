@@ -9,14 +9,16 @@ sys.path.insert(0, r'C:\QuantLab\Data_Lab\shared')
 sys.path.insert(0, r'C:\QuantLab\Data_Lab\shared\config')
 sys.path.insert(0, r'C:\QuantLab\Data_Lab\tools')
 
-import os
 import json
+import math
+import traceback
 from pathlib import Path
 from datetime import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlparse
 
 from jinja2 import Environment, FileSystemLoader
+from jinja2.filters import do_round
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parent
@@ -27,12 +29,41 @@ CATALYST_DB = DATA_LAB / 'catalyst_analysis_db'
 
 NEWS_FLOW = DATA_LAB / 'News_flow'
 PORT = 8766
+MISSING_DISPLAY = '—'
 
 # ── Jinja2 environment ───────────────────────────────────────────────────────
 jinja_env = Environment(
     loader=FileSystemLoader(str(TEMPLATES)),
     autoescape=False,  # HTML templates manage their own escaping
 )
+
+
+def _is_missing(value) -> bool:
+    return value is None or (isinstance(value, float) and math.isnan(value))
+
+
+def _safe_finalize(value):
+    return None if _is_missing(value) else value
+
+
+def _safe_format(value, *args, **kwargs):
+    if any(_is_missing(arg) for arg in args) or any(_is_missing(arg) for arg in kwargs.values()):
+        return MISSING_DISPLAY
+    try:
+        return str(value) % (kwargs or args)
+    except (TypeError, ValueError):
+        return MISSING_DISPLAY
+
+
+def _safe_round(value, precision=0, method='common'):
+    if _is_missing(value):
+        return None
+    return do_round(value, precision, method)
+
+
+jinja_env.finalize = _safe_finalize
+jinja_env.filters['format'] = _safe_format
+jinja_env.filters['round'] = _safe_round
 jinja_env.filters['tojson'] = lambda v: json.dumps(v, default=str)
 
 
@@ -204,6 +235,26 @@ def _build_page_context(route: str) -> dict:
     return ctx
 
 
+def _render_route(path: str) -> tuple[str, bool, str | None]:
+    cfg = ROUTE_CONFIG[path]
+    try:
+        template = jinja_env.get_template(cfg['template'])
+        ctx = _build_page_context(path)
+        return template.render(**ctx), True, None
+    except Exception as exc:
+        traceback.print_exc()
+        return f"<pre>Template error: {exc}</pre>", False, str(exc)
+
+
+def _healthcheck() -> tuple[bool, list[str]]:
+    failures = []
+    for route in ('/macro', '/ai', '/etf', '/news'):
+        _, ok, error = _render_route(route)
+        if not ok:
+            failures.append(f'{route}: {error}')
+    return not failures, failures
+
+
 # ── HTTP Handler ──────────────────────────────────────────────────────────────
 class QuietHandler(SimpleHTTPRequestHandler):
     """Custom handler with routing and suppressed request logging."""
@@ -214,6 +265,14 @@ class QuietHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip('/')
+
+        if path == '/health':
+            ok, failures = _healthcheck()
+            if ok:
+                self._send_text('ok\n')
+            else:
+                self._send_text('unhealthy\n' + '\n'.join(failures) + '\n', status=500)
+            return
 
         # ── Static files ──────────────────────────────────────────────────
         if path.startswith('/static/'):
@@ -227,13 +286,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
         # ── HTML routes ───────────────────────────────────────────────────
         if path in ROUTE_CONFIG:
-            cfg = ROUTE_CONFIG[path]
-            try:
-                template = jinja_env.get_template(cfg['template'])
-                ctx = _build_page_context(path)
-                html = template.render(**ctx)
-            except Exception as e:
-                html = f"<pre>Template error: {e}</pre>"
+            html, _, _ = _render_route(path)
             self._send_html(html)
             return
 
@@ -245,6 +298,14 @@ class QuietHandler(SimpleHTTPRequestHandler):
         encoded = html.encode('utf-8')
         self.send_response(200)
         self.send_header('Content-Type', 'text/html; charset=utf-8')
+        self.send_header('Content-Length', str(len(encoded)))
+        self.end_headers()
+        self.wfile.write(encoded)
+
+    def _send_text(self, text: str, *, status: int = 200):
+        encoded = text.encode('utf-8')
+        self.send_response(status)
+        self.send_header('Content-Type', 'text/plain; charset=utf-8')
         self.send_header('Content-Length', str(len(encoded)))
         self.end_headers()
         self.wfile.write(encoded)
